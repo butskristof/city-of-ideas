@@ -1,0 +1,20 @@
+/*
+    General colors
+*/
+
+// default for this variable
+:root {
+  --color-primary: #D11F38;
+  --color-background: #fff;
+  --color-dark: #2A2A2A;
+  --color-dark-hover: #555;
+}
+
+$color-primary: var(--color-primary);
+$color-background: var(--color-background);
+$color-dark: var(--color-dark);
+$color-dark-hover: var(--color-dark-hover);
+
+$color-text-dark: #464646;
+$color-text-light: #858585;
+$color-text-white: #fff;

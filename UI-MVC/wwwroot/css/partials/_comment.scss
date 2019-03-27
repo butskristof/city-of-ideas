@@ -1,0 +1,39 @@
+/*
+    Comments
+*/
+
+.comments {
+  
+  .comment {
+    display: grid;
+    grid-template-rows: auto 30px;
+    grid-template-columns: 50px auto;
+    grid-column-gap: 20px;
+    grid-template-areas: 
+      "comment_profile comment_content"
+      "comment_profile comment_options";
+
+    .comment__content {
+      grid-area: comment_content;
+    }
+
+    .comment__profile {
+      grid-area: comment_profile;
+
+      .comment__profile-picture {
+        display: block;
+        border-radius: 50%;
+        width: 100%;
+        padding-top: 100%;
+        background-position: center;
+        background-size: cover;
+      }
+    }
+
+    .options-bar_options {
+      grid-area: comment_options;
+    }
+    
+  }
+  
+}

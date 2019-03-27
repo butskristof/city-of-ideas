@@ -1,0 +1,13 @@
+/*
+    Main content rules
+*/
+
+@import "../abstracts/all";
+
+.content {
+	padding-top: 70px;
+	
+	@include screen-from('tablet') {
+		padding-top: 130px;
+	}
+}

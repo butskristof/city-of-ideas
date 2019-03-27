@@ -1,0 +1,25 @@
+/*
+    Icons
+*/
+
+@import "../abstracts/all";
+
+i {
+  display: inline-block;
+  cursor: pointer;
+  
+  &.outline {
+    // border: 1px solid red;
+    -webkit-text-stroke: 1px $color-text-dark;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.05s ease-in-out;
+    
+    &:hover {
+      -webkit-text-fill-color: $color-text-dark;
+    }
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

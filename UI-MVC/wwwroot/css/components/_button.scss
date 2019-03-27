@@ -1,0 +1,42 @@
+/*
+  Button
+*/
+
+.btn {
+  position: relative;
+  border: none;
+  padding: 12px 24px;
+  background-color: $color-dark;
+  color: $color-text-white;
+
+  &:hover {
+    background-color: $color-dark-hover;
+    color: $color-text-white;
+  }
+
+  &.btn--loading:hover {
+    background-color: $color-dark;
+  }
+
+  &.btn--loading::after {
+    content: "...";
+    background-color: $color-dark;
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: 100%;
+    animation: loadingButton 1s ease infinite;
+  }
+}
+
+@keyframes loadingButton {
+  0% {
+    content: "."
+  }
+  50% {
+    content: ".."
+  }
+  100% {
+    content: "..."
+  }
+}
