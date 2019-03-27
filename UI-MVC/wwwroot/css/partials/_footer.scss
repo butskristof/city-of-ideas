@@ -1,0 +1,85 @@
+/*
+    Footer
+*/
+
+.site-footer {
+  position: relative;
+  margin-top: 150px;
+  background-color: $color-dark;
+  padding: 50px 30px 10px;
+  color: $color-text-light;
+
+  .site-footer__container {
+
+    .site-footer__top-row {
+      @include screen-from('tablet') {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+    
+      .site-footer__projects {
+        h1 {
+          padding-bottom: 5px;
+        }
+        ul {
+          li {
+            padding: {
+              top: 2px;
+              bottom: 2px;
+            }
+          }
+        }
+      }
+
+      .site-footer__about {
+        max-width: 400px;
+      }
+      
+      .site-footer__social-media {
+        color: $color-text-white;
+        font-size: 24px;
+        margin-top: 30px;
+
+        @include screen-from('tablet') {
+          margin-top: 0;
+        }
+
+        i {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .site-footer__terms {
+      margin: 30px 0 20px;
+      text-align: center;
+
+      @include screen-from('tablet') {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: {
+          left: 0;
+          right: 0;
+        }
+      }
+
+      span {
+        padding: 0 15px;
+      }
+    }
+
+    .site-footer__copyright {
+      text-align: center;
+
+      @include screen-from('tablet') {
+        div {
+          display: inline-block;
+        }
+      }
+    }
+
+  }
+
+}

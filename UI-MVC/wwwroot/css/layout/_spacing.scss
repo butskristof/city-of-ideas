@@ -1,0 +1,20 @@
+/*
+  Spacing
+*/
+
+// Bootstrap doesn't have enough margin & padding options, lets create some more
+
+$spacings: (5, 6, 7, 8, 9, 10);
+$sides: (top, bottom, left, right);
+
+@each $space in $spacings {
+  @each $side in $sides {
+    .m#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space * 10}px;
+    }
+
+    .o#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space * 10}px;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+/*
+    Anchors
+*/
+
+a {
+  color: inherit;
+
+  &:hover {
+    text-decoration-style: underline;
+    color: inherit;
+  }
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}

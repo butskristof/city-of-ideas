@@ -1,0 +1,20 @@
+/*
+    Divider
+*/
+
+@import "../abstracts/all";
+
+.divider {
+  height: 1px;
+  display: block;
+  background-color: rgba($color-text-dark, 0.05);
+  width: 150px;
+  margin: 50px auto;
+
+  @include screen-from('tablet') {
+    margin: {
+      top: 20px;
+      bottom: 20px;
+    }
+  }
+}

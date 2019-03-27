@@ -1,0 +1,23 @@
+/*
+    Options bar (share, vote, vote count)
+*/
+
+.options-bar {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  // justify-content: space-between;
+  
+  .options-bar__option {
+    display: flex;
+    align-items: center;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    
+    .options-bar__votes {
+      color: $color-text-dark;
+      display: inline-block;
+    }
+  }
+}
