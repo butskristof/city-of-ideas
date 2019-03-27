@@ -1,0 +1,13 @@
+**/Thumbs.db
+**/Desktop.ini
+**/.DS_Store
+**/*.swp
+**/*.iml
+**/.idea/
+**/bin/
+**/obj/
+**/*.db
+**/dist/
+**/node_modules/
+**/*.DotSettings.user
+**/.vscode/
