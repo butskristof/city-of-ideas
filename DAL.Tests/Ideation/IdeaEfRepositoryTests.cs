@@ -45,7 +45,7 @@ namespace COI.DAL.Tests.Ideation
 				
 				// assert
 				Assert.NotNull(ideas);
-				Assert.Equal(2, ideas.Count());
+				Assert.Equal(3, ideas.Count());
 			}
 		}
 
@@ -55,13 +55,13 @@ namespace COI.DAL.Tests.Ideation
 			// arrange
 			using (var factory = new CityOfIdeasDbContextFactory())
 			{
-				var fakeid = 0;
+				const int id = 0;
 				Idea result = null;
 				using (var ctx = factory.CreateContext(false))
 				{
 					// act
 					var repo = new IdeaRepository(ctx);
-					result = repo.ReadIdea(fakeid);
+					result = repo.ReadIdea(id);
 				}
 				
 				// assert
@@ -75,18 +75,23 @@ namespace COI.DAL.Tests.Ideation
 			// arrange
 			using (var factory = new CityOfIdeasDbContextFactory())
 			{
-				var id = 1;
+				const int id = 1;
 				Idea result = null;
 				using (var ctx = factory.CreateContext(true))
 				{
 					// act
 					var repo = new IdeaRepository(ctx);
 					result = repo.ReadIdea(id);
+					
+					// assert
+					Assert.NotNull(result);
+					Assert.Equal(id, result.IdeaId);
+					Assert.Equal("Nieuwe bankjes rond het meer", result.Title);
+					Assert.Equal(3, result.Comments.Count);
+					Assert.Equal(4, result.Votes.Count);
+					Assert.Equal(2, result.GetScore());
+					Assert.Equal(5, result.CreatedBy.UserId);
 				}
-				
-				// assert
-				Assert.NotNull(result);
-				Assert.Equal(id, result.IdeaId);
 			}
 		}
 
@@ -96,7 +101,7 @@ namespace COI.DAL.Tests.Ideation
 			// arrange
 			using (var factory = new CityOfIdeasDbContextFactory())
 			{
-				var id = 1;
+				const int id = 1;
 				String newTitle = "New Title";
 				
 				// act
@@ -115,10 +120,15 @@ namespace COI.DAL.Tests.Ideation
 				{
 					var repo = new IdeaRepository(ctx);
 					result = repo.ReadIdea(id);
+					
+					Assert.NotNull(result);
+					Assert.Equal(id, result.IdeaId);
+					Assert.Equal(newTitle, result.Title);
+					Assert.Equal(3, result.Comments.Count);
+					Assert.Equal(4, result.Votes.Count);
+					Assert.Equal(2, result.GetScore());
+					Assert.Equal(5, result.CreatedBy.UserId);
 				}
-				Assert.NotNull(result);
-				Assert.Equal(id, result.IdeaId);
-				Assert.Equal(newTitle, result.Title);
 			}
 		}
 	}

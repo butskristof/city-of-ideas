@@ -9,6 +9,11 @@ namespace COI.DAL
 			Context = new CityOfIdeasDbContext(true);
 		}
 
+		public UnitOfWork(CityOfIdeasDbContext context)
+		{
+			Context = context;
+		}
+
 		internal readonly CityOfIdeasDbContext Context; // readonly
 
 		public void CommitChanges()

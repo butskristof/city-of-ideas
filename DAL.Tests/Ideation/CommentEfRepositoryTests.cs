@@ -9,20 +9,19 @@ namespace COI.DAL.Tests.Ideation
 {
 	public class CommentEfRepositoryTests
 	{
-
 		[Fact]
 		public void ReadComment_WithInvalidId_ReturnsNull()
 		{
 			// arrange
 			using (var factory = new CityOfIdeasDbContextFactory())
 			{
-				var fakeid = 0;
+				const int id = 0;
 				Comment result = null;
 				using (var ctx = factory.CreateContext(false))
 				{
 					// act
 					var repo = new CommentRepository(ctx);
-					result = repo.ReadComment(fakeid);
+					result = repo.ReadComment(id);
 				}
 				
 				// assert
@@ -36,21 +35,21 @@ namespace COI.DAL.Tests.Ideation
 			// arrange
 			using (var factory = new CityOfIdeasDbContextFactory())
 			{
-				var fakeid = 1;
+				const int id = 1;
 				using (var ctx = factory.CreateContext(true))
 				{
 					Comment result = null;
 					
 					// act
 					var repo = new CommentRepository(ctx);
-					result = repo.ReadComment(fakeid);
+					result = repo.ReadComment(id);
 					
 					// assert
 					Assert.NotNull(result);
-					Assert.Equal(fakeid, result.CommentId);
+					Assert.Equal(id, result.CommentId);
+					Assert.Equal(1, result.User.UserId);
 					Assert.Equal(1, result.Fields.Count);
 				}
-				
 			}
 		}
 
@@ -60,13 +59,13 @@ namespace COI.DAL.Tests.Ideation
 			// arrange
 			using (var factory = new CityOfIdeasDbContextFactory())
 			{
-				var fakeid = 0;
+				const int id = 0;
 				IEnumerable<Comment> result = null;
 				using (var ctx = factory.CreateContext(true))
 				{
 					// act
 					var repo = new CommentRepository(ctx);
-					result = repo.ReadCommentsForIdea(fakeid).ToList();
+					result = repo.ReadCommentsForIdea(id).ToList();
 				}
 
 				// assert
@@ -81,13 +80,13 @@ namespace COI.DAL.Tests.Ideation
 			// arrange
 			using (var factory = new CityOfIdeasDbContextFactory())
 			{
-				var fakeid = 3;
+				const int id = 3;
 				IEnumerable<Comment> result = null;
 				using (var ctx = factory.CreateContext(true))
 				{
 					// act
 					var repo = new CommentRepository(ctx);
-					result = repo.ReadCommentsForIdea(fakeid).ToList();
+					result = repo.ReadCommentsForIdea(id).ToList();
 				}
 
 				// assert
@@ -102,13 +101,13 @@ namespace COI.DAL.Tests.Ideation
 			// arrange
 			using (var factory = new CityOfIdeasDbContextFactory())
 			{
-				var fakeid = 1;
+				const int id = 1;
 				IEnumerable<Comment> result = null;
 				using (var ctx = factory.CreateContext(true))
 				{
 					// act
 					var repo = new CommentRepository(ctx);
-					result = repo.ReadCommentsForIdea(fakeid).ToList();
+					result = repo.ReadCommentsForIdea(id).ToList();
 				}
 
 				// assert
@@ -139,7 +138,7 @@ namespace COI.DAL.Tests.Ideation
 
 				// assert
 				Assert.NotNull(returnedComment);
-				Assert.NotNull(returnedComment.CommentId);
+				Assert.NotEqual(0, returnedComment.CommentId);
 				Assert.Equal(expectedId, returnedComment.CommentId);
 				Assert.Equal(newComment.Fields, returnedComment.Fields);
 			}
@@ -151,7 +150,7 @@ namespace COI.DAL.Tests.Ideation
 			// arrange
 			using (var factory = new CityOfIdeasDbContextFactory())
 			{
-				var id = 2;
+				const int id = 2;
 				String newContent = "New Content";
 				
 				// act
@@ -175,6 +174,7 @@ namespace COI.DAL.Tests.Ideation
 					Assert.NotNull(result);
 					Assert.Equal(id, result.CommentId);
 					Assert.Equal(newContent, result.Fields.First().Content);
+					Assert.Equal(2, result.User.UserId);
 				}
 			}
 		}

@@ -6,6 +6,6 @@ namespace COI.DAL.Questionnaire
 	public interface IQuestionnaireRepository
 	{
 		IEnumerable<BL.Domain.Questionnaire.Questionnaire> ReadQuestionnaires();
-		BL.Domain.Questionnaire.Questionnaire ReadQuestionnaire(int questionnaireid);
+		BL.Domain.Questionnaire.Questionnaire ReadQuestionnaire(int questionnaireId);
 	}
 }

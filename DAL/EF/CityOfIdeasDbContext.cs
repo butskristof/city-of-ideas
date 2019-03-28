@@ -28,10 +28,10 @@ namespace COI.DAL.EF
 			this.delaySave = applyUnitOfWork;
 		}
 
-		public CityOfIdeasDbContext(DbContextOptions options)
+		public CityOfIdeasDbContext(DbContextOptions options, bool applyUnitOfWork = false)
 			: base(options)
 		{
-//			this.delaySave = applyUnitOfWork;
+			this.delaySave = applyUnitOfWork;
 		}
 
 		public DbSet<Platform> Platforms { get; set; }
