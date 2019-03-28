@@ -34,6 +34,15 @@ namespace API
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+				// TODO remove for deployment!!!!!
+				// This enables the front-end app to contact the API running in another project, but should be 
+				// fixed for deployment and rollout. Preferably the API hosted permanently and with authorisation.
+				app.UseCors(builder => 
+//					builder.AllowAnyOrigin()
+					builder.WithOrigins("http://localhost:5000", "https://localhost:5001")
+						.AllowAnyMethod()
+						.AllowAnyHeader()
+				);
 			}
 			else
 			{

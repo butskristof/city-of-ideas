@@ -63,7 +63,7 @@ namespace COI.DAL.EF
 			if (!optionsBuilder.IsConfigured)
 			{
 				optionsBuilder
-					.UseSqlite("Data Source=CityOfIdeas.db")
+					.UseSqlite("Data Source=../CityOfIdeas.db")
 					.UseLazyLoadingProxies()
 					.UseLoggerFactory(new LoggerFactory(
 						new[]
