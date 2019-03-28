@@ -18,7 +18,7 @@ namespace COI.DAL.Tests
 				.Options;
 		}
 
-		public CityOfIdeasDbContext CreateContext(bool addTestData = false)
+		public CityOfIdeasDbContext CreateContext(bool addTestData = false, bool applyUnitOfWork = false)
 		{
 			if (_connection == null)
 			{
@@ -36,7 +36,7 @@ namespace COI.DAL.Tests
 				}
 			}
 			
-			return new CityOfIdeasDbContext(CreateOptions());
+			return new CityOfIdeasDbContext(CreateOptions(), applyUnitOfWork);
 		}
 
 		public void Dispose()
@@ -46,6 +46,17 @@ namespace COI.DAL.Tests
 				_connection.Close();
 				_connection = null;
 			}
+		}
+	}
+
+	public class CityOfIdeasDbContextSeeder
+	{
+		public static void Seed(CityOfIdeasDbContext ctx)
+		{
+			// TODO for later use, when db gets hosting elsewehere
+			// Initializer.Seed method should be moved here
+			
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -65,6 +65,7 @@ namespace COI.DAL.EF
 
 			BL.Domain.User.User user1 = new BL.Domain.User.User()
 			{
+				UserId = 1,
 				FirstName = "Kristof",
 				LastName = "Buts",
 				Email = new Email()
@@ -81,6 +82,7 @@ namespace COI.DAL.EF
 			ctx.Users.Add(user1);
 			BL.Domain.User.User user2 = new BL.Domain.User.User()
 			{
+				UserId = 2,
 				FirstName = "Emre",
 				LastName = "Arslan",
 				Email = new Email()
@@ -97,6 +99,7 @@ namespace COI.DAL.EF
 			ctx.Users.Add(user2);
 			BL.Domain.User.User user3 = new BL.Domain.User.User()
 			{
+				UserId = 3,
 				FirstName = "Jordy",
 				LastName = "Bruyns",
 				Email = new Email()
@@ -113,6 +116,7 @@ namespace COI.DAL.EF
 			ctx.Users.Add(user3);
 			BL.Domain.User.User user4 = new BL.Domain.User.User()
 			{
+				UserId = 4,
 				FirstName = "Ian",
 				LastName = "Jakubek",
 				Email = new Email()
@@ -129,6 +133,7 @@ namespace COI.DAL.EF
 			ctx.Users.Add(user4);
 			BL.Domain.User.User user5 = new BL.Domain.User.User()
 			{
+				UserId = 5,
 				FirstName = "Wout",
 				LastName = "Peeters",
 				Email = new Email()
@@ -145,6 +150,7 @@ namespace COI.DAL.EF
 			ctx.Users.Add(user5);
 			BL.Domain.User.User user6 = new BL.Domain.User.User()
 			{
+				UserId = 6,
 				FirstName = "Jana",
 				LastName = "Wouters",
 				Email = new Email()
@@ -166,11 +172,13 @@ namespace COI.DAL.EF
 
 			Idea idea1 = new Idea()
 			{
+				IdeaId = 1,
 				Title = "Nieuwe bankjes rond het meer",
 				CreatedBy = user5
 			};
 			idea1.Comments.Add(new Comment()
 			{
+				CommentId = 1,
 				User = user1, 
 				Created = DateTime.Now.AddDays(-5),
 				Fields = new List<Field>()
@@ -183,6 +191,7 @@ namespace COI.DAL.EF
 			});
 			idea1.Comments.Add(new Comment()
 			{
+				CommentId = 2,
 				User = user2, 
 				Created = DateTime.Now.AddDays(-4),
 				Fields = new List<Field>()
@@ -195,6 +204,7 @@ namespace COI.DAL.EF
 			});
 			idea1.Comments.Add(new Comment()
 			{
+				CommentId = 3,
 				User = user3, 
 				Created = DateTime.Now.AddDays(-3),
 				Fields = new List<Field>()
@@ -217,11 +227,13 @@ namespace COI.DAL.EF
 			
 			Idea idea2 = new Idea()
 			{
+				IdeaId = 2,
 				Title = "Meer bomen in het bos",
 				CreatedBy = user2
 			};
 			idea2.Comments.Add(new Comment()
 			{
+				CommentId = 4,
 				User = user4, 
 				Created = DateTime.Now.AddDays(-3),
 				Fields = new List<Field>()
@@ -234,6 +246,7 @@ namespace COI.DAL.EF
 			});
 			idea2.Comments.Add(new Comment()
 			{
+				CommentId = 5,
 				User = user5, 
 				Created = DateTime.Now.AddDays(-2),
 				Fields = new List<Field>()
@@ -246,6 +259,7 @@ namespace COI.DAL.EF
 			});
 			idea2.Comments.Add(new Comment()
 			{
+				CommentId = 6,
 				User = user6, 
 				Created = DateTime.Now.AddDays(-1),
 				Fields = new List<Field>()
@@ -266,9 +280,11 @@ namespace COI.DAL.EF
 			// idea without comments
 			Idea idea3 = new Idea()
 			{
+				IdeaId = 3,
 				Title = "Idee zonder comments",
 				CreatedBy = user6
 			};
+			ctx.Ideas.Add(idea3);
 
 			#endregion
 
@@ -276,33 +292,39 @@ namespace COI.DAL.EF
 
 			BL.Domain.Questionnaire.Questionnaire questionnaire1 = new BL.Domain.Questionnaire.Questionnaire()
 			{
+				QuestionnaireId = 1,
 				Title = "Usability evaluation",
 				Description = "Beste bezoeker, In volgende enquete willen wij graag de tevredenheid bij het gebruik van onze website bevragen.",
 				Questions = new List<Question>()
 				{
 					new Choice()
 					{
+						QuestionId = 1,
 						Inquiry = "Hoe heeft u onze website gevonden?",
 						IsMultipleChoice = true,
 						Options = new List<Option>()
 						{
 							new Option()
 							{
+								OptionId = 1,
 								Content = "Zoekmachine",
 								Answers = new List<Answer>()
 							},
 							new Option()
 							{
+								OptionId = 2,
 								Content = "Sociale media",
 								Answers = new List<Answer>()
 							},
 							new Option()
 							{
+								OptionId = 3,
 								Content = "Online advertentie",
 								Answers = new List<Answer>()
 							},
 							new Option()
 							{
+								OptionId = 4,
 								Content = "Via vrienden of kennissen",
 								Answers = new List<Answer>()
 							},
@@ -310,17 +332,20 @@ namespace COI.DAL.EF
 					},
 					new Choice()
 					{
+						QuestionId = 2,
 						Inquiry = "Is onze website makkelijk te navigeren?",
 						IsMultipleChoice = false,
 						Options = new List<Option>()
 						{
 							new Option()
 							{
+								OptionId = 5,
 								Content = "Ja",
 								Answers = new List<Answer>()
 							},
 							new Option()
 							{
+								OptionId = 6,
 								Content = "Neen",
 								Answers = new List<Answer>()
 							}
@@ -328,22 +353,26 @@ namespace COI.DAL.EF
 					},
 					new Choice()
 					{
+						QuestionId = 3,
 						Inquiry = "Heeft u gevonden wat u zocht?",
 						IsMultipleChoice = false,
 						Options = new List<Option>()
 						{
 							new Option()
 							{
+								OptionId = 7,
 								Content = "Ja",
 								Answers = new List<Answer>()
 							},
 							new Option()
 							{
+								OptionId = 8,
 								Content = "Ongeveer",
 								Answers = new List<Answer>()
 							},
 							new Option()
 							{
+								OptionId = 9,
 								Content = "Neen",
 								Answers = new List<Answer>()
 							}
@@ -351,12 +380,13 @@ namespace COI.DAL.EF
 					},
 					new OpenQuestion()
 					{
+						QuestionId = 4,
 						Inquiry = "Wat vindt u van het design van onze website?",
 						Answers = new List<Answer>()
 					}
 				}
 			};
-
+			
 			ctx.Questionnaires.Add(questionnaire1);
 
 			#endregion
