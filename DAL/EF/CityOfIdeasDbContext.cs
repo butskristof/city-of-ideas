@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Organisation;
 using COI.BL.Domain.Platform;

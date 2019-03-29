@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using COI.BL.Questionnaire;
+using COI.DAL.EF;
+using COI.DAL.Questionnaire;
+using COI.DAL.Questionnaire.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace UI_MVC
 {
@@ -33,6 +41,43 @@ namespace UI_MVC
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
+            
+            // dependency injection
+            services.AddScoped<IQuestionnaireManager, QuestionnaireManager>();
+            services.AddScoped<IQuestionnaireRepository, QuestionnaireRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IAnswerRepository, AnswerRepository>();
+//            services.AddScoped(c =>
+//            {
+//                var options = new DbContextOptionsBuilder<CityOfIdeasDbContext>()
+//					.UseSqlite("Data Source=../db/CityOfIdeas.db")
+//					.UseLazyLoadingProxies()
+//					.UseLoggerFactory(new LoggerFactory(
+//						new[]
+//						{
+//							new DebugLoggerProvider(
+//								(category, level) => category == DbLoggerCategory.Database.Command.Name
+//													 && level == LogLevel.Information
+//							)
+//						}
+//					))
+//                    .Options;
+//                return new CityOfIdeasDbContext(options);
+//            });
+            services.AddDbContext<CityOfIdeasDbContext>(options =>
+	            options
+		            .UseSqlite("Data Source=../CityOfIdeas.db")
+		            .UseLazyLoadingProxies()
+		            .UseLoggerFactory(new LoggerFactory(
+			            new[]
+			            {
+				            new DebugLoggerProvider(
+					            (category, level) => category == DbLoggerCategory.Database.Command.Name
+					                                 && level == LogLevel.Information
+				            )
+			            }
+		            )));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

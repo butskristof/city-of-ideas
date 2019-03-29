@@ -29,17 +29,6 @@ namespace COI.BL.Application
 		public IQuestionRepository _questionRepository;
 		public IAnswerRepository _answerRepository;
 
-//		public CityOfIdeasController(
-//			IUserRepository userRepository, IVoteRepository voteRepository, IIdeaRepository ideaRepository, ICommentRepository commentRepository, IQuestionnaireRepository questionnaireRepository, IQuestionRepository questionRepository)
-//		{
-//			_userRepository = userRepository;
-//			_voteRepository = voteRepository;
-//			_ideaRepository = ideaRepository;
-//			_commentRepository = commentRepository;
-//			_questionnaireRepository = questionnaireRepository;
-//			_questionRepository = questionRepository;
-//		}
-
 		public Vote AddVote(int userId, int ideaId, int value)
 		{
 			UnitOfWorkManager unitOfWorkManager = new UnitOfWorkManager();
