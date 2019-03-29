@@ -3,7 +3,7 @@ using COI.BL.Domain.Questionnaire;
 using COI.BL.Questionnaire;
 using Microsoft.AspNetCore.Mvc;
 
-namespace UI_MVC.Controllers
+namespace COI.UI.MVC.Controllers
 {
 	public class QuestionnaireController : Controller
 	{

@@ -1,6 +1,4 @@
-using System;
-
-namespace UI_MVC.Models
+namespace COI.UI.MVC.Models
 {
     public class ErrorViewModel
     {

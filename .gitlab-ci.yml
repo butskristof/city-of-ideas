@@ -2,8 +2,6 @@ image: microsoft/dotnet:latest
 stages:
   - build
   - test
-variables:
-  dalTest: "DAL.Tests"
 before_script:
   - "dotnet restore"
 build:

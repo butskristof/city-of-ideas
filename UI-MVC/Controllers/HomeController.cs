@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
-using UI_MVC.Models;
 
-namespace UI_MVC.Controllers
+namespace COI.UI.MVC.Controllers
 {
     public class HomeController : Controller
     {

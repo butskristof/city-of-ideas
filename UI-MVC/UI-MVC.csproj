@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <RootNamespace>UI_MVC</RootNamespace>
+    <RootNamespace>COI.UI.MVC</RootNamespace>
+    <AssemblyName>COI.UI.MVC</AssemblyName>
   </PropertyGroup>
 
 
