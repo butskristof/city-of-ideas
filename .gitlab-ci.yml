@@ -1,4 +1,4 @@
-image: microsoft/dotnet:latest
+image: promact/docker-dotnet-nodejs:latest
 stages:
   - build
   - test
