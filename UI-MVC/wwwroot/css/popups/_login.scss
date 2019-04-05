@@ -1,0 +1,78 @@
+/*
+    Popup Login
+*/
+
+.popup .popup__content {
+  width: 70%;
+  height: 60%;
+  max-width: 1000px;
+  max-height: 600px;
+}
+.login-popup__login-button {
+  width: 220px;
+  /* Rectangle 3 */
+
+  border: 1px solid #d11f38;
+  box-sizing: border-box;
+  border-radius: 8px;
+  /* Log In */
+
+  font-family: Open Sans;
+  font-size: 18px;
+  color: #d11f38;
+  background-color: transparent;
+}
+.login-popup__login-button:hover {
+  background-color: #dcdcdc;
+  transition-timing-function: ease-in;
+  transition: 0.5s;
+  color: #d11f38;
+  font-weight: bold;
+}
+
+.login-popup__btnFacebook {
+  /* Button */
+
+  height: 40px;
+
+  /* Rectangle 3 */
+
+  border: 1px solid #1a0dab;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: transparent;
+
+  /* Log In with Facebook */
+
+  font-family: Arial;
+  font-size: 18px;
+
+  color: #1a0dab;
+}
+.login-popup__btnFacebook:hover {
+  background-color: #dcdcdc;
+  transition-timing-function: ease-in;
+  transition: 0.5s;
+  color: #1a0dab;
+  font-weight: bold;
+}
+
+.login-popup__email-input {
+  width: 70%;
+}
+.login-popup__password-input {
+  width: 70%;
+}
+
+.login-popup__afbeelding {
+  @include screen-from("tablet") {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+.row {
+  height: 100%;
+}

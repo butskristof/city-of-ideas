@@ -5,12 +5,14 @@
 // default for this variable
 :root {
   --color-primary: #D11F38;
+  --color-primary-hover: lighten(#D11F38, 10%);
   --color-background: #fff;
   --color-dark: #2A2A2A;
   --color-dark-hover: #555;
 }
 
 $color-primary: var(--color-primary);
+$color-primary-hover: var(--color-primary-hover);
 $color-background: var(--color-background);
 $color-dark: var(--color-dark);
 $color-dark-hover: var(--color-dark-hover);

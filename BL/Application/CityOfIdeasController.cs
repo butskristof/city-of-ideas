@@ -9,6 +9,7 @@ using COI.BL.User;
 using COI.DAL.Ideation;
 using COI.DAL.Ideation.EF;
 using COI.DAL.Questionnaire;
+using COI.DAL.Questionnaire.EF;
 using COI.DAL.User;
 using COI.DAL.User.EF;
 
@@ -19,88 +20,93 @@ namespace COI.BL.Application
 	 * It will act as an intermediary when a Unit of Work pattern is applied.
 	 * Otherwise, manager methods will be called directly.
 	 */
-	public class CityOfIdeasController
+	public interface ICityOfIdeasController
 	{
-		public IUserRepository _userRepository;
-		public IVoteRepository _voteRepository;
-		public IIdeaRepository _ideaRepository;
-		public ICommentRepository _commentRepository;
-		public IQuestionnaireRepository _questionnaireRepository;
-		public IQuestionRepository _questionRepository;
-		public IAnswerRepository _answerRepository;
+		Vote AddVoteToIdea(int userId, int ideaId, int value);
+		Vote AddVoteToComment(int userId, int commentId, int value);
+		Comment AddComment(int userId, int ideaId, IEnumerable<Field> content);
+		Answer AnswerOpenQuestion(int userId, int questionId, string content);
+		Answer AnswerChoiceQuestion(int userId, int optionId);
+	}
 
-		public Vote AddVote(int userId, int ideaId, int value)
+	public class CityOfIdeasController : ICityOfIdeasController
+	{
+
+		private readonly IUnitOfWorkManager _unitOfWorkManager;
+		private readonly IUserManager _userManager;
+		private readonly IIdeationManager _ideationManager;
+		private readonly IQuestionnaireManager _questionnaireManager;
+
+		public CityOfIdeasController(IUnitOfWorkManager unitOfWorkManager, IUserManager userManager, IIdeationManager ideationManager, IQuestionnaireManager questionnaireManager)
 		{
-			UnitOfWorkManager unitOfWorkManager = new UnitOfWorkManager();
-			IUserManager userManager = new UserManager(_userRepository, _voteRepository);
+			this._unitOfWorkManager = unitOfWorkManager;
+			this._userManager = userManager;
+			this._ideationManager = ideationManager;
+			this._questionnaireManager = questionnaireManager;
+		}
 
-			Vote vote = userManager.AddVoteToUser(userId, value);
+		public Vote AddVoteToIdea(int userId, int ideaId, int value)
+		{
+			_unitOfWorkManager.StartUnitOfWork();
+
+			Vote vote = _userManager.AddVoteToUser(userId, value);
 			
-			IIdeationManager ideationManager = new IdeationManager(_ideaRepository, _commentRepository);
-			ideationManager.AddVoteToIdea(ideaId, vote);
+			_ideationManager.AddVoteToIdea(ideaId, vote);
 			
 			// If the ideaId should be invalid, the method throws before the unit of work is saved, so the context will be discarded before changes are saved. The Vote object won't be saved to the user's votes.
-			unitOfWorkManager.Save();
+			_unitOfWorkManager.EndUnitOfWork();
 
 			return vote;
 		}
 
 		public Vote AddVoteToComment(int userId, int commentId, int value)
 		{
-			UnitOfWorkManager unitOfWorkManager = new UnitOfWorkManager();
-			IUserManager userManager = new UserManager(_userRepository, _voteRepository);
+			_unitOfWorkManager.StartUnitOfWork();
 
-			Vote vote = userManager.AddVoteToUser(userId, value);
+			Vote vote = _userManager.AddVoteToUser(userId, value);
 			
-			IIdeationManager ideationManager = new IdeationManager(_ideaRepository, _commentRepository);
-			ideationManager.AddVoteToComment(commentId, vote);
+			_ideationManager.AddVoteToComment(commentId, vote);
 			
 			// If the ideaId should be invalid, the method throws before the unit of work is saved, so the context will be discarded before changes are saved. The Vote object won't be saved to the user's votes.
-			unitOfWorkManager.Save();
+			_unitOfWorkManager.EndUnitOfWork();
 
 			return vote;
 		}
 		
 		public Comment AddComment(int userId, int ideaId, IEnumerable<Field> content)
 		{
-			UnitOfWorkManager unitOfWorkManager = new UnitOfWorkManager();
-			IIdeationManager ideationManager = new IdeationManager(_ideaRepository, _commentRepository);
-			Comment comment = ideationManager.AddCommentToIdea(ideaId, content);
+			_unitOfWorkManager.StartUnitOfWork();
+			Comment comment = _ideationManager.AddCommentToIdea(ideaId, content);
 
-			IUserManager userManager = new UserManager(_userRepository, _voteRepository);
-			userManager.AddCommentToUser(userId, comment);
+			_userManager.AddCommentToUser(userId, comment);
 
-			unitOfWorkManager.Save();
+			_unitOfWorkManager.EndUnitOfWork();
 			
 			return comment;
 		}
 
 		public Answer AnswerOpenQuestion(int userId, int questionId, string content)
 		{
-			UnitOfWorkManager unitOfWorkManager = new UnitOfWorkManager();
+			_unitOfWorkManager.StartUnitOfWork();
 			
-			IQuestionnaireManager questionnaireManager = new QuestionnaireManager(_questionRepository, _answerRepository, _questionnaireRepository);
-			Answer answer = questionnaireManager.AnswerOpenQuestion(questionId, content);
+			Answer answer = _questionnaireManager.AnswerOpenQuestion(questionId, content);
 
-			IUserManager userManager = new UserManager(_userRepository, _voteRepository);
-			userManager.AddAnswerToUser(userId, answer);
+			_userManager.AddAnswerToUser(userId, answer);
 
-			unitOfWorkManager.Save();
+			_unitOfWorkManager.EndUnitOfWork();
 			
 			return answer;
 		}
 
 		public Answer AnswerChoiceQuestion(int userId, int optionId)
 		{
-			UnitOfWorkManager unitOfWorkManager = new UnitOfWorkManager();
+			_unitOfWorkManager.StartUnitOfWork();
 			
-			IQuestionnaireManager questionnaireManager = new QuestionnaireManager(_questionRepository, _answerRepository, _questionnaireRepository);
-			Answer answer = questionnaireManager.AnswerChoiceQuestion(optionId);
+			Answer answer = _questionnaireManager.AnswerChoiceQuestion(optionId);
 
-			IUserManager userManager = new UserManager(_userRepository, _voteRepository);
-			userManager.AddAnswerToUser(userId, answer);
+			_userManager.AddAnswerToUser(userId, answer);
 
-			unitOfWorkManager.Save();
+			_unitOfWorkManager.EndUnitOfWork();
 			
 			return answer;
 		}

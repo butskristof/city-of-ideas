@@ -18,25 +18,15 @@ namespace COI.DAL.Tests
 				.Options;
 		}
 
-		public CityOfIdeasDbContext CreateContext(bool addTestData = false, bool applyUnitOfWork = false)
+		public CityOfIdeasDbContext CreateContext(bool addTestData = true)
 		{
 			if (_connection == null)
 			{
 				_connection = new SqliteConnection("DataSource=:memory:");
 				_connection.Open();
-
-				var options = CreateOptions();
-				using (var ctx = new CityOfIdeasDbContext(options))
-				{
-					ctx.Database.EnsureCreated();
-					if (addTestData)
-					{
-						CityOfIdeasInitializer.Seed(ctx);
-					}
-				}
 			}
 			
-			return new CityOfIdeasDbContext(CreateOptions(), applyUnitOfWork);
+			return new CityOfIdeasDbContext(CreateOptions(), addTestData);
 		}
 
 		public void Dispose()

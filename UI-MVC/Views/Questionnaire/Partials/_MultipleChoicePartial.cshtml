@@ -1,0 +1,24 @@
+@model COI.BL.Domain.Questionnaire.Choice
+
+<div class="form__field">
+	<h2>@Model.Inquiry</h2>
+	
+	<fieldset>
+		@foreach (var option in Model.Options)
+		{
+			<div>
+				<input
+					type="checkbox"
+					name="@String.Format("choiceQuestion{0}", Model.QuestionId)"
+					value="@String.Format("option{0}", option.OptionId)"
+					id="@String.Format("option{0}", option.OptionId)"
+				/>
+				<label
+					for="@String.Format("option{0}", option.OptionId)"
+				>
+					@option.Content
+				</label>
+			</div>
+		}
+	</fieldset>
+</div>

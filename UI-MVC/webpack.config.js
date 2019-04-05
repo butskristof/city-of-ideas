@@ -3,7 +3,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
 	entry: {
 		site: './wwwroot/js/site.js',
-		validation: './wwwroot/js/validation.js'
+		validation: './wwwroot/js/validation.js',
+		idea: './wwwroot/js/idea.js',
+		questionnaire: './wwwroot/js/questionnaire.js'
 	},
 	output: {
 		filename: '[name].entry.js',
@@ -13,8 +15,6 @@ module.exports = {
 	mode: 'development',
 	module: {
 		rules: [
-			// { test: /\.scss$/, loader: "style-loader!css-loader!sass-loader" },
-			// { test: /\.css$/, loader: "style-loader!css-loader" },
 			{ test: /\.(sa|sc|c)ss$/, use: [{ loader: MiniCssExtractPlugin.loader }, "css-loader", "sass-loader"] },
 			{ test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader" },
 			{ test: /\.(woff|woff2)$/, loader:"url-loader?prefix=font/&limit=5000" },

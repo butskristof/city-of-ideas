@@ -1,7 +1,17 @@
-﻿using COI.BL.Questionnaire;
+﻿using AutoMapper;
+using COI.BL;
+using COI.BL.Application;
+using COI.BL.Ideation;
+using COI.BL.Questionnaire;
+using COI.BL.User;
+using COI.DAL;
 using COI.DAL.EF;
+using COI.DAL.Ideation;
+using COI.DAL.Ideation.EF;
 using COI.DAL.Questionnaire;
 using COI.DAL.Questionnaire.EF;
+using COI.DAL.User;
+using COI.DAL.User.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,45 +43,26 @@ namespace COI.UI.MVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            
-            
-            // dependency injection
-            services.AddScoped<IQuestionnaireManager, QuestionnaireManager>();
-            services.AddScoped<IQuestionnaireRepository, QuestionnaireRepository>();
-            services.AddScoped<IQuestionRepository, QuestionRepository>();
-            services.AddScoped<IAnswerRepository, AnswerRepository>();
-//            services.AddScoped(c =>
-//            {
-//                var options = new DbContextOptionsBuilder<CityOfIdeasDbContext>()
-//					.UseSqlite("Data Source=../db/CityOfIdeas.db")
-//					.UseLazyLoadingProxies()
-//					.UseLoggerFactory(new LoggerFactory(
-//						new[]
-//						{
-//							new DebugLoggerProvider(
-//								(category, level) => category == DbLoggerCategory.Database.Command.Name
-//													 && level == LogLevel.Information
-//							)
-//						}
-//					))
-//                    .Options;
-//                return new CityOfIdeasDbContext(options);
-//            });
-            services.AddDbContext<CityOfIdeasDbContext>(options =>
-	            options
-		            .UseSqlite("Data Source=../CityOfIdeas.db")
-		            .UseLazyLoadingProxies()
-		            .UseLoggerFactory(new LoggerFactory(
-			            new[]
-			            {
-				            new DebugLoggerProvider(
-					            (category, level) => category == DbLoggerCategory.Database.Command.Name
-					                                 && level == LogLevel.Information
-				            )
-			            }
-		            )));
+            services.AddDbContext<CityOfIdeasDbContext>();
+			
+			// repos
+			services.AddScoped<ICommentRepository, CommentRepository>();
+			services.AddScoped<IIdeaRepository, IdeaRepository>();
+			services.AddScoped<IAnswerRepository, AnswerRepository>();
+			services.AddScoped<IQuestionnaireRepository, QuestionnaireRepository>();
+			services.AddScoped<IQuestionRepository, QuestionRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IVoteRepository, VoteRepository>();
+			
+			// managers
+			services.AddScoped<IIdeationManager, IdeationManager>();
+			services.AddScoped<IQuestionnaireManager, QuestionnaireManager>();
+			services.AddScoped<IUserManager, UserManager>();
+			services.AddScoped<IUnitOfWork, UnitOfWork>();
+			services.AddScoped<IUnitOfWorkManager, UnitOfWorkManager>();
+			services.AddScoped<ICityOfIdeasController, CityOfIdeasController>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

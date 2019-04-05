@@ -1,23 +1,39 @@
 /*
   Button
 */
+@import "../abstracts/all";
 
 .btn {
   position: relative;
   border: none;
   padding: 12px 24px;
+  border-radius: 8px;
   background-color: $color-dark;
   color: $color-text-white;
-
+  
   &:hover {
     background-color: $color-dark-hover;
     color: $color-text-white;
   }
 
+  &.btn--lg {
+    padding: 15px 48px;
+    font-size: 1.5rem;
+  }
+
+  // Button in the color of the organisation
+  &.btn--org {
+    background-color: $color-primary;
+
+    &:hover {
+      background-color: $color-primary-hover;
+    }
+  }
+  
   &.btn--loading:hover {
     background-color: $color-dark;
   }
-
+  
   &.btn--loading::after {
     content: "...";
     background-color: $color-dark;
@@ -31,12 +47,12 @@
 
 @keyframes loadingButton {
   0% {
-    content: "."
+    content: ".";
   }
   50% {
-    content: ".."
+    content: "..";
   }
   100% {
-    content: "..."
+    content: "...";
   }
 }

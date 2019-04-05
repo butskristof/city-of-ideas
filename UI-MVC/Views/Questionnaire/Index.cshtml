@@ -5,4 +5,14 @@
 	Layout = "_Layout";
 }
 
-<h2>Vragenlijsten</h2>
+<main class="content content--shadow container">
+<h1 class="mb-5">Vragenlijsten</h1>
+
+<ul>
+	@foreach (var questionnaire in Model)
+	{
+		<li>@Html.ActionLink(questionnaire.Title, "Details", new { id = questionnaire.QuestionnaireId })</li>
+	}
+</ul>
+</main>
+
