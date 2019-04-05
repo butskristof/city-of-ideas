@@ -2,7 +2,7 @@ import { render } from 'timeago.js';
 import initEditor from './editor'
 
 addEventListener("load", init, false);
-const BASE_URL = "https://localhost:5051";
+const BASE_URL = "https://localhost:5001";
 
 function init() {
 	console.log("init");
@@ -45,7 +45,7 @@ function showIdeaScore(score) {
 }
 
 function loadCommentsForIdea() {
-	fetch(`${BASE_URL}/api/Ideas/${ideaId}/Comments`)
+	fetch(`/api/Ideas/${ideaId}/Comments`)
 		.then(response => {
 			if (!response.ok) {
 				console.error(`${response.status} ${response.statusText}`);

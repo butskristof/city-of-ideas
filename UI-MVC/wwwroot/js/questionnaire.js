@@ -1,5 +1,7 @@
 import serialize from "./serializeArray";
 
+const BASE_URL = "https://localhost:5001";
+
 let form = document.querySelector("#questionnaireForm");
 form.addEventListener("submit", formSubmit, false);
 
@@ -28,7 +30,7 @@ export function formSubmit(event) {
 }
 
 function postAnswers(answers) {
-	fetch("https://localhost:5051/api/Questions", {
+	fetch(`${BASE_URL}/api/Questions`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

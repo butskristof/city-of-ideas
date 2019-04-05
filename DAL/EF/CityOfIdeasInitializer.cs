@@ -15,23 +15,20 @@ namespace COI.DAL.EF
 {
 	public static class CityOfIdeasInitializer
 	{
-//		private static bool _hasRunDuringExecution; // make sure we initialise only once per execution
+		private static bool _hasRunDuringExecution; // make sure we initialise only once per execution
 
 		public static void Initialize(CityOfIdeasDbContext ctx, bool dropCreateDb = false, bool addTestData = true)
 		{
 //			if (!_hasRunDuringExecution)
 //			{
-				if (dropCreateDb)
-				{
-					ctx.Database.EnsureDeleted();
-				}
+//				if (dropCreateDb)
+//				{
+//					ctx.Database.EnsureDeleted();
+//				}
 
-				if (ctx.Database.EnsureCreated())
+				if (ctx.Database.EnsureCreated() && addTestData)
 				{
-					if (addTestData)
-					{
-						Seed(ctx);
-					}
+					Seed(ctx);
 				}
 				
 //				_hasRunDuringExecution = true;

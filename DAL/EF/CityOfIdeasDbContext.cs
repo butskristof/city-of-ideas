@@ -42,6 +42,7 @@ namespace COI.DAL.EF
 		public void EndUnitOfWork()
 		{
 			this.CommitChanges();
+			this._delaySave = false;
 		}
 
 		public DbSet<Platform> Platforms { get; set; }
