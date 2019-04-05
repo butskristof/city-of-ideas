@@ -1,0 +1,53 @@
+@using COI.BL.Domain.Questionnaire
+@model COI.BL.Domain.Questionnaire.Questionnaire
+
+@{
+	ViewBag.Title = "Vragenlijst";
+	Layout = "_Layout";
+}
+
+<!-- Content -->
+<main class="content content--shadow container">
+
+	<!-- Intro -->
+	<article class="mt-3 page__intro">
+		<h1>
+			@Model.Title
+		</h1>
+		<p>
+			@Model.Description
+		</p>
+	</article>
+	<!-- /Intro -->
+	
+	<!-- Form -->
+	<form class="form" id="questionnaireForm">
+		@foreach (var question in @Model.Questions)
+		{
+			if (question is OpenQuestion)
+			{
+				<partial name="Partials/_OpenQuestionPartial" for="@question" />
+			} else if (question is Choice && ((Choice) question).IsMultipleChoice)
+			{
+				<partial name="Partials/_MultipleChoicePartial" for="@question" />
+			} else if (question is Choice && !((Choice) question).IsMultipleChoice)
+			{
+				<partial name="Partials/_SingleChoicePartial" for="@question" />
+			}
+			else
+			{
+				<p>Unsupported question type.</p>
+			}
+		}
+		
+		<div class="form__submit">
+			<input type="submit" value="Verzenden" class="btn"/>
+		</div>
+	</form>
+	
+</main>
+
+@section Scripts
+{
+	<script type="module" src="~/dist/questionnaires.entry.js" defer></script>
+}

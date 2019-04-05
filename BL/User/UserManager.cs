@@ -11,10 +11,7 @@ namespace COI.BL.User
 		private readonly IUserRepository _userRepository;
 		private readonly IVoteRepository _voteRepository;
 
-		public UserManager(
-			IUserRepository userRepository,
-			IVoteRepository voteRepository
-			)
+		public UserManager(IUserRepository userRepository, IVoteRepository voteRepository)
 		{
 			_userRepository = userRepository;
 			_voteRepository = voteRepository;

@@ -2,12 +2,14 @@ using COI.DAL.EF;
 
 namespace COI.DAL
 {
-	public class UnitOfWork
+	public interface IUnitOfWork
 	{
-		public UnitOfWork()
-		{
-			Context = new CityOfIdeasDbContext(true);
-		}
+		void StartUnitOfWork();
+		void EndUnitOfWork();
+	}
+
+	public class UnitOfWork : IUnitOfWork
+	{
 
 		public UnitOfWork(CityOfIdeasDbContext context)
 		{
@@ -16,9 +18,15 @@ namespace COI.DAL
 
 		internal readonly CityOfIdeasDbContext Context; // readonly
 
-		public void CommitChanges()
+		public void StartUnitOfWork()
 		{
-			Context.CommitChanges();
+			Context.StartUnitOfWork();
 		}
+
+		public void EndUnitOfWork()
+		{
+			Context.EndUnitOfWork();
+		}
+
 	}
 }

@@ -1,0 +1,32 @@
+/*
+    Panel
+*/
+
+@import "../abstracts/all";
+
+.card-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+
+  @include screen-from('tablet') {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include screen-from('tablet-wide') {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.card {
+  // grid-area: card;
+  .card-footer {
+    &.card-footer--invis {
+      background-color: #fff;
+      border-top: none;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+  }
+}

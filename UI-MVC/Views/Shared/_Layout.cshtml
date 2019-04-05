@@ -1,48 +1,108 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - UI_MVC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=njo" />
+    <title>@ViewData["Title"] - City of Ideas</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:300,400,600,700" rel="stylesheet" />
     <script type="module" src="~/dist/site.entry.js" defer></script>
     <link rel="stylesheet" href="~/dist/site.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UI_MVC</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">Antwerpen</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - UI_MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"
+                    >Home <span class="sr-only">(current)</span></a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Projecten</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Contact</a>
+                </li>
+            </ul>
         </div>
-    </footer>
 
-    @RenderSection("Scripts", required: false)
+    </nav>
+</header>
+
+	<partial name="_CookieConsentPartial" />
+	@RenderBody()
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="site-footer__container container">
+        <div class="site-footer__top-row">
+            <!-- Footer-projects -->
+            <div class="site-footer__projects">
+                <h3 class="title--light">Projecten</h3>
+                <ul>
+                    <li><a href="">Vrijbroekspark</a></li>
+                    <li><a href="">Dorpsplein</a></li>
+                    <li><a href="">Lage emissiezone</a></li>
+                </ul>
+            </div>
+            <!-- /Footer-projects -->
+
+            <!-- Footer-about -->
+            <div class="site-footer__about ">
+                <h3 class="title--light">Tree company</h3>
+                The HSE Coordinator company has been providing its customers with
+                safety, fire protection and RODO services since 2008
+            </div>
+            <!-- /Footer-about -->
+
+            <!-- Footer-social-media -->
+            <div class="site-footer__social-media">
+                <h3 class="title--light">Follow us</h3>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-facebook"></i>
+                <i class="fab fa-instagram"></i>
+            </div>
+            <!-- /Footer-social-media -->
+        </div>
+
+        <!-- Footer-terms -->
+        <div class="site-footer__terms">
+            <span>
+                <a href="">Terms of Use</a>
+            </span>
+            <span>
+                <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+            </span>
+        </div>
+        <!-- /Footer-terms -->
+
+        <!-- Footer-copyright -->
+        <div class="site-footer__copyright">
+            <a href="">
+                <div>&copy; 2019 The tree company.</div>
+                <div>All rights reserved</div>
+            </a>
+        </div>
+        <!-- /Footer-copyright -->
+    </div>
+</footer>
+<!-- /Footer -->
+
+@RenderSection("Scripts", required: false)
 </body>
 </html>

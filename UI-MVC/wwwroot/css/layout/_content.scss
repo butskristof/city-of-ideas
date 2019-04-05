@@ -5,9 +5,18 @@
 @import "../abstracts/all";
 
 .content {
-	padding-top: 70px;
-	
+	padding-top: 40px;
+
 	@include screen-from('tablet') {
-		padding-top: 130px;
+		padding-top: 70px;
 	}
+
+	&.big-padding {
+		padding-top: 70px;
+		
+		@include screen-from('tablet') {
+			padding-top: 130px;
+		}
+	}
+	
 }

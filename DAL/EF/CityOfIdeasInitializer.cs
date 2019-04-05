@@ -13,14 +13,14 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace COI.DAL.EF
 {
-	public class CityOfIdeasInitializer
+	public static class CityOfIdeasInitializer
 	{
-		private static bool _hasRunDuringExecution; // make sure we initialise only once per execution
+//		private static bool _hasRunDuringExecution; // make sure we initialise only once per execution
 
-		public static void Initialize(CityOfIdeasDbContext ctx, bool dropCreateDb = false)
+		public static void Initialize(CityOfIdeasDbContext ctx, bool dropCreateDb = false, bool addTestData = true)
 		{
-			if (!_hasRunDuringExecution)
-			{
+//			if (!_hasRunDuringExecution)
+//			{
 				if (dropCreateDb)
 				{
 					ctx.Database.EnsureDeleted();
@@ -28,11 +28,14 @@ namespace COI.DAL.EF
 
 				if (ctx.Database.EnsureCreated())
 				{
-					Seed(ctx);
+					if (addTestData)
+					{
+						Seed(ctx);
+					}
 				}
 				
-				_hasRunDuringExecution = true;
-			}
+//				_hasRunDuringExecution = true;
+//			}
 		}
 
 		public static void Seed(CityOfIdeasDbContext ctx) // provide some initial data

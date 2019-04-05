@@ -20,5 +20,19 @@ namespace COI.UI.MVC.Controllers
 			IEnumerable<Questionnaire> questionnaires = _questionnaireManager.GetQuestionnaires();
 			return View(questionnaires);
 		}
+		
+		// GET
+		public IActionResult Details(int id)
+		{
+			Questionnaire questionnaire = _questionnaireManager.GetQuestionnaire(id);
+			return View(questionnaire);
+		}
+		
+		// GET
+		public IActionResult Results(int id)
+		{
+			Questionnaire questionnaire = _questionnaireManager.GetQuestionnaire(id);
+			return View(questionnaire);
+		}
 	}
 }

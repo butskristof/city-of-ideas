@@ -15,24 +15,33 @@ namespace COI.DAL.EF
 {
 	public class CityOfIdeasDbContext : DbContext
 	{
-		private readonly bool delaySave;
+		private bool _delaySave;
 
-		// protect this constructor, can't be accessed outside of assembly
-		protected CityOfIdeasDbContext()
+		public CityOfIdeasDbContext()
 		{
-			CityOfIdeasInitializer.Initialize(this, true);
+			this.Initialise();
 		}
 
-		public CityOfIdeasDbContext(bool applyUnitOfWork = false)
-			: this() // also call other constructor (can't be called directly)
-		{
-			this.delaySave = applyUnitOfWork;
-		}
-
-		public CityOfIdeasDbContext(DbContextOptions options, bool applyUnitOfWork = false)
+		public CityOfIdeasDbContext(DbContextOptions options, bool addTestData = true)
 			: base(options)
 		{
-			this.delaySave = applyUnitOfWork;
+			this.Initialise(addTestData);
+		}
+		// TODO extract private method for init and call from both ctors
+
+		private void Initialise(bool addTestData = true)
+		{
+			CityOfIdeasInitializer.Initialize(this, true, addTestData);
+		}
+
+		public void StartUnitOfWork()
+		{
+			this._delaySave = true;
+		}
+
+		public void EndUnitOfWork()
+		{
+			this.CommitChanges();
 		}
 
 		public DbSet<Platform> Platforms { get; set; }
@@ -64,24 +73,23 @@ namespace COI.DAL.EF
 			if (!optionsBuilder.IsConfigured)
 			{
 				optionsBuilder
-					.UseSqlite("Data Source=../CityOfIdeas.db")
-					.UseLazyLoadingProxies()
-					.UseLoggerFactory(new LoggerFactory(
-						new[]
-						{
-							new DebugLoggerProvider(
-								(category, level) => category == DbLoggerCategory.Database.Command.Name
-													 && level == LogLevel.Information
-							)
-						}
-					));
+					.UseSqlite("Data Source=CityOfIdeas.db")
+					.UseLazyLoadingProxies();
+//					.UseLoggerFactory(new LoggerFactory(
+//						new[]
+//						{
+//							new DebugLoggerProvider(
+//								(category, level) => category == DbLoggerCategory.Database.Command.Name
+//													 && level == LogLevel.Information
+//							)
+//						}
+//					));
 			}
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
-			
 			
 			modelBuilder.Entity<OrganisationUser>().Property<int>("OrganisationId");
 			modelBuilder.Entity<OrganisationUser>().Property<int>("UserId");
@@ -90,13 +98,13 @@ namespace COI.DAL.EF
 
 		public override int SaveChanges()
 		{
-			if (delaySave) return -1; // function normally returns number of rows modified
+			if (_delaySave) return -1; // function normally returns number of rows modified
 			return base.SaveChanges();
 		}
 
-		internal int CommitChanges()
+		private int CommitChanges()
 		{
-			if (delaySave)
+			if (_delaySave)
 			{
 				return base.SaveChanges();
 			}

@@ -1,4 +1,3 @@
-
 // abstracts (variables, mixins)
 @import "abstracts/all";
 
@@ -21,3 +20,9 @@
 @import "partials/form";
 @import "partials/editor";
 @import "partials/popup";
+@import "partials/hero";
+@import "partials/popup";
+@import "partials/card";
+
+// Popups
+@import "popups/login";
