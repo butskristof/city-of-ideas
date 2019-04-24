@@ -8,9 +8,6 @@ using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.Relations;
 using COI.BL.Domain.User;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
-
 namespace COI.DAL.EF
 {
 	public class CityOfIdeasDbContext : DbContext
@@ -74,7 +71,7 @@ namespace COI.DAL.EF
 			if (!optionsBuilder.IsConfigured)
 			{
 				optionsBuilder
-					.UseSqlite("Data Source=CityOfIdeas.db")
+					.UseMySQL("server=34.76.147.236;database=city-of-ideas-db;user=emre;password=emre")
 					.UseLazyLoadingProxies();
 //					.UseLoggerFactory(new LoggerFactory(
 //						new[]
