@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using COI.BL.Domain.Common;
 
 namespace COI.BL.Domain.Project
@@ -8,6 +9,7 @@ namespace COI.BL.Domain.Project
 	{
 		public int ProjectId { get; set; }
 		
+		[Required]
 		public String Title { get; set; }
 		public String Description { get; set; }
 		
@@ -23,6 +25,7 @@ namespace COI.BL.Domain.Project
 		public Project()
 		{
 			this.ProjectPhases = new List<ProjectPhase>();
+			this.State = ProjectState.Open;
 		}
 	}
 }

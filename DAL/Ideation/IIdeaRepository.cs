@@ -7,6 +7,8 @@ namespace COI.DAL.Ideation
 	{
 		IEnumerable<Idea> ReadIdeas();
 		Idea ReadIdea(int ideaId);
-		void UpdateIdea(Idea idea);
+		Idea CreateIdea(Idea idea);
+		Idea UpdateIdea(Idea updatedIdea);
+		Idea DeleteIdea(int ideaId);
 	}
 }

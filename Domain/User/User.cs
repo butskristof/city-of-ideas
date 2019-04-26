@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using COI.BL.Domain.Common;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
@@ -11,10 +12,13 @@ namespace COI.BL.Domain.User
 	{
 		public int UserId { get; set; }
 		
+		[Required]
 		public String FirstName { get; set; }
+		[Required]
 		public String LastName { get; set; }
 		public virtual Email Email { get; set; }
 		public Gender Gender { get; set; }
+		[Required]
 		public DateTime DateOfBirth { get; set; }
 		public virtual Address Address { get; set; }
 

@@ -6,7 +6,9 @@ namespace COI.DAL.User
 	public interface IVoteRepository
 	{
 		IEnumerable<Vote> ReadVotes();
-
-		Vote CreateVote(Vote v);
+		Vote ReadVote(int voteId);
+		Vote CreateVote(Vote vote);
+		Vote UpdateVote(Vote vote);
+		Vote DeleteVote(int voteId);
 	}
 }

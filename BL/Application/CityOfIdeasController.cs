@@ -22,11 +22,16 @@ namespace COI.BL.Application
 	 */
 	public interface ICityOfIdeasController
 	{
-		Vote AddVoteToIdea(int userId, int ideaId, int value);
-		Vote AddVoteToComment(int userId, int commentId, int value);
-		Comment AddComment(int userId, int ideaId, IEnumerable<Field> content);
 		Answer AnswerOpenQuestion(int userId, int questionId, string content);
 		Answer AnswerChoiceQuestion(int userId, int optionId);
+		
+		// Comments
+		Comment AddCommentToIdea(IEnumerable<Field> content, int userId, int ideaId);
+		
+		// Votes
+		Vote AddVoteToIdea(int value, int userId, int ideaId);
+		Vote AddVoteToIdeation(int value, int userId, int ideationId);
+		Vote AddVoteToComment(int value, int userId, int commentId);
 	}
 
 	public class CityOfIdeasController : ICityOfIdeasController
@@ -45,45 +50,19 @@ namespace COI.BL.Application
 			this._questionnaireManager = questionnaireManager;
 		}
 
-		public Vote AddVoteToIdea(int userId, int ideaId, int value)
-		{
-			_unitOfWorkManager.StartUnitOfWork();
-
-			Vote vote = _userManager.AddVoteToUser(userId, value);
-			
-			_ideationManager.AddVoteToIdea(ideaId, vote);
-			
-			// If the ideaId should be invalid, the method throws before the unit of work is saved, so the context will be discarded before changes are saved. The Vote object won't be saved to the user's votes.
-			_unitOfWorkManager.EndUnitOfWork();
-
-			return vote;
-		}
-
-		public Vote AddVoteToComment(int userId, int commentId, int value)
-		{
-			_unitOfWorkManager.StartUnitOfWork();
-
-			Vote vote = _userManager.AddVoteToUser(userId, value);
-			
-			_ideationManager.AddVoteToComment(commentId, vote);
-			
-			// If the ideaId should be invalid, the method throws before the unit of work is saved, so the context will be discarded before changes are saved. The Vote object won't be saved to the user's votes.
-			_unitOfWorkManager.EndUnitOfWork();
-
-			return vote;
-		}
 		
-		public Comment AddComment(int userId, int ideaId, IEnumerable<Field> content)
-		{
-			_unitOfWorkManager.StartUnitOfWork();
-			Comment comment = _ideationManager.AddCommentToIdea(ideaId, content);
 
-			_userManager.AddCommentToUser(userId, comment);
-
-			_unitOfWorkManager.EndUnitOfWork();
-			
-			return comment;
-		}
+//		public Comment AddComment(int userId, int ideaId, IEnumerable<Field> content)
+//		{
+//			_unitOfWorkManager.StartUnitOfWork();
+//
+//			Comment comment = _ideationManager.AddCommentToIdea(content, ideaId);
+//			_userManager.AddCommentToUser(comment, userId);
+//
+//			_unitOfWorkManager.EndUnitOfWork();
+//			
+//			return comment;
+//		}
 
 		public Answer AnswerOpenQuestion(int userId, int questionId, string content)
 		{
@@ -110,5 +89,66 @@ namespace COI.BL.Application
 			
 			return answer;
 		}
+
+		#region Comments
+
+		
+		public Comment AddCommentToIdea(IEnumerable<Field> content, int userId, int ideaId)
+		{
+			_unitOfWorkManager.StartUnitOfWork();
+			
+			Comment comment = _ideationManager.AddCommentToIdea(content, ideaId);
+			_userManager.AddCommentToUser(comment, userId);
+			
+			_unitOfWorkManager.EndUnitOfWork();
+
+			return comment;
+		}
+		
+		#endregion
+
+		#region Votes
+
+		public Vote AddVoteToIdea(int value, int userId, int ideaId)
+		{
+			_unitOfWorkManager.StartUnitOfWork();
+
+			Vote vote = _userManager.AddVoteToUser(value, userId);
+			
+			_ideationManager.AddVoteToIdea(vote, ideaId);
+			
+			_unitOfWorkManager.EndUnitOfWork();
+
+			return vote;
+		}
+
+		public Vote AddVoteToComment(int userId, int commentId, int value)
+		{
+			_unitOfWorkManager.StartUnitOfWork();
+
+			Vote vote = _userManager.AddVoteToUser(value, userId);
+			
+			_ideationManager.AddVoteToComment(vote, commentId);
+			
+			// If the ideaId should be invalid, the method throws before the unit of work is saved, so the context will be discarded before changes are saved. The Vote object won't be saved to the user's votes.
+			_unitOfWorkManager.EndUnitOfWork();
+
+			return vote;
+		}
+
+		public Vote AddVoteToIdeation(int value, int userId, int ideationId)
+		{
+			_unitOfWorkManager.StartUnitOfWork();
+
+			Vote vote = _userManager.AddVoteToUser(value, userId);
+			
+			_ideationManager.AddVoteToIdeation(vote, ideationId);
+			
+			_unitOfWorkManager.EndUnitOfWork();
+
+			return vote;
+		}
+
+		#endregion
 	}
 }

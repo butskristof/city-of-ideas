@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using COI.BL.Domain.Ideation;
 using COI.DAL.EF;
+using Microsoft.EntityFrameworkCore;
 
 namespace COI.DAL.Ideation.EF
 {
@@ -10,33 +12,69 @@ namespace COI.DAL.Ideation.EF
 		public CommentRepository(CityOfIdeasDbContext ctx) : base(ctx)
 		{
 		}
-
-		public CommentRepository(UnitOfWork uow) : base(uow)
+		
+		public IEnumerable<Comment> ReadCommentsForIdea(int ideaId)
 		{
+			return _ctx
+				.Comments
+				.Where(c => c.Idea.IdeaId == ideaId)
+				.AsEnumerable();
 		}
 
 		public Comment ReadComment(int commentId)
 		{
-			return this._ctx.Comments.Find(commentId);
+			return _ctx.Comments.Find(commentId);
 		}
 
-		public IEnumerable<Comment> ReadCommentsForIdea(int ideaId)
+
+		public Comment CreateComment(Comment comment)
 		{
-			return this._ctx.Comments.Where(c => c.Idea.IdeaId == ideaId).AsEnumerable();
+			if (ReadComment(comment.CommentId) != null)
+			{
+				throw new ArgumentException("Comment already in database.");
+			}
+
+			try
+			{
+				_ctx.Comments.Add(comment);
+				_ctx.SaveChanges();
+				
+				return comment;
+			}
+			catch (DbUpdateException exception)
+			{
+				var msg = exception.InnerException == null ? "Invalid object." : exception.InnerException.Message;
+				throw new ArgumentException(msg);
+			}
 		}
 
-		public Comment CreateComment(Comment newComment)
+		public Comment UpdateComment(Comment updatedComment)
 		{
-			_ctx.Comments.Add(newComment);
+			var entryToUpdate = ReadComment(updatedComment.CommentId);
+
+			if (entryToUpdate == null)
+			{
+				throw new ArgumentException("Comment to update not found.");
+			}
+			
+			_ctx.Entry(entryToUpdate).CurrentValues.SetValues(updatedComment);
 			_ctx.SaveChanges();
-			return newComment;
+
+			return ReadComment(updatedComment.CommentId);
 		}
 
-		public void UpdateComment(Comment comment)
+		public Comment DeleteComment(int commentId)
 		{
-			var commentToUpdate = _ctx.Comments.Find(comment.CommentId);
-			_ctx.Entry(commentToUpdate).CurrentValues.SetValues(comment);
+			var toDelete = ReadComment(commentId);
+			if (toDelete == null)
+			{
+				throw new ArgumentException("Comment to delete not found.");
+			}
+
+			_ctx.Comments.Remove(toDelete);
 			_ctx.SaveChanges();
+
+			return toDelete;
 		}
 	}
 }

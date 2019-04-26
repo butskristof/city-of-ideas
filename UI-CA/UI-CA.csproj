@@ -5,7 +5,7 @@
 		<TargetFramework>netcoreapp2.2</TargetFramework>
 		<RootNamespace>COI.UI.CA</RootNamespace>
 		<AssemblyName>COI.UI.CA</AssemblyName>
-		<LangVersion>5</LangVersion>
+		<LangVersion>default</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

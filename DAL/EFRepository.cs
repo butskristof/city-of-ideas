@@ -12,15 +12,5 @@ namespace COI.DAL
 		{
 			_ctx = ctx;
 		}
-
-		public EfRepository(UnitOfWork uow)
-		{
-			if (uow == null)
-			{
-				throw new ArgumentNullException("uow");
-			}
-			
-			_ctx = uow.Context;
-		}
 	}
 }

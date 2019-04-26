@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using COI.BL.Domain.Common;
 using COI.BL.Domain.Ideation;
 
@@ -14,6 +15,7 @@ namespace COI.BL.Domain.User
 		public int VoteId { get; set; }
 		
 //		public Email Email { get; set; }
+		[Required]
 		public int Value { get; set; }
 
 		public virtual User User { get; set; }
