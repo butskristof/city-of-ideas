@@ -8,9 +8,13 @@ namespace COI.BL.User
 	{
 		Domain.User.User GetUser(int userId);
 		
-		Vote AddVoteToUser(int userId, int value);
-		void AddVoteToUser(int userId, Vote vote);
-		void AddCommentToUser(int userId, Comment comment);
+		void AddCommentToUser(Comment comment, int userId);
 		void AddAnswerToUser(int userId, Answer answer);
+
+		Vote GetVote(int voteId);
+		Vote AddVoteToUser(int value, int userId);
+//		Vote AddVoteToIdea(int value, int userId, int ideaId);
+//		Vote ChangeIdeaVote(int id, int value, int userId, int ideaId);
+		Vote RemoveVote(int voteId);
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using COI.BL.Domain.Project;
 using COI.BL.Domain.User;
 
@@ -8,6 +9,7 @@ namespace COI.BL.Domain.Questionnaire
 	public class Questionnaire
 	{
 		public int QuestionnaireId { get; set; }
+		[Required]
 		public String Title { get; set; }
 		public String Description { get; set; }
 

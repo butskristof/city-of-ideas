@@ -5,11 +5,10 @@ namespace COI.DAL.Ideation
 {
 	public interface ICommentRepository
 	{
-		Comment ReadComment(int commentId);
 		IEnumerable<Comment> ReadCommentsForIdea(int ideaId);
-
-		Comment CreateComment(Comment newComment);
-
-		void UpdateComment(Comment comment);
+		Comment ReadComment(int commentId);
+		Comment CreateComment(Comment comment);
+		Comment UpdateComment(Comment updatedComment);
+		Comment DeleteComment(int commentId);
 	}
 }

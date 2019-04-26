@@ -15,24 +15,15 @@ namespace COI.DAL.EF
 {
 	public class CityOfIdeasDbContext : DbContext
 	{
-		private bool _delaySave;
-
 		public CityOfIdeasDbContext()
 		{
-			this.Initialise();
 		}
 
-		public CityOfIdeasDbContext(DbContextOptions options, bool addTestData = true)
-			: base(options)
+		public CityOfIdeasDbContext(DbContextOptions options) : base(options)
 		{
-			this.Initialise(addTestData);
 		}
-		// TODO extract private method for init and call from both ctors
 
-		private void Initialise(bool addTestData = true)
-		{
-			CityOfIdeasInitializer.Initialize(this, true, addTestData);
-		}
+		private bool _delaySave;
 
 		public void StartUnitOfWork()
 		{
@@ -45,11 +36,13 @@ namespace COI.DAL.EF
 			this._delaySave = false;
 		}
 
+		#region Entities
+
 		public DbSet<Platform> Platforms { get; set; }
 		
-		public DbSet<Organisation> Organisations { get; set; }
+		public DbSet<BL.Domain.Organisation.Organisation> Organisations { get; set; }
 
-		public DbSet<Project> Projects { get; set; }
+		public DbSet<BL.Domain.Project.Project> Projects { get; set; }
 		public DbSet<ProjectPhase> ProjectPhases { get; set; }
 
 		public DbSet<BL.Domain.Ideation.Ideation> Ideations { get; set; }
@@ -68,13 +61,15 @@ namespace COI.DAL.EF
 		public DbSet<Flag> Flags { get; set; }
 		
 		public DbSet<OrganisationUser> OrganisationUsers { get; set; }
+		
+		#endregion
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
 				optionsBuilder
-					.UseSqlite("Data Source=CityOfIdeas.db")
+					.UseSqlite("Data Source=../db/CityOfIdeas.db")
 					.UseLazyLoadingProxies();
 //					.UseLoggerFactory(new LoggerFactory(
 //						new[]

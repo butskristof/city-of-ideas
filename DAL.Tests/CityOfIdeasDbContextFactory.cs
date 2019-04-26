@@ -18,7 +18,7 @@ namespace COI.DAL.Tests
 				.Options;
 		}
 
-		public CityOfIdeasDbContext CreateContext(bool addTestData = true)
+		public CityOfIdeasDbContext CreateContext()
 		{
 			if (_connection == null)
 			{
@@ -26,7 +26,9 @@ namespace COI.DAL.Tests
 				_connection.Open();
 			}
 			
-			return new CityOfIdeasDbContext(CreateOptions(), addTestData);
+			var ret = new CityOfIdeasDbContext(CreateOptions());
+			ret.Database.EnsureCreated();
+			return ret;
 		}
 
 		public void Dispose()

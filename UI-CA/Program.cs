@@ -10,11 +10,10 @@ namespace COI.UI.CA
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
-			
-			IdeaRepository ir = new IdeaRepository(new CityOfIdeasDbContext());
-			Comment c = ir.ReadIdeas().FirstOrDefault().Comments.FirstOrDefault();
-			Console.WriteLine(c);
+			var ctx = new CityOfIdeasDbContext();
+			ctx.Database.EnsureDeleted();
+			ctx.Database.EnsureCreated();
+			CityOfIdeasInitializer.Seed(ctx);
 		}
 	}
 }

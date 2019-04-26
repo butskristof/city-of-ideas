@@ -9,7 +9,7 @@
 
 		<RootNamespace>COI.BL.Domain.Tests</RootNamespace>
 
-		<LangVersion>5</LangVersion>
+		<LangVersion>default</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

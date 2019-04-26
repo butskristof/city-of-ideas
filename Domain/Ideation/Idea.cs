@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using COI.BL.Domain.User;
 
@@ -9,6 +10,7 @@ namespace COI.BL.Domain.Ideation
 	{
 		public int IdeaId { get; set; }
 		
+		[Required]
 		public String Title { get; set; }
 		
 		// TODO AllowedFieldTypes

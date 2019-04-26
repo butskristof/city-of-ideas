@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace COI.UI.MVC.Models.DTO.Ideation
 {
-	public class NewCommentDto
+	public class NewIdeaCommentDto
 	{
 		public int UserId { get; set; }
 		public int IdeaId { get; set; }

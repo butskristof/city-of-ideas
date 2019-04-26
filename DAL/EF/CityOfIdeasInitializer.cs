@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using COI.BL.Domain.Common;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Organisation;
 using COI.BL.Domain.Platform;
+using COI.BL.Domain.Project;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.Relations;
 using COI.BL.Domain.User;
@@ -17,23 +19,13 @@ namespace COI.DAL.EF
 	{
 		private static bool _hasRunDuringExecution; // make sure we initialise only once per execution
 
-		public static void Initialize(CityOfIdeasDbContext ctx, bool dropCreateDb = false, bool addTestData = true)
-		{
-//			if (!_hasRunDuringExecution)
-//			{
-//				if (dropCreateDb)
+//		public static void Initialize(CityOfIdeasDbContext ctx, bool dropCreateDb = false, bool addTestData = true)
+//		{
+//				if (ctx.Database.EnsureCreated() && addTestData)
 //				{
-//					ctx.Database.EnsureDeleted();
+//					Seed(ctx);
 //				}
-
-				if (ctx.Database.EnsureCreated() && addTestData)
-				{
-					Seed(ctx);
-				}
-				
-//				_hasRunDuringExecution = true;
-//			}
-		}
+//		}
 
 		public static void Seed(CityOfIdeasDbContext ctx) // provide some initial data
 		{
@@ -51,7 +43,7 @@ namespace COI.DAL.EF
 
 			#region ORGANISATIONS
 
-			Organisation districtAntwerpen = new Organisation()
+			BL.Domain.Organisation.Organisation districtAntwerpen = new BL.Domain.Organisation.Organisation()
 			{
 				Name = "District Antwerpen",
 				Identifier = "districtantwerpen",
@@ -80,6 +72,7 @@ namespace COI.DAL.EF
 			};
 			user1.Organisations.Add(new OrganisationUser() { Organisation = districtAntwerpen, User = user1});
 			ctx.Users.Add(user1);
+			
 			BL.Domain.User.User user2 = new BL.Domain.User.User()
 			{
 				UserId = 2,
@@ -97,6 +90,7 @@ namespace COI.DAL.EF
 			};
 			user2.Organisations.Add(new OrganisationUser() { Organisation = districtAntwerpen, User = user2});
 			ctx.Users.Add(user2);
+			
 			BL.Domain.User.User user3 = new BL.Domain.User.User()
 			{
 				UserId = 3,
@@ -114,6 +108,7 @@ namespace COI.DAL.EF
 			};
 			user3.Organisations.Add(new OrganisationUser() { Organisation = districtAntwerpen, User = user3});
 			ctx.Users.Add(user3);
+			
 			BL.Domain.User.User user4 = new BL.Domain.User.User()
 			{
 				UserId = 4,
@@ -131,6 +126,7 @@ namespace COI.DAL.EF
 			};
 			user4.Organisations.Add(new OrganisationUser() { Organisation = districtAntwerpen, User = user4});
 			ctx.Users.Add(user4);
+			
 			BL.Domain.User.User user5 = new BL.Domain.User.User()
 			{
 				UserId = 5,
@@ -148,6 +144,7 @@ namespace COI.DAL.EF
 			};
 			user5.Organisations.Add(new OrganisationUser() { Organisation = districtAntwerpen, User = user5});
 			ctx.Users.Add(user5);
+			
 			BL.Domain.User.User user6 = new BL.Domain.User.User()
 			{
 				UserId = 6,
@@ -165,6 +162,56 @@ namespace COI.DAL.EF
 			};
 			user6.Organisations.Add(new OrganisationUser() { Organisation = districtAntwerpen, User = user6});
 			ctx.Users.Add(user6);
+
+			#endregion
+
+			#region Projects
+
+			BL.Domain.Project.Project project1 = new BL.Domain.Project.Project()
+			{
+				Title = "Project 1",
+				Description = "First project",
+				StartDate = DateTime.Today.AddDays(-30),
+				EndDate = DateTime.Today.AddDays(30),
+				Organisation = districtAntwerpen,
+			};
+			ctx.Projects.Add(project1);
+			
+			BL.Domain.Project.Project project2 = new BL.Domain.Project.Project()
+			{
+				Title = "Project 2",
+				Description = "Second project",
+				StartDate = DateTime.Today.AddDays(2),
+				EndDate = DateTime.Today.AddDays(8),
+				Organisation = districtAntwerpen
+			};
+			ctx.Projects.Add(project2);
+
+			#endregion
+
+			#region ProjectPhases
+
+			ProjectPhase phase1 = new ProjectPhase()
+			{
+				Title = "First phase",
+				Description = "Indicatory first phase",
+				StartDate = DateTime.Today.AddDays(-30),
+				EndDate = DateTime.Today.AddDays(-20),
+				State = ProjectState.Closed,
+				Project = project1
+			};
+			ctx.ProjectPhases.Add(phase1);
+			
+			ProjectPhase phase2 = new ProjectPhase()
+			{
+				Title = "Second phase",
+				Description = "Indicatory second phase",
+				StartDate = DateTime.Today.AddDays(-20),
+				EndDate = DateTime.Today.AddDays(40),
+				State = ProjectState.Open,
+				Project = project1
+			};
+			ctx.ProjectPhases.Add(phase2);
 
 			#endregion
 
@@ -288,6 +335,18 @@ namespace COI.DAL.EF
 
 			#endregion
 
+			#region Ideations
+
+			BL.Domain.Ideation.Ideation ideation1 = new BL.Domain.Ideation.Ideation()
+			{
+				Fields = new List<Field>() { new Field(){ Content = "Wij zoeken inspiratie!" } },
+				Ideas = new List<Idea>() {idea1, idea2},
+				Title = "Inpsiratie gezocht"
+			};
+			ctx.Ideations.Add(ideation1);
+
+			#endregion
+
 			#region Questionnaires
 
 			BL.Domain.Questionnaire.Questionnaire questionnaire1 = new BL.Domain.Questionnaire.Questionnaire()
@@ -388,7 +447,7 @@ namespace COI.DAL.EF
 			};
 			
 			ctx.Questionnaires.Add(questionnaire1);
-
+			
 			#endregion
 
 			ctx.SaveChanges();

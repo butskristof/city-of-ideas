@@ -11,10 +11,6 @@ namespace COI.DAL.Questionnaire.EF
 		{
 		}
 
-		public QuestionRepository(UnitOfWork uow) : base(uow)
-		{
-		}
-
 		public IEnumerable<Question> ReadQuestions()
 		{
 			return _ctx.Questions.AsEnumerable();
