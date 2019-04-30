@@ -22,16 +22,16 @@ namespace COI.BL.Application
 	 */
 	public interface ICityOfIdeasController
 	{
-		Answer AnswerOpenQuestion(int userId, int questionId, string content);
-		Answer AnswerChoiceQuestion(int userId, int optionId);
+		Answer AnswerOpenQuestion(string userId, int questionId, string content);
+		Answer AnswerChoiceQuestion(string userId, int optionId);
 		
 		// Comments
-		Comment AddCommentToIdea(IEnumerable<Field> content, int userId, int ideaId);
+		Comment AddCommentToIdea(IEnumerable<Field> content, string userId, int ideaId);
 		
 		// Votes
-		Vote AddVoteToIdea(int value, int userId, int ideaId);
-		Vote AddVoteToIdeation(int value, int userId, int ideationId);
-		Vote AddVoteToComment(int value, int userId, int commentId);
+		Vote AddVoteToIdea(int value, string userId, int ideaId);
+		Vote AddVoteToIdeation(int value, string userId, int ideationId);
+		Vote AddVoteToComment(int value, string userId, int commentId);
 	}
 
 	public class CityOfIdeasController : ICityOfIdeasController
@@ -64,7 +64,7 @@ namespace COI.BL.Application
 //			return comment;
 //		}
 
-		public Answer AnswerOpenQuestion(int userId, int questionId, string content)
+		public Answer AnswerOpenQuestion(string userId, int questionId, string content)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 			
@@ -77,7 +77,7 @@ namespace COI.BL.Application
 			return answer;
 		}
 
-		public Answer AnswerChoiceQuestion(int userId, int optionId)
+		public Answer AnswerChoiceQuestion(string userId, int optionId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 			
@@ -93,7 +93,7 @@ namespace COI.BL.Application
 		#region Comments
 
 		
-		public Comment AddCommentToIdea(IEnumerable<Field> content, int userId, int ideaId)
+		public Comment AddCommentToIdea(IEnumerable<Field> content, string userId, int ideaId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 			
@@ -109,7 +109,7 @@ namespace COI.BL.Application
 
 		#region Votes
 
-		public Vote AddVoteToIdea(int value, int userId, int ideaId)
+		public Vote AddVoteToIdea(int value, string userId, int ideaId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 
@@ -122,7 +122,7 @@ namespace COI.BL.Application
 			return vote;
 		}
 
-		public Vote AddVoteToComment(int userId, int commentId, int value)
+		public Vote AddVoteToComment(int value, string userId, int commentId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 
@@ -136,7 +136,7 @@ namespace COI.BL.Application
 			return vote;
 		}
 
-		public Vote AddVoteToIdeation(int value, int userId, int ideationId)
+		public Vote AddVoteToIdeation(int value, string userId, int ideationId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 

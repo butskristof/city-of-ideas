@@ -21,12 +21,12 @@ namespace COI.BL.User
 			_ideationManager = ideationManager;
 		}
 
-		public Domain.User.User GetUser(int userId)
+		public Domain.User.User GetUser(string userId)
 		{
 			return _userRepository.ReadUser(userId);
 		}
 
-		public void AddVoteToUser(int userId, Vote vote)
+		public void AddVoteToUser(string userId, Vote vote)
 		{
 			Domain.User.User u = this.GetUser(userId);
 			if (u != null)
@@ -41,7 +41,7 @@ namespace COI.BL.User
 			}
 		}
 
-		public void AddCommentToUser(Comment comment, int userId)
+		public void AddCommentToUser(Comment comment, string userId)
 		{
 			Domain.User.User user = GetUser(userId);
 			if (user == null)
@@ -54,7 +54,7 @@ namespace COI.BL.User
 			_userRepository.UpdateUser(user);
 		}
 
-		public void AddAnswerToUser(int userId, Answer answer)
+		public void AddAnswerToUser(string userId, Answer answer)
 		{
 			Domain.User.User u = this.GetUser(userId);
 			if (u != null)
@@ -76,7 +76,7 @@ namespace COI.BL.User
 			return _voteRepository.ReadVote(voteId);
 		}
 
-		public Vote AddVoteToUser(int value, int userId)
+		public Vote AddVoteToUser(int value, string userId)
 		{
 			Domain.User.User user = GetUser(userId);
 			if (user == null)

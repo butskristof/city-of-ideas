@@ -4,7 +4,7 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 {
 	public class NewIdeaCommentDto
 	{
-		public int UserId { get; set; }
+		public string UserId { get; set; }
 		public int IdeaId { get; set; }
 		public ICollection<FieldDto> Content { get; set; }
 	}

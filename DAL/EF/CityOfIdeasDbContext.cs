@@ -7,13 +7,15 @@ using COI.BL.Domain.Project;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.Relations;
 using COI.BL.Domain.User;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
 
 namespace COI.DAL.EF
 {
-	public class CityOfIdeasDbContext : DbContext
+	public class CityOfIdeasDbContext : IdentityDbContext<BL.Domain.User.User>
 	{
 		public CityOfIdeasDbContext()
 		{
