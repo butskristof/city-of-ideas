@@ -13,15 +13,49 @@
     z-index: 5;
   }
 
+  /* Popup design */
+  &.popup__content {
+    width: 100%;
+    height: 100%;
+    max-width: 1000px;
+    max-height: 640px;
+  }
+
   .popup__content {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 600px;
-    max-width: 90%;
     transform: translateX(-50%) translateY(-50%);
 
-    background-color: #fff;
+    background-color: $color-background;
     z-index: 6;
   }
+}
+
+/* Header afbeelding linker kolom bij popup */
+.popup__afbeelding {
+  @include screen-from("tablet") {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+  }
+  /* overgang voor aanduiden district */
+  &.district {
+    transition: 0.3s;
+  }
+}
+
+/* Popup voor zoekbalk over heel het scherm*/
+#myModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  padding-top: 0px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: $color-background; /* Fallback color */
+  background-color: transparent;
 }

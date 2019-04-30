@@ -7,13 +7,13 @@
 i {
   display: inline-block;
   cursor: pointer;
-  
+
   &.outline {
     // border: 1px solid red;
     -webkit-text-stroke: 1px $color-text-dark;
     -webkit-text-fill-color: transparent;
     transition: all 0.05s ease-in-out;
-    
+
     &:hover {
       -webkit-text-fill-color: $color-text-dark;
     }
@@ -21,5 +21,39 @@ i {
 
   &:hover {
     transform: scale(1.1);
+  }
+}
+
+/* Toon passwoordicoon om passwoord te tonen*/
+.field-icon {
+  float: right;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  @include screen-from("tablet") {
+    margin-right: 10px;
+  }
+}
+
+/* Duimpjes groot */
+.duim {
+  font-size: 72px;
+  &.links {
+    margin-right: 60px;
+  }
+  &.rechts {
+    margin-left: 60px;
+  }
+}
+
+/* icoon zoekbalk */
+.zoekModal {
+  width: 20%;
+  margin-top: -30px;
+  margin-left: 90%;
+  @include screen-from("tablet-wide") {
+    margin-left: 95%;
   }
 }
