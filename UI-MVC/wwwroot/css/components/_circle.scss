@@ -1,0 +1,36 @@
+/* Circel district Antwerpen */
+.circle {
+  width: 125px;
+  cursor: pointer;
+  height: 125px;
+  border-radius: 50%;
+  font-size: 24px;
+  color: #fff;
+  line-height: 125px;
+  text-align: center;
+  margin: auto;
+  margin-top: 50px;
+  user-select: none;
+
+  &.circle:hover {
+    transition: 0.8s;
+  }
+
+  &.circle__antwerpen {
+    background: $color-primary;
+    border: 1px solid $color-primary;
+  }
+  &.circle__antwerpen:hover {
+    color: $color-primary;
+    background: $color-background;
+  }
+
+  &.circle__brussel {
+    background: $color-text-light;
+    border: 1px solid $color-text-light;
+  }
+  &.circle__brussel:hover {
+    color: $color-text-light;
+    background: $color-background;
+  }
+}

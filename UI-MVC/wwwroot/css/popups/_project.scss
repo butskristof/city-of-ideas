@@ -1,0 +1,49 @@
+/*
+    Page Project
+*/
+
+/* fase stage */
+.inklapbaar_fase {
+  @include screen-from("tablet") {
+    width: 70%;
+    margin: auto;
+  }
+}
+
+/* projectomschrijving tekst */
+.projectomschrijving {
+  width: 90%;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+
+  @include screen-from("tablet") {
+    width: 70%;
+  }
+}
+
+/* Periode van de stage */
+.datumTot {
+  margin-left: 20%;
+}
+
+/* Button om in te klappen */
+.knopCollapse {
+  background-color: #d11f38;
+  border: 1px solid #d11f38;
+  color: white;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-weight: bold;
+}
+.knopCollapse:hover {
+  background-color: white;
+  color: #d11f38;
+  text-decoration: none;
+}
+
+/* Totaal projectdatum */
+.periodeDatum {
+  font-size: 14px;
+  margin-bottom: 15px;
+}

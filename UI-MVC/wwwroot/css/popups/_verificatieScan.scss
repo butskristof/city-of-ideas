@@ -1,0 +1,21 @@
+/*
+    Page VerificatieScan
+*/
+
+/* form email */
+.email_verificatie {
+  @include screen-from("tablet") {
+    width: 50%;
+  }
+  margin-top: 50px;
+}
+
+/* checkbox GDPR */
+.cb_box {
+  margin-top: -25px;
+}
+
+/* button verzenden */
+.verzenden {
+  margin-top: 25px;
+}

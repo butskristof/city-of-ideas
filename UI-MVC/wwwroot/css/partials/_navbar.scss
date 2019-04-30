@@ -29,10 +29,90 @@
     margin-left: 10px;
   }
 
-  @include screen-from('tablet') {
+  @include screen-from("tablet") {
     padding: {
       left: 50px;
       right: 50px;
+    }
+  }
+  .nav-login {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .fa-user {
+    transform: scale(1);
+  }
+  .fa-sign-in-alt {
+    transform: scale(1);
+  }
+  .fa-twitter {
+    transform: scale(1);
+  }
+  .fa-facebook-f {
+    transform: scale(1);
+  }
+  .fa-search {
+    transform: scale(1);
+  }
+}
+
+/* Modal zoekbalk Content */
+.werk {
+  @include screen-from("tablet-wide") {
+    max-width: 500px;
+    margin: 5px auto;
+  }
+  @include screen-from("tablet-small") {
+    margin: 5px auto;
+  }
+  background-color: $color-background;
+  margin: 5px;
+  padding: 5px;
+  width: 80%;
+  max-width: 400px;
+  border: 0px;
+}
+
+/* Zoekbalk design */
+.search {
+  &__container {
+    padding-top: 64px;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 12px 24px;
+
+    background-color: transparent;
+    transition: transform 250ms ease-in-out;
+    font-size: 14px;
+    line-height: 18px;
+
+    color: $color-dark-hover;
+    background-color: transparent;
+
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    background-position: 95% center;
+    border-radius: 50px;
+    border: 1px solid $color-dark-hover;
+    transition: all 250ms ease-in-out;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+
+    &::placeholder {
+      color: color($color-dark-hover a(0.8));
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    &:hover,
+    &:focus {
+      padding: 12px 0;
+      outline: 0;
+      border: 1px solid transparent;
+      border-bottom: 1px solid $color-dark-hover;
+      border-radius: 0;
+      background-position: 100% center;
     }
   }
 }

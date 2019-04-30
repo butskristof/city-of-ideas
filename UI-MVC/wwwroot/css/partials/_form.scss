@@ -4,6 +4,7 @@
 
 @import "../components/textbox";
 @import "../components/button";
+@import "../components/circle";
 
 .form {
   margin-top: 60px;
@@ -11,7 +12,10 @@
   .form__field {
     margin-bottom: 25px;
 
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
       margin-bottom: 10px;
       -webkit-user-select: none;
       -moz-user-select: none;
@@ -30,5 +34,24 @@
   .form__submit {
     margin-top: 25px;
   }
-  
+}
+
+/* form 1 tekstveld breed */
+.form__inputfield {
+  margin-bottom: 25px;
+
+  @include screen-from("tablet") {
+    margin-bottom: 50px;
+  }
+}
+
+/* form 2 tekstvelden naast elkaar */
+.form__inputfield2 {
+  margin: 0 auto;
+  width: 70%;
+  margin-bottom: 25px;
+
+  @include screen-from("tablet") {
+    margin-bottom: 50px;
+  }
 }
