@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using COI.BL;
 using COI.BL.Application;
+using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.BL.Organisation;
 using COI.BL.Project;
@@ -21,6 +22,8 @@ using COI.DAL.User.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -56,6 +59,16 @@ namespace COI.UI.MVC
 					.UseSqlite("Data Source=../db/CityOfIdeas.db")
 					.UseLazyLoadingProxies()
 			);
+
+			services.Configure<IdentityOptions>(options =>
+			{
+				options.User.RequireUniqueEmail = true;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = false;
+			});
+			services.AddIdentity<User, IdentityRole>()
+				.AddEntityFrameworkStores<CityOfIdeasDbContext>()
+				.AddDefaultTokenProviders();
 			
 			// repos
 			services.AddScoped<ICommentRepository, CommentRepository>();
@@ -98,6 +111,8 @@ namespace COI.UI.MVC
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
+
+			app.UseAuthentication();
 
 			app.UseMvc(routes =>
 			{

@@ -5,24 +5,26 @@ using COI.BL.Domain.Common;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.Relations;
+using Microsoft.AspNetCore.Identity;
 
 namespace COI.BL.Domain.User
 {
-	public class User
+	public class User : IdentityUser
 	{
-		public int UserId { get; set; }
+//		public string UserId { get; set; }
 		
 		[Required]
 		public String FirstName { get; set; }
 		[Required]
 		public String LastName { get; set; }
-		public virtual Email Email { get; set; }
+//		public virtual Email Email { get; set; }
+
 		public Gender Gender { get; set; }
 		[Required]
 		public DateTime DateOfBirth { get; set; }
 		public virtual Address Address { get; set; }
 
-		public Role Role { get; set; }
+//		public Role Role { get; set; }
 		public virtual ICollection<Share> Shares { get; set; }
 		public virtual ICollection<Flag> Flags { get; set; }
 		public virtual ICollection<Vote> Votes { get; set; }

@@ -17,14 +17,14 @@ namespace COI.DAL.User.EF
 			return _ctx.Users.AsEnumerable();
 		}
 
-		public BL.Domain.User.User ReadUser(int userId)
+		public BL.Domain.User.User ReadUser(string userId)
 		{
 			return _ctx.Users.Find(userId);
 		}
 
 		public BL.Domain.User.User CreateUser(BL.Domain.User.User user)
 		{
-			if (ReadUser(user.UserId) != null)
+			if (ReadUser(user.Id) != null)
 			{
 				throw new ArgumentException("User already in database.");
 			}
@@ -45,7 +45,7 @@ namespace COI.DAL.User.EF
 
 		public BL.Domain.User.User UpdateUser(BL.Domain.User.User user)
 		{
-			var entryToUpdate = ReadUser(user.UserId);
+			var entryToUpdate = ReadUser(user.Id);
 
 			if (entryToUpdate == null)
 			{
@@ -55,10 +55,10 @@ namespace COI.DAL.User.EF
 			_ctx.Entry(entryToUpdate).CurrentValues.SetValues(user);
 			_ctx.SaveChanges();
 
-			return ReadUser(user.UserId);
+			return ReadUser(user.Id);
 		}
 
-		public BL.Domain.User.User DeleteUser(int userId)
+		public BL.Domain.User.User DeleteUser(string userId)
 		{
 			var userToDelete = ReadUser(userId);
 			if (userToDelete == null)

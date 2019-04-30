@@ -94,7 +94,7 @@
 	<script type="text/javascript">
 		// set vars from backend
 		@{
-			var votes = Model.Votes.Where(v => v.User.UserId == 1).ToList();
+			var votes = Model.Votes.Where(v => v.User.Id == "1").ToList();
 			var userVote = votes.Count == 0 ? 0 : votes.FirstOrDefault().Value;
 		}
 		
