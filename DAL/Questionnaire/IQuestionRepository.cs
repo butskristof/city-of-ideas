@@ -6,11 +6,16 @@ namespace COI.DAL.Questionnaire
 	public interface IQuestionRepository
 	{
 		IEnumerable<Question> ReadQuestions();
-		OpenQuestion ReadOpenQuestion(int questionId);
-		Choice ReadChoice(int choiceId);
+		Question ReadQuestion(int questionId);
+		Question CreateQuestion(Question question);
+		Question UpdateQuestion(Question updatedQuestion);
+		Question DeleteQuestion(int questionId);
+		
+//		OpenQuestion ReadOpenQuestion(int questionId);
+//		Choice ReadChoice(int choiceId);
+		IEnumerable<Option> ReadOptionsForQuestion(int questionId);
 		Option ReadOption(int optionId);
 		
-		void UpdateQuestion(Question question);
 		void UpdateOption(Option option);
 	}
 }

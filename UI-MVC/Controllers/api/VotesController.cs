@@ -90,13 +90,10 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					case "commentId":
 						return UnprocessableEntity(e.Message);
-						break;
 					case "userId":
 						return UnprocessableEntity(e.Message);
-						break;
 					default:
 						return BadRequest(e.Message);
-						break;
 				}
 			}
 		}

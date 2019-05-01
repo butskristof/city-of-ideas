@@ -10,7 +10,7 @@ namespace COI.BL.Domain.Questionnaire
 		public String Content { get; set; }
 		public virtual ICollection<Answer> Answers { get; set; }
 
-		public virtual Choice Choice { get; set; }
+		public virtual Question Question { get; set; }
 
 		public Option()
 		{

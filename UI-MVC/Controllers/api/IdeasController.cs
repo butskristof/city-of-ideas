@@ -107,13 +107,10 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					case "id":
 						return NotFound(e.Message);
-						break;
 					case "ideationId":
 						return UnprocessableEntity(e.Message);
-						break;
 					default:
 						return BadRequest(e.Message);
-						break;
 				}
 			}
 		}
@@ -148,7 +145,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 			catch (ArgumentException e)
 			{
-				return BadRequest("Idea not found.");
+				return BadRequest(e.Message); // idea not found
 			}
 		}
 		
@@ -182,13 +179,10 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					case "ideaId":
 						return UnprocessableEntity(e.Message);
-						break;
 					case "userId":
 						return UnprocessableEntity(e.Message);
-						break;
 					default:
 						return BadRequest(e.Message);
-						break;
 				}
 			}
 		}

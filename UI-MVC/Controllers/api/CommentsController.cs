@@ -70,13 +70,10 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					case "ideaId":
 						return UnprocessableEntity(e.Message);
-						break;
 					case "userId":
 						return UnprocessableEntity(e.Message);
-						break;
 					default:
 						return BadRequest(e.Message);
-						break;
 				}
 			}
 		}
@@ -111,7 +108,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 			catch (ArgumentException e)
 			{
-				return BadRequest("Comment not found.");
+				return BadRequest(e.Message);
 			}
 		}
 		
@@ -136,13 +133,10 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					case "commentId":
 						return UnprocessableEntity(e.Message);
-						break;
 					case "userId":
 						return UnprocessableEntity(e.Message);
-						break;
 					default:
 						return BadRequest(e.Message);
-						break;
 				}
 			}
 		}

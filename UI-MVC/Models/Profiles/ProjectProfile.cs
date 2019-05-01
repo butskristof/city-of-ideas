@@ -10,8 +10,9 @@ namespace COI.UI.MVC.Models.Profiles
 		public ProjectProfile()
 		{
 			CreateMap<Project, ProjectDto>()
-				.ForMember(o => o.ProjectState, opt => opt.MapFrom(s => s.State.ToString()));
-			// todo check whether phases get added correctly
+				.ForMember(p => p.OrganisationId,
+					opt => opt.MapFrom(
+						p => p.Organisation.OrganisationId));
 		}
 	}
 
@@ -20,7 +21,9 @@ namespace COI.UI.MVC.Models.Profiles
 		public ProjectPhaseProfile()
 		{
 			CreateMap<ProjectPhase, ProjectPhaseDto>()
-				.ForMember(o => o.State, opt => opt.MapFrom(s => s.State.ToString()));
+				.ForMember(p => p.ProjectId,
+					opt => opt.MapFrom(
+						p => p.Project.ProjectId));
 		}
 	}
 }

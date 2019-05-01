@@ -97,7 +97,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 			catch (ArgumentException e)
 			{
-				return NotFound("Organisation to update not found.");
+				return NotFound(e.Message);
 			}
 		}
 	

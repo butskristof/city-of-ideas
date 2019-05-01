@@ -9,7 +9,12 @@ namespace COI.UI.MVC.Models.Profiles
 		public IdeationProfile()
 		{
 			CreateMap<Ideation, IdeationDto>()
-				.ForMember(c => c.VoteCount, opt => opt.MapFrom(o => o.GetScore()));
+				.ForMember(p => p.ProjectPhaseId,
+					opt => opt.MapFrom(
+						p => p.ProjectPhase.ProjectPhaseId))
+				.ForMember(c => c.VoteCount, 
+					opt => opt.MapFrom(
+						o => o.GetScore()));
 		}
 	}
 
@@ -18,6 +23,9 @@ namespace COI.UI.MVC.Models.Profiles
 		public IdeaProfile()
 		{
 			CreateMap<Idea, IdeaDto>()
+				.ForMember(p => p.IdeationId,
+					opt => opt.MapFrom(
+						p => p.Ideation.IdeationId))
 				.ForMember(c => c.VoteCount,
 					opt => opt.MapFrom(
 						o => o.GetScore()));

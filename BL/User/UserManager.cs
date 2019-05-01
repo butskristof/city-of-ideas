@@ -54,19 +54,17 @@ namespace COI.BL.User
 			_userRepository.UpdateUser(user);
 		}
 
-		public void AddAnswerToUser(string userId, Answer answer)
+		public void AddAnswerToUser(Answer answer, string userId)
 		{
-			Domain.User.User u = this.GetUser(userId);
-			if (u != null)
-			{
-				answer.User = u;
-				u.Answers.Add(answer);
-				_userRepository.UpdateUser(u);
-			}
-			else
+			Domain.User.User user = this.GetUser(userId);
+			if (user == null)
 			{
 				throw new ArgumentException("User not found.");
 			}
+
+			answer.User = user;
+			user.Answers.Add(answer);
+			_userRepository.UpdateUser(user);
 		}
 
 		#region Votes
@@ -110,5 +108,7 @@ namespace COI.BL.User
 		}
 
 		#endregion
+		
+		
 	}
 }

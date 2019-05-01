@@ -119,13 +119,10 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					case "id":
 						return NotFound(e.Message);
-						break;
 					case "organisationId":
 						return UnprocessableEntity(e.Message);
-						break;
 					default:
 						return BadRequest(e.Message);
-						break;
 				}
 			}
 		}
@@ -143,9 +140,9 @@ namespace COI.UI.MVC.Controllers.api
 				
 				return Ok(_mapper.Map<ProjectDto>(deleted));
 			}
-			catch (ArgumentException)
+			catch (ArgumentException e)
 			{
-				return NotFound("Project to delete not found.");
+				return NotFound(e.Message);
 			}
 		}
 	}

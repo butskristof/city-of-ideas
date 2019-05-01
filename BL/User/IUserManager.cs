@@ -9,7 +9,7 @@ namespace COI.BL.User
 		Domain.User.User GetUser(string userId);
 		
 		void AddCommentToUser(Comment comment, string userId);
-		void AddAnswerToUser(string userId, Answer answer);
+		void AddAnswerToUser(Answer answer, string userId);
 
 		Vote GetVote(int voteId);
 		Vote AddVoteToUser(int value, string userId);

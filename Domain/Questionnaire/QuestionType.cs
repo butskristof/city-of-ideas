@@ -1,12 +1,13 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace COI.BL.Domain.Project
+namespace COI.BL.Domain.Questionnaire
 {
 	[JsonConverter(typeof(StringEnumConverter))]
-	public enum ProjectState
+	public enum QuestionType
 	{
-		Open,
-		Closed
+		OpenQuestion,
+		SingleChoice,
+		MultipleChoice
 	}
 }

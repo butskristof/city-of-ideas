@@ -114,13 +114,10 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					case "id":
 						return NotFound(e.Message);
-						break;
 					case "projectPhaseId":
 						return UnprocessableEntity(e.Message);
-						break;
 					default:
 						return BadRequest(e.Message);
-						break;
 				}
 			}
 		}
@@ -144,6 +141,20 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
+		[HttpGet("{id}/Score")]
+		public IActionResult GetIdeationScore(int id)
+		{
+			try
+			{
+				var score = _ideationManager.GetIdeationScore(id);
+				return Ok(score);
+			}
+			catch (ArgumentException e)
+			{
+				return BadRequest(e.Message); // ideation not found
+			}
+		}
+
 		[HttpPost("Vote")]
 		public IActionResult PostIdeationVote(NewIdeationVoteDto vote)
 		{
@@ -164,13 +175,10 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					case "commentId":
 						return UnprocessableEntity(e.Message);
-						break;
 					case "userId":
 						return UnprocessableEntity(e.Message);
-						break;
 					default:
 						return BadRequest(e.Message);
-						break;
 				}
 			}
 		}

@@ -82,6 +82,7 @@ namespace COI.UI.MVC
 			services.AddScoped<IOrganisationRepository, OrganisationRepository>();
 			services.AddScoped<IProjectRepository, ProjectRepository>();
 			services.AddScoped<IProjectPhaseRepository, ProjectPhaseRepository>();
+			services.AddScoped<IOptionRepository, OptionRepository>();
 			
 			// managers
 			services.AddScoped<IIdeationManager, IdeationManager>();

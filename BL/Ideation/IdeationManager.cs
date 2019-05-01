@@ -300,6 +300,17 @@ namespace COI.BL.Ideation
 			}
 		}
 
+		public int GetIdeationScore(int ideationId)
+		{
+			Domain.Ideation.Ideation ideation = GetIdeation(ideationId);
+			if (ideation != null)
+			{
+				return ideation.GetScore();
+			}
+			
+			throw new ArgumentException("Ideation not found.");
+		}
+
 		public int GetCommentScore(int commentId)
 		{
 			Comment comment = GetComment(commentId);
