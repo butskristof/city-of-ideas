@@ -1,10 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.DAL.User;
+using Microsoft.AspNetCore.Identity;
 
 namespace COI.BL.User
 {
@@ -108,7 +111,5 @@ namespace COI.BL.User
 		}
 
 		#endregion
-		
-		
 	}
 }

@@ -11,13 +11,10 @@ namespace COI.BL.Domain.User
 {
 	public class User : IdentityUser
 	{
-//		public string UserId { get; set; }
-		
 		[Required]
 		public String FirstName { get; set; }
 		[Required]
 		public String LastName { get; set; }
-//		public virtual Email Email { get; set; }
 
 		public Gender Gender { get; set; }
 		[Required]
