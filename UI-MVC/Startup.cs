@@ -19,6 +19,7 @@ using COI.DAL.Questionnaire;
 using COI.DAL.Questionnaire.EF;
 using COI.DAL.User;
 using COI.DAL.User.EF;
+using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -53,7 +54,6 @@ namespace COI.UI.MVC
 			});
 
 			services.AddAutoMapper();
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			services.AddDbContext<CityOfIdeasDbContext>(options =>
 				options
 					.UseSqlite("Data Source=../db/CityOfIdeas.db")
@@ -69,6 +69,16 @@ namespace COI.UI.MVC
 			services.AddIdentity<User, IdentityRole>()
 				.AddEntityFrameworkStores<CityOfIdeasDbContext>()
 				.AddDefaultTokenProviders();
+
+			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			
+//			services.ConfigureApplicationCookie(options =>
+//			{
+//				options.LoginPath = $"/Identity/Account/Login";
+//				options.LogoutPath = $"/Identity/Account/Logout";
+//				options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+//			});
+			services.AddSingleton<IEmailSender, EmailSender>();
 			
 			// repos
 			services.AddScoped<ICommentRepository, CommentRepository>();
