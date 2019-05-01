@@ -32,6 +32,7 @@ namespace COI.BL.Ideation
 		void AddVoteToComment(Vote vote, int commentId);
 
 		int GetIdeaScore(int ideaId);
+		int GetIdeationScore(int ideationId);
 		int GetCommentScore(int commentId);
 
 	}

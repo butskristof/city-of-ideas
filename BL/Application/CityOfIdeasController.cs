@@ -22,8 +22,8 @@ namespace COI.BL.Application
 	 */
 	public interface ICityOfIdeasController
 	{
-		Answer AnswerOpenQuestion(string userId, int questionId, string content);
-		Answer AnswerChoiceQuestion(string userId, int optionId);
+//		Answer AnswerOpenQuestion(string userId, int questionId, string content);
+//		Answer AnswerChoiceQuestion(string userId, int optionId);
 		
 		// Comments
 		Comment AddCommentToIdea(IEnumerable<Field> content, string userId, int ideaId);
@@ -32,11 +32,15 @@ namespace COI.BL.Application
 		Vote AddVoteToIdea(int value, string userId, int ideaId);
 		Vote AddVoteToIdeation(int value, string userId, int ideationId);
 		Vote AddVoteToComment(int value, string userId, int commentId);
+		
+		// Answers
+		Answer AddAnswerToQuestion(string content, string userId, int questionId);
+		Answer AddAnswerToOption(string userId, int optionId);
 	}
 
 	public class CityOfIdeasController : ICityOfIdeasController
 	{
-
+		
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 		private readonly IUserManager _userManager;
 		private readonly IIdeationManager _ideationManager;
@@ -50,48 +54,33 @@ namespace COI.BL.Application
 			this._questionnaireManager = questionnaireManager;
 		}
 
-		
-
-//		public Comment AddComment(int userId, int ideaId, IEnumerable<Field> content)
+//		public Answer AnswerOpenQuestion(string userId, int questionId, string content)
 //		{
 //			_unitOfWorkManager.StartUnitOfWork();
+//			
+//			Answer answer = _questionnaireManager.AnswerOpenQuestion(questionId, content);
 //
-//			Comment comment = _ideationManager.AddCommentToIdea(content, ideaId);
-//			_userManager.AddCommentToUser(comment, userId);
+//			_userManager.AddAnswerToUser(userId, answer);
 //
 //			_unitOfWorkManager.EndUnitOfWork();
 //			
-//			return comment;
+//			return answer;
 //		}
-
-		public Answer AnswerOpenQuestion(string userId, int questionId, string content)
-		{
-			_unitOfWorkManager.StartUnitOfWork();
-			
-			Answer answer = _questionnaireManager.AnswerOpenQuestion(questionId, content);
-
-			_userManager.AddAnswerToUser(userId, answer);
-
-			_unitOfWorkManager.EndUnitOfWork();
-			
-			return answer;
-		}
-
-		public Answer AnswerChoiceQuestion(string userId, int optionId)
-		{
-			_unitOfWorkManager.StartUnitOfWork();
-			
-			Answer answer = _questionnaireManager.AnswerChoiceQuestion(optionId);
-
-			_userManager.AddAnswerToUser(userId, answer);
-
-			_unitOfWorkManager.EndUnitOfWork();
-			
-			return answer;
-		}
-
+//
+//		public Answer AnswerChoiceQuestion(string userId, int optionId)
+//		{
+//			_unitOfWorkManager.StartUnitOfWork();
+//			
+//			Answer answer = _questionnaireManager.AnswerChoiceQuestion(optionId);
+//
+//			_userManager.AddAnswerToUser(userId, answer);
+//
+//			_unitOfWorkManager.EndUnitOfWork();
+//			
+//			return answer;
+//		}
+//
 		#region Comments
-
 		
 		public Comment AddCommentToIdea(IEnumerable<Field> content, string userId, int ideaId)
 		{
@@ -147,6 +136,34 @@ namespace COI.BL.Application
 			_unitOfWorkManager.EndUnitOfWork();
 
 			return vote;
+		}
+
+		#endregion
+
+		#region Answers
+
+		public Answer AddAnswerToQuestion(string content, string userId, int questionId)
+		{
+			_unitOfWorkManager.StartUnitOfWork();
+
+			Answer answer = _questionnaireManager.AnswerQuestion(content, questionId);
+			_userManager.AddAnswerToUser(answer, userId);
+			
+			_unitOfWorkManager.EndUnitOfWork();
+
+			return answer;
+		}
+
+		public Answer AddAnswerToOption(string userId, int optionId)
+		{
+			_unitOfWorkManager.StartUnitOfWork();
+
+			Answer answer = _questionnaireManager.AnswerOption(optionId);
+			_userManager.AddAnswerToUser(answer, userId);
+			
+			_unitOfWorkManager.EndUnitOfWork();
+
+			return answer;
 		}
 
 		#endregion

@@ -17,8 +17,6 @@ namespace COI.DAL.EF
 {
 	public static class CityOfIdeasInitializer
 	{
-		private static bool _hasRunDuringExecution; // make sure we initialise only once per execution
-
 //		public static void Initialize(CityOfIdeasDbContext ctx, bool dropCreateDb = false, bool addTestData = true)
 //		{
 //				if (ctx.Database.EnsureCreated() && addTestData)

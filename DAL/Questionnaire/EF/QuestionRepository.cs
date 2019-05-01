@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using COI.BL.Domain.Questionnaire;
 using COI.DAL.EF;
+using Microsoft.EntityFrameworkCore;
 
 namespace COI.DAL.Questionnaire.EF
 {
@@ -16,26 +18,72 @@ namespace COI.DAL.Questionnaire.EF
 			return _ctx.Questions.AsEnumerable();
 		}
 
-		public OpenQuestion ReadOpenQuestion(int questionId)
+		public Question ReadQuestion(int questionId)
 		{
-			return _ctx.Questions.Find(questionId) as OpenQuestion;
+			return _ctx.Questions.Find(questionId);
 		}
 
-		public Choice ReadChoice(int choiceId)
+		public Question CreateQuestion(Question question)
 		{
-			return _ctx.Questions.Find(choiceId) as Choice;
+			if (ReadQuestion(question.QuestionId) != null)
+			{
+				throw new ArgumentException("Question already in database.");
+			}
+
+			try
+			{
+				_ctx.Questions.Add(question);
+				_ctx.SaveChanges();
+
+				return question;
+			}
+			catch (DbUpdateException exception)
+			{
+				var msg = exception.InnerException == null ? "Invalid object." : exception.InnerException.Message;
+				throw new ArgumentException(msg);
+			}
+		}
+
+		public Question UpdateQuestion(Question updatedQuestion)
+		{
+			var entryToUpdate = ReadQuestion(updatedQuestion.QuestionId);
+
+			if (entryToUpdate == null)
+			{
+				throw new ArgumentException("Question to update not found.");
+			}
+
+			_ctx.Entry(entryToUpdate).CurrentValues.SetValues(updatedQuestion);
+			_ctx.SaveChanges();
+
+			return ReadQuestion(updatedQuestion.QuestionId);
+		}
+
+		public Question DeleteQuestion(int questionId)
+		{
+			var toDelete = ReadQuestion(questionId);
+			if (toDelete == null)
+			{
+				throw new ArgumentException("Question to delete not found.");
+			}
+
+			_ctx.Questions.Remove(toDelete);
+			_ctx.SaveChanges();
+
+			return toDelete;
+		}
+
+		public IEnumerable<Option> ReadOptionsForQuestion(int questionId)
+		{
+			return _ctx
+				.Options
+				.Where(o => o.Question.QuestionId == questionId)
+				.AsEnumerable();
 		}
 
 		public Option ReadOption(int optionId)
 		{
 			return _ctx.Options.Find(optionId);
-		}
-
-		public void UpdateQuestion(Question question)
-		{
-			var questionToUpdate = _ctx.Questions.Find(question.QuestionId);
-			_ctx.Entry(questionToUpdate).CurrentValues.SetValues(question);
-			_ctx.SaveChanges();
 		}
 
 		public void UpdateOption(Option option)

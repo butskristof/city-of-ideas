@@ -9,6 +9,9 @@ namespace COI.UI.MVC.Models.Profiles
 		public CommentProfile()
 		{
 			CreateMap<Comment, CommentDto>()
+				.ForMember(p => p.IdeaId,
+					opt => opt.MapFrom(
+						p => p.Idea.IdeaId))
 				.ForMember(c => c.Score, opt => opt.MapFrom(o => o.GetScore()));
 
 			CreateMap<Field, FieldDto>()

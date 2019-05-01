@@ -97,13 +97,10 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					case "id":
 						return NotFound(e.Message);
-						break;
 					case "projectId":
 						return UnprocessableEntity(e.Message);
-						break;
 					default:
 						return BadRequest(e.Message);
-						break;
 				}
 			}
 		}

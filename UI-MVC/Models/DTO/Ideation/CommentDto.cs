@@ -11,5 +11,6 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public DateTime Created { get; set; }
 		public UserDto User { get; set; }
 		public int Score { get; set; }
+		public int IdeaId { get; set; }
 	}
 }

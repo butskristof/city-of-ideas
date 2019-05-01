@@ -9,11 +9,9 @@ namespace COI.BL.Domain.Questionnaire
 		public Boolean Dropdown { get; set; }
 		public Boolean IsMultipleChoice { get; set; }
 		
-		public virtual ICollection<Option> Options { get; set; }
 
 		public Choice()
 		{
-			this.Options = new List<Option>();
 		}
 	}
 }

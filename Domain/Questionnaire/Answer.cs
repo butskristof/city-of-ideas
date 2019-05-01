@@ -8,7 +8,7 @@ namespace COI.BL.Domain.Questionnaire
 		public String Content { get; set; }
 
 		public virtual Option Option { get; set; }
-		public virtual OpenQuestion OpenQuestion { get; set; }
+		public virtual Question Question { get; set; }
 		public virtual User.User User { get; set; }
 	}
 }
