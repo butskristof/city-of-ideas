@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
 using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.User;
@@ -20,6 +21,7 @@ using COI.DAL.Questionnaire.EF;
 using COI.DAL.User;
 using COI.DAL.User.EF;
 using COI.UI.MVC.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,8 +31,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
+using Microsoft.IdentityModel.Tokens;
 
 namespace COI.UI.MVC
 {
@@ -52,23 +53,45 @@ namespace COI.UI.MVC
 				options.CheckConsentNeeded = context => true;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
-
-			services.AddAutoMapper();
+			
+			services.AddAutoMapper(); // for conversion from domain model to DTOs
+			
+			// TODO differentiate between dev and production environments
 			services.AddDbContext<CityOfIdeasDbContext>(options =>
 				options
-					.UseSqlite("Data Source=../db/CityOfIdeas.db")
+					.UseSqlite(Configuration["Sqlite:ConnectionString"])
 					.UseLazyLoadingProxies()
 			);
 
+			// set identity preferences
+			// TODO add email confirmation
 			services.Configure<IdentityOptions>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireUppercase = false;
 			});
+			
+			// add identity framework and set correct dbcontext to use
 			services.AddIdentity<User, IdentityRole>()
 				.AddEntityFrameworkStores<CityOfIdeasDbContext>()
-				.AddDefaultTokenProviders();
+				.AddDefaultTokenProviders(); // TODO still necessary when using JWT?
+			
+			services.AddAuthentication()
+				.AddCookie(cfg => cfg.SlidingExpiration = true)
+				.AddJwtBearer(cfg =>
+				{
+					cfg.TokenValidationParameters = new TokenValidationParameters()
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = Configuration["Jwt:Issuer"],
+						ValidAudience = Configuration["Jwt:Audience"],
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+					};
+				});
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			
