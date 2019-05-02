@@ -90,7 +90,10 @@ namespace COI.UI.MVC.Controllers.api
 			var pwSignInResult = await _signInManager.PasswordSignInAsync(user, input.Password, true, false);
 			if (pwSignInResult.Succeeded)
 			{
-                return Ok("Login successful.");
+                return Ok(new
+                {
+	                userId = user.Id
+                });
 			}
 			
 			// TODO 2FA & lockedout
@@ -119,6 +122,7 @@ namespace COI.UI.MVC.Controllers.api
                 return Ok(new
                 {
 	                token = new JwtSecurityTokenHandler().WriteToken(token),
+	                userId = user.Id,
 	                expiration = token.ValidTo
                 });
 			}

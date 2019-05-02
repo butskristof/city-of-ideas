@@ -26,6 +26,9 @@ namespace COI.UI.MVC.Models.Profiles
 				.ForMember(p => p.IdeationId,
 					opt => opt.MapFrom(
 						p => p.Ideation.IdeationId))
+				.ForMember(p => p.UserId,
+					opt => opt.MapFrom(
+						o => o.CreatedBy.Id))
 				.ForMember(c => c.VoteCount,
 					opt => opt.MapFrom(
 						o => o.GetScore()));

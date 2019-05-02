@@ -8,7 +8,7 @@ namespace COI.BL.Ideation
 	{
 		IEnumerable<Domain.Ideation.Ideation> GetIdeations();
 		Domain.Ideation.Ideation GetIdeation(int ideationId);
-		Domain.Ideation.Ideation AddIdeation(string title, int projectPhaseId);
+		Domain.Ideation.Ideation AddIdeation(string title, ICollection<Field> fields, int projectPhaseId);
 		Domain.Ideation.Ideation ChangeIdeation(int id, string title, int projectPhaseId);
 		Domain.Ideation.Ideation RemoveIdeation(int id);
 		

@@ -14,7 +14,7 @@ namespace COI.UI.MVC.Models.DTO.User
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 		[DataType(DataType.Password)]
-		[Compare("Password", ErrorMessage = "Password do not match")]
+		[Compare("Password", ErrorMessage = "Passwords do not match")]
 		public string ConfirmPassword { get; set; }
 	}
 }

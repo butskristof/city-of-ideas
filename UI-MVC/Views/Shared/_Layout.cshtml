@@ -9,44 +9,53 @@
     <script type="module" src="~/dist/site.entry.js" defer></script>
     <link rel="stylesheet" href="~/dist/site.css">
 </head>
+
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#">Antwerpen</a>
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"
-                    >Home <span class="sr-only">(current)</span></a
-                    >
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Projecten</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>
-            </ul>
-	<partial name="_LoginPartial" />
-        </div>
+<!-- HEADER -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" asp-controller="Home" asp-action="Index">Antwerpen</a>
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-    </nav>
-</header>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Project" asp-action="Index">Projecten</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Contact">Contact</a>
+            </li>
+        </ul>
+        
+        <partial name="_LoginPartial"/>
+    </div>
+</nav>
+<!-- /HEADER -->
 
-	<partial name="_CookieConsentPartial" />
-	@RenderBody()
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content werk">
+    <input class="search__input" type="text" placeholder="ZOEK" />
+    <i class="fas fa-search zoekModal"></i>
+  </div>
+</div>
+<!-- /Header -->
+
+<partial name="_CookieConsentPartial"/>
+@RenderBody()
 
 <!-- Footer -->
 <footer class="site-footer">
