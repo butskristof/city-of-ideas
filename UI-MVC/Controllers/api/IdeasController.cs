@@ -7,12 +7,14 @@ using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.User;
 using COI.BL.Ideation;
+using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class IdeasController : ControllerBase
@@ -28,7 +30,6 @@ namespace COI.UI.MVC.Controllers.api
 			_coiCtrl = coiCtrl;
 		}
 		
-		[Authorize]
 		[HttpGet]
 		public IActionResult GetIdeas()
 		{
