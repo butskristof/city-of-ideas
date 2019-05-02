@@ -1,7 +1,12 @@
-@model COI.BL.Domain.Ideation.Idea
+@using COI.BL.Domain.User
+@using Microsoft.AspNetCore.Identity
+@using Newtonsoft.Json
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@model COI.UI.MVC.Models.DTO.Ideation.IdeaDto
 
 @{
-	ViewBag.Title = "Idee";
+	ViewBag.Title = @Model.Title;
 	Layout = "_Layout";
 }
 
@@ -9,20 +14,21 @@
 <main class="content content--shadow container">
 	<!-- Idea -->
 	<article class="page__intro mt-3">
-		<h1>
-			@Model.Title
-		</h1>
-		<p>
-			@foreach (var field in Model.Fields)
-			{
-				@field.Content
-			}
-		</p>
+		<h1 id="ideaTitle"></h1>
+
+		<div id="ideaFields">
+		</div>
+@* 		<p> *@
+@* 			@foreach (var field in @Model.Fields) *@
+@* 			{ *@
+@* 				@field.Content *@
+@* 			} *@
+@* 		</p> *@
 		<div class="options-bar">
 			<div class="options-bar__option">
-				<span class="options-bar__votes mr-2" id="ideaScore"></span>
-				<i class="material-icons outline mr-2" onclick="postIdeaVote(1)" id="thumbsupidea" >thumb_up</i>
-				<i class="material-icons outline" onclick="postIdeaVote(-1)" id="thumbsdownidea">thumb_down</i>
+				<span class="options-bar__votes mr-2" id="ideaVoteCount"></span>
+				<i class="material-icons outline mr-2" id="ideaUpvote">thumb_up</i>
+				<i class="material-icons outline" id="ideaDownvote">thumb_down</i>
 			</div>
 			<div class="options-bar__option">
 				<i class="material-icons outline ml-4">share</i>
@@ -30,77 +36,78 @@
 		</div>
 	</article>
 	<!-- /Idea -->
-	
+
 	<!-- Comments -->
 	<section class="comments mt-5 pt-4">
 		<h1 class="comments__title pb-4">
 			Reacties
 		</h1>
-
+		
 		<div id="comments">
-		</div><!-- /comments -->
+		</div>
 	</section>
 	<!-- /Comments -->
-		
-	<!-- Log in -->
-	<section class="editor mt-10">
-		<h2>Schrijf een eigen reactie</h2>
-		<button class="btn">Log in</button>
-		<button class="btn">Maak een account</button>
-	</section>
-	<!-- /Log in -->
+	
+	@if (SignInManager.IsSignedIn(User))
+	{
+        <!-- Editor -->
+        <section class="editor mt-10">
+            <h2 clas="mb-2">Schrijf een eigen reactie</h2>
 
-	<!-- Editor -->
-	<section class="editor mt-10">
-		<h2 clas="mb-2">Schrijf een eigen reactie</h2>
+            <div class="editor__text-container">
+                <div class="editor__options">
+                    <div class="editor__option editor__option--image">
+                        <i class="material-icons">add_photo_alternate</i>
+                        Foto toevoegen
+                    </div>
+                    <div class="editor__option editor__option--image">
+                        <i class="material-icons">add_location</i>
+                        Locatie toevoegen
+                    </div>
+                </div>
 
-		<div class="editor__text-container">
-			<div class="editor__options">
-				<div class="editor__option editor__option--image">
-					<i class="material-icons">add_photo_alternate</i>
-					Foto toevoegen
-				</div>
-				<div class="editor__option editor__option--image">
-					<i class="material-icons">add_location</i>
-					Locatie toevoegen
-				</div>
-			</div>
+                <textarea
+                    rows="1"
+                    class="editor__text textbox"
+                    placeholder="Uw reactie"
+                ></textarea>
+            </div>
 
-			<textarea
-            rows="1"
-            class="editor__text textbox"
-            placeholder="Begin met schrijven.."
-          ></textarea>
-		</div>
+            <div class="editor__images"></div>
 
-		<div class="editor__images"></div>
+            <input
+                type="file"
+                class="editor__file-upload"
+                accept="image/x-png,image/gif,image/jpeg"
+            />
 
-		<input
-			type="file"
-			class="editor__file-upload"
-			accept="image/x-png,image/gif,image/jpeg"
-		/>
-
-		<button class="btn editor__submit mt-2">
-			Reactie plaatsen!
-		</button>
-	</section>
-	<!-- /Editor -->
+            <button class="btn editor__submit mt-2">
+                Reactie plaatsen
+            </button>
+        </section>
+        <!-- /Editor -->
+	}
+	else
+	{
+        <!-- Log in -->
+        <section class="editor mt-10">
+            <h2>Schrijf een eigen reactie</h2>
+            
+            <button class="btn">Log in</button>
+            <button class="btn">Maak een account</button>
+            
+        </section>
+        <!-- /Log in -->
+	}
 
 </main>
+<!-- /Content -->
 
 @section Scripts
 {
 	<script type="text/javascript">
-		// set vars from backend
-		@{
-			var votes = Model.Votes.Where(v => v.User.Id == "1").ToList();
-			var userVote = votes.Count == 0 ? 0 : votes.FirstOrDefault().Value;
-		}
-		
-		let userVote = @userVote;
-		let ideaId = @Model.IdeaId;
-		let userId = 1;
+        let idea = @Html.Raw(JsonConvert.SerializeObject(Model));
+        let userId = "@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : null)";
 	</script>
 	<script type="text/javascript" src="@Url.Content("~/dist/idea.entry.js")" defer></script>
 }

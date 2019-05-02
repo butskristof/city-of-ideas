@@ -42,7 +42,7 @@ namespace COI.BL.Ideation
 			return _ideationRepository.ReadIdeation(ideationId);
 		}
 
-		public Domain.Ideation.Ideation AddIdeation(string title, int projectPhaseId)
+		public Domain.Ideation.Ideation AddIdeation(string title, ICollection<Field> fields, int projectPhaseId)
 		{
 			ProjectPhase phase = _projectManager.GetProjectPhase(projectPhaseId);
 			if (phase == null)
@@ -53,6 +53,7 @@ namespace COI.BL.Ideation
 			Domain.Ideation.Ideation ideation = new Domain.Ideation.Ideation()
 			{
 				Title = title,
+				Fields = fields,
 				ProjectPhase = phase
 			};
 
@@ -318,10 +319,8 @@ namespace COI.BL.Ideation
 			{
 				return comment.GetScore();
 			}
-			else
-			{
-				throw new ArgumentException("Comment not found.");
-			}
+			
+            throw new ArgumentException("Comment not found.");
 		}
 		
 	}

@@ -6,14 +6,12 @@
 }
 
 <main class="content content--shadow container">
-<h1 class="mb-5">Ideeen</h1>
+    <h1 class="mb-5">Ideeen</h1>
 
-<ul>
-	@foreach (var idea in Model)
-	{
-		<li>@Html.ActionLink(idea.Title, "Details", new { id = idea.IdeaId })</li>
-	}
-</ul>
+    <ul>
+        @foreach (var idea in Model)
+        {
+            <li>@Html.ActionLink(idea.Title, "Details", new { id = idea.IdeaId })</li>
+        }
+    </ul>
 </main>
-
-

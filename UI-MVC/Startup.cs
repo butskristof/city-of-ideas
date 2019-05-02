@@ -44,7 +44,6 @@ namespace COI.UI.MVC
 
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.Configure<CookiePolicyOptions>(options =>
@@ -63,24 +62,25 @@ namespace COI.UI.MVC
 					.UseLazyLoadingProxies()
 			);
 
+			#region Authentication setup
+
 			// set identity preferences
-			// TODO add email confirmation
 			services.Configure<IdentityOptions>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireUppercase = false;
-				options.SignIn.RequireConfirmedEmail = true;
+				options.SignIn.RequireConfirmedEmail = true; // comment to disable email confirmation
 			});
 			
 			// add identity framework and set correct dbcontext to use
 			services.AddIdentity<User, IdentityRole>()
 				.AddEntityFrameworkStores<CityOfIdeasDbContext>()
-				.AddDefaultTokenProviders(); // TODO still necessary when using JWT?
+				.AddDefaultTokenProviders();
 			
 			services.AddAuthentication()
-				.AddCookie(cfg => cfg.SlidingExpiration = true)
-				.AddJwtBearer(cfg =>
+				.AddCookie(cfg => cfg.SlidingExpiration = true) // still support default identity behaviour
+				.AddJwtBearer(cfg => // add JWT for Android app etc
 				{
 					cfg.TokenValidationParameters = new TokenValidationParameters()
 					{
@@ -96,15 +96,14 @@ namespace COI.UI.MVC
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 			
-//			services.ConfigureApplicationCookie(options =>
-//			{
-//				options.LoginPath = $"/Identity/Account/Login";
-//				options.LogoutPath = $"/Identity/Account/Logout";
-//				options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-//			});
-			services.AddTransient<IEmailSender, EmailSender>();
-			
-			// repos
+			#endregion
+
+			#region Dependency Injection
+
+			// configure implementations used throughout the project
+
+			#region Repositories
+
 			services.AddScoped<ICommentRepository, CommentRepository>();
 			services.AddScoped<IIdeaRepository, IdeaRepository>();
 			services.AddScoped<IAnswerRepository, AnswerRepository>();
@@ -117,7 +116,11 @@ namespace COI.UI.MVC
 			services.AddScoped<IProjectRepository, ProjectRepository>();
 			services.AddScoped<IProjectPhaseRepository, ProjectPhaseRepository>();
 			services.AddScoped<IOptionRepository, OptionRepository>();
-			
+
+			#endregion
+
+			#region Managers
+
 			// managers
 			services.AddScoped<IIdeationManager, IdeationManager>();
 			services.AddScoped<IOrganisationManager, OrganisationManager>();
@@ -127,6 +130,16 @@ namespace COI.UI.MVC
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<IUnitOfWorkManager, UnitOfWorkManager>();
 			services.AddScoped<ICityOfIdeasController, CityOfIdeasController>();
+
+			#endregion
+
+			#region Others
+			
+			services.AddTransient<IEmailSender, EmailSender>();
+
+			#endregion
+
+			#endregion
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

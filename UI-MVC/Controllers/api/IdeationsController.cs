@@ -68,8 +68,10 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				var fields = _mapper.Map<List<Field>>(ideation.Fields);
 				Ideation createdIdeation = _ideationManager.AddIdeation(
 					ideation.Title, 
+					fields,
 					ideation.ProjectPhaseId);
 				
 				return CreatedAtAction(

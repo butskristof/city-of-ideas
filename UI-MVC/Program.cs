@@ -17,7 +17,7 @@ namespace COI.UI.MVC
                 .ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         config.SetBasePath(Directory.GetCurrentDirectory());
-                        config.AddJsonFile("coi_env.json", optional: false, reloadOnChange: true);
+                        config.AddJsonFile("coi_env.json", optional: false, reloadOnChange: true); // TODO implement IOptions
                     })
                 .UseStartup<Startup>();
     }
