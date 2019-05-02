@@ -2,15 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.User;
 using COI.BL.Ideation;
+using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class CommentsController : ControllerBase
@@ -18,14 +22,17 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IMapper _mapper;
 		private readonly IIdeationManager _ideationManager;
 		private readonly ICityOfIdeasController _coiCtrl;
+		private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-		public CommentsController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl)
+		public CommentsController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
 			_coiCtrl = coiCtrl;
+			_unitOfWorkManager = unitOfWorkManager;
 		}
 
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public IActionResult GetComment(int id)
 		{
@@ -83,12 +90,16 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Comment deleted = _ideationManager.RemoveComment(id);
+				_unitOfWorkManager.EndUnitOfWork();
+				
 				if (deleted == null)
 				{
 					return NotFound("Comment to delete not found.");
 				}
 
+				
 				return Ok(_mapper.Map<CommentDto>(deleted));
 			}
 			catch (ArgumentException)
@@ -97,6 +108,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
+		[AllowAnonymous]
 		// GET: api/Comments/{id}/Score
 		[HttpGet("{id}/Score")]
 		public IActionResult GetCommentScore(int id)

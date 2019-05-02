@@ -1,33 +1,25 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using COI.BL.Domain.User;
 using COI.UI.MVC.Models.DTO.User;
+using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+using JwtConstants = COI.UI.MVC.Models.JwtConstants;
 
 namespace COI.UI.MVC.Controllers.api
 {
-	[Authorize]
+    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class UsersController : ControllerBase
 	{
-		private readonly UserManager<User> _userManager;
-		private readonly SignInManager<User> _signInManager;
-		private readonly IConfiguration _config;
+		private readonly IUserService _userService;
 
-		public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config)
+		public UsersController(IUserService userService)
 		{
-			_userManager = userManager;
-			_signInManager = signInManager;
-			_config = config;
+			_userService = userService;
 		}
 
 		[AllowAnonymous]
@@ -43,33 +35,21 @@ namespace COI.UI.MVC.Controllers.api
 			{
 				return BadRequest("Passwords do not match.");
 			}
-			
-			User newUser = new BL.Domain.User.User()
-			{
-				UserName = input.Email,
-				Email = input.Email,
-				FirstName = input.FirstName,
-				LastName = input.LastName
-			};
 
-			IdentityResult userCreationResult = null;
 			try
 			{
-				userCreationResult = await _userManager.CreateAsync(newUser, input.Password);
+				string userId =
+					await _userService.RegisterNewUser(input.Email, input.Password, input.FirstName, input.LastName);
+
+				return Ok(new
+				{
+					userId = userId
+				});
 			}
 			catch (Exception e)
 			{
-				return BadRequest("Something went wrong while creating new user: " + e.Message);
+				return BadRequest(e.Message);
 			}
-
-			if (!userCreationResult.Succeeded)
-			{
-				string msg = string.Join(";", userCreationResult.Errors.Select(x => x.Description));
-				return BadRequest("Something went wrong while creating new user: " + msg);
-			}
-
-			await _signInManager.SignInAsync(newUser, false);
-			return Ok("Registration successful.");
 		}
 
 		[AllowAnonymous]
@@ -81,23 +61,18 @@ namespace COI.UI.MVC.Controllers.api
 				return BadRequest("Email or password is empty.");
 			}
 
-			var user = await _userManager.FindByEmailAsync(input.Email);
-			if (user == null)
+			try
 			{
-				return BadRequest("User not found.");
+				var userId = await _userService.Login(input.Email, input.Password);
+				return Ok(new
+				{
+					userId = userId
+				});
 			}
-
-			var pwSignInResult = await _signInManager.PasswordSignInAsync(user, input.Password, true, false);
-			if (pwSignInResult.Succeeded)
+			catch (ArgumentException e)
 			{
-                return Ok(new
-                {
-	                userId = user.Id
-                });
+				return BadRequest(e.Message);
 			}
-			
-			// TODO 2FA & lockedout
-            return BadRequest("Password incorrect.");
 		}
 
 		[AllowAnonymous]
@@ -109,51 +84,34 @@ namespace COI.UI.MVC.Controllers.api
 				return BadRequest("Email or password is empty.");
 			}
 
-			var user = await _userManager.FindByEmailAsync(input.Email);
-			if (user == null)
+			try
 			{
-				return BadRequest("User not found.");
+				var token = await _userService.GenerateJwt(input.Email, input.Password);
+				return Ok(new
+				{
+					token = new JwtSecurityTokenHandler().WriteToken(token),
+					userId = token.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName)?.Value,
+					expiration = token.ValidTo
+				});
 			}
-
-			var pwSignInResult = await _signInManager.CheckPasswordSignInAsync(user, input.Password, false);
-			if (pwSignInResult.Succeeded)
+			catch (ArgumentException e)
 			{
-				var token = GenerateJSONWebToken(user);
-                return Ok(new
-                {
-	                token = new JwtSecurityTokenHandler().WriteToken(token),
-	                userId = user.Id,
-	                expiration = token.ValidTo
-                });
+				switch (e.ParamName)
+				{
+					case "email":
+						return BadRequest(e.Message);
+					case "password":
+						return BadRequest(e.Message);
+					default:
+						return BadRequest("Something went wrong while logging in.");
+				}
 			}
-			
-			// TODO 2FA & lockedout
-            return BadRequest("Password incorrect.");
-		}
-
-		private JwtSecurityToken GenerateJSONWebToken(User user)
-		{
-			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-			var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-			var claims = new[]
-			{
-				new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-				new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName), 
-			};
-
-			var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-				_config["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddMinutes(30), 
-				signingCredentials: credentials);
-			
-			return token;
 		}
 
 		[HttpPost("Logout")]
 		public async Task<IActionResult> Logout()
 		{
-			await _signInManager.SignOutAsync();
+			await _userService.Logout();
 			return Ok("You have been successfully logged out");
 		}
 	}

@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
+using COI.BL;
 using COI.BL.Domain.Organisation;
 using COI.BL.Domain.Project;
 using COI.BL.Project;
+using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Organisation;
 using COI.UI.MVC.Models.DTO.Project;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class ProjectsController : ControllerBase
 	{
 		private readonly IMapper _mapper;
 		private readonly IProjectManager _projectManager;
+		private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-		public ProjectsController(IMapper mapper, IProjectManager projectManager)
+		public ProjectsController(IMapper mapper, IProjectManager projectManager, IUnitOfWorkManager unitOfWorkManager)
 		{
 			_mapper = mapper;
 			_projectManager = projectManager;
+			_unitOfWorkManager = unitOfWorkManager;
 		}
-		
+
+		[AllowAnonymous]
 		[HttpGet]
 		public IActionResult GetProjects()
 		{
@@ -34,6 +41,7 @@ namespace COI.UI.MVC.Controllers.api
 			return Ok(response);
 		}
 		
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public IActionResult GetProject(int id)
 		{
@@ -53,6 +61,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 		
+		[AllowAnonymous]
 		[HttpGet("{id}/projectPhases")]
 		public IActionResult GetPhasesForProject(int id)
 		{
@@ -67,12 +76,14 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Project p = _projectManager.AddProject(
 					newProj.Title, 
 					newProj.Description, 
 					newProj.StartDate, 
 					newProj.EndDate, 
 					newProj.OrganisationId);
+				_unitOfWorkManager.EndUnitOfWork();
 
 				return CreatedAtAction(
 					"GetProject", 
@@ -94,6 +105,7 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Project updatedProject = _projectManager.ChangeProject(
 					id, 
 					updatedValues.Title,
@@ -101,6 +113,7 @@ namespace COI.UI.MVC.Controllers.api
 					updatedValues.StartDate, 
 					updatedValues.EndDate, 
 					updatedValues.OrganisationId);
+				_unitOfWorkManager.EndUnitOfWork();
 
 				if (updatedProject == null)
 				{
@@ -132,7 +145,10 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Project deleted = _projectManager.RemoveProject(id);
+				_unitOfWorkManager.EndUnitOfWork();
+				
 				if (deleted == null)
 				{
 					return BadRequest("Something went wrong while deleting the project.");

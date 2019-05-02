@@ -7,5 +7,6 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public string Title { get; set; }
 		public List<FieldDto> Fields { get; set; }
 		public int IdeationId { get; set; }
+		// TODO add user createdby
 	}
 }
