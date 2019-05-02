@@ -70,6 +70,7 @@ namespace COI.UI.MVC
 				options.User.RequireUniqueEmail = true;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireUppercase = false;
+				options.SignIn.RequireConfirmedEmail = true;
 			});
 			
 			// add identity framework and set correct dbcontext to use
@@ -101,7 +102,7 @@ namespace COI.UI.MVC
 //				options.LogoutPath = $"/Identity/Account/Logout";
 //				options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 //			});
-			services.AddSingleton<IEmailSender, EmailSender>();
+			services.AddTransient<IEmailSender, EmailSender>();
 			
 			// repos
 			services.AddScoped<ICommentRepository, CommentRepository>();
