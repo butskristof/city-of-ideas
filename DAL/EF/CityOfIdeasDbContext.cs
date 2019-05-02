@@ -73,15 +73,6 @@ namespace COI.DAL.EF
 				optionsBuilder
 					.UseSqlite("Data Source=../db/CityOfIdeas.db")
 					.UseLazyLoadingProxies();
-//					.UseLoggerFactory(new LoggerFactory(
-//						new[]
-//						{
-//							new DebugLoggerProvider(
-//								(category, level) => category == DbLoggerCategory.Database.Command.Name
-//													 && level == LogLevel.Information
-//							)
-//						}
-//					));
 			}
 		}
 

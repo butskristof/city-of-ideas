@@ -54,32 +54,6 @@ namespace COI.BL.Application
 			this._questionnaireManager = questionnaireManager;
 		}
 
-//		public Answer AnswerOpenQuestion(string userId, int questionId, string content)
-//		{
-//			_unitOfWorkManager.StartUnitOfWork();
-//			
-//			Answer answer = _questionnaireManager.AnswerOpenQuestion(questionId, content);
-//
-//			_userManager.AddAnswerToUser(userId, answer);
-//
-//			_unitOfWorkManager.EndUnitOfWork();
-//			
-//			return answer;
-//		}
-//
-//		public Answer AnswerChoiceQuestion(string userId, int optionId)
-//		{
-//			_unitOfWorkManager.StartUnitOfWork();
-//			
-//			Answer answer = _questionnaireManager.AnswerChoiceQuestion(optionId);
-//
-//			_userManager.AddAnswerToUser(userId, answer);
-//
-//			_unitOfWorkManager.EndUnitOfWork();
-//			
-//			return answer;
-//		}
-//
 		#region Comments
 		
 		public Comment AddCommentToIdea(IEnumerable<Field> content, string userId, int ideaId)

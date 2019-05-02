@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
+using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.User;
@@ -22,14 +23,17 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IMapper _mapper;
 		private readonly IIdeationManager _ideationManager;
 		private readonly ICityOfIdeasController _coiCtrl;
+		private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-		public IdeasController(IIdeationManager ideationManager, IMapper mapper, ICityOfIdeasController coiCtrl)
+		public IdeasController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager)
 		{
-			_ideationManager = ideationManager;
 			_mapper = mapper;
+			_ideationManager = ideationManager;
 			_coiCtrl = coiCtrl;
+			_unitOfWorkManager = unitOfWorkManager;
 		}
-		
+
+		[AllowAnonymous]
 		[HttpGet]
 		public IActionResult GetIdeas()
 		{
@@ -39,6 +43,7 @@ namespace COI.UI.MVC.Controllers.api
 			return Ok(response);
 		}
 		
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public IActionResult GetIdea(int id)
 		{
@@ -63,10 +68,12 @@ namespace COI.UI.MVC.Controllers.api
 			try
 			{
 				var fields = _mapper.Map<List<Field>>(idea.Fields);
+				_unitOfWorkManager.StartUnitOfWork();
 				Idea createdIdea = _ideationManager.AddIdea(
 					idea.Title, 
 					fields, 
 					idea.IdeationId);
+				_unitOfWorkManager.EndUnitOfWork();
 				
 				return CreatedAtAction(
 					"GetIdea", 
@@ -88,10 +95,12 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Idea updatedIdea = _ideationManager.ChangeIdea(
 					id, 
 					updatedValues.Title, 
 					updatedValues.IdeationId);
+				_unitOfWorkManager.EndUnitOfWork();
 
 				if (updatedIdea == null)
 				{
@@ -123,7 +132,10 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Idea deleted = _ideationManager.RemoveIdea(id);
+				_unitOfWorkManager.EndUnitOfWork();
+				
 				if (deleted == null)
 				{
 					return BadRequest("Something went wrong while deleting the idea.");
@@ -137,6 +149,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
+		[AllowAnonymous]
 		// GET: api/Ideas/{id}/Score
 		[HttpGet("{id}/Score")]
 		public IActionResult GetIdeaScore(int id)
@@ -152,6 +165,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 		
+		[AllowAnonymous]
 		[HttpGet("{id}/Comments")]
 		public IActionResult GetCommentsForIdea(int id)
 		{

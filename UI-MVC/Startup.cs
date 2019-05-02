@@ -21,6 +21,7 @@ using COI.DAL.Questionnaire.EF;
 using COI.DAL.User;
 using COI.DAL.User.EF;
 using COI.UI.MVC.Models;
+using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -70,7 +71,7 @@ namespace COI.UI.MVC
 				options.User.RequireUniqueEmail = true;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireUppercase = false;
-				options.SignIn.RequireConfirmedEmail = true; // comment to disable email confirmation
+//				options.SignIn.RequireConfirmedEmail = true; // comment to disable email confirmation
 			});
 			
 			// add identity framework and set correct dbcontext to use
@@ -136,6 +137,7 @@ namespace COI.UI.MVC
 			#region Others
 			
 			services.AddTransient<IEmailSender, EmailSender>();
+			services.AddScoped<IUserService, UserService>();
 
 			#endregion
 

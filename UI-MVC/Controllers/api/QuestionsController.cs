@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using AutoMapper;
+using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.User;
 using COI.BL.Questionnaire;
+using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.Questionnaire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class QuestionsController : ControllerBase
@@ -21,14 +25,17 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IMapper _mapper;
 		private readonly IQuestionnaireManager _questionnaireManager;
 		private readonly ICityOfIdeasController _coiCtrl;
+		private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-		public QuestionsController(IMapper mapper, IQuestionnaireManager questionnaireManager, ICityOfIdeasController coiCtrl)
+		public QuestionsController(IMapper mapper, IQuestionnaireManager questionnaireManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager)
 		{
 			_mapper = mapper;
 			_questionnaireManager = questionnaireManager;
 			_coiCtrl = coiCtrl;
+			_unitOfWorkManager = unitOfWorkManager;
 		}
-		
+
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public IActionResult GetQuestion(int id)
 		{
@@ -52,10 +59,12 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Question createdQuestion = _questionnaireManager.AddQuestion(
 					question.Inquiry, 
 					question.QuestionType,
 					question.QuestionnaireId);
+				_unitOfWorkManager.EndUnitOfWork();
 				
 				return CreatedAtAction(
 					"GetQuestion", 
@@ -77,11 +86,13 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Question updatedQuestion = _questionnaireManager.ChangeQuestion(
 					id, 
 					updatedValues.Inquiry, 
 					updatedValues.QuestionType,
 					updatedValues.QuestionnaireId);
+				_unitOfWorkManager.EndUnitOfWork();
 
 				if (updatedQuestion == null)
 				{
@@ -113,7 +124,10 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Question deleted = _questionnaireManager.RemoveQuestion(id);
+				_unitOfWorkManager.EndUnitOfWork();
+				
 				if (deleted == null)
 				{
 					return BadRequest("Something went wrong while deleting the question.");
@@ -127,6 +141,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
+		[AllowAnonymous]
 		[HttpGet("{id}/Options")]
 		public IActionResult GetOptionsForQuestionnaire(int id)
 		{
@@ -155,6 +170,7 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Answer createdAnswer = null;
 				if (answer.OptionId != 0)
 				{
@@ -164,6 +180,7 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					createdAnswer = _coiCtrl.AddAnswerToQuestion(answer.Content, answer.UserId, id);
 				}
+				_unitOfWorkManager.EndUnitOfWork();
 
 				if (createdAnswer != null)
 				{

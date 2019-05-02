@@ -3,26 +3,33 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
+using COI.BL;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Questionnaire;
+using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Questionnaire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class QuestionnairesController : ControllerBase
 	{
 		private readonly IMapper _mapper;
-		private IQuestionnaireManager _questionnaireManager;
+		private readonly IQuestionnaireManager _questionnaireManager;
+		private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-		public QuestionnairesController(IMapper mapper, IQuestionnaireManager questionnaireManager)
+		public QuestionnairesController(IMapper mapper, IQuestionnaireManager questionnaireManager, IUnitOfWorkManager unitOfWorkManager)
 		{
 			_mapper = mapper;
 			_questionnaireManager = questionnaireManager;
+			_unitOfWorkManager = unitOfWorkManager;
 		}
-		
+
+		[AllowAnonymous]
 		[HttpGet]
 		public IActionResult GetQuestionnaires()
 		{
@@ -32,6 +39,7 @@ namespace COI.UI.MVC.Controllers.api
 			return Ok(response);
 		}
 
+		[AllowAnonymous]
 		[HttpGet("{id}/Questions")]
 		public IActionResult GetQuestionsForQuestionnaire(int id)
 		{
@@ -41,6 +49,7 @@ namespace COI.UI.MVC.Controllers.api
 			return Ok(response);
 		}
 		
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public IActionResult GetQuestionnaire(int id)
 		{
@@ -65,7 +74,9 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Questionnaire questionnaire = _questionnaireManager.AddQuestionnaire(newQuestionnaire.Title, newQuestionnaire.Description, newQuestionnaire.ProjectPhaseId);
+				_unitOfWorkManager.EndUnitOfWork();
 
 				return CreatedAtAction(
 					"GetQuestionnaire", 
@@ -88,11 +99,13 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Questionnaire updatedQuestionnaire = _questionnaireManager.ChangeQuestionnaire(
 					id, 
 					updatedValues.Title,
 					updatedValues.Description,
 					updatedValues.ProjectPhaseId);
+				_unitOfWorkManager.EndUnitOfWork();
 
 				if (updatedQuestionnaire == null)
 				{
@@ -107,7 +120,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 			catch (ArgumentException e)
 			{
-				return NotFound("Questionnaire to update not found.");
+				return NotFound(e.Message);
 			}
 		}
 	
@@ -116,7 +129,10 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				Questionnaire deleted = _questionnaireManager.RemoveQuestionnaire(id);
+				_unitOfWorkManager.EndUnitOfWork();
+				
 				if (deleted == null)
 				{
 					return BadRequest("Something went wrong while deleting the questionnaire.");

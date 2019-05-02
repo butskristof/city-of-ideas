@@ -1,26 +1,33 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using COI.BL;
 using COI.BL.Domain.Project;
 using COI.BL.Project;
+using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Project;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class ProjectPhasesController : ControllerBase
 	{
 		private readonly IMapper _mapper;
 		private readonly IProjectManager _projectManager;
+		private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-		public ProjectPhasesController(IMapper mapper, IProjectManager projectManager)
+		public ProjectPhasesController(IMapper mapper, IProjectManager projectManager, IUnitOfWorkManager unitOfWorkManager)
 		{
 			_mapper = mapper;
 			_projectManager = projectManager;
+			_unitOfWorkManager = unitOfWorkManager;
 		}
-		
+
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public IActionResult GetProjectPhase(int id)
 		{
@@ -45,12 +52,14 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				ProjectPhase phase = _projectManager.AddProjectPhase(
 					newPhase.Title, 
 					newPhase.Description, 
 					newPhase.StartDate, 
 					newPhase.EndDate, 
 					newPhase.ProjectId);
+				_unitOfWorkManager.EndUnitOfWork();
 
 				return CreatedAtAction(
 					"GetProjectPhase", 
@@ -72,6 +81,7 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				ProjectPhase updatedPhase = _projectManager.ChangeProjectPhase(
 					id, 
 					updatedValues.Title, 
@@ -79,6 +89,7 @@ namespace COI.UI.MVC.Controllers.api
 					updatedValues.StartDate, 
 					updatedValues.EndDate, 
 					updatedValues.ProjectId);
+				_unitOfWorkManager.EndUnitOfWork();
 
 				if (updatedPhase == null)
 				{
@@ -110,7 +121,10 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				_unitOfWorkManager.StartUnitOfWork();
 				ProjectPhase deleted = _projectManager.RemoveProjectPhase(id);
+				_unitOfWorkManager.EndUnitOfWork();
+				
 				if (deleted == null)
 				{
 					return BadRequest("Something went wrong while deleting the project.");
