@@ -55,7 +55,7 @@ namespace COI.UI.MVC
 			});
 			
 			services.AddAutoMapper(); // for conversion from domain model to DTOs
-			
+
 			// TODO differentiate between dev and production environments
 			services.AddDbContext<CityOfIdeasDbContext>(options =>
 				options
