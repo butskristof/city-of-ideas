@@ -17,6 +17,8 @@ namespace COI.UI.MVC.Services
 		Task<string> RegisterNewUser(string email, string password, string firstname, string lastname);
 		Task<string> Login(string email, string password);
 		Task<bool> Logout();
+
+		int NumberOfUsers();
 	}
 	
 	public class UserService : IUserService
@@ -120,6 +122,11 @@ namespace COI.UI.MVC.Services
 		{
 			await _signInManager.SignOutAsync();
 			return true;
+		}
+
+		public int NumberOfUsers()
+		{
+			return _userManager.Users.Count();
 		}
 	}
 }
