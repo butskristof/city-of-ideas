@@ -13,7 +13,7 @@ namespace COI.UI.CA
 			var ctx = new CityOfIdeasDbContext();
 			ctx.Database.EnsureDeleted();
 			ctx.Database.EnsureCreated();
-			CityOfIdeasInitializer.Seed(ctx);
+//			CityOfIdeasInitializer.Seed(ctx);
 		}
 	}
 }

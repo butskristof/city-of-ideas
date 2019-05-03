@@ -138,6 +138,7 @@ namespace COI.UI.MVC
 			
 			services.AddTransient<IEmailSender, EmailSender>();
 			services.AddScoped<IUserService, UserService>();
+			services.AddScoped<ISeedService, SeedService>();
 
 			#endregion
 

@@ -35,17 +35,26 @@ To run the project, complete the following steps:
 	* Confirm
 * Mind that even with the configuration above, you'll still have to run `npm install` the first time, and when you've modified the dependencies in the `package.json` file. 
 
+* For testing, you can browse to `https://localhost:5001/Database/Seed`, which will provide some test data.
+
 ## `coi_env.json` layout
 The `coi_env.json` file should be placed in the UI-MVC folder. It should contain the following key-value pairs: 
 ```json
 {
 	"Jwt": {
-		"Key": "YOUR DESIRED SECRET KEY",
+		"Key": "YOUR_SECRET_KEY",
 		"Audience": "CityOfIdeas",
 		"Issuer": "CityOfIdeas"
 	},
 	"Sqlite": {
 		"ConnectionString": "Data Source=../db/CityOfIdeas.db"
+	}, 
+	"MySQL": {
+		"ConnectionString": "YOUR_CONNECTION_STRING"
+	},
+	"SendGrid": {
+		"User": "YOUR_USERNAME",
+		"Key": "YOUR_SENDGRID_API_KEY"
 	}
 }
 ```
