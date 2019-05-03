@@ -62,10 +62,58 @@
       margin-top: 50px;
       margin-left: auto;
     }
+    /* Button login bij popup */
+    &.btn__popupLogin {
+      margin-left: 0;
+    }
+
+    /* Button om fase in te klappen */
+    &.btn__fase {
+      margin-left: 0;
+      margin-bottom: 0;
+    }
+    /* Facebook button login */
+    &.btn__popupFacebook {
+      margin-left: 0;
+      border: 1px solid $color-facebook;
+      color: $color-facebook;
+      background-color: $color-background;
+      width: 250px;
+      height: 50px;
+      @include screen-from("tablet") {
+        margin-right: 15px;
+        margin-bottom: 15px;
+        width: auto;
+        height: auto;
+      }
+    }
+    /* Google button login */
+    &.btn__popupGoogle {
+      width: 250px;
+      height: 50px;
+      background-color: $color-background;
+      color: $color-primary;
+      @include screen-from("tablet") {
+        margin-left: 15px;
+        margin-bottom: 15px;
+        width: auto;
+        height: auto;
+      }
+    }
   }
   &.btn__witteAchtergrond:hover {
     background-color: $color-background;
     color: $color-primary;
+
+    &.btn__popupFacebook {
+      background-color: $color-facebook;
+      color: $color-background;
+    }
+
+    &.btn__popupGoogle {
+      background-color: $color-primary;
+      color: $color-text-white;
+    }
   }
 }
 

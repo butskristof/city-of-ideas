@@ -59,3 +59,19 @@
   background-color: $color-background; /* Fallback color */
   background-color: transparent;
 }
+
+/* Linkerdeel op desktop */
+.popup__afbeeldingkolom {
+  padding: 0px;
+  height: 0px;
+
+  @include screen-from("tablet") {
+    height: auto;
+  }
+}
+
+/* Rechterdeel op desktop */
+.login-popup__container {
+  margin: 0px;
+  padding: 0px;
+}

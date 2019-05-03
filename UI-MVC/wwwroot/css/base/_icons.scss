@@ -57,3 +57,22 @@ i {
     margin-left: 95%;
   }
 }
+
+/* Icoon facebook */
+.popup__icoon {
+  position: absolute;
+  left: 20px;
+  font-size: 18pt;
+
+  @include screen-from("tablet") {
+    left: 10px;
+  }
+
+  /* google icoon */
+  &.popup_icoonGoogle {
+    left: 18px;
+    @include screen-from("tablet") {
+      left: 10px;
+    }
+  }
+}

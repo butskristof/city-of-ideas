@@ -5,6 +5,7 @@
 @import "../components/textbox";
 @import "../components/button";
 @import "../components/circle";
+@import "../components/dropdown";
 
 .form {
   margin-top: 60px;
@@ -40,16 +41,24 @@
 .form__inputfield {
   margin-bottom: 25px;
 
-  @include screen-from("tablet") {
-    margin-bottom: 50px;
-  }
-}
+  /* form 2 tekstvelden naast elkaar */
+  &.form__inputfield2 {
+    margin: 0 auto;
+    margin-bottom: 25px;
+    width: 70%;
 
-/* form 2 tekstvelden naast elkaar */
-.form__inputfield2 {
-  margin: 0 auto;
-  width: 70%;
-  margin-bottom: 25px;
+    /* Email input form login*/
+    &.form__popupEmail {
+      margin-top: 50px;
+    }
+
+    /* Password input form */
+    &.form__popupWachtwoord {
+      @include screen-from("tablet") {
+        margin-bottom: 35px;
+      }
+    }
+  }
 
   @include screen-from("tablet") {
     margin-bottom: 50px;

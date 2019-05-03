@@ -25,12 +25,14 @@
 @import "partials/card";
 
 // Popups
-@import "popups/login";
-@import "popups/registreren";
 @import "popups/projecten";
 @import "popups/gescand";
-@import "popups/verificatieScan";
 @import "popups/accountInstellingen";
-@import "popups/project";
 @import "popups/district";
 @import "popups/idea";
+
+// Pages
+@import "pages/project";
+@import "pages/registreren";
+@import "pages/verificatieScan";
+@import "pages/login";

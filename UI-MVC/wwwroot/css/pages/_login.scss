@@ -1,0 +1,39 @@
+/*
+    Popups
+*/
+
+/* Passwoord vergeten tekst */
+.login-popup__vergeten {
+  text-align: center;
+  margin-bottom: 25px;
+  @include screen-from("tablet") {
+    margin-bottom: 45px;
+  }
+}
+/* span tekst in de button Facebook */
+.login-popup__facebook {
+  @include screen-from("tablet") {
+    margin-left: 15px;
+  }
+}
+
+/* span tekst in de button Google */
+.login-popup__google {
+  @include screen-from("tablet") {
+    margin-left: 25px;
+    margin-right: 5px;
+  }
+}
+
+/* registreren tekst */
+.login-popup__registreren {
+  text-align: center;
+  position: absolute;
+  bottom: 25pt;
+  width: 100%;
+}
+
+.popup__row {
+  height: 100%;
+  text-align: center;
+}

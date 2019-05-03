@@ -57,4 +57,12 @@ p {
   &.paginatitel__bovenaan {
     margin-top: 65px;
   }
+
+  /* Paginatitel Popup */
+  &.paginatitel__popup {
+    margin-top: -50px;
+    @include screen-from("tablet") {
+      margin-top: 50px;
+    }
+  }
 }
