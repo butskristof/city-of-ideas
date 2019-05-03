@@ -1,4 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using COI.BL.Domain.Project;
+using COI.BL.Project;
 using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,9 +11,17 @@ namespace COI.UI.MVC.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IProjectManager _projectManager;
+
+        public HomeController(IProjectManager projectManager)
+        {
+            _projectManager = projectManager;
+        }
+        
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Project> projects = _projectManager.GetProjects().ToList();
+            return View(projects);
         }
 
         public IActionResult Privacy()

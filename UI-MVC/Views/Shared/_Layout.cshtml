@@ -113,6 +113,62 @@
 </footer>
 <!-- /Footer -->
 
+<!-- LoginModal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content login-popup">
+            <div class="modal-body">
+                <div class="row popup__row">
+                    <div class="popup__afbeeldingkolom col-md-6">
+                        <section
+                            class="popup__afbeelding"
+                            style="background-image: url('/img/pexels-photo-167676.jpeg')"
+                        ></section>
+                    </div>
+                    <form class="popup__container col-md-6 col-sm-12" id="auth_login">
+                        <h1 class="paginatitel paginatitel__popup mb-4">Log in</h1>
+                        <ul class="form__errors">
+                        </ul>
+                        <input
+                            @* id="auth_login_email" *@
+                            type="email"
+                            name="email"
+                            class="form__inputfield form__inputfield2 form__popupEmail form-control"
+                            placeholder="Email"
+                        />
+                        <input
+                            @* id="auth_login_password" *@
+                            type="password"
+                            name="password"
+                            class="form__inputfield form__inputfield2 form__popupWachtwoord form-control"
+                            placeholder="Wachtwoord"
+                        />
+                        <button class="btn btn__witteAchtergrond btn__popupLogin" type="submit">
+                            Log In
+                        </button>
+                        <div class="login-popup__vergeten">Wachtwoord vergeten?</div>
+                        <button class="btn btn__witteAchtergrond btn__popupFacebook">
+                            <i class="fab fa-facebook-f popup__icoon" id="fb"></i>
+                            <span class="login-popup__facebook">Facebook log in</span>
+                        </button>
+                        <button class="btn btn__witteAchtergrond btn__popupGoogle">
+                            <i
+                                class="fab fa-google popup__icoon popup_icoonGoogle"
+                                id="google"
+                            ></i>
+                            <span class="login-popup__google"> Google log in</span>
+                        </button>
+                        <div class="login-popup__registreren">
+                            Nog geen account? <b><u>Registreer hier!</u></b>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /LoginModal -->
+
 @RenderSection("Scripts", required: false)
 </body>
 </html>
