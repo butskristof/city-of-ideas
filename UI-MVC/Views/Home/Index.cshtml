@@ -1,4 +1,5 @@
-﻿@{
+﻿@model System.Collections.Generic.IEnumerable<COI.BL.Domain.Project.Project>
+@{
 		ViewData["Title"] = "Home";
 }
 
@@ -19,8 +20,23 @@
     <h1 class="mb-5">Open projects</h1>
 
     <div class="card-list mb-4">
+        @foreach (var project in Model)
+        {
+            <div class="card">
+                <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
+                <div class="card-body">
+                    <h2 class="card-title">@project.Title</h2>
+                    <p class="card-text">
+                        @project.Description
+                    </p>
+                </div>
+                <div class="card-footer card-footer--invis">
+                    <a href="#" class="btn btn--org">Geef jouw mening</a>
+                </div>
+            </div>
+        }
         <div class="card">
-            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top" />
+            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
             <div class="card-body">
                 <h2 class="card-title">Het vrijbroekspark</h2>
                 <p class="card-text">
@@ -33,7 +49,7 @@
             </div>
         </div>
         <div class="card">
-            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top" />
+            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
             <div class="card-body">
                 <h2 class="card-title">Het vrijbroekspark</h2>
                 <p class="card-text">
@@ -46,7 +62,7 @@
             </div>
         </div>
         <div class="card">
-            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top" />
+            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
             <div class="card-body">
                 <h2 class="card-title">Het vrijbroekspark</h2>
                 <p class="card-text">
@@ -59,7 +75,7 @@
             </div>
         </div>
         <div class="card">
-            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top" />
+            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
             <div class="card-body">
                 <h2 class="card-title">Het vrijbroekspark</h2>
                 <p class="card-text">
@@ -72,20 +88,7 @@
             </div>
         </div>
         <div class="card">
-            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top" />
-            <div class="card-body">
-                <h2 class="card-title">Het vrijbroekspark</h2>
-                <p class="card-text">
-                    Beslis mee over het prachtige park in het centrum van onze
-                    gemeente.
-                </p>
-            </div>
-            <div class="card-footer card-footer--invis">
-                <a href="#" class="btn btn--org">Geef jouw mening</a>
-            </div>
-        </div>
-        <div class="card">
-            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top" />
+            <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
             <div class="card-body">
                 <h2 class="card-title">Het vrijbroekspark</h2>
                 <p class="card-text">

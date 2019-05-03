@@ -24,4 +24,22 @@
 		<ProjectReference Include="..\BL\BL.csproj" />
 	</ItemGroup>
 
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_accountInstellingen.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_district.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_gescand.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_idea.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_login.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_project.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_projecten.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_registreren.scss" />
+	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_verificatieScan.scss" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\js\pages" />
+	</ItemGroup>
+
 </Project>
