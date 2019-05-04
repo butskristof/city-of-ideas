@@ -114,7 +114,7 @@
 <!-- /Footer -->
 
 <!-- LoginModal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content login-popup">
             <div class="modal-body">
@@ -127,8 +127,7 @@
                     </div>
                     <form class="popup__container col-md-6 col-sm-12" id="auth_login">
                         <h1 class="paginatitel paginatitel__popup mb-4">Log in</h1>
-                        <ul class="form__errors">
-                        </ul>
+                        <ul class="form__errors"></ul>
                         <input
                             @* id="auth_login_email" *@
                             type="email"
@@ -168,6 +167,137 @@
     </div>
 </div>
 <!-- /LoginModal -->
+
+
+<!-- RegisterModal -->
+<div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" aria-labelledby="RegisterModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content login-popup">
+            <div class="modal-body">
+                <div class="row popup__row">
+                    <div class="popup__afbeeldingkolom col-md-6">
+                        <section
+                            class="popup__afbeelding"
+                            id="registreer-popup__afbeelding"
+                            style="background-image: url('/img/pexels-photo-167676.jpeg')">
+                        </section>
+                    </div>
+                    <form class="login-popup__container col-md-6 col-sm-12" id="auth_register">
+                        <h1 class="paginatitel paginatitel__popup mb-4">Registreren</h1>
+                        
+                        <ul class="form__errors"></ul>
+
+                        <div class="forms popup__forms">
+                            <label class="radiobutton1" for="rdo1">
+                                <input
+                                    type="radio"
+                                    id="rdo1"
+                                    class="rdo1"
+                                    name="radio"
+                                    onclick="show1();"
+                                    checked/>
+                                <span class="rdo"></span>
+                                <span>Burger</span>
+                            </label>
+
+                            <label class="radiobutton2" for="rdo2">
+                                <input
+                                    type="radio"
+                                    id="rdo2"
+                                    class="rdo2"
+                                    name="radio"
+                                    onclick="show2();"/>
+                                <span class="rdo rdo2goed"></span>
+                                <span>Organisatie</span>
+                            </label>
+                        </div>
+
+                        <div id="div1" class="hide input__organisatie">
+                            <input
+                                type="text"
+                                class="registreer-popup__organisatie-input form-control"
+                                id="organisatie-inputveld"
+                                placeholder="Organisatie"/>
+                        </div>
+
+                        <div class="form__inputfield form__inputfield2">
+                            <div class="row">
+                                <div class="col">
+                                    <input
+                                        type="text"
+                                        name="first_name"
+                                        class="form-control inputvoornaam"
+                                        placeholder="Voornaam"/>
+                                </div>
+                                <div class="col">
+                                    <input
+                                        type="text"
+                                        name="last_name"
+                                        class="form-control inputachternaam"
+                                        placeholder="Achternaam"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form__inputfield form__inputfield2">
+                            <div class="row">
+                                <div class="col">
+                                    <input
+                                        type="text"
+                                        name="age"
+                                        class="form-control inputleeftijd"
+                                        placeholder="Leeftijd"/>
+                                </div>
+                                <div class="col">
+                                    <input
+                                        type="text"
+                                        name="zip"
+                                        class="form-control inputpostcode"
+                                        placeholder="Postcode"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <select name="sex" class="custom-select selectGeslacht">
+                            <option selected>Geslacht</option>
+                            <option value="1">Man</option>
+                            <option value="2">Vrouw</option>
+                        </select>
+
+                        <input
+                            type="text"
+                            name="email"
+                            class="form__inputfield form__inputfield2 form-control"
+                            placeholder="Email"/>
+                        
+                        <div class="form__inputfield form__inputfield2">
+                            <div class="row">
+                                <div class="col">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        class="form-control inputwachtwoord"
+                                        placeholder="Passwoord"/>
+                                </div>
+                                <div class="col">
+                                    <input
+                                        type="password"
+                                        name="password_re"
+                                        class="form-control inputherhaalwachtwoord"
+                                        placeholder="Herhaal passwoord"/>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn__witteAchtergrond btn__popupLogin">
+                            Registreer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /RegisterModal -->
 
 @RenderSection("Scripts", required: false)
 </body>
