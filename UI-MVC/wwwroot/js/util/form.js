@@ -1,10 +1,9 @@
 import Page from "./page";
 
 export default {
-	loadForm(formSelector) {
-		const form = Page.query(formSelector);
+	loadForm(form) {
 		if (!form) {
-			throw Error(`Form with selector '${formSelector}' not found`)
+			throw Error(`Form not valid`);
 		}
 		return {
 			onSubmit(callback) {
@@ -14,12 +13,20 @@ export default {
 					e.preventDefault();
 				}, false);
 			},
+			// Shows an error at the top of the form in the .form__errors
 			showError(msg) {
 				const res = Page.query(".form__errors", form);
 				const errorLI = document.createElement("LI");
 				const textNode = document.createTextNode(msg);
 				errorLI.appendChild(textNode);
 				res.appendChild(errorLI);
+			},
+			// Uses a list of errors from dotnet
+			showErrors(errors) {
+				const errorList = Object.values(errors);
+				errorList.forEach(error => {
+					this.showError(error[0]);
+				});
 			},
 			clear() {
 				// Remove errors
