@@ -16,10 +16,12 @@ namespace COI.UI.MVC.Controllers.api
 	public class UsersController : ControllerBase
 	{
 		private readonly IUserService _userService;
+		private readonly IFileService _fileService;
 
-		public UsersController(IUserService userService)
+		public UsersController(IUserService userService, IFileService fileService)
 		{
 			_userService = userService;
+			_fileService = fileService;
 		}
 
 		[AllowAnonymous]
@@ -105,6 +107,23 @@ namespace COI.UI.MVC.Controllers.api
 					default:
 						return BadRequest("Something went wrong while logging in.");
 				}
+			}
+		}
+		
+		[HttpPost("ProfilePicture")]
+		public async Task<IActionResult> PostNewProfilePicture([FromForm] NewProfilePictureDto input)
+		{
+			try
+			{
+				string imgpath = await _fileService.SetUserProfilePicture(input.UserId, input.Picture);
+				return Ok(new
+				{
+					imgPath = imgpath
+				});
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
 			}
 		}
 

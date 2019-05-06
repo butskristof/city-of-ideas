@@ -111,5 +111,17 @@ namespace COI.BL.User
 		}
 
 		#endregion
+
+		public void AddPictureLocationToUser(string userId, string imgpath)
+		{
+			Domain.User.User user = this.GetUser(userId);
+			if (user == null)
+			{
+				throw new ArgumentException("User not found.");
+			}
+
+			user.ProfilePictureLocation = imgpath;
+			_userRepository.UpdateUser(user);
+		}
 	}
 }
