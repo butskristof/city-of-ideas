@@ -19,10 +19,12 @@ namespace COI.DAL.EF
 	{
 		public CityOfIdeasDbContext()
 		{
+			this.Database.EnsureCreated();
 		}
 
 		public CityOfIdeasDbContext(DbContextOptions options) : base(options)
 		{
+			this.Database.EnsureCreated();
 		}
 
 		private bool _delaySave;

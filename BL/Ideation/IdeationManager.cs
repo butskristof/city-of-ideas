@@ -195,7 +195,6 @@ namespace COI.BL.Ideation
 			
 			Comment comment = new Comment()
 			{
-				Created = DateTime.Now,
 				Fields = (ICollection<Field>) content,
 				Idea = idea,
 			};

@@ -14,7 +14,7 @@ namespace COI.BL.Domain.Ideation
 		public virtual ICollection<Vote> Votes { get; set; }
 		public virtual ICollection<Field> Fields { get; set; }
 		
-		public DateTime Created { get; set; }
+		public DateTime Created { get; }
 
 		public virtual User.User User { get; set; }
 		public virtual Idea Idea { get; set; }
