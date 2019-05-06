@@ -176,32 +176,32 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		// POST: api/Ideas/Vote
-		[HttpPost("Vote")]
-		public IActionResult PostIdeaVote(NewIdeaVoteDto vote)
-		{
-			try
-			{
-				Vote createdVote = _coiCtrl.AddVoteToIdea(
-					vote.Value, 
-					vote.UserId, 
-					vote.IdeaId);
-
-				// TODO update response
-//				return CreatedAtAction();
-				return Ok();
-			}
-			catch (ArgumentException e)
-			{
-				switch (e.ParamName)
-				{
-					case "ideaId":
-						return UnprocessableEntity(e.Message);
-					case "userId":
-						return UnprocessableEntity(e.Message);
-					default:
-						return BadRequest(e.Message);
-				}
-			}
-		}
+//		[HttpPost("Vote")]
+//		public IActionResult PostIdeaVote(NewIdeaVoteDto vote)
+//		{
+//			try
+//			{
+//				Vote createdVote = _coiCtrl.AddVoteToIdea(
+//					vote.Value, 
+//					vote.UserId, 
+//					vote.IdeaId);
+//
+//				// TODO update response
+////				return CreatedAtAction();
+//				return Ok();
+//			}
+//			catch (ArgumentException e)
+//			{
+//				switch (e.ParamName)
+//				{
+//					case "ideaId":
+//						return UnprocessableEntity(e.Message);
+//					case "userId":
+//						return UnprocessableEntity(e.Message);
+//					default:
+//						return BadRequest(e.Message);
+//				}
+//			}
+//		}
 	}
 }

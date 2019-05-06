@@ -48,13 +48,84 @@ namespace COI.UI.MVC.Controllers.api
 				return BadRequest($"Something went wrong in getting the comment: {e.Message}.");
 			}
 		}
+
+		[HttpPost]
+		public IActionResult PostNewVote(NewVoteDto vote)
+		{
+			try
+			{
+				Vote newVote = null;
+
+				if (vote.IdeaId != null)
+				{
+					newVote = _coiCtrl.AddVoteToIdea(vote.Value, vote.UserId, vote.IdeaId.Value);
+				}
+				else if (vote.IdeationId != null)
+				{
+					newVote = _coiCtrl.AddVoteToIdeation(vote.Value, vote.UserId, vote.IdeationId.Value);
+				}
+				else if (vote.CommentId != null)
+				{
+					newVote = _coiCtrl.AddVoteToComment(vote.Value, vote.UserId, vote.CommentId.Value);
+				}
+
+				if (newVote != null)
+				{
+					return CreatedAtAction("GetVote", new {id = newVote.VoteId}, _mapper.Map<VoteDto>(newVote));
+				}
+
+				return BadRequest("No idea, ideation or comment specified.");
+
+			}
+			catch (ArgumentException e)
+			{
+				return UnprocessableEntity(e.Message);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
          
-//		[HttpPost]
-//		public IActionResult PostNewIdeaVote(NewIdeaVoteDto vote)
+////		[HttpPost]
+////		public IActionResult PostNewIdeaVote(NewIdeaVoteDto vote)
+////		{
+////			try
+////			{
+////				Vote createdVote = _coiCtrl.AddVoteToIdea(vote.Value, vote.UserId, vote.IdeaId);
+////
+////				// TODO update response
+//////				return CreatedAtAction();
+////				return Ok();
+////			}
+////			catch (ArgumentException e)
+////			{
+////				switch (e.ParamName)
+////				{
+////					case "ideaId":
+////						return UnprocessableEntity(e.Message);
+////						break;
+////					case "userId":
+////						return UnprocessableEntity(e.Message);
+////						break;
+////					default:
+////						return BadRequest(e.Message);
+////						break;
+////				}
+////			}
+////		}
+//		
+//		[HttpPost("comment")]
+//		public IActionResult PostNewCommentVote(NewCommentVoteDto vote)
 //		{
 //			try
 //			{
-//				Vote createdVote = _coiCtrl.AddVoteToIdea(vote.Value, vote.UserId, vote.IdeaId);
+//				_unitOfWorkManager.StartUnitOfWork();
+//				Vote createdVote = _coiCtrl.AddVoteToComment(
+//					vote.Value, 
+//					vote.UserId, 
+//					vote.CommentId);
+//				_unitOfWorkManager.EndUnitOfWork();
 //
 //				// TODO update response
 ////				return CreatedAtAction();
@@ -64,48 +135,15 @@ namespace COI.UI.MVC.Controllers.api
 //			{
 //				switch (e.ParamName)
 //				{
-//					case "ideaId":
+//					case "commentId":
 //						return UnprocessableEntity(e.Message);
-//						break;
 //					case "userId":
 //						return UnprocessableEntity(e.Message);
-//						break;
 //					default:
 //						return BadRequest(e.Message);
-//						break;
 //				}
 //			}
 //		}
-		
-		[HttpPost]
-		public IActionResult PostNewCommentVote(NewCommentVoteDto vote)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Vote createdVote = _coiCtrl.AddVoteToComment(
-					vote.Value, 
-					vote.UserId, 
-					vote.CommentId);
-				_unitOfWorkManager.EndUnitOfWork();
-
-				// TODO update response
-//				return CreatedAtAction();
-				return Ok();
-			}
-			catch (ArgumentException e)
-			{
-				switch (e.ParamName)
-				{
-					case "commentId":
-						return UnprocessableEntity(e.Message);
-					case "userId":
-						return UnprocessableEntity(e.Message);
-					default:
-						return BadRequest(e.Message);
-				}
-			}
-		}
 		
 
 		[HttpDelete("{id}")]
