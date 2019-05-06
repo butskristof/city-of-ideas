@@ -17,5 +17,7 @@ namespace COI.BL.User
 //		Vote AddVoteToIdea(int value, int userId, int ideaId);
 //		Vote ChangeIdeaVote(int id, int value, int userId, int ideaId);
 		Vote RemoveVote(int voteId);
+
+		void AddPictureLocationToUser(string userId, string imgpath);
 	}
 }

@@ -20,6 +20,7 @@ namespace COI.BL.Domain.User
 		[Required]
 		public DateTime DateOfBirth { get; set; }
 		public virtual Address Address { get; set; }
+		public string ProfilePictureLocation { get; set; }
 
 //		public Role Role { get; set; }
 		public virtual ICollection<Share> Shares { get; set; }
