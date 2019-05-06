@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace COI.UI.MVC.Models.DTO.Ideation
@@ -7,6 +8,8 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public int IdeationId { get; set; }
 		
 		public string Title { get; set; }
+		
+		public DateTime Created { get; set; }
 		
 		public int VoteCount { get; set; }
 

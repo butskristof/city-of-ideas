@@ -12,6 +12,8 @@ namespace COI.BL.Domain.Ideation
 		public int IdeationId { get; set; }
 		[Required]
 		public String Title { get; set; }
+
+		public DateTime Created { get; }
 		
 		// TODO add remaining fields
 		public virtual ICollection<Vote> Votes { get; set; }
@@ -23,6 +25,7 @@ namespace COI.BL.Domain.Ideation
 
 		public Ideation()
 		{
+			Created = DateTime.Now;
 			this.Votes = new List<Vote>();
 			this.Ideas = new List<Idea>();
 			this.Shares = new List<Share>();

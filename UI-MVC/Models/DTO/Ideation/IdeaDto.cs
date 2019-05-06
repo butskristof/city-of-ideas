@@ -11,6 +11,8 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 
 		public List<FieldDto> Fields { get; set; }
 		public List<CommentDto> Comments { get; set; }
+		
+		public DateTime Created { get; set; }
 
 		public int VoteCount { get; set; }
 

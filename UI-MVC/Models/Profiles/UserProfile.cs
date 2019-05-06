@@ -8,7 +8,10 @@ namespace COI.UI.MVC.Models.Profiles
 	{
 		public UserProfile()
 		{
-			CreateMap<User, UserDto>();
+			CreateMap<User, UserDto>()
+				.ForMember(u => u.UserId,
+					opt => opt.MapFrom(
+						m => m.Id));
 		}
 	}
 }

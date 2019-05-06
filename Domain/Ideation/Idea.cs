@@ -12,6 +12,8 @@ namespace COI.BL.Domain.Ideation
 		
 		[Required]
 		public String Title { get; set; }
+
+		public DateTime Created { get; }
 		
 		// TODO AllowedFieldTypes
 		public virtual ICollection<Field> Fields { get; set; }
@@ -26,6 +28,7 @@ namespace COI.BL.Domain.Ideation
 
 		public Idea()
 		{
+			Created = DateTime.Now;
 			this.Shares = new List<Share>();
 			this.Fields = new List<Field>();
 			this.Flags = new List<Flag>();
