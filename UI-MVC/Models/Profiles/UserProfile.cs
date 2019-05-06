@@ -12,6 +12,17 @@ namespace COI.UI.MVC.Models.Profiles
 				.ForMember(u => u.UserId,
 					opt => opt.MapFrom(
 						m => m.Id));
+
+			CreateMap<Vote, VoteDto>()
+				.ForMember(v => v.IdeationId,
+					opt => opt.MapFrom(
+						m => m.Ideation.IdeationId))
+				.ForMember(v => v.IdeaId,
+					opt => opt.MapFrom(
+						m => m.Idea.IdeaId))
+				.ForMember(v => v.CommentId,
+					opt => opt.MapFrom(
+						m => m.Comment.CommentId));
 		}
 	}
 }
