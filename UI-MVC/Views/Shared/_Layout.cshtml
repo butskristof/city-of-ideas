@@ -7,6 +7,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:300,400,600,700" rel="stylesheet" />
     <script type="module" src="~/dist/site.entry.js" defer></script>
+    <script src="~/js/register.js"></script>
     <link rel="stylesheet" href="~/dist/site.css">
 </head>
 
@@ -183,34 +184,18 @@
                         </section>
                     </div>
                     <form class="login-popup__container col-md-6 col-sm-12" id="auth_register">
-                        <h1 class="paginatitel paginatitel__popup mb-4">Registreren</h1>
+                        <h1 class="paginatitel paginatitel__popup paginatitel__popup__registreren mb-4">Registreren</h1>
                         
                         <ul class="form__errors"></ul>
 
-                        <div class="forms popup__forms">
-                            <label class="radiobutton1" for="rdo1">
-                                <input
-                                    type="radio"
-                                    id="rdo1"
-                                    class="rdo1"
-                                    name="radio"
-                                    onclick="show1();"
-                                    checked/>
-                                <span class="rdo"></span>
-                                <span>Burger</span>
-                            </label>
-
-                            <label class="radiobutton2" for="rdo2">
-                                <input
-                                    type="radio"
-                                    id="rdo2"
-                                    class="rdo2"
-                                    name="radio"
-                                    onclick="show2();"/>
-                                <span class="rdo rdo2goed"></span>
-                                <span>Organisatie</span>
-                            </label>
+                        
+                        
+                        <div class="forms popup__forms custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="cb-organisatie" onclick="showOrganisatie();">
+                            <label class="custom-control-label" for="cb-organisatie">Organisatie</label>
                         </div>
+                        
+                        
 
                         <div id="div1" class="hide input__organisatie">
                             <input
