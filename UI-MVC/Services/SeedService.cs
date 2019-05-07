@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
@@ -12,7 +13,7 @@ namespace COI.UI.MVC.Services
 {
 	public interface ISeedService
 	{
-		void Seed();
+		Task Seed();
 	}
 	public class SeedService : ISeedService
 	{
@@ -33,7 +34,7 @@ namespace COI.UI.MVC.Services
 			_cityOfIdeasController = cityOfIdeasController;
 		}
 
-		public async void Seed()
+		public async Task Seed()
 		{
 			if (_userService.NumberOfUsers() != 0)
 			{

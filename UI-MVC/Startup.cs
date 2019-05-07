@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using AutoMapper;
 using COI.BL;
 using COI.BL.Application;
@@ -38,12 +39,14 @@ namespace COI.UI.MVC
 {
 	public class Startup
 	{
-		public Startup(IConfiguration configuration)
+		public Startup(IConfiguration configuration, IHostingEnvironment environment)
 		{
 			Configuration = configuration;
+			HostingEnvironment = environment;
 		}
 
 		public IConfiguration Configuration { get; }
+		public IHostingEnvironment HostingEnvironment { get; }
 
 		public void ConfigureServices(IServiceCollection services)
 		{
@@ -56,12 +59,29 @@ namespace COI.UI.MVC
 			
 			services.AddAutoMapper(); // for conversion from domain model to DTOs
 
+			if (HostingEnvironment.IsProduction())
+			{
+				string server = Configuration["prod:SQL_IP"];
+				string dbname = Configuration["prod:SQL_DB"];
+				string user = Configuration["prod:SQL_USER"];
+				string pw = Configuration["prod:SQL_PW"];
+				string connectionString = String.Format("server={0};database={1};user={2};password={3}",
+					server, dbname, user, pw);
+                services.AddDbContext<CityOfIdeasDbContext>(options =>
+                    options
+	                    .UseMySql(connectionString)
+                        .UseLazyLoadingProxies()
+                );
+			}
+			else
+			{
+                services.AddDbContext<CityOfIdeasDbContext>(options =>
+                    options
+                        .UseSqlite(Configuration["Sqlite:ConnectionString"])
+                        .UseLazyLoadingProxies()
+                );
+			}
 			// TODO differentiate between dev and production environments
-			services.AddDbContext<CityOfIdeasDbContext>(options =>
-				options
-					.UseSqlite(Configuration["Sqlite:ConnectionString"])
-					.UseLazyLoadingProxies()
-			);
 
 			#region Authentication setup
 
@@ -160,7 +180,7 @@ namespace COI.UI.MVC
 				app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
+//			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
 

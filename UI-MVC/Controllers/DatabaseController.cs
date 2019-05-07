@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +19,9 @@ namespace COI.UI.MVC.Controllers
 			return View();
 		}
 
-		public IActionResult Seed()
+		public async Task<IActionResult> Seed()
 		{
-			_seedService.Seed();
+			await _seedService.Seed();
 			return RedirectToAction("Index");
 		}
 	}
