@@ -45,7 +45,7 @@
   height: 0px;
 
   @include screen-from("tablet") {
-    height: auto;
+    height: 100%;
   }
 }
 
@@ -67,4 +67,5 @@
 /* juiste grootte geven van de afbeelding */
 .modal-body{
   padding: 0;
+  height: 100%;
 }
