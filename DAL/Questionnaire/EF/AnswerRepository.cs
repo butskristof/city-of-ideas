@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using COI.BL.Domain.Questionnaire;
 using COI.DAL.EF;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +11,22 @@ namespace COI.DAL.Questionnaire.EF
 	{
 		public AnswerRepository(CityOfIdeasDbContext ctx) : base(ctx)
 		{
+		}
+
+		public IEnumerable<Answer> ReadAnswersForQuestion(int questionId)
+		{
+			return _ctx
+				.Answers
+				.Where(a => a.Question.QuestionId == questionId)
+				.AsEnumerable();
+		}
+
+		public IEnumerable<Answer> ReadAnswersForOption(int optionId)
+		{
+			return _ctx
+				.Answers
+				.Where(a => a.Option.OptionId == optionId)
+				.AsEnumerable();
 		}
 
 		public Answer ReadAnswer(int answerId)

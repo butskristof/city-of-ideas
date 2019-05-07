@@ -80,7 +80,8 @@ namespace COI.UI.MVC.Controllers.api
 			}
 			catch (Exception e)
 			{
-				return BadRequest($"Something went wrong in creating the organisation: {e.Message}.");
+				var msg = e.InnerException != null ? e.InnerException.Message : e.Message;
+				return BadRequest($"Something went wrong in creating the organisation: {msg}.");
 			}
 		}
 		
@@ -91,7 +92,7 @@ namespace COI.UI.MVC.Controllers.api
 			{
 				_unitOfWorkManager.StartUnitOfWork();
 				Organisation updatedOrganisation = _organisationManager.ChangeOrganisation(
-					id, 
+					id,
 					updatedValues.Name,
 					updatedValues.Identifier);
 				_unitOfWorkManager.EndUnitOfWork();
@@ -110,6 +111,10 @@ namespace COI.UI.MVC.Controllers.api
 			catch (ArgumentException e)
 			{
 				return NotFound(e.Message);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
 			}
 		}
 	

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -105,9 +106,41 @@ namespace COI.BL.User
 			return _voteRepository.DeleteVote(voteId);
 		}
 
+		public Vote GetVoteForIdea(int ideaId, string userId)
+		{
+			IEnumerable<Vote> ideaVotes = _voteRepository.ReadVotesForIdea(ideaId);
+			return ideaVotes.FirstOrDefault(v => v.User.Id == userId);
+		}
+
+		public Vote GetVoteForIdeation(int ideationId, string userId)
+		{
+			IEnumerable<Vote> ideationVotes = _voteRepository.ReadVotesForIdeation(ideationId);
+			return ideationVotes.FirstOrDefault(v => v.User.Id == userId);
+		}
+
+		public Vote GetVoteForComment(int commentId, string userId)
+		{
+			IEnumerable<Vote> commentVotes = _voteRepository.ReadVotesForComment(commentId);
+			return commentVotes.FirstOrDefault(v => v.User.Id == userId);
+		}
+
 		private void Validate(Vote vote)
 		{
 			Validator.ValidateObject(vote, new ValidationContext(vote), true);
+		}
+
+		public Vote ChangeVoteValue(int voteId, int value)
+		{
+			Vote toChange = GetVote(voteId);
+			if (toChange != null)
+			{
+				toChange.Value = value;
+
+				Validate(toChange);
+				return _voteRepository.UpdateVote(toChange);
+			}
+			
+			throw new ArgumentException("Vote not found.", "voteId");
 		}
 
 		#endregion

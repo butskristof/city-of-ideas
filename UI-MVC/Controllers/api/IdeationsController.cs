@@ -10,6 +10,7 @@ using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
+using COI.UI.MVC.Models.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,7 +39,7 @@ namespace COI.UI.MVC.Controllers.api
 		public IActionResult GetIdeations()
 		{
 			var ideations = _ideationManager.GetIdeations().ToList();
-			var response = _mapper.Map<List<IdeationDto>>(ideations);
+			var response = _mapper.Map<List<IdeationMinDto>>(ideations);
 			
 			return Ok(response);
 		}
@@ -48,7 +49,7 @@ namespace COI.UI.MVC.Controllers.api
 		public IActionResult GetIdeasForIdeation(int id)
 		{
 			var ideas = _ideationManager.GetIdeasForIdeation(id).ToList();
-			var response = _mapper.Map<List<IdeaDto>>(ideas);
+			var response = _mapper.Map<List<IdeaMinDto>>(ideas);
 			
 			return Ok(response);
 		}
@@ -160,13 +161,13 @@ namespace COI.UI.MVC.Controllers.api
 		}
 
 		[AllowAnonymous]
-		[HttpGet("{id}/Score")]
+		[HttpGet("{id}/VoteCount")]
 		public IActionResult GetIdeationScore(int id)
 		{
 			try
 			{
 				var score = _ideationManager.GetIdeationScore(id);
-				return Ok(score);
+				return Ok(new VoteCountDto {VoteCount = score});
 			}
 			catch (ArgumentException e)
 			{

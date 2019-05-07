@@ -2,6 +2,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using COI.UI.MVC.Models.DTO.User;
 using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +16,13 @@ namespace COI.UI.MVC.Controllers.api
 	[Route("api/[controller]")]
 	public class UsersController : ControllerBase
 	{
+		private readonly IMapper _mapper;
 		private readonly IUserService _userService;
 		private readonly IFileService _fileService;
 
-		public UsersController(IUserService userService, IFileService fileService)
+		public UsersController(IMapper mapper, IUserService userService, IFileService fileService)
 		{
+			_mapper = mapper;
 			_userService = userService;
 			_fileService = fileService;
 		}
@@ -40,13 +43,10 @@ namespace COI.UI.MVC.Controllers.api
 
 			try
 			{
-				string userId =
+				var newUser =
 					await _userService.RegisterNewUser(input.Email, input.Password, input.FirstName, input.LastName);
 
-				return Ok(new
-				{
-					userId = userId
-				});
+				return Ok(_mapper.Map<UserDto>(newUser));
 			}
 			catch (Exception e)
 			{

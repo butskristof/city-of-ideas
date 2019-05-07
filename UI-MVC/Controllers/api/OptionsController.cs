@@ -48,6 +48,78 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 		
+		[AllowAnonymous]
+		[HttpGet("{id}/Answers")]
+		public IActionResult GetAnswersForOption(int id)
+		{
+			var answers = _questionnaireManager.GetAnswersForOption(id);
+			var response = _mapper.Map<List<AnswerDto>>(answers);
+
+			return Ok(response);
+		}
+
+		[HttpPost]
+		public IActionResult PostNewOption(NewOptionDto newOption)
+		{
+			try
+			{
+				_unitOfWorkManager.StartUnitOfWork();
+				Option createdOption = _questionnaireManager.AddOption(
+					newOption.Content, newOption.QuestionId);
+				_unitOfWorkManager.EndUnitOfWork();
+
+				return CreatedAtAction(
+					"GetOption",
+					new {id = createdOption.OptionId},
+					_mapper.Map<OptionMinDto>(createdOption));
+			}
+			catch (ValidationException ve)
+			{
+				return UnprocessableEntity($"Invalid input data: {ve.ValidationResult.ErrorMessage}");
+			}
+			catch (Exception e)
+			{
+				return BadRequest($"Something went wrong in creation the option: {e.Message}");
+			}
+		}
+
+		[HttpPut("{id}")]
+		public IActionResult UpdateOption(int id, NewOptionDto updatedValues)
+		{
+			try
+			{
+				_unitOfWorkManager.StartUnitOfWork();
+				Option updatedOption = _questionnaireManager.ChangeOption(
+					id,
+					updatedValues.Content,
+					updatedValues.QuestionId);
+				_unitOfWorkManager.EndUnitOfWork();
+
+				if (updatedOption == null)
+				{
+					return BadRequest("Something went wrong while updating the option.");
+				}
+
+				return Ok(_mapper.Map<OptionMinDto>(updatedOption));
+			}
+			catch (ValidationException ve)
+			{
+				return UnprocessableEntity($"Invalid input data: {ve.ValidationResult.ErrorMessage}");
+			}
+			catch (ArgumentException e)
+			{
+				switch (e.ParamName)
+				{
+					case "id":
+						return NotFound(e.Message);
+					case "questionId":
+						return UnprocessableEntity(e.Message);
+					default:
+						return BadRequest(e.Message);
+				}
+			}
+		}
+		
 		[HttpDelete("{id}")]
 		public IActionResult DeleteOption(int id)
 		{

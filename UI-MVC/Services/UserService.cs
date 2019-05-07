@@ -14,7 +14,7 @@ namespace COI.UI.MVC.Services
 	public interface IUserService
 	{
 		Task<JwtSecurityToken> GenerateJwt(string email, string password);
-		Task<string> RegisterNewUser(string email, string password, string firstname, string lastname);
+		Task<User> RegisterNewUser(string email, string password, string firstname, string lastname);
 		Task<string> Login(string email, string password);
 		Task<bool> Logout();
 
@@ -71,7 +71,7 @@ namespace COI.UI.MVC.Services
 			return token;
 		}
 
-		public async Task<string> RegisterNewUser(string email, string password, string firstname, string lastname)
+		public async Task<User> RegisterNewUser(string email, string password, string firstname, string lastname)
 		{
 			var newUser = new User()
 			{
@@ -93,7 +93,7 @@ namespace COI.UI.MVC.Services
 
 			if (userCreationResult.Succeeded)
 			{
-				return newUser.Id;
+				return newUser;
 			}
 
 			string msg = string.Join(";", userCreationResult.Errors.Select(x => x.Description));

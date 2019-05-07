@@ -87,65 +87,6 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
          
-////		[HttpPost]
-////		public IActionResult PostNewIdeaVote(NewIdeaVoteDto vote)
-////		{
-////			try
-////			{
-////				Vote createdVote = _coiCtrl.AddVoteToIdea(vote.Value, vote.UserId, vote.IdeaId);
-////
-////				// TODO update response
-//////				return CreatedAtAction();
-////				return Ok();
-////			}
-////			catch (ArgumentException e)
-////			{
-////				switch (e.ParamName)
-////				{
-////					case "ideaId":
-////						return UnprocessableEntity(e.Message);
-////						break;
-////					case "userId":
-////						return UnprocessableEntity(e.Message);
-////						break;
-////					default:
-////						return BadRequest(e.Message);
-////						break;
-////				}
-////			}
-////		}
-//		
-//		[HttpPost("comment")]
-//		public IActionResult PostNewCommentVote(NewCommentVoteDto vote)
-//		{
-//			try
-//			{
-//				_unitOfWorkManager.StartUnitOfWork();
-//				Vote createdVote = _coiCtrl.AddVoteToComment(
-//					vote.Value, 
-//					vote.UserId, 
-//					vote.CommentId);
-//				_unitOfWorkManager.EndUnitOfWork();
-//
-//				// TODO update response
-////				return CreatedAtAction();
-//				return Ok();
-//			}
-//			catch (ArgumentException e)
-//			{
-//				switch (e.ParamName)
-//				{
-//					case "commentId":
-//						return UnprocessableEntity(e.Message);
-//					case "userId":
-//						return UnprocessableEntity(e.Message);
-//					default:
-//						return BadRequest(e.Message);
-//				}
-//			}
-//		}
-		
-
 		[HttpDelete("{id}")]
 		public IActionResult DeleteVote(int id)
 		{

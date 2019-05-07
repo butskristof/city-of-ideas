@@ -9,6 +9,7 @@ using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
+using COI.UI.MVC.Models.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -109,48 +110,18 @@ namespace COI.UI.MVC.Controllers.api
 		}
 
 		[AllowAnonymous]
-		// GET: api/Comments/{id}/Score
-		[HttpGet("{id}/Score")]
+		[HttpGet("{id}/VoteCount")]
 		public IActionResult GetCommentScore(int id)
 		{
 			try
 			{
 				var score = _ideationManager.GetCommentScore(id);
-				return Ok(score);
+				return Ok(new VoteCountDto {VoteCount = score});
 			}
 			catch (ArgumentException e)
 			{
-				return BadRequest(e.Message);
+				return NotFound(e.Message);
 			}
 		}
-		
-//		// POST: api/Comments/Vote
-//		[HttpPost("Vote")]
-//		public IActionResult PostCommentVote(NewCommentVoteDto vote)
-//		{
-//			try
-//			{
-//				Vote createdVote = _coiCtrl.AddVoteToComment(
-//					vote.Value, 
-//					vote.UserId, 
-//					vote.CommentId);
-//
-//				// TODO update response
-////				return CreatedAtAction();
-//				return Ok();
-//			}
-//			catch (ArgumentException e)
-//			{
-//				switch (e.ParamName)
-//				{
-//					case "commentId":
-//						return UnprocessableEntity(e.Message);
-//					case "userId":
-//						return UnprocessableEntity(e.Message);
-//					default:
-//						return BadRequest(e.Message);
-//				}
-//			}
-//		}
 	}
 }

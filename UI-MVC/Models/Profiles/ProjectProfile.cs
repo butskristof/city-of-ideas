@@ -13,6 +13,11 @@ namespace COI.UI.MVC.Models.Profiles
 				.ForMember(p => p.OrganisationId,
 					opt => opt.MapFrom(
 						p => p.Organisation.OrganisationId));
+			
+			CreateMap<Project, ProjectMinDto>()
+				.ForMember(p => p.OrganisationId,
+					opt => opt.MapFrom(
+						p => p.Organisation.OrganisationId));
 		}
 	}
 
@@ -21,6 +26,11 @@ namespace COI.UI.MVC.Models.Profiles
 		public ProjectPhaseProfile()
 		{
 			CreateMap<ProjectPhase, ProjectPhaseDto>()
+				.ForMember(p => p.ProjectId,
+					opt => opt.MapFrom(
+						p => p.Project.ProjectId));
+			
+			CreateMap<ProjectPhase, ProjectPhaseMinDto>()
 				.ForMember(p => p.ProjectId,
 					opt => opt.MapFrom(
 						p => p.Project.ProjectId));

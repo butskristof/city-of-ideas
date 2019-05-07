@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-
 namespace COI.UI.MVC.Models.DTO.Questionnaire
 {
-	public class QuestionnaireDto
+	public class QuestionnaireMinDto
 	{
 		public int QuestionnaireId { get; set; }
 		
@@ -10,7 +8,5 @@ namespace COI.UI.MVC.Models.DTO.Questionnaire
 		public string Description { get; set; }
 
 		public int ProjectPhaseId { get; set; }
-
-		public List<QuestionMinDto> Questions { get; set; }
 	}
 }

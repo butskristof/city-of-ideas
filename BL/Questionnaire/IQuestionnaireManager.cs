@@ -24,6 +24,9 @@ namespace COI.BL.Questionnaire
 		Option RemoveOption(int optionId);
 		
 //		OpenQuestion GetOpenQuestion(int questionId);
+		IEnumerable<Answer> GetAnswersForQuestion(int questionId);
+		IEnumerable<Answer> GetAnswersForOption(int optionId);
+		Answer GetAnswer(int id);
 		Answer AnswerQuestion(string content, int questionId);
 		Answer AnswerOption(int optionId);
 //		void AddAnswerToOpenQuestion(int questionId, Answer answer);
