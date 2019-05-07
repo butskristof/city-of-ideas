@@ -46,7 +46,7 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					return NotFound("Question not found.");
 				}
-				return Ok(_mapper.Map<QuestionDto>(question));
+				return Ok(_mapper.Map<QuestionMinDto>(question));
 			}
 			catch (Exception e)
 			{
@@ -54,6 +54,26 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 		
+		[AllowAnonymous]
+		[HttpGet("{id}/Options")]
+		public IActionResult GetOptionsForQuestion(int id)
+		{
+			var options = _questionnaireManager.GetOptionsForQuestion(id);
+			var response = _mapper.Map<List<OptionMinDto>>(options);
+
+			return Ok(response);
+		}
+
+		[AllowAnonymous]
+		[HttpGet("{id}/Answers")]
+		public IActionResult GetAnswersForQuestion(int id)
+		{
+			var answers = _questionnaireManager.GetAnswersForQuestion(id);
+			var response = _mapper.Map<List<AnswerDto>>(answers);
+
+			return Ok(response);
+		}
+
 		[HttpPost]
 		public IActionResult PostNewQuestion(NewQuestionDto question)
 		{
@@ -69,7 +89,7 @@ namespace COI.UI.MVC.Controllers.api
 				return CreatedAtAction(
 					"GetQuestion", 
 					new {id = createdQuestion.QuestionId},
-					_mapper.Map<QuestionDto>(createdQuestion));
+					_mapper.Map<QuestionMinDto>(createdQuestion));
 			}
 			catch (ValidationException ve)
 			{
@@ -99,7 +119,7 @@ namespace COI.UI.MVC.Controllers.api
 					return BadRequest("Something went wrong while updating the question.");
 				}
 
-				return Ok(_mapper.Map<QuestionDto>(updatedQuestion));
+				return Ok(_mapper.Map<QuestionMinDto>(updatedQuestion));
 			}
 			catch (ValidationException ve)
 			{
@@ -141,60 +161,20 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
-		[AllowAnonymous]
-		[HttpGet("{id}/Options")]
-		public IActionResult GetOptionsForQuestionnaire(int id)
-		{
-			var options = _questionnaireManager.GetOptionsForQuestion(id);
-			var response = _mapper.Map<List<OptionDto>>(options);
+//		[HttpPost]
+//		public IActionResult PostAnswers(List<NewAnswerDto> answers)
+//		{
+//			try
+//			{
+//				answers.ForEach(a => PostAnswer(a.QuestionId, a));
+//				return NoContent();
+//			}
+//			catch (Exception e)
+//			{
+//				return BadRequest(e.Message);
+//			}
+//		}
 
-			return Ok(response);
-		}
-
-		[HttpPost]
-		public IActionResult PostAnswers(List<NewAnswerDto> answers)
-		{
-			try
-			{
-				answers.ForEach(a => PostAnswer(a.QuestionId, a));
-				return NoContent();
-			}
-			catch (Exception e)
-			{
-				return BadRequest(e.Message);
-			}
-		}
-
-		[HttpPost("{id}")]
-		public IActionResult PostAnswer(int id, NewAnswerDto answer)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Answer createdAnswer = null;
-				if (answer.OptionId != 0)
-				{
-					createdAnswer = _coiCtrl.AddAnswerToOption(answer.UserId, answer.OptionId);
-				}
-				else
-				{
-					createdAnswer = _coiCtrl.AddAnswerToQuestion(answer.Content, answer.UserId, id);
-				}
-				_unitOfWorkManager.EndUnitOfWork();
-
-				if (createdAnswer != null)
-				{
-					return Ok(_mapper.Map<AnswerDto>(createdAnswer));
-				}
-			}
-			catch (Exception e)
-			{
-				return BadRequest(e.Message);
-			}
-
-			return BadRequest("Something went wrong while creating the answer.");
-		}
-		
 		// POST: api/Questions
 //		[HttpPost]
 //		public IActionResult PostMultipleAnswers(MultipleAnswersDto answers)

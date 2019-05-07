@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
 using COI.BL.Domain.Project;
-using COI.UI.MVC.Models.DTO.Ideation;
-using COI.UI.MVC.Models.DTO.Questionnaire;
 
 namespace COI.UI.MVC.Models.DTO.Project
 {
-	public class ProjectPhaseDto
+	public class ProjectPhaseMinDto
 	{
 		public int ProjectPhaseId { get; set; }
 		
@@ -19,8 +16,5 @@ namespace COI.UI.MVC.Models.DTO.Project
 		public ProjectState ProjectState { get; set; }
 
 		public int ProjectId { get; set; }
-
-		public List<IdeationMinDto> Ideations { get; set; }
-		public List<QuestionnaireMinDto> Questionnaires { get; set; }
 	}
 }

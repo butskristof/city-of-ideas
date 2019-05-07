@@ -10,6 +10,7 @@ using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
+using COI.UI.MVC.Models.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -78,7 +79,7 @@ namespace COI.UI.MVC.Controllers.api
 				return CreatedAtAction(
 					"GetIdea", 
 					new {id = createdIdea.IdeaId},
-					_mapper.Map<IdeaDto>(createdIdea));
+					_mapper.Map<IdeaMinDto>(createdIdea));
 			}
 			catch (ValidationException ve)
 			{
@@ -107,7 +108,7 @@ namespace COI.UI.MVC.Controllers.api
 					return BadRequest("Something went wrong while updating the idea.");
 				}
 
-				return Ok(_mapper.Map<IdeaDto>(updatedIdea));
+				return Ok(_mapper.Map<IdeaMinDto>(updatedIdea));
 			}
 			catch (ValidationException ve)
 			{
@@ -150,14 +151,13 @@ namespace COI.UI.MVC.Controllers.api
 		}
 
 		[AllowAnonymous]
-		// GET: api/Ideas/{id}/Score
-		[HttpGet("{id}/Score")]
+		[HttpGet("{id}/VoteCount")]
 		public IActionResult GetIdeaScore(int id)
 		{
 			try
 			{
 				var score = _ideationManager.GetIdeaScore(id);
-				return Ok(score);
+				return Ok(new VoteCountDto {VoteCount = score});
 			}
 			catch (ArgumentException e)
 			{

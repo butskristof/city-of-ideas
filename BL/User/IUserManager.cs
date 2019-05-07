@@ -15,8 +15,13 @@ namespace COI.BL.User
 		Vote GetVote(int voteId);
 		Vote AddVoteToUser(int value, string userId);
 //		Vote AddVoteToIdea(int value, int userId, int ideaId);
-//		Vote ChangeIdeaVote(int id, int value, int userId, int ideaId);
+//		Vote ChangeIdeaVote(int id, int value, string userId, int ideaId);
+		Vote ChangeVoteValue(int id, int value);
 		Vote RemoveVote(int voteId);
+
+		Vote GetVoteForIdea(int ideaId, string userId);
+		Vote GetVoteForIdeation(int ideationId, string userId);
+		Vote GetVoteForComment(int commentId, string userId);
 
 		void AddPictureLocationToUser(string userId, string imgpath);
 	}

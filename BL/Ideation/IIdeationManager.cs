@@ -24,7 +24,7 @@ namespace COI.BL.Ideation
 //		Comment AddComment(ICollection<Field> content, int ideaId);
 		Comment AddCommentToIdea(IEnumerable<Field> content, int ideaId);
 //		void AddCommentToIdea(int ideaId, Comment comment);
-		Comment ChangeIdeaComment(int id, ICollection<Field> content, int userId, int ideaId);
+//		Comment ChangeIdeaComment(int id, ICollection<Field> content, int userId, int ideaId);
 		Comment RemoveComment(int id);
 		
 		void AddVoteToIdea(Vote vote, int ideaId);

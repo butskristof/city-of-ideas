@@ -74,6 +74,7 @@ namespace COI.BL.Questionnaire
 
 				toChange.Title = title;
 				toChange.Description = description;
+				toChange.ProjectPhase = phase;
 				
 				Validate(toChange);
 				return _questionnaireRepository.UpdateQuestionnaire(toChange);
@@ -143,6 +144,7 @@ namespace COI.BL.Questionnaire
 
 				toChange.Inquiry = inquiry;
 				toChange.QuestionType = type;
+				toChange.Questionnaire = questionnaire;
 
 				Validate(toChange);
 				return _questionRepository.UpdateQuestion(toChange);
@@ -232,6 +234,21 @@ namespace COI.BL.Questionnaire
 		#endregion
 
 		#region Answers
+
+		public IEnumerable<Answer> GetAnswersForQuestion(int questionId)
+		{
+			return _answerRepository.ReadAnswersForQuestion(questionId);
+		}
+		
+		public IEnumerable<Answer> GetAnswersForOption(int optionId)
+		{
+			return _answerRepository.ReadAnswersForOption(optionId);
+		}
+
+		public Answer GetAnswer(int id)
+		{
+			return _answerRepository.ReadAnswer(id);
+		}
 
 		public Answer AnswerQuestion(string content, int questionId)
 		{

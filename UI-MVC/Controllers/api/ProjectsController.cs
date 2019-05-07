@@ -36,7 +36,7 @@ namespace COI.UI.MVC.Controllers.api
 		public IActionResult GetProjects()
 		{
 			var projs = _projectManager.GetProjects().ToList();
-			var response = _mapper.Map<List<ProjectDto>>(projs);
+			var response = _mapper.Map<List<ProjectMinDto>>(projs);
 
 			return Ok(response);
 		}

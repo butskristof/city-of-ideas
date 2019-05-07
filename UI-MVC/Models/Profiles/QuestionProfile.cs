@@ -13,12 +13,27 @@ namespace COI.UI.MVC.Models.Profiles
 					opt => opt.MapFrom(
 						c => c.ProjectPhase.ProjectPhaseId));
 			
+			CreateMap<Questionnaire, QuestionnaireMinDto>()
+				.ForMember(o => o.ProjectPhaseId,
+					opt => opt.MapFrom(
+						c => c.ProjectPhase.ProjectPhaseId));
+			
 			CreateMap<Question, QuestionDto>()
+				.ForMember(q => q.QuestionnaireId,
+					opt => opt.MapFrom(
+						c => c.Questionnaire.QuestionnaireId));
+			
+			CreateMap<Question, QuestionMinDto>()
 				.ForMember(q => q.QuestionnaireId,
 					opt => opt.MapFrom(
 						c => c.Questionnaire.QuestionnaireId));
 
 			CreateMap<Option, OptionDto>()
+				.ForMember(q => q.QuestionId,
+					opt => opt.MapFrom(
+						c => c.Question.QuestionId));
+			
+			CreateMap<Option, OptionMinDto>()
 				.ForMember(q => q.QuestionId,
 					opt => opt.MapFrom(
 						c => c.Question.QuestionId));

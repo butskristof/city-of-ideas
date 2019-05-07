@@ -18,6 +18,30 @@ namespace COI.DAL.User.EF
 			return _ctx.Votes.AsEnumerable();
 		}
 
+		public IEnumerable<Vote> ReadVotesForIdea(int ideaId)
+		{
+			return _ctx
+				.Votes
+				.Where(i => i.Idea.IdeaId == ideaId)
+				.AsEnumerable();
+		}
+
+		public IEnumerable<Vote> ReadVotesForIdeation(int ideationId)
+		{
+			return _ctx
+				.Votes
+				.Where(i => i.Ideation.IdeationId == ideationId)
+				.AsEnumerable();
+		}
+
+		public IEnumerable<Vote> ReadVotesForComment(int commentId)
+		{
+			return _ctx
+				.Votes
+				.Where(i => i.Comment.CommentId == commentId)
+				.AsEnumerable();
+		}
+
 		public Vote ReadVote(int voteId)
 		{
 			return _ctx.Votes.Find(voteId);

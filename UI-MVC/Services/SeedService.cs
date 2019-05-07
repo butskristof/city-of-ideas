@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
+using COI.BL.Domain.Questionnaire;
 using COI.BL.Ideation;
 using COI.BL.Organisation;
 using COI.BL.Project;
+using COI.BL.Questionnaire;
 
 namespace COI.UI.MVC.Services
 {
@@ -18,14 +20,16 @@ namespace COI.UI.MVC.Services
 		private readonly IUserService _userService;
 		private readonly IProjectManager _projectManager;
 		private readonly IIdeationManager _ideationManager;
+		private readonly IQuestionnaireManager _questionnaireManager;
 		private readonly ICityOfIdeasController _cityOfIdeasController;
 
-		public SeedService(IOrganisationManager organisationManager, IUserService userService, IProjectManager projectManager, IIdeationManager ideationManager, ICityOfIdeasController cityOfIdeasController)
+		public SeedService(IOrganisationManager organisationManager, IUserService userService, IProjectManager projectManager, IIdeationManager ideationManager, IQuestionnaireManager questionnaireManager, ICityOfIdeasController cityOfIdeasController)
 		{
 			_organisationManager = organisationManager;
 			_userService = userService;
 			_projectManager = projectManager;
 			_ideationManager = ideationManager;
+			_questionnaireManager = questionnaireManager;
 			_cityOfIdeasController = cityOfIdeasController;
 		}
 
@@ -41,12 +45,12 @@ namespace COI.UI.MVC.Services
 
 				#region Users
 
-				var user1Id = await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts");
-				var user2Id = await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan");
-				var user3Id = await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns");
-				var user4Id = await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek");
-				var user5Id = await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters");
-				var user6Id = await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters");
+				var user1 = await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts");
+				var user2 = await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan");
+				var user3 = await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns");
+				var user4 = await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek");
+				var user5 = await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters");
+				var user6 = await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters");
 
 				#endregion
 
@@ -147,37 +151,52 @@ namespace COI.UI.MVC.Services
 				#region Comments
 
 				var comment1 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Bankjes moeten hier gewoon komen!"}}, user1Id,
+					new List<Field>() {new Field() {Content = "Bankjes moeten hier gewoon komen!"}}, user1.Id,
 					idea1.IdeaId);
 				var comment2 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Wij zitten hier elke dag met onze kinderen en nieuwe bankjes zouden zeker een must zijn."}}, user2Id,
+					new List<Field>() {new Field() {Content = "Wij zitten hier elke dag met onze kinderen en nieuwe bankjes zouden zeker een must zijn."}}, user2.Id,
 					idea1.IdeaId);
 				var comment3 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Ik wil ook een nieuw bankje."}}, user3Id,
+					new List<Field>() {new Field() {Content = "Ik wil ook een nieuw bankje."}}, user3.Id,
 					idea1.IdeaId);
 				var comment4 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Groot gelijk Fons!"}}, user4Id,
+					new List<Field>() {new Field() {Content = "Groot gelijk Fons!"}}, user4.Id,
 					idea2.IdeaId);
 				var comment5 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Nu kunnen we er tenminste een klimaatmars organiseren."}}, user5Id,
+					new List<Field>() {new Field() {Content = "Nu kunnen we er tenminste een klimaatmars organiseren."}}, user5.Id,
 					idea3.IdeaId);
 				var comment6 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "BOMEN BOMEN BOMEN!"}}, user6Id,
+					new List<Field>() {new Field() {Content = "BOMEN BOMEN BOMEN!"}}, user6.Id,
 					idea4.IdeaId);
 
 				#endregion
 
 				#region Votes
 
-				var vote1 = _cityOfIdeasController.AddVoteToIdea(1, user2Id, idea1.IdeaId);
-				var vote2 = _cityOfIdeasController.AddVoteToIdea(-1, user3Id, idea1.IdeaId);
-				var vote3 = _cityOfIdeasController.AddVoteToIdea(1, user4Id, idea1.IdeaId);
-				var vote4 = _cityOfIdeasController.AddVoteToIdea(-1, user5Id, idea1.IdeaId);
-				var vote5 = _cityOfIdeasController.AddVoteToIdea(1, user6Id, idea1.IdeaId);
+				var vote1 = _cityOfIdeasController.AddVoteToIdea(1, user2.Id, idea1.IdeaId);
+				var vote2 = _cityOfIdeasController.AddVoteToIdea(-1, user3.Id, idea1.IdeaId);
+				var vote3 = _cityOfIdeasController.AddVoteToIdea(1, user4.Id, idea1.IdeaId);
+				var vote4 = _cityOfIdeasController.AddVoteToIdea(-1, user5.Id, idea1.IdeaId);
+				var vote5 = _cityOfIdeasController.AddVoteToIdea(1, user6.Id, idea1.IdeaId);
 
 				#endregion
 
 				#region Questionnaires
+
+				var questionnaire1 =
+					_questionnaireManager.AddQuestionnaire("Usability evaluation", "Beste bezoeker, In volgende enquete willen wij graag de tevredenheid bij het gebruik van onze website bevragen.", projPhase2.ProjectPhaseId);
+				var question1 = _questionnaireManager.AddQuestion("Hoe heeft u onze website gevonden?",
+					QuestionType.MultipleChoice, questionnaire1.QuestionnaireId);
+				var option1 = _questionnaireManager.AddOption("Zoekmachine", question1.QuestionId);
+				var option2 = _questionnaireManager.AddOption("Sociale media", question1.QuestionId);
+				var option3 = _questionnaireManager.AddOption("Online advertentie", question1.QuestionId);
+				var option4 = _questionnaireManager.AddOption("Via vrienden of kennissen", question1.QuestionId);
+				var question2 = _questionnaireManager.AddQuestion("Is onze website makkelijk te gebruiken?",
+					QuestionType.SingleChoice, questionnaire1.QuestionnaireId);
+				var option5 = _questionnaireManager.AddOption("Ja", question2.QuestionId);
+				var option6 = _questionnaireManager.AddOption("Neen", question2.QuestionId);
+				var question3 = _questionnaireManager.AddQuestion("Wat vindt u van het design van onze website",
+					QuestionType.OpenQuestion, questionnaire1.QuestionnaireId);
 
 				#endregion
 			}

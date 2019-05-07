@@ -43,7 +43,7 @@ namespace COI.UI.MVC.Services
                     await picture.CopyToAsync(fileStream);
                 }
 
-                var imgpath = $"{userId}/{filename}";
+                var imgpath = $"/uploads/{userId}/{filename}";
                 _userManager.AddPictureLocationToUser(userId, imgpath);
 
                 return imgpath;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace COI.UI.MVC.Models.DTO.Ideation
 {
-	public class IdeationDto
+	public class IdeationMinDto
 	{
 		public int IdeationId { get; set; }
 		
@@ -12,8 +12,7 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public DateTime Created { get; set; }
 		
 		public int VoteCount { get; set; }
-
-//		public List<IdeaDto> Ideas { get; set; }
+		
 		public List<FieldDto> Fields { get; set; }
 
 		public int ProjectPhaseId { get; set; }

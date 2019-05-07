@@ -76,40 +76,65 @@ namespace COI.BL.Application
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 
-			Vote vote = _userManager.AddVoteToUser(value, userId);
+			Vote userVote = _userManager.GetVoteForIdea(ideaId, userId);
 			
-			_ideationManager.AddVoteToIdea(vote, ideaId);
+			if (userVote == null)
+			{
+                userVote = _userManager.AddVoteToUser(value, userId);
+                _ideationManager.AddVoteToIdea(userVote, ideaId);
+			}
+			else
+			{
+				userVote = _userManager.ChangeVoteValue(userVote.VoteId, value);
+			}
 			
 			_unitOfWorkManager.EndUnitOfWork();
 
-			return vote;
+			return userVote;
+			
+
 		}
 
 		public Vote AddVoteToComment(int value, string userId, int commentId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
+			
+			Vote userVote = _userManager.GetVoteForComment(commentId, userId);
 
-			Vote vote = _userManager.AddVoteToUser(value, userId);
+			if (userVote == null)
+			{
+                userVote = _userManager.AddVoteToUser(value, userId);
+                _ideationManager.AddVoteToComment(userVote, commentId);
+			}
+			else
+			{
+				userVote = _userManager.ChangeVoteValue(userVote.VoteId, value);
+			}
 			
-			_ideationManager.AddVoteToComment(vote, commentId);
-			
-			// If the ideaId should be invalid, the method throws before the unit of work is saved, so the context will be discarded before changes are saved. The Vote object won't be saved to the user's votes.
 			_unitOfWorkManager.EndUnitOfWork();
 
-			return vote;
+			return userVote;
 		}
 
 		public Vote AddVoteToIdeation(int value, string userId, int ideationId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 
-			Vote vote = _userManager.AddVoteToUser(value, userId);
-			
-			_ideationManager.AddVoteToIdeation(vote, ideationId);
+			Vote userVote = _userManager.GetVoteForIdeation(ideationId, userId);
+
+			if (userVote == null)
+			{
+                userVote = _userManager.AddVoteToUser(value, userId);
+                _ideationManager.AddVoteToIdeation(userVote, ideationId);
+			}
+			else
+			{
+				userVote = _userManager.ChangeVoteValue(userVote.VoteId, value);
+			}
 			
 			_unitOfWorkManager.EndUnitOfWork();
 
-			return vote;
+			return userVote;
 		}
 
 		#endregion

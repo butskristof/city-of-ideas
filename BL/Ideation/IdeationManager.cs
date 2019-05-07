@@ -208,35 +208,6 @@ namespace COI.BL.Ideation
 			return _commentRepository.CreateComment(comment);
 		}
 
-		public Comment ChangeIdeaComment(int id, ICollection<Field> content, int userId, int ideaId)
-		{
-			throw new NotImplementedException();
-//			Comment toChange = GetComment(id);
-//			if (toChange != null)
-//			{
-//				Idea idea = GetIdea(ideaId);
-//				if (idea == null)
-//				{
-//					throw new ArgumentException("Idea not found.", "ideaId");
-//				}
-//
-//				Domain.User.User user = _userManager.GetUser(userId);
-//				if (user == null)
-//				{
-//					throw new ArgumentException("User not found.", "userId");
-//				}
-//			
-//				toChange.Fields = content;
-//				toChange.Idea = idea;
-//				toChange.User = user;
-//				
-//				Validate(toChange);
-//				return _commentRepository.UpdateComment(toChange);
-//			}
-//			
-//			throw new ArgumentException("Idea not found.", "id");
-		}
-
 		public Comment RemoveComment(int id)
 		{
 			return _commentRepository.DeleteComment(id);
@@ -277,15 +248,15 @@ namespace COI.BL.Ideation
 
 		public void AddVoteToComment(Vote vote, int commentId)
 		{
-			Comment c = GetComment(commentId);
-			if (c == null)
+			Comment comment = GetComment(commentId);
+			if (comment == null)
 			{
 				throw new ArgumentException("Comment not found.");
 			}
 			
-			vote.Comment = c;
-			c.Votes.Add(vote);
-			_commentRepository.UpdateComment(c);
+			vote.Comment = comment;
+			comment.Votes.Add(vote);
+			_commentRepository.UpdateComment(comment);
 		}
 		public int GetIdeaScore(int ideaId)
 		{
@@ -294,10 +265,8 @@ namespace COI.BL.Ideation
 			{
 				return idea.GetScore();
 			}
-			else
-			{
-				throw new ArgumentException("Idea not found.");
-			}
+			
+            throw new ArgumentException("Idea not found.");
 		}
 
 		public int GetIdeationScore(int ideationId)
