@@ -36,4 +36,15 @@
 .popup__row {
   height: 100%;
   text-align: center;
+  margin-left: 0;
+  width: 100%;
+  @include screen-from("tablet"){
+    width: 100%;
+  }
+  
+}
+
+.form__errors{
+  padding-left: 5px;
+  padding-right: 5px;
 }

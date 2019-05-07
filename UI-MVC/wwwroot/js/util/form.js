@@ -24,9 +24,11 @@ export default {
 			// Uses a list of errors from dotnet
 			showErrors(errors) {
 				const errorList = Object.values(errors);
-				errorList.forEach(error => {
+				this.showError(errorList[0].toString());
+				/*errorList.forEach(error => {
 					this.showError(error[0]);
-				});
+				});*/
+				
 			},
 			clear() {
 				// Remove errors

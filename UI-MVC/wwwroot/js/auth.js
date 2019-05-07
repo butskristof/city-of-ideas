@@ -19,6 +19,7 @@ loginForm.onSubmit((formData) => {
 /* Register */
 const registerForm = Form.loadForm(Page.query("#auth_register"));
 registerForm.onSubmit((formData) => {
+	registerForm.clear();
 	AuthRepository.register(
 		formData.get('first_name'),
 		formData.get('last_name'),
