@@ -60,9 +60,14 @@ p {
 
   /* Paginatitel Popup */
   &.paginatitel__popup {
-    margin-top: -50px;
-    @include screen-from("tablet") {
+    
+    margin-top:-75px;
+    @include screen-from("tablet-small"){
+      margin-top: -130px;
+    }
+    @include screen-from("tablet"){
       margin-top: 50px;
     }
+    
   }
 }

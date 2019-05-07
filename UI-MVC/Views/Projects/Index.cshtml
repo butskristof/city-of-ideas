@@ -1,0 +1,47 @@
+@model System.Collections.Generic.IEnumerable<COI.BL.Domain.Project.Project>
+
+@{
+    ViewBag.Title = "Overzicht";
+    Layout = "_Layout";
+}
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("select.dd_project1").change(function(){
+        var selectedProjectPhase = $(this).children("option:selected").val();
+        console.log("De projectfase is: " + selectedProjectPhase);
+    });
+});
+</script>
+
+<main class="content content--shadow container">
+    <div class="form-group dd_project">
+        <select name="dropdownFase" class="dd_project1">
+            <option value="0" class="keuze">Alle projecten</option>
+            <option value="1" class="keuze">Open projecten</option>
+            <option value="2" class="keuze">Gesloten projecten</option>
+        </select>
+    </div>
+    
+    
+    @foreach (var project in Model)
+    {
+        <div class="card-list mb-4">
+            <div class="card">
+                <img src="/img/pexels-photo-167676.jpeg" alt="" class="card-img-top" />
+                <div class="card-body">
+                    <h2 class="card-title">@project.Title</h2>
+                    <p class="card-text">
+                        @project.Description
+                    </p>
+                </div>
+                <div class="card-footer card-footer--invis">
+                    <a href="#" class="btn btn--org">Geef jouw mening</a>
+                </div>
+            </div>
+        </div>
+    }
+    
+
+
+</main>

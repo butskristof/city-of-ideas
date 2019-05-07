@@ -1,0 +1,93 @@
+@page
+@model COI.UI.MVC.Views.AccountSettings.Index
+
+@{
+    Layout = null;
+}
+ <h1 class="paginatitel paginatitel__bovenaan mb-4">Instellingen</h1>
+
+    <form class="form__inputfield form__inputfield2">
+      <div class="row">
+        <div class="col">
+          <input
+            type="text"
+            class="form-control inputvoornaam"
+            placeholder="Voornaam"
+          />
+        </div>
+        <div class="col">
+          <input
+            type="text"
+            class="form-control inputachternaam"
+            placeholder="Achternaam"
+          />
+        </div>
+      </div>
+    </form>
+
+    <form class="form__inputfield form__inputfield2">
+      <div class="row">
+        <div class="col">
+          <input
+            type="text"
+            class="form-control inputleeftijd"
+            placeholder="Leeftijd"
+          />
+        </div>
+        <div class="col">
+          <input
+            type="text"
+            class="form-control inputpostcode"
+            placeholder="Postcode"
+          />
+        </div>
+      </div>
+    </form>
+
+    <form class="form__inputfield">
+      <input
+        type="text"
+        class="form__inputfield form__inputfield2 form-control"
+        placeholder="Email"
+      />
+    </form>
+
+    <button class="btn btn__witteAchtergrond">
+      Opslaan
+    </button>
+
+    <h1 class="paginatitel mb-4">Wachtwoord veranderen</h1>
+
+    <form class="form__inputfield form__inputfield2">
+      <div class="row">
+        <div class="col">
+          <input
+            type="password"
+            name="password"
+            id="password-field"
+            class="form-control inputwachtwoord"
+            placeholder="Passwoord"
+          />
+          <span
+            toggle="#password-field"
+            class="fas fa-fw fa-eye field-icon toggle-password"
+          ></span>
+        </div>
+        <div class="col">
+          <input
+            type="password"
+            id="repeatPassword-field"
+            class="form-control inputherhaalwachtwoord"
+            placeholder="Herhaal passwoord"
+          />
+          <i
+            toggle="#repeatPassword-field"
+            class="fas fa-fw fa-eye field-icon toggle-password"
+          ></i>
+        </div>
+      </div>
+    </form>
+
+    <button class="btn btn__witteAchtergrond">
+      Verander Passwoord
+    </button>
