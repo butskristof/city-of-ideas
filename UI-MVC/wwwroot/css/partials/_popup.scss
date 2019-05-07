@@ -55,10 +55,16 @@
   padding: 0px;
 }
 
+/* juiste grootte geven */
 .modal-dialog{
   width: 80%;
   height: 100%;
   max-height: 640px;
   max-width: 1000px;
   margin: 1.5rem auto;
+}
+
+/* juiste grootte geven van de afbeelding */
+.modal-body{
+  padding: 0;
 }

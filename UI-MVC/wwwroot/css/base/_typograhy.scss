@@ -62,12 +62,15 @@ p {
   &.paginatitel__popup {
     
     margin-top:-75px;
-    @include screen-from("tablet-small"){
-      margin-top: -130px;
-    }
+    
     @include screen-from("tablet"){
       margin-top: 50px;
     }
-    
+    &.paginatitel__popup__registreren{
+      margin-top: 0;
+      @include screen-from("tablet"){
+        margin-top: 50px;
+      }
+    }
   }
 }
