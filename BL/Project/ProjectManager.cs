@@ -26,7 +26,12 @@ namespace COI.BL.Project
 
 		public IEnumerable<Domain.Project.Project> GetProjects()
 		{
-			return _projectRepository.ReadProjects();
+            return _projectRepository.ReadProjects();
+		}
+
+		public IEnumerable<Domain.Project.Project> GetLastNProjects(int numberOfProjectsToGet)
+		{
+            return _projectRepository.ReadLastNProjects(numberOfProjectsToGet);
 		}
 
 		public Domain.Project.Project GetProject(int id)
