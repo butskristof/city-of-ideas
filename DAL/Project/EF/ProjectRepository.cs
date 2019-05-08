@@ -19,6 +19,13 @@ namespace COI.DAL.Project.EF
 			return _ctx.Projects.AsEnumerable();
 		}
 
+		public IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int numberOfProjectsToGet)
+		{
+			return _ctx.Projects
+				.Skip(Math.Max(0, _ctx.Projects.Count() - numberOfProjectsToGet))
+				.AsEnumerable();
+		}
+
 		public BL.Domain.Project.Project ReadProject(int id)
 		{
 			return _ctx.Projects.Find(id);

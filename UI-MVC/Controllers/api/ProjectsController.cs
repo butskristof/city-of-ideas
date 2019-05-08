@@ -33,9 +33,19 @@ namespace COI.UI.MVC.Controllers.api
 
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult GetProjects()
+		public IActionResult GetProjects([FromQuery(Name = "limit")] int numberOfProjectsToGet)
 		{
-			var projs = _projectManager.GetProjects().ToList();
+//			var projs = _projectManager.GetProjects().ToList();
+			IEnumerable<Project> projs = null;
+			if (numberOfProjectsToGet != 0)
+			{
+				projs = _projectManager.GetLastNProjects(numberOfProjectsToGet).ToList();
+			}
+			else
+			{
+				projs = _projectManager.GetProjects().ToList();
+			}
+			
 			var response = _mapper.Map<List<ProjectMinDto>>(projs);
 
 			return Ok(response);

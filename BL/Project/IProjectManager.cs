@@ -7,6 +7,7 @@ namespace COI.BL.Project
 	public interface IProjectManager
 	{
 		IEnumerable<Domain.Project.Project> GetProjects();
+		IEnumerable<Domain.Project.Project> GetLastNProjects(int numberOfProjectsToGet);
 		Domain.Project.Project GetProject(int id);
 
 		IEnumerable<ProjectPhase> GetPhasesForProject(int projectId);
