@@ -25,12 +25,6 @@ namespace COI.UI.MVC.Controllers
             return View(projects);
         }
 
-        public IActionResult Index(int dropdownFase)
-        {
-            IEnumerable<Project> projects = _projectManager.GetProjects().ToList();
-            return View(projects);
-        }
-
         public IActionResult Details(int id)
         {
             Project project = _projectManager.GetProject(id);
