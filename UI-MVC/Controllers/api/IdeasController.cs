@@ -68,12 +68,18 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
-				var fields = _mapper.Map<List<Field>>(idea.Fields);
+//				var fields = _mapper.Map<List<Field>>(idea.Fields);
 				_unitOfWorkManager.StartUnitOfWork();
+				
 				Idea createdIdea = _ideationManager.AddIdea(
 					idea.Title, 
-					fields, 
 					idea.IdeationId);
+
+				foreach (var field in idea.Fields)
+				{
+					_ideationManager.AddFieldToIdea(field.FieldType, field.Content, createdIdea.IdeaId);
+				}
+				
 				_unitOfWorkManager.EndUnitOfWork();
 				
 				return CreatedAtAction(

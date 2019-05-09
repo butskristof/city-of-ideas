@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
+using COI.BL.Domain.Organisation;
+using COI.BL.Domain.Project;
 using COI.BL.Domain.Questionnaire;
+using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.BL.Organisation;
 using COI.BL.Project;
@@ -46,158 +50,198 @@ namespace COI.UI.MVC.Services
 
 				#region Users
 
-				var user1 = await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts");
-				var user2 = await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan");
-				var user3 = await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns");
-				var user4 = await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek");
-				var user5 = await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters");
-				var user6 = await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters");
+				List<User> users = new List<User>();
+
+				users.Add(await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts"));
+				users.Add(await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan"));
+				users.Add(await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns"));
+				users.Add(await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek"));
+				users.Add(await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters"));
+				users.Add(await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters"));
 
 				#endregion
 
 				#region Organisations
 
-				var org1 = _organisationManager.AddOrganisation("District Antwerpen", "districtantwerpen");
+				List<Organisation> organisations = new List<Organisation>();
+
+				organisations.Add(_organisationManager.AddOrganisation("District Antwerpen", "districtantwerpen"));
 
 				#endregion
 
 				#region Projects
 
+				List<Project> projects = new List<Project>();
+
 				var proj1 = _projectManager.AddProject("Vrijbroekspark",
 					"In onze gemeente hebben we een prachtig park. Beslis mee over dit prachtige park.",
-					new DateTime(2019, 2, 16), new DateTime(2019, 3, 16), org1.OrganisationId);
+					new DateTime(2019, 2, 16), new DateTime(2019, 3, 16), organisations.First().OrganisationId);
 
 				#endregion
 
 				#region ProjectPhases
 
-				var projPhase1 = _projectManager.AddProjectPhase("Project setup", "De setup van het Vrijbroekspark",
-					new DateTime(2019, 4, 16), new DateTime(2019, 4, 20), proj1.ProjectId);
-				var projPhase2 = _projectManager.AddProjectPhase("Bank plaatsen", "Het bankje plaatsen",
-					new DateTime(2019, 4, 21), new DateTime(2019, 5, 1), proj1.ProjectId);
-				var projPhase3 = _projectManager.AddProjectPhase("Afwerking bank", "Het bankje afwerken en controleren",
-					new DateTime(2019, 5, 2), new DateTime(2019, 6, 21), proj1.ProjectId);
+				List<ProjectPhase> phases = new List<ProjectPhase>();
+
+				phases.Add(_projectManager.AddProjectPhase("Project setup", "De setup van het Vrijbroekspark",
+					new DateTime(2019, 4, 16), new DateTime(2019, 4, 20), proj1.ProjectId));
+				phases.Add(_projectManager.AddProjectPhase("Bank plaatsen", "Het bankje plaatsen",
+					new DateTime(2019, 4, 21), new DateTime(2019, 5, 1), proj1.ProjectId));
+				phases.Add(_projectManager.AddProjectPhase("Afwerking bank", "Het bankje afwerken en controleren",
+					new DateTime(2019, 5, 2), new DateTime(2019, 6, 21), proj1.ProjectId));
 
 				#endregion
 
 				#region Ideations
 
-				var ideation1 = _ideationManager.AddIdeation("Kleur kiezen",
-					new List<Field>() {new Field() {Content = "De kleur van de banken kiezen"}},
-					projPhase1.ProjectPhaseId);
-				var ideation2 = _ideationManager.AddIdeation("Materiaal kiezen",
-					new List<Field>()
-						{new Field() {Content = "Het materiaal waarin de banken gemaakt moeten worden kiezen"}},
-					projPhase1.ProjectPhaseId);
-				var ideation3 = _ideationManager.AddIdeation("Locatie bepalen",
-					new List<Field>() {new Field() {Content = "De exacte locatie van de banken bepalen"}},
-					projPhase2.ProjectPhaseId);
-				var ideation4 = _ideationManager.AddIdeation("Hoeveelheid",
-					new List<Field>() {new Field() {Content = "Het aantal banken dat geplaatst moet worden bepalen"}},
-					projPhase2.ProjectPhaseId);
-				var ideation5 = _ideationManager.AddIdeation("Afmetingen",
-					new List<Field>() {new Field() {Content = "De grootte, lengte en breedte van de banken bepalen"}},
-					projPhase2.ProjectPhaseId);
-				var ideation6 = _ideationManager.AddIdeation("Inspectie",
-					new List<Field>()
-						{new Field() {Content = "De geplaatste bankjes inspecteren op correcte specificaties"}},
-					projPhase3.ProjectPhaseId);
+				List<Ideation> ideations = new List<Ideation>();
+				List<Field> fields = new List<Field>();
+
+				ideations.Add(_ideationManager.AddIdeation("Kleur kiezen",
+					phases[0].ProjectPhaseId));
+				fields.Add(_ideationManager.AddFieldToIdeation(FieldType.Text, "De kleur van de banken kiezen",
+					ideations[0].IdeationId));
+				
+				ideations.Add(_ideationManager.AddIdeation("Materiaal kiezen",
+					phases[0].ProjectPhaseId));
+				fields.Add(_ideationManager.AddFieldToIdeation(FieldType.Text,
+					"Het materiaal waarin de banken gemaakt moeten worden kiezen", ideations[1].IdeationId));
+				
+				ideations.Add(_ideationManager.AddIdeation("Locatie bepalen",
+					phases[1].ProjectPhaseId));
+				fields.Add(_ideationManager.AddFieldToIdeation(FieldType.Text,
+					"De exacte locatie van de banken bepalen", ideations[2].IdeationId));
+				
+				ideations.Add(_ideationManager.AddIdeation("Hoeveelheid",
+					phases[1].ProjectPhaseId));
+				fields.Add(_ideationManager.AddFieldToIdeation(FieldType.Text,
+					"Het aantal banken dat geplaatst moet worden bepalen", ideations[3].IdeationId));
+				
+				ideations.Add(_ideationManager.AddIdeation("Afmetingen",
+					phases[1].ProjectPhaseId));
+				fields.Add(_ideationManager.AddFieldToIdeation(FieldType.Text,
+					"De grootte, lengte en breedte van de banken bepalen", ideations[4].IdeationId));
+				
+				ideations.Add(_ideationManager.AddIdeation("Inspectie",
+					phases[2].ProjectPhaseId));
+				fields.Add(_ideationManager.AddFieldToIdeation(FieldType.Text,
+					"De geplaatste bankjes inspecteren op correcte specificaties", ideations[5].IdeationId));
 
 				#endregion
 
 				#region Ideas
 
-				var idea1 = _ideationManager.AddIdea("Blauwe banken",
-					new List<Field>() {new Field() {Content = "Ik vind dat de kleur van de banken blauw moet zijn."}},
-					ideation1.IdeationId);
-				var idea2 = _ideationManager.AddIdea("Bruine banken",
-					new List<Field>() {new Field() {Content = "Ik vind dat de kleur van de banken bruin moet zijn."}},
-					ideation1.IdeationId);
-				var idea3 = _ideationManager.AddIdea("Grijze banken",
-					new List<Field>() {new Field() {Content = "Ik vind dat de kleur van de banken grijs moet zijn."}},
-					ideation1.IdeationId);
-				var idea4 = _ideationManager.AddIdea("Houten banken met metalen leuning",
-					new List<Field>()
-					{
-						new Field()
-						{
-							Content =
-								"Banken gemaakt van een lokale houtsoort met een metale leuning lijkt mij het beste."
-						}
-					}, ideation2.IdeationId);
-				var idea5 = _ideationManager.AddIdea("Dicht bij het meer",
-					new List<Field>()
-						{new Field() {Content = "Ik zou het tof vinden als de banken dicht bij het meer staan."}},
-					ideation3.IdeationId);
-				var idea6 = _ideationManager.AddIdea("3 keer dubbele banken",
-					new List<Field>()
-						{new Field() {Content = "Ik wil telkens 2 banken tegen elkaar, en in totaal 2 keer."}},
-					ideation4.IdeationId);
-				var idea7 = _ideationManager.AddIdea("2 meter lang per bank",
-					new List<Field>()
-					{
-						new Field()
-						{
-							Content =
-								"Mij lijkt de ideale lengte 2 meter, zo kunnen er voldoende mensen op 1 bank zitten, en nemen ze niet teveel plaats in beslag."
-						}
-					}, ideation5.IdeationId);
-				var idea8 = _ideationManager.AddIdea("Controleren of het aantal klopt",
-					new List<Field>()
-						{new Field() {Content = "Er moet zeker worden nagekeken of de hoeveelheid banken juist is."}},
-					ideation6.IdeationId);
+				List<Idea> ideas = new List<Idea>();
+
+				ideas.Add(_ideationManager.AddIdea("Blauwe banken",
+					ideations[0].IdeationId));
+				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Ik vind dat de kleur van de banken blauw moet zijn.", ideas[0].IdeaId));
+
+
+				ideas.Add(_ideationManager.AddIdea("Bruine banken",
+					ideations[0].IdeationId));
+				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Ik vind dat de kleur van de banken bruin moet zijn.", ideas[1].IdeaId));
+				
+				
+				ideas.Add(_ideationManager.AddIdea("Grijze banken",
+					ideations[0].IdeationId));
+				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Ik vind dat de kleur van de banken grijs moet zijn.", ideas[2].IdeaId));
+				
+				
+				ideas.Add(_ideationManager.AddIdea("Houten banken met metalen leuning",
+					ideations[1].IdeationId));
+				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Banken gemaakt van een lokale houtsoort met een metale leuning lijkt mij het beste.", ideas[3].IdeaId));
+				
+				
+				ideas.Add(_ideationManager.AddIdea("Dicht bij het meer",
+					ideations[2].IdeationId));
+				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Ik zou het tof vinden als de banken dicht bij het meer staan.", ideas[4].IdeaId));
+				
+				
+				ideas.Add(_ideationManager.AddIdea("3 keer dubbele banken",
+					ideations[3].IdeationId));
+				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Ik wil telkens 2 banken tegen elkaar, en in totaal 2 keer.", ideas[5].IdeaId));
+				
+				
+				ideas.Add(_ideationManager.AddIdea("2 meter lang per bank",
+					ideations[4].IdeationId));
+				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Mij lijkt de ideale lengte 2 meter, zo kunnen er voldoende mensen op 1 bank zitten, en nemen ze niet teveel plaats in beslag.", ideas[6].IdeaId));
+				
+				
+				ideas.Add(_ideationManager.AddIdea("Controleren of het aantal klopt",
+					ideations[5].IdeationId));
+				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Er moet zeker worden nagekeken of de hoeveelheid banken juist is.", ideas[7].IdeaId));
 
 				#endregion
 
 				#region Comments
 
-				var comment1 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Bankjes moeten hier gewoon komen!"}}, user1.Id,
-					idea1.IdeaId);
-				var comment2 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Wij zitten hier elke dag met onze kinderen en nieuwe bankjes zouden zeker een must zijn."}}, user2.Id,
-					idea1.IdeaId);
-				var comment3 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Ik wil ook een nieuw bankje."}}, user3.Id,
-					idea1.IdeaId);
-				var comment4 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Groot gelijk Fons!"}}, user4.Id,
-					idea2.IdeaId);
-				var comment5 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "Nu kunnen we er tenminste een klimaatmars organiseren."}}, user5.Id,
-					idea3.IdeaId);
-				var comment6 = _cityOfIdeasController.AddCommentToIdea(
-					new List<Field>() {new Field() {Content = "BOMEN BOMEN BOMEN!"}}, user6.Id,
-					idea4.IdeaId);
+				List<Comment> comments = new List<Comment>();
 
+				comments.Add(_cityOfIdeasController.AddCommentToIdea(
+					users[0].Id,
+					ideas[0].IdeaId));
+				fields.Add(_ideationManager.AddFieldToComment(FieldType.Text, "Bankjes moeten hier gewoon komen!", comments[0].CommentId));
+				
+				comments.Add(_cityOfIdeasController.AddCommentToIdea(
+					users[1].Id,
+					ideas[0].IdeaId));
+				fields.Add(_ideationManager.AddFieldToComment(FieldType.Text, "Wij zitten hier elke dag met onze kinderen en nieuwe bankjes zouden zeker een must zijn.", comments[1].CommentId));
+				
+				comments.Add(_cityOfIdeasController.AddCommentToIdea(
+					users[2].Id,
+					ideas[0].IdeaId));
+				fields.Add(_ideationManager.AddFieldToComment(FieldType.Text, "Ik wil ook een nieuw bankje.", comments[2].CommentId));
+				
+				comments.Add(_cityOfIdeasController.AddCommentToIdea(
+					users[3].Id,
+					ideas[1].IdeaId));
+				fields.Add(_ideationManager.AddFieldToComment(FieldType.Text, "Groot gelijk Fons!", comments[3].CommentId));
+				
+				comments.Add(_cityOfIdeasController.AddCommentToIdea(
+					users[4].Id,
+					ideas[2].IdeaId));
+				fields.Add(_ideationManager.AddFieldToComment(FieldType.Text, "Nu kunnen we er tenminste een klimaatmars organiseren.", comments[4].CommentId));
+				
+				comments.Add(_cityOfIdeasController.AddCommentToIdea(
+					users[5].Id,
+					ideas[3].IdeaId));
+				fields.Add(_ideationManager.AddFieldToComment(FieldType.Text, "BOMEN BOMEN BOMEN!", comments[5].CommentId));
+				
 				#endregion
 
 				#region Votes
 
-				var vote1 = _cityOfIdeasController.AddVoteToIdea(1, user2.Id, idea1.IdeaId);
-				var vote2 = _cityOfIdeasController.AddVoteToIdea(-1, user3.Id, idea1.IdeaId);
-				var vote3 = _cityOfIdeasController.AddVoteToIdea(1, user4.Id, idea1.IdeaId);
-				var vote4 = _cityOfIdeasController.AddVoteToIdea(-1, user5.Id, idea1.IdeaId);
-				var vote5 = _cityOfIdeasController.AddVoteToIdea(1, user6.Id, idea1.IdeaId);
+				List<Vote> votes = new List<Vote>();
+
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(1, users[1].Id, ideas[0].IdeaId));
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(-1, users[2].Id, ideas[0].IdeaId));
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(1, users[3].Id, ideas[0].IdeaId));
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(-1, users[4].Id, ideas[0].IdeaId));
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(1, users[5].Id, ideas[0].IdeaId));
 
 				#endregion
 
 				#region Questionnaires
 
-				var questionnaire1 =
-					_questionnaireManager.AddQuestionnaire("Usability evaluation", "Beste bezoeker, In volgende enquete willen wij graag de tevredenheid bij het gebruik van onze website bevragen.", projPhase2.ProjectPhaseId);
-				var question1 = _questionnaireManager.AddQuestion("Hoe heeft u onze website gevonden?",
-					QuestionType.MultipleChoice, questionnaire1.QuestionnaireId);
-				var option1 = _questionnaireManager.AddOption("Zoekmachine", question1.QuestionId);
-				var option2 = _questionnaireManager.AddOption("Sociale media", question1.QuestionId);
-				var option3 = _questionnaireManager.AddOption("Online advertentie", question1.QuestionId);
-				var option4 = _questionnaireManager.AddOption("Via vrienden of kennissen", question1.QuestionId);
-				var question2 = _questionnaireManager.AddQuestion("Is onze website makkelijk te gebruiken?",
-					QuestionType.SingleChoice, questionnaire1.QuestionnaireId);
-				var option5 = _questionnaireManager.AddOption("Ja", question2.QuestionId);
-				var option6 = _questionnaireManager.AddOption("Neen", question2.QuestionId);
-				var question3 = _questionnaireManager.AddQuestion("Wat vindt u van het design van onze website",
-					QuestionType.OpenQuestion, questionnaire1.QuestionnaireId);
+				List<Questionnaire> questionnaires = new List<Questionnaire>();
+				List<Question> questions = new List<Question>();
+				List<Option> options = new List<Option>();
+
+				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Usability evaluation", "Beste bezoeker, In volgende enquete willen wij graag de tevredenheid bij het gebruik van onze website bevragen.", phases[1].ProjectPhaseId));
+				
+				questions.Add(_questionnaireManager.AddQuestion("Hoe heeft u onze website gevonden?",
+					QuestionType.MultipleChoice, questionnaires[0].QuestionnaireId));
+				options.Add(_questionnaireManager.AddOption("Zoekmachine", questions[0].QuestionId));
+				options.Add(_questionnaireManager.AddOption("Sociale media", questions[0].QuestionId));
+				options.Add(_questionnaireManager.AddOption("Online advertentie", questions[0].QuestionId));
+				options.Add(_questionnaireManager.AddOption("Via vrienden of kennissen", questions[0].QuestionId));
+				questions.Add(_questionnaireManager.AddQuestion("Is onze website makkelijk te gebruiken?",
+					QuestionType.SingleChoice, questionnaires[0].QuestionnaireId));
+				options.Add(_questionnaireManager.AddOption("Ja", questions[1].QuestionId));
+				options.Add(_questionnaireManager.AddOption("Neen", questions[1].QuestionId));
+				questions.Add(_questionnaireManager.AddQuestion("Wat vindt u van het design van onze website",
+					QuestionType.OpenQuestion, questionnaires[0].QuestionnaireId));
 
 				#endregion
 			}

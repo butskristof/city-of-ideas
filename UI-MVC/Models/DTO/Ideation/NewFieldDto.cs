@@ -1,12 +1,10 @@
-using System;
 using COI.BL.Domain.Ideation;
 
 namespace COI.UI.MVC.Models.DTO.Ideation
 {
-	public class FieldDto
+	public class NewFieldDto
 	{
-		public int FieldId { get; set; }
-		public String Content { get; set; }
+		public string Content { get; set; }
 		public FieldType FieldType { get; set; }
 
 		public int? IdeaId { get; set; }
