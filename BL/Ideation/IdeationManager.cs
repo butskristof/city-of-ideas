@@ -19,18 +19,19 @@ namespace COI.BL.Ideation
 		private readonly IIdeaRepository _ideaRepository;
 		private readonly IIdeationRepository _ideationRepository;
 		private readonly ICommentRepository _commentRepository;
+		private readonly IFieldRepository _fieldRepository;
 		private readonly IProjectManager _projectManager;
 
-		public IdeationManager(IIdeaRepository ideaRepository, IIdeationRepository ideationRepository, ICommentRepository commentRepository, IProjectManager projectManager)
+		public IdeationManager(IIdeaRepository ideaRepository, IIdeationRepository ideationRepository, ICommentRepository commentRepository, IFieldRepository fieldRepository, IProjectManager projectManager)
 		{
 			_ideaRepository = ideaRepository;
 			_ideationRepository = ideationRepository;
 			_commentRepository = commentRepository;
+			_fieldRepository = fieldRepository;
 			_projectManager = projectManager;
 		}
 
 		#region Ideations
-
 
 		public IEnumerable<Domain.Ideation.Ideation> GetIdeations()
 		{
@@ -42,7 +43,7 @@ namespace COI.BL.Ideation
 			return _ideationRepository.ReadIdeation(ideationId);
 		}
 
-		public Domain.Ideation.Ideation AddIdeation(string title, ICollection<Field> fields, int projectPhaseId)
+		public Domain.Ideation.Ideation AddIdeation(string title, int projectPhaseId)
 		{
 			ProjectPhase phase = _projectManager.GetProjectPhase(projectPhaseId);
 			if (phase == null)
@@ -53,7 +54,6 @@ namespace COI.BL.Ideation
 			Domain.Ideation.Ideation ideation = new Domain.Ideation.Ideation()
 			{
 				Title = title,
-				Fields = fields,
 				ProjectPhase = phase
 			};
 
@@ -116,7 +116,7 @@ namespace COI.BL.Ideation
 			return _ideaRepository.ReadIdea(ideaId);
 		}
 
-		public Idea AddIdea(string title, ICollection<Field> fields, int ideationId)
+		public Idea AddIdea(string title, int ideationId)
 		{
 			Domain.Ideation.Ideation ideation = GetIdeation(ideationId);
 			if (ideation == null)
@@ -127,7 +127,6 @@ namespace COI.BL.Ideation
 			Idea idea = new Idea()
 			{
 				Title = title,
-				Fields = fields,
 				Ideation = ideation
 			};
 
@@ -185,7 +184,7 @@ namespace COI.BL.Ideation
 			return _commentRepository.ReadComment(commentId);
 		}
 
-		public Comment AddCommentToIdea(IEnumerable<Field> content, int ideaId)
+		public Comment AddCommentToIdea(int ideaId)
 		{
 			Idea idea = GetIdea(ideaId);
 			if (idea == null)
@@ -195,7 +194,6 @@ namespace COI.BL.Ideation
 			
 			Comment comment = new Comment()
 			{
-				Fields = (ICollection<Field>) content,
 				Idea = idea,
 			};
 
@@ -220,6 +218,154 @@ namespace COI.BL.Ideation
 
 		#endregion
 
+		#region Fields
+
+		public Field GetField(int fieldId)
+		{
+			return _fieldRepository.ReadField(fieldId);
+		}
+
+		public Field AddFieldToIdea(FieldType type, string content, int ideaId)
+		{
+			Idea idea = GetIdea(ideaId);
+			if (idea == null)
+			{
+				throw new ArgumentException("Idea not found.", "ideaId");
+			}
+			
+			Field field = new Field()
+			{
+				Content = content,
+				FieldType = type,
+				Idea = idea
+			};
+
+			return AddField(field);
+		}
+
+		public Field AddFieldToIdeation(FieldType type, string content, int ideationId)
+		{
+			Domain.Ideation.Ideation ideation = GetIdeation(ideationId);
+			if (ideation == null)
+			{
+				throw new ArgumentException("Ideation not found.", "ideationId");
+			}
+			
+			Field field = new Field()
+			{
+				Content = content,
+				FieldType = type,
+				Ideation = ideation
+			};
+
+			return AddField(field);
+		}
+
+		public Field AddFieldToComment(FieldType type, string content, int commentId)
+		{
+			Comment comment = GetComment(commentId);
+			if (comment == null)
+			{
+				throw new ArgumentException("Comment not found.", "commentId");
+			}
+			
+			Field field = new Field()
+			{
+				Content = content,
+				FieldType = type,
+				Comment = comment
+			};
+
+			return AddField(field);
+		}
+
+		private Field AddField(Field field)
+		{
+			Validate(field);
+			return _fieldRepository.CreateField(field);
+		}
+
+		public Field ChangeIdeaField(int id, FieldType type, string content, int ideaId)
+		{
+			Field toChange = GetField(id);
+			if (toChange != null)
+			{
+				Idea idea = GetIdea(ideaId);
+				if (idea == null)
+				{
+                    throw new ArgumentException("Idea not found.", "ideaId");
+				}
+
+				toChange.FieldType = type;
+				toChange.Content = content;
+				toChange.Idea = idea;
+
+				Validate(toChange);
+				return _fieldRepository.UpdateField(toChange);
+			}
+			
+			throw new ArgumentException("Field not found.", "id");
+		}
+
+		public Field ChangeIdeationField(int id, FieldType type, string content, int ideationId)
+		{
+			Field toChange = GetField(id);
+			if (toChange != null)
+			{
+				Domain.Ideation.Ideation ideation = GetIdeation(ideationId);
+				if (ideation == null)
+				{
+                    throw new ArgumentException("Ideation not found.", "ideationId");
+				}
+
+				toChange.FieldType = type;
+				toChange.Content = content;
+				toChange.Ideation = ideation;
+
+				Validate(toChange);
+				return _fieldRepository.UpdateField(toChange);
+			}
+			
+			throw new ArgumentException("Field not found.", "id");
+		}
+
+		public Field ChangeCommentField(int id, FieldType type, string content, int commentId)
+		{
+			Field toChange = GetField(id);
+			if (toChange != null)
+			{
+				Comment comment = GetComment(commentId);
+				if (comment == null)
+				{
+                    throw new ArgumentException("Comment not found.", "commentId");
+				}
+
+				toChange.FieldType = type;
+				toChange.Content = content;
+				toChange.Comment = comment;
+
+				Validate(toChange);
+				return _fieldRepository.UpdateField(toChange);
+			}
+			
+			throw new ArgumentException("Field not found.", "id");
+		}
+
+		private void Validate(Field field)
+		{
+			Validator.ValidateObject(field, new ValidationContext(field), true);
+		}
+
+		public Field RemoveField(int fieldId)
+		{
+			return _fieldRepository.DeleteField(fieldId);
+		}
+
+		#endregion
+		
+		#region Votes
+
+		
 		public void AddVoteToIdea(Vote vote, int ideaId)
 		{
 			Idea idea = GetIdea(ideaId);
@@ -258,6 +404,11 @@ namespace COI.BL.Ideation
 			comment.Votes.Add(vote);
 			_commentRepository.UpdateComment(comment);
 		}
+		
+		#endregion
+
+		#region Scores
+
 		public int GetIdeaScore(int ideaId)
 		{
 			Idea idea = GetIdea(ideaId);
@@ -290,6 +441,7 @@ namespace COI.BL.Ideation
 			
             throw new ArgumentException("Comment not found.");
 		}
-		
+
+		#endregion
 	}
 }

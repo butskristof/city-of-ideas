@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -78,12 +79,18 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
-				var fields = _mapper.Map<List<Field>>(ideation.Fields);
+//				var fields = _mapper.Map<List<Field>>(ideation.Fields);
 				_unitOfWorkManager.StartUnitOfWork();
 				Ideation createdIdeation = _ideationManager.AddIdeation(
 					ideation.Title, 
-					fields,
 					ideation.ProjectPhaseId);
+				
+//				List<Field> fields = new List<Field>();
+				foreach (FieldDto field in ideation.Fields)
+				{
+					_ideationManager.AddFieldToIdeation(field.FieldType, field.Content, createdIdeation.IdeationId);
+				}
+				
 				_unitOfWorkManager.EndUnitOfWork();
 				
 				return CreatedAtAction(

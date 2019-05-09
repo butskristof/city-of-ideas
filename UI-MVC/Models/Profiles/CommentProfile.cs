@@ -15,8 +15,16 @@ namespace COI.UI.MVC.Models.Profiles
 				.ForMember(c => c.VoteCount, opt => opt.MapFrom(o => o.GetScore()));
 
 			CreateMap<Field, FieldDto>()
-				.ForMember(f => f.Content, opt => opt.MapFrom(s => s.Content));
-			
+				.ForMember(f => f.Content, opt => opt.MapFrom(s => s.Content))
+				.ForMember(f => f.IdeaId, 
+					opt => opt.MapFrom(
+						s => s.Idea.IdeaId))
+				.ForMember(f => f.IdeationId, 
+					opt => opt.MapFrom(
+						s => s.Ideation.IdeationId))
+				.ForMember(f => f.CommentId, 
+					opt => opt.MapFrom(
+						s => s.Comment.CommentId));
 		}
 	}
 }

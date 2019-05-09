@@ -26,7 +26,7 @@ namespace COI.BL.Application
 //		Answer AnswerChoiceQuestion(string userId, int optionId);
 		
 		// Comments
-		Comment AddCommentToIdea(IEnumerable<Field> content, string userId, int ideaId);
+		Comment AddCommentToIdea(string userId, int ideaId);
 		
 		// Votes
 		Vote AddVoteToIdea(int value, string userId, int ideaId);
@@ -56,14 +56,14 @@ namespace COI.BL.Application
 
 		#region Comments
 		
-		public Comment AddCommentToIdea(IEnumerable<Field> content, string userId, int ideaId)
+		public Comment AddCommentToIdea(string userId, int ideaId)
 		{
-			_unitOfWorkManager.StartUnitOfWork();
+//			_unitOfWorkManager.StartUnitOfWork();
 			
-			Comment comment = _ideationManager.AddCommentToIdea(content, ideaId);
+			Comment comment = _ideationManager.AddCommentToIdea(ideaId);
 			_userManager.AddCommentToUser(comment, userId);
 			
-			_unitOfWorkManager.EndUnitOfWork();
+//			_unitOfWorkManager.EndUnitOfWork();
 
 			return comment;
 		}

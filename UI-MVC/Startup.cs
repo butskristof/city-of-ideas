@@ -137,6 +137,7 @@ namespace COI.UI.MVC
 			services.AddScoped<IProjectRepository, ProjectRepository>();
 			services.AddScoped<IProjectPhaseRepository, ProjectPhaseRepository>();
 			services.AddScoped<IOptionRepository, OptionRepository>();
+			services.AddScoped<IFieldRepository, FieldRepository>();
 
 			#endregion
 

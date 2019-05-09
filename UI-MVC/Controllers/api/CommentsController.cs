@@ -57,11 +57,19 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
-				var fields = _mapper.Map<List<Field>>(comment.Content);
+//				var fields = _mapper.Map<List<Field>>(comment.Content);
+				_unitOfWorkManager.StartUnitOfWork();
+				
 				Comment createdComment = _coiCtrl.AddCommentToIdea(
-					fields, 
 					comment.UserId, 
 					comment.IdeaId);
+
+				foreach (var field in comment.Content)
+				{
+					_ideationManager.AddFieldToComment(field.FieldType, field.Content, createdComment.CommentId);
+				}
+				
+				_unitOfWorkManager.EndUnitOfWork();
 
 				return CreatedAtAction(
 					"GetComment", 
