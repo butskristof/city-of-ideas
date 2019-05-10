@@ -92,6 +92,20 @@ namespace COI.BL.Ideation
 			return _ideationRepository.DeleteIdeation(id);
 		}
 
+		public Domain.Ideation.Ideation ChangeIdeationState(int id, bool newState)
+		{
+			Domain.Ideation.Ideation toChange = GetIdeation(id);
+			if (toChange != null)
+			{
+				toChange.IsOpen = newState;
+				
+				Validate(toChange);
+				return _ideationRepository.UpdateIdeation(toChange);
+			}
+			
+			throw new ArgumentException("Ideation not found.", "id");
+		}
+
 		private void Validate(Domain.Ideation.Ideation ideation)
 		{
 			Validator.ValidateObject(ideation, new ValidationContext(ideation), true);

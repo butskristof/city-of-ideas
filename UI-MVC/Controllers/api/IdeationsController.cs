@@ -182,32 +182,47 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
-//		[HttpPost("Vote")]
-//		public IActionResult PostIdeationVote(NewIdeationVoteDto vote)
-//		{
-//			try
-//			{
-//				Vote createdVote = _coiCtrl.AddVoteToIdeation(
-//					vote.Value, 
-//					vote.UserId, 
-//					vote.IdeationId);
-//				
-//				// TODO update response
-////				return CreatedAtAction();
-//				return Ok();
-//			}
-//			catch (ArgumentException e)
-//			{
-//				switch (e.ParamName)
-//				{
-//					case "commentId":
-//						return UnprocessableEntity(e.Message);
-//					case "userId":
-//						return UnprocessableEntity(e.Message);
-//					default:
-//						return BadRequest(e.Message);
-//				}
-//			}
-//		}
+		[HttpPost("{id}/Open")]
+		public IActionResult OpenIdeation(int id)
+		{
+			return ChangeIdeationState(id, true);
+		}
+		
+		[HttpPost("{id}/Close")]
+		public IActionResult CloseIdeation(int id)
+		{
+			return ChangeIdeationState(id, false);
+		}
+
+		private IActionResult ChangeIdeationState(int id, bool newState)
+		{
+			try
+			{
+				_unitOfWorkManager.StartUnitOfWork();
+				Ideation updatedIdeation = _ideationManager.ChangeIdeationState(id, newState);
+				_unitOfWorkManager.EndUnitOfWork();
+
+				if (updatedIdeation == null)
+				{
+					return BadRequest("Something went wrong while updating the ideation state.");
+				}
+
+				return Ok(_mapper.Map<IdeationDto>(updatedIdeation));
+			}
+			catch (ValidationException ve)
+			{
+				return UnprocessableEntity($"Invalid input data: {ve.ValidationResult.ErrorMessage}");
+			}
+			catch (ArgumentException e)
+			{
+				switch (e.ParamName)
+				{
+					case "id":
+						return NotFound(e.Message);
+					default:
+						return BadRequest(e.Message);
+				}
+			}
+		}
 	}
 }

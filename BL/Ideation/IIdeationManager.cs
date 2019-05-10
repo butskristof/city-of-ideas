@@ -12,6 +12,8 @@ namespace COI.BL.Ideation
 		Domain.Ideation.Ideation AddIdeation(string title, int projectPhaseId);
 		Domain.Ideation.Ideation ChangeIdeation(int id, string title, int projectPhaseId);
 		Domain.Ideation.Ideation RemoveIdeation(int id);
+
+		Domain.Ideation.Ideation ChangeIdeationState(int id, bool newState);
 		
 		IEnumerable<Idea> GetIdeas();
 		IEnumerable<Idea> GetIdeasForIdeation(int ideationId);
@@ -42,6 +44,5 @@ namespace COI.BL.Ideation
 		int GetIdeaScore(int ideaId);
 		int GetIdeationScore(int ideationId);
 		int GetCommentScore(int commentId);
-
 	}
 }
