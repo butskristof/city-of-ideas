@@ -19,6 +19,7 @@ namespace COI.BL.Domain.User
 		public int Value { get; set; }
 
 		public virtual User User { get; set; }
+		public string Email { get; set; }
 
 		public virtual Ideation.Ideation Ideation { get; set; }
 		public virtual Idea Idea { get; set; }
