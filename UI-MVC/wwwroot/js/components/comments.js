@@ -23,7 +23,6 @@ export default {
 				commentsList.appendChild(el);
 			},
 			createDOMElement(comment) {
-				console.log(comment);
 				let newComment = document.createElement("div");
 				newComment.classList.add("comment");
 				newComment.innerHTML = `
@@ -46,7 +45,7 @@ export default {
 					  </div>
 					  <div class="options-bar">
 						<div class="options-bar__option">
-							<span class="options-bar__votes mr-2">${comment.score}</span>
+							<span class="options-bar__votes mr-2">${comment.voteCount}</span>
 							<i class="material-icons outline mr-2">thumb_up</i>
 							<i class="material-icons outline">thumb_down</i>
 						</div>

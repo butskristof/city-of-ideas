@@ -2,6 +2,7 @@ import Page from "../util/page";
 import Editor from "../components/editor";
 import Comments from "../components/comments";
 import CommentsRepository from "../repositories/commentsRepository";
+import Voters from "../components/voters";
 
 Page.onLoad(async () => {
 	
@@ -33,6 +34,9 @@ Page.onLoad(async () => {
 			// console.log(response);
 		});
 	}
+	
+	
+	Voters.init();
 	
 	
 	
