@@ -63,7 +63,7 @@ namespace COI.UI.MVC.Controllers.api
 					return NotFound("Project not found.");
 				}
 
-				return Ok(_mapper.Map<ProjectDto>(proj));
+				return Ok(_mapper.Map<ProjectMinDto>(proj));
 			}
 			catch (Exception e)
 			{

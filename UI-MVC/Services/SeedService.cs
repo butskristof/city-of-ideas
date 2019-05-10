@@ -75,11 +75,11 @@ namespace COI.UI.MVC.Services
 
 				var proj1 = _projectManager.AddProject("Vrijbroekspark",
 					"In onze gemeente hebben we een prachtig park. Beslis mee over dit prachtige park.",
-					new DateTime(2019, 2, 16), new DateTime(2019, 3, 16), org1.OrganisationId);
+					new DateTime(2019, 2, 16), new DateTime(2019, 3, 16), organisations[0].OrganisationId);
 				
 				var proj2 = _projectManager.AddProject("Haven van antwerpen",
 					"De haven van Antwerpen is toe aan vernieuwingen, hoe moeten deze gebeuren?",
-					new DateTime(2019, 2, 16), new DateTime(2019, 3, 12), org1.OrganisationId);
+					new DateTime(2019, 2, 16), new DateTime(2019, 3, 12), organisations[0].OrganisationId);
 				
 
 				#endregion
