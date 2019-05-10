@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using COI.BL.Domain.Common;
 
 namespace COI.BL.Domain.Ideation
@@ -6,6 +7,7 @@ namespace COI.BL.Domain.Ideation
 	public class Field
 	{
 		public int FieldId { get; set; }
+		[MinLength(2)]
 		public string Content { get; set; }
 		public FieldType FieldType { get; set; }
 
