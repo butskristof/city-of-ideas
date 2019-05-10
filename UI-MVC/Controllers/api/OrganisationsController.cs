@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using COI.BL;
 using COI.BL.Domain.Organisation;
 using COI.BL.Organisation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Organisation;
+using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,12 +23,14 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IMapper _mapper;
 		private readonly IOrganisationManager _organisationManager;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
+		private readonly IFileService _fileService;
 
-		public OrganisationsController(IMapper mapper, IOrganisationManager organisationManager, IUnitOfWorkManager unitOfWorkManager)
+		public OrganisationsController(IMapper mapper, IOrganisationManager organisationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
 		{
 			_mapper = mapper;
 			_organisationManager = organisationManager;
 			_unitOfWorkManager = unitOfWorkManager;
+			_fileService = fileService;
 		}
 
 		[AllowAnonymous]
@@ -137,6 +141,23 @@ namespace COI.UI.MVC.Controllers.api
 			catch (ArgumentException)
 			{
 				return NotFound("Organisation to delete not found.");
+			}
+		}
+
+		[HttpPost("Logo")]
+		public async Task<IActionResult> PostNewOrganisationLogo([FromForm] NewOrganisationLogoDto input)
+		{
+			try
+			{
+				string imgpath = await _fileService.SetOrganisationLogo(input.OrganisationId, input.Picture);
+				return Ok(new
+				{
+					imgPath = imgpath
+				});
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
 			}
 		}
 	}
