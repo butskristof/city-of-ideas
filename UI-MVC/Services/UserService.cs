@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using COI.BL.Domain.User;
+using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -93,6 +94,7 @@ namespace COI.UI.MVC.Services
 
 			if (userCreationResult.Succeeded)
 			{
+				await _userManager.AddToRoleAsync(newUser, Roles.User);
 				return newUser;
 			}
 
