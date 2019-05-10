@@ -2,7 +2,7 @@ import Repository from "./repository";
 
 export default {
     login(email, password) {
-        return Repository.post("/api/users/login",{
+        return Repository.post("/api/users/Login",{
             email, password
         });
     },

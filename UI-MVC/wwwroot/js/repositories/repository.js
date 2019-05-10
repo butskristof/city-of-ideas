@@ -2,8 +2,8 @@
 const baseUrl = "";
 
 export default {
-    get(route, body = {}) {
-        return this.callApi("GET", route, body);
+    get(route) {
+        return this.callApi("GET", route);
     },
     post(route, body = {}) {
         return this.callApi("POST", route, body);
@@ -14,7 +14,7 @@ export default {
     delete(route, body = {}) {
         return this.callApi("DELETE", route, body);
     },
-    callApi(method, route, body) {
+    callApi(method, route, body = null) {
         return fetch(baseUrl + route, {
             method,
             mode: "cors",
@@ -24,7 +24,7 @@ export default {
                 "Content-Type": "application/json"
             },
             redirect: "follow",
-            body: JSON.stringify(body)
+            body: (body == null) ? undefined : JSON.stringify(body)
         }).catch((err) => {
         	// Default error handling, log the error and or show a popup
 			console.error("An error occured during a request", err);

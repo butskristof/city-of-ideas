@@ -1,7 +1,7 @@
-import Page from "./page";
+import Page from "../util/page";
 
 export default {
-	loadForm(form) {
+	init(form) {
 		if (!form) {
 			throw Error(`Form not valid`);
 		}

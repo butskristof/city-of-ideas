@@ -1,15 +1,15 @@
 import Page from "./util/page";
-import Form from "./util/form";
+import Form from "./components/form";
 import AuthRepository from "./repositories/authRepository";
 
 /* Login */
-const loginForm = Form.loadForm(Page.query("#auth_login"));
+const loginForm = Form.init(Page.query("#auth_login"));
 loginForm.onSubmit((formData) => {
 	loginForm.clear();
 	AuthRepository.login(formData.get('email'), formData.get('password'))
-		 .then((response) => {
+		 .then(async (response) => {
 			 if (response.ok) {
-				 Page.reload();
+			 	Page.reload();
 			 } else {
 				 loginForm.showError("Username and or password are not correct");	
 			 }
@@ -17,7 +17,7 @@ loginForm.onSubmit((formData) => {
 });
 
 /* Register */
-const registerForm = Form.loadForm(Page.query("#auth_register"));
+const registerForm = Form.init(Page.query("#auth_register"));
 registerForm.onSubmit((formData) => {
 	registerForm.clear();
 	AuthRepository.register(
@@ -28,7 +28,7 @@ registerForm.onSubmit((formData) => {
 		formData.get('password_re')
 	).then(response => {
 		if (response.ok) {
-			console.log('Register complete');
+			Page.reload();
 		} else {
 			response.json().then(body => {
 				registerForm.showErrors(body.errors);
