@@ -7,7 +7,6 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:300,400,600,700" rel="stylesheet" />
     <script type="module" src="~/dist/site.entry.js" defer></script>
-    <script src="~/js/register.js"></script>
     <link rel="stylesheet" href="~/dist/site.css">
 </head>
 
@@ -15,7 +14,9 @@
 
 <!-- HEADER -->
 <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" asp-controller="Home" asp-action="Index">Antwerpen</a>
+    <a class="navbar-brand" id="organisation" data-toggle="modal" data-target="#OrganisationModal">Antwerpen</a>
+    
+    
     <button
         class="navbar-toggler"
         type="button"
@@ -47,11 +48,11 @@
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
-  <!-- Modal content -->
-  <div class="modal-content werk">
-    <input class="search__input" type="text" placeholder="ZOEK" />
-    <i class="fas fa-search zoekModal"></i>
-  </div>
+    <!-- Modal content -->
+    <div class="modal-content werk">
+        <input class="search__input" type="text" placeholder="ZOEK" />
+        <i class="fas fa-search zoekModal"></i>
+    </div>
 </div>
 <!-- /Header -->
 
@@ -188,7 +189,7 @@
                         
                         
                         <div class="forms popup__forms custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="cb-organisatie" onclick="showOrganisatie();">
+                            <input type="checkbox" class="custom-control-input" id="cb-organisatie">
                             <label class="custom-control-label" for="cb-organisatie">Organisatie</label>
                         </div>
                         
@@ -197,6 +198,7 @@
                         <div id="div1" class="hide input__organisatie">
                             <input
                                 type="text"
+                                class="registreer-popup__organisatie-input form-control"
                                 class="registreer-popup__organisatie-input form-control"
                                 id="organisatie-inputveld"
                                 placeholder="Organisatie"/>
@@ -280,6 +282,45 @@
     </div>
 </div>
 <!-- /RegisterModal -->
+
+<!-- OrganisationModal -->
+<div class="modal fade" id="OrganisationModal" tabindex="-1" role="dialog" aria-labelledby="OrganisationModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content login-popup">
+            <div class="modal-body">
+                <div class="row popup__row">
+                    <div class="popup__afbeeldingkolom col-md-6">
+                        <section
+                            class="popup__afbeelding district"
+                            id="theImageAntwerpen"
+                            style="background-image: url('/img/pexels-photo-167676.jpeg')">
+                        </section>
+                    </div>
+                    <form class="login-popup__container col-md-6 col-sm-12" id="auth_company">
+                        <h1 class="paginatitel paginatitel__popup mb-4">Organisation</h1>
+                        
+                        <div
+                            class="circle circle__antwerpen"
+                            id="circleAntwerpen"
+                        >
+                            Antwerpen
+                        </div>
+                        <div
+                            class="circle circle__brussel"
+                            id="circleBrussel"
+                        >
+                            Brussel
+                        </div>
+                        <button class="btn btn__witteAchtergrond btn__dikker">
+                            Kies Organisatie
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /OrganisationModal -->
 
 @RenderSection("Scripts", required: false)
 </body>
