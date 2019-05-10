@@ -3,7 +3,7 @@
 @using Newtonsoft.Json
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@model COI.UI.MVC.Models.DTO.Ideation.IdeaDto
+@model COI.BL.Domain.Ideation.Idea
 
 @{
 	ViewBag.Title = @Model.Title;
@@ -14,19 +14,19 @@
 <main class="content content--shadow container">
 	<!-- Idea -->
 	<article class="page__intro mt-3">
-		<h1 id="ideaTitle"></h1>
+		<h1 id="ideaTitle">@Model.Title</h1>
 
-		<div id="ideaFields">
-		</div>
-@* 		<p> *@
-@* 			@foreach (var field in @Model.Fields) *@
-@* 			{ *@
-@* 				@field.Content *@
-@* 			} *@
-@* 		</p> *@
+        <p id="ideaFields">
+			@foreach (var field in @Model.Fields)
+			{
+				@field.Content
+			}
+        </p>
 		<div class="options-bar">
 			<div class="options-bar__option">
-				<span class="options-bar__votes mr-2" id="ideaVoteCount"></span>
+                <span class="options-bar__votes mr-2" id="ideaVoteCount">
+                    @Model.GetScore()
+                </span>
 				<i class="material-icons outline mr-2" id="ideaUpvote">thumb_up</i>
 				<i class="material-icons outline" id="ideaDownvote">thumb_down</i>
 			</div>
@@ -43,15 +43,15 @@
 			Reacties
 		</h1>
 		
-		<div id="comments">
-		</div>
+        <div id="comments">
+        </div>
 	</section>
 	<!-- /Comments -->
 	
 	@if (SignInManager.IsSignedIn(User))
 	{
         <!-- Editor -->
-        <section class="editor mt-10">
+        <form method="post" class="editor mt-10" id="ideaEditor">
             <h2 clas="mb-2">Schrijf een eigen reactie</h2>
 
             <div class="editor__text-container">
@@ -67,9 +67,9 @@
                 </div>
 
                 <textarea
-                    rows="1"
+                    name="text"
                     class="editor__text textbox"
-                    placeholder="Uw reactie"
+                    placeholder="Schrijf een reactie"
                 ></textarea>
             </div>
 
@@ -81,10 +81,10 @@
                 accept="image/x-png,image/gif,image/jpeg"
             />
 
-            <button class="btn editor__submit mt-2">
+            <button type="submit" class="btn editor__submit mt-2">
                 Reactie plaatsen
             </button>
-        </section>
+        </form>
         <!-- /Editor -->
 	}
 	else
@@ -93,9 +93,8 @@
         <section class="editor mt-10">
             <h2>Schrijf een eigen reactie</h2>
             
-            <button class="btn">Log in</button>
-            <button class="btn">Maak een account</button>
-            
+            <button class="btn" data-toggle="modal" data-target="#LoginModal">Log in</button>
+            <button class="btn" data-toggle="modal" data-target="#RegisterModal">Maak een account</button>
         </section>
         <!-- /Log in -->
 	}
@@ -105,9 +104,15 @@
 
 @section Scripts
 {
-	<script type="text/javascript">
-        let idea = @Html.Raw(JsonConvert.SerializeObject(Model));
-        let userId = "@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : null)";
-	</script>
-	<script type="text/javascript" src="@Url.Content("~/dist/idea.entry.js")" defer></script>
+	@* <script type="text/javascript"> *@
+ @*        let idea = @Html.Raw(JsonConvert.SerializeObject(Model)); *@
+ @*        let userId = "@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : null)"; *@
+	@* </script> *@
+	@* <script type="text/javascript" src="@Url.Content("~/dist/idea.entry.js")" defer></script> *@
+    @* <script type="text/javascript" src="@Url.Content("~/dist/pages/idea.entry.js")" defer></script> *@
+    <script >
+        const ideaId = '@Model.IdeaId';
+        const userId = '@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : null)'
+    </script>
+    <script type="text/javascript" src="/dist/idea.entry.js" defer></script>
 }

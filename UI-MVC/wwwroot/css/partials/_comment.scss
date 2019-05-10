@@ -12,6 +12,11 @@
     grid-template-areas: 
       "comment_profile comment_content"
       "comment_profile comment_options";
+    margin-bottom: 50px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
 
     .comment__content {
       grid-area: comment_content;
