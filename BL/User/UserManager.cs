@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.DAL.User;
-using Microsoft.AspNetCore.Identity;
 
 namespace COI.BL.User
 {
@@ -85,6 +83,10 @@ namespace COI.BL.User
 			{
 				throw new ArgumentException("User not found.", "userId");
 			}
+
+			value = Helpers.Helpers.LimitToRange(value, 
+				Helpers.Helpers.MinVoteValue, 
+				Helpers.Helpers.MaxVoteValue);
 			
 			Vote vote = new Vote()
 			{
@@ -100,7 +102,7 @@ namespace COI.BL.User
 			Validate(vote);
 			return _voteRepository.CreateVote(vote);
 		}
-
+		
 		public Vote RemoveVote(int voteId)
 		{
 			return _voteRepository.DeleteVote(voteId);
