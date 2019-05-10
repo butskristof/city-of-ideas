@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using Castle.Core.Internal;
 using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
@@ -55,6 +56,11 @@ namespace COI.UI.MVC.Controllers.api
 		[HttpPost]
 		public IActionResult PostNewIdeaComment(NewIdeaCommentDto comment)
 		{
+			if (comment.Content.IsNullOrEmpty())
+			{
+				return BadRequest("One or more fields should be provided.");
+			}
+			
 			try
 			{
 //				var fields = _mapper.Map<List<Field>>(comment.Content);
