@@ -7,14 +7,14 @@ const loginForm = Form.init(Page.query("#auth_login"));
 loginForm.onSubmit((formData) => {
 	loginForm.clear();
 	AuthRepository.login(formData.get('email'), formData.get('password'))
-		 .then(async (response) => {
-			 if (response.ok) {
-			 	Page.reload();
-			 	registerForm.clear();
-			 } else {
-				 loginForm.showError("Username and or password are not correct");	
-			 }
-		 });
+		.then(async (response) => {
+			if (response.ok) {
+				Page.reload();
+				registerForm.clear();
+			} else {
+				loginForm.showError("Username and or password are not correct");
+			}
+		});
 });
 
 /* Register */
@@ -37,4 +37,14 @@ registerForm.onSubmit((formData) => {
 			});
 		}
 	});
+});
+
+let organisationInputfield = Page.query("#div1");
+Page.query("#cb-organisatie").addEventListener("change", function () {
+	if (this.checked){
+		organisationInputfield.style.display = "block";
+	}
+	else {
+		organisationInputfield.style.display = "none";
+	}
 });
