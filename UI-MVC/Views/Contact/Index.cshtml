@@ -5,87 +5,69 @@
 }
 
 <main>
-    <h1 class="paginatitel paginatitel__bovenaan">
-        Contact
-    </h1>
-    <div class="contact">
-        <div class="contact__landing">
-            <div class="contact__landing__content">
-                <div class="contact__landing__content__picture"></div>
-                <h2 class="contact__landing__content__h2">
-                    <strong>Emre</strong>
-                    Arslan
-                </h2>
-                <p class="contact__landing__content__p">
-                    Toegepaste informatica aan Karel de Grote Hogeschool <br/>
-                    <strong>Systeem- en Netwerkbeheer</strong>
+    <section class="contact" id="contact-us">
+        <div class="contact-wrap">
+            <!--left pannel start-->
+            <div class="contact-wrap__pannel-left">
+                <h3 class="contact-wrap__pannel-left__h3 paginatitel paginatitel__bovenaan">Contacteer ons</h3>
+                <div class="contact-wrap__pannel-left__contact-form">
+                    <form
+                        method="POST"
+                        action="https://cityofideas.invacto.com"
+                        accept-charset="UTF-8"
+                    >
+                        <input
+                            type="text"
+                            required=""
+                            placeholder="Name"
+                            name="name"
+                            class="form-control form__inputfield form__inputfield2 inputContact"
+                        />
+                        <input
+                            type="email"
+                            required=""
+                            placeholder="Your email address"
+                            class="form-control form__inputfield form__inputfield2 inputContact"
+                            name="email"
+                        />
+                        <textarea
+                  required=""
+                  placeholder="Message"
+                  id="comments"
+                  class="form-control form__inputfield form__inputfield2 inputContact"
+                  name="comments"
+                ></textarea>
+                        <button
+                            name="login"
+                            type="submit"
+                            class="btn btn__witteAchtergrond btn__links"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!--left pannel end-->
+            <!--right pannel start-->
+            <div class="contact-wrap__pannel-right">
+                <h3 class="contact-wrap__pannel-right__h3 paginatitel paginatitel__bovenaan">Contact</h3>
+                <p class="margin-t35rem">
+                    Tree Company <br />
+                    <a href="mailto:info@treecompany.be" target="_blank"
+                    >info@treecompany.be</a
+                    >
+                    <br />
+                    <a href="www.treecompany.be" target="_blank"
+                    >www.treecompany.be</a
+                    >
+                </p>
+                <p>
+                    Jozef Hermanslei 45 <br />
+                    2640 Mortsel <br />
+                    BE 0840.111.951
                 </p>
             </div>
+            <!--right pannel end-->
         </div>
-        <div class="contact__landing">
-            <div class="contact__landing__content">
-                <div class="contact__landing__content__picture"></div>
-                <h2 class="contact__landing__content__h2">
-                    <strong>Jordy</strong>
-                    Bruyns
-                </h2>
-                <p class="contact__landing__content__p">
-                    Toegepaste informatica aan Karel de Grote Hogeschool <br />
-                    <strong>Applicatieontwikkeling</strong>
-                </p>
-            </div>
-        </div>
-        <div class="contact__landing">
-            <div class="contact__landing__content">
-                <div class="contact__landing__content__picture"></div>
-                <h2 class="contact__landing__content__h2">
-                    <strong>Kristof</strong>
-                    Buts
-                </h2>
-                <p class="contact__landing__content__p">
-                    Toegepaste informatica aan Karel de Grote Hogeschool <br />
-                    <strong>Applicatieontwikkeling</strong>
-                </p>
-            </div>
-        </div>
-        <div class="contact__landing">
-            <div class="contact__landing__content">
-                <div class="contact__landing__content__picture"></div>
-                <h2 class="contact__landing__content__h2">
-                    <strong>Ian</strong>
-                    Jakubek
-                </h2>
-                <p class="contact__landing__content__p">
-                    Toegepaste informatica aan Karel de Grote Hogeschool <br />
-                    <strong>Applicatieontwikkeling</strong>
-                </p>
-            </div>
-        </div>
-        <div class="contact__landing">
-            <div class="contact__landing__content">
-                <div class="contact__landing__content__picture"></div>
-                <h2 class="contact__landing__content__h2">
-                    <strong>Wout</strong>
-                    Peeters
-                </h2>
-                <p class="contact__landing__content__p">
-                    Toegepaste informatica aan Karel de Grote Hogeschool <br />
-                    <strong>Applicatieontwikkeling</strong>
-                </p>
-            </div>
-        </div>
-        <div class="contact__landing">
-            <div class="contact__landing__content">
-                <div class="contact__landing__content__picture"></div>
-                <h2 class="contact__landing__content__h2">
-                    <strong>Jana</strong>
-                    Wouters
-                </h2>
-                <p class="contact__landing__content__p">
-                    Toegepaste informatica aan Karel de Grote Hogeschool <br />
-                    <strong>Applicatieontwikkeling</strong>
-                </p>
-            </div>
-        </div>
-    </div>
+    </section>
 </main>
