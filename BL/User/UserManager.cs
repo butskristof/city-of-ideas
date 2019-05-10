@@ -97,6 +97,35 @@ namespace COI.BL.User
 			return AddVote(vote);
 		}
 
+		public Vote AddVoteWithEmail(int value, string email)
+		{
+			value = Helpers.Helpers.LimitToRange(value, 
+				Helpers.Helpers.MinVoteValue, 
+				Helpers.Helpers.MaxVoteValue);
+			
+			Vote vote = new Vote()
+			{
+				Value = value,
+				Email = email
+			};
+
+			return AddVote(vote);
+		}
+
+		public Vote AddAnonymousVote(int value)
+		{
+			value = Helpers.Helpers.LimitToRange(value, 
+				Helpers.Helpers.MinVoteValue, 
+				Helpers.Helpers.MaxVoteValue);
+			
+			Vote vote = new Vote()
+			{
+				Value = value
+			};
+
+			return AddVote(vote);
+		}
+
 		private Vote AddVote(Vote vote)
 		{
 			Validate(vote);
@@ -112,6 +141,24 @@ namespace COI.BL.User
 		{
 			IEnumerable<Vote> ideaVotes = _voteRepository.ReadVotesForIdea(ideaId);
 			return ideaVotes.FirstOrDefault(v => v.User.Id == userId);
+		}
+
+		public Vote GetEmailVoteForIdea(int ideaId, string email)
+		{
+			IEnumerable<Vote> ideaVotes = _voteRepository.ReadVotesForIdea(ideaId);
+			return ideaVotes.FirstOrDefault(v => v.Email == email);
+		}
+
+		public Vote GetEmailVoteForComment(int commentId, string email)
+		{
+			IEnumerable<Vote> ideaVotes = _voteRepository.ReadVotesForComment(commentId);
+			return ideaVotes.FirstOrDefault(v => v.Email == email);
+		}
+
+		public Vote GetEmailVoteForIdeation(int ideationId, string email)
+		{
+			IEnumerable<Vote> ideaVotes = _voteRepository.ReadVotesForIdeation(ideationId);
+			return ideaVotes.FirstOrDefault(v => v.Email == email);
 		}
 
 		public Vote GetVoteForIdeation(int ideationId, string userId)
