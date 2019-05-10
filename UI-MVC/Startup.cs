@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using COI.BL;
 using COI.BL.Application;
@@ -114,8 +115,9 @@ namespace COI.UI.MVC
 						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
 					};
 				});
-
+			
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
 			
 			#endregion
 
@@ -168,7 +170,7 @@ namespace COI.UI.MVC
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
 		{
 			if (env.IsDevelopment())
 			{
@@ -193,6 +195,7 @@ namespace COI.UI.MVC
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
+			
 		}
 	}
 }

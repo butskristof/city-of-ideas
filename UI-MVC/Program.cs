@@ -1,7 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using Castle.Core.Logging;
+using COI.UI.MVC.Services;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace COI.UI.MVC
 {
@@ -9,7 +14,27 @@ namespace COI.UI.MVC
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+//            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var serviceProvider = services.GetRequiredService<IServiceProvider>();
+                    var conf = services.GetRequiredService<IConfiguration>();
+
+                    Seed.CreateRoles(serviceProvider, conf).Wait();
+                }
+                catch (Exception e)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(e, "An error occurred while creating roles");
+                }
+            }
+            
+            host.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

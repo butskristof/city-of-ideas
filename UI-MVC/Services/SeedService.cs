@@ -40,7 +40,7 @@ namespace COI.UI.MVC.Services
 
 		public async Task Seed()
 		{
-			if (_userService.NumberOfUsers() != 0)
+			if (_userService.NumberOfUsers() > 1)
 			{
 				return;
 			}
