@@ -10,6 +10,7 @@ namespace COI.UI.MVC.Services
 	public interface IFileService
 	{
 		Task<string> SetUserProfilePicture(string userId, IFormFile picture);
+		Task<string> ConvertFileToLocation(IFormFile file);
 	}
 	
 	public class FileService : IFileService
@@ -76,6 +77,32 @@ namespace COI.UI.MVC.Services
 //                _userManager.AddPictureLocationToUser(userId, imgpath);
 
                 return imgpath;
+            }
+
+            return null;
+		}
+
+		public async Task<string> ConvertFileToLocation(IFormFile file)
+		{
+            var basepath = Path.Combine(_hostingEnvironment.WebRootPath, "uploads", "files");
+            
+            // create directory if it doesn't exist yet
+            Directory.CreateDirectory(basepath);
+
+            if (file != null && file.Length > 0)
+            {
+	            // generate unique filename
+	            var extension = Path.GetExtension(file.FileName);
+	            var filename = Guid.NewGuid() + extension;
+
+	            var filepath = Path.Combine(basepath, filename);
+	            using (var fileStream = new FileStream(filepath, FileMode.Create))
+	            {
+		            await file.CopyToAsync(fileStream);
+	            }
+
+	            var webpath = $"/uploads/files/{filename}";
+	            return webpath;
             }
 
             return null;

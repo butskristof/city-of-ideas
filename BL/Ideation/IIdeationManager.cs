@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.User;
+using Microsoft.AspNetCore.Http;
 
 namespace COI.BL.Ideation
 {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using AutoMapper;
 using Castle.Core.Internal;
 using COI.BL;
@@ -11,6 +12,7 @@ using COI.BL.Ideation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.User;
+using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,13 +27,15 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IIdeationManager _ideationManager;
 		private readonly ICityOfIdeasController _coiCtrl;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
+		private readonly IFileService _fileService;
 
-		public CommentsController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager)
+		public CommentsController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
 			_coiCtrl = coiCtrl;
 			_unitOfWorkManager = unitOfWorkManager;
+			_fileService = fileService;
 		}
 
 		[AllowAnonymous]
@@ -54,11 +58,11 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public IActionResult PostNewIdeaComment(NewIdeaCommentDto comment)
+		public async Task<IActionResult> PostNewIdeaComment([FromForm] NewIdeaCommentDto comment)
 		{
-			if (comment.Content.IsNullOrEmpty())
+			if (comment.Texts.IsNullOrEmpty() && comment.Images.IsNullOrEmpty())
 			{
-				return BadRequest("One or more fields should be provided.");
+				return BadRequest("Either images or text content should be provided.");
 			}
 			
 			try
@@ -69,10 +73,18 @@ namespace COI.UI.MVC.Controllers.api
 				Comment createdComment = _coiCtrl.AddCommentToIdea(
 					comment.UserId, 
 					comment.IdeaId);
+				
+				List<Field> fields = new List<Field>();
 
-				foreach (var field in comment.Content)
+				foreach (var image in comment.Images)
 				{
-					_ideationManager.AddFieldToComment(field.FieldType, field.Content, createdComment.CommentId);
+					string imgLocation = await _fileService.ConvertFileToLocation(image);
+					_ideationManager.AddFieldToComment(FieldType.Picture, imgLocation, createdComment.CommentId);
+				}
+
+				foreach (var textfield in comment.Texts)
+				{
+					_ideationManager.AddFieldToComment(FieldType.Text, textfield, createdComment.CommentId);
 				}
 				
 				_unitOfWorkManager.EndUnitOfWork();
