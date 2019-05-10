@@ -10,6 +10,7 @@ loginForm.onSubmit((formData) => {
 		 .then(async (response) => {
 			 if (response.ok) {
 			 	Page.reload();
+			 	registerForm.clear();
 			 } else {
 				 loginForm.showError("Username and or password are not correct");	
 			 }
@@ -28,6 +29,7 @@ registerForm.onSubmit((formData) => {
 		formData.get('password_re')
 	).then(response => {
 		if (response.ok) {
+			registerForm.clear();
 			Page.reload();
 		} else {
 			response.json().then(body => {

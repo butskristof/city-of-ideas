@@ -9,6 +9,9 @@ export default {
 	query(selector, parent = document) {
 		return parent.querySelector(selector);
 	},
+	queryAll(selector, parent = document) {
+		return parent.querySelectorAll(selector);
+	},
 	setCookie(key, value) {
 		document.cookie = `${key}=${value}`;
 	},

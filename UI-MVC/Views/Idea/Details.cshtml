@@ -1,6 +1,5 @@
 @using COI.BL.Domain.User
 @using Microsoft.AspNetCore.Identity
-@using Newtonsoft.Json
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @model COI.BL.Domain.Ideation.Idea
@@ -24,11 +23,9 @@
         </p>
 		<div class="options-bar">
 			<div class="options-bar__option">
-                <span class="options-bar__votes mr-2" id="ideaVoteCount">
-                    @Model.GetScore()
-                </span>
-				<i class="material-icons outline mr-2" id="ideaUpvote">thumb_up</i>
-				<i class="material-icons outline" id="ideaDownvote">thumb_down</i>
+                <span class="options-bar__votes mr-2" id="ideaVoteCount">@Model.GetScore()</span>
+				<i class="voter material-icons outline mr-2" data-counter="ideaVoteCount" data-target="Idea" data-targetId="@Model.IdeaId" data-value="1">thumb_up</i>
+				<i class="voter material-icons outline" data-counter="ideaVoteCount" data-target="idea" data-targetId="@Model.IdeaId" data-value="-1">thumb_down</i>
 			</div>
 			<div class="options-bar__option">
 				<i class="material-icons outline ml-4">share</i>
@@ -110,9 +107,9 @@
 	@* </script> *@
 	@* <script type="text/javascript" src="@Url.Content("~/dist/idea.entry.js")" defer></script> *@
     @* <script type="text/javascript" src="@Url.Content("~/dist/pages/idea.entry.js")" defer></script> *@
-    <script >
-        const ideaId = '@Model.IdeaId';
-        const userId = '@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : null)'
+    <script>
+        const ideaId = @Model.IdeaId;
+        const userId = '@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : "-1")';
     </script>
     <script type="text/javascript" src="/dist/idea.entry.js" defer></script>
 }
