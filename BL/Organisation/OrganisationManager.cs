@@ -66,5 +66,17 @@ namespace COI.BL.Organisation
 		{
 			Validator.ValidateObject(org, new ValidationContext(org), true);
 		}
+
+		public void AddLogoToOrganisation(int organisationId, string imgPath)
+		{
+			Domain.Organisation.Organisation organisation = GetOrganisation(organisationId);
+			if (organisation == null)
+			{
+				throw new ArgumentException("Organisation not found.");
+			}
+
+			organisation.LogoLocation = imgPath;
+			_organisationRepository.UpdateOrganisation(organisation);
+		}
 	}
 }

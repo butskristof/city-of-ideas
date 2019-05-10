@@ -9,5 +9,7 @@ namespace COI.BL.Organisation
 		Domain.Organisation.Organisation AddOrganisation(string name, string identifier);
 		Domain.Organisation.Organisation ChangeOrganisation(int id, string name, string identifier);
 		Domain.Organisation.Organisation RemoveOrganisation(int id);
+
+		void AddLogoToOrganisation(int organisationId, string imgPath);
 	}
 }
