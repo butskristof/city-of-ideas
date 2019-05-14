@@ -19,10 +19,11 @@ namespace COI.UI.MVC.Controllers
 		private readonly IMapper _mapper;
 		private readonly CityOfIdeasController _coiCtrl;
 
-		public IdeaController(IIdeationManager ideationManager, IMapper mapper)
+		public IdeaController(IIdeationManager ideationManager, IMapper mapper, CityOfIdeasController coiCtrl)
 		{
 			_ideationManager = ideationManager;
 			_mapper = mapper;
+			_coiCtrl = coiCtrl;
 		}
 
 		[HttpGet]
