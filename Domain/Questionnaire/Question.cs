@@ -10,6 +10,8 @@ namespace COI.BL.Domain.Questionnaire
 		[Required]
 		public String Inquiry { get; set; }
 
+		public bool Required { get; set; }
+
 		[Required]
 		public QuestionType QuestionType { get; set; }
 		

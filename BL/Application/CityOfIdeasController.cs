@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using Castle.Core.Internal;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.User;
@@ -29,9 +31,9 @@ namespace COI.BL.Application
 		Comment AddCommentToIdea(string userId, int ideaId);
 		
 		// Votes
-		Vote AddVoteToIdea(int value, string userId, int ideaId);
-		Vote AddVoteToIdeation(int value, string userId, int ideationId);
-		Vote AddVoteToComment(int value, string userId, int commentId);
+		Vote AddVoteToIdea(int value, string userId, string email, int ideaId);
+		Vote AddVoteToIdeation(int value, string userId, string email, int ideationId);
+		Vote AddVoteToComment(int value, string userId, string email, int commentId);
 		
 		// Answers
 		Answer AddAnswerToQuestion(string content, string userId, int questionId);
@@ -72,69 +74,151 @@ namespace COI.BL.Application
 
 		#region Votes
 
-		public Vote AddVoteToIdea(int value, string userId, int ideaId)
+		public Vote AddVoteToIdea(int value, string userId, string email, int ideaId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 
-			Vote userVote = _userManager.GetVoteForIdea(ideaId, userId);
-			
-			if (userVote == null)
+			bool isUserVote = !userId.IsNullOrEmpty();
+			bool isEmailVote = !email.IsNullOrEmpty();
+
+			Vote vote = null;
+			if (isUserVote)
 			{
-                userVote = _userManager.AddVoteToUser(value, userId);
-                _ideationManager.AddVoteToIdea(userVote, ideaId);
+                vote = _userManager.GetVoteForIdea(ideaId, userId);
+			}
+			else if (isEmailVote)
+			{
+				vote = _userManager.GetEmailVoteForIdea(ideaId, email);
+			}
+
+			if (vote == null)
+			{
+				if (isUserVote)
+				{
+                    vote = _userManager.AddVoteToUser(value, userId);
+				}
+				else if (isEmailVote)
+				{
+                    vote = _userManager.AddVoteWithEmail(value, email);
+				}
+				else
+				{
+					vote = _userManager.AddAnonymousVote(value);
+				}
 			}
 			else
 			{
-				userVote = _userManager.ChangeVoteValue(userVote.VoteId, value);
+                vote = _userManager.ChangeVoteValue(vote.VoteId, value);
 			}
+			
+            _ideationManager.AddVoteToIdea(vote, ideaId);
 			
 			_unitOfWorkManager.EndUnitOfWork();
 
-			return userVote;
-			
+			if (vote == null)
+			{
+				throw new Exception("Something went wrong while creating the vote.");
+			}
 
+			return vote;
 		}
 
-		public Vote AddVoteToComment(int value, string userId, int commentId)
+		public Vote AddVoteToComment(int value, string userId, string email, int commentId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
-			
-			Vote userVote = _userManager.GetVoteForComment(commentId, userId);
 
-			if (userVote == null)
+			bool isUserVote = !userId.IsNullOrEmpty();
+			bool isEmailVote = !email.IsNullOrEmpty();
+
+			Vote vote = null;
+			if (isUserVote)
 			{
-                userVote = _userManager.AddVoteToUser(value, userId);
-                _ideationManager.AddVoteToComment(userVote, commentId);
+                vote = _userManager.GetVoteForComment(commentId, userId);
+			}
+			else if (isEmailVote)
+			{
+				vote = _userManager.GetEmailVoteForComment(commentId, email);
+			}
+
+			if (vote == null)
+			{
+				if (isUserVote)
+				{
+                    vote = _userManager.AddVoteToUser(value, userId);
+				}
+				else if (isEmailVote)
+				{
+                    vote = _userManager.AddVoteWithEmail(value, email);
+				}
+				else
+				{
+					vote = _userManager.AddAnonymousVote(value);
+				}
 			}
 			else
 			{
-				userVote = _userManager.ChangeVoteValue(userVote.VoteId, value);
+                vote = _userManager.ChangeVoteValue(vote.VoteId, value);
 			}
+			
+            _ideationManager.AddVoteToComment(vote, commentId);
 			
 			_unitOfWorkManager.EndUnitOfWork();
 
-			return userVote;
+			if (vote == null)
+			{
+				throw new Exception("Something went wrong while creating the vote.");
+			}
+
+			return vote;
 		}
 
-		public Vote AddVoteToIdeation(int value, string userId, int ideationId)
+		public Vote AddVoteToIdeation(int value, string userId, string email, int ideationId)
 		{
 			_unitOfWorkManager.StartUnitOfWork();
 
-			Vote userVote = _userManager.GetVoteForIdeation(ideationId, userId);
+			bool isUserVote = !userId.IsNullOrEmpty();
+			bool isEmailVote = !email.IsNullOrEmpty();
 
-			if (userVote == null)
+			Vote vote = null;
+			if (isUserVote)
 			{
-                userVote = _userManager.AddVoteToUser(value, userId);
-                _ideationManager.AddVoteToIdeation(userVote, ideationId);
+                vote = _userManager.GetVoteForIdeation(ideationId, userId);
+			}
+			else if (isEmailVote)
+			{
+				vote = _userManager.GetEmailVoteForIdeation(ideationId, email);
+			}
+
+			if (vote == null)
+			{
+				if (isUserVote)
+				{
+                    vote = _userManager.AddVoteToUser(value, userId);
+				}
+				else if (isEmailVote)
+				{
+                    vote = _userManager.AddVoteWithEmail(value, email);
+				}
+				else
+				{
+					vote = _userManager.AddAnonymousVote(value);
+				}
 			}
 			else
 			{
-				userVote = _userManager.ChangeVoteValue(userVote.VoteId, value);
+                vote = _userManager.ChangeVoteValue(vote.VoteId, value);
 			}
+			
+            _ideationManager.AddVoteToIdeation(vote, ideationId);
 			
 			_unitOfWorkManager.EndUnitOfWork();
 
-			return userVote;
+			if (vote == null)
+			{
+				throw new Exception("Something went wrong while creating the vote.");
+			}
+
+			return vote;
 		}
 
 		#endregion

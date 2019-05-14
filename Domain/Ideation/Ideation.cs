@@ -14,6 +14,8 @@ namespace COI.BL.Domain.Ideation
 		public String Title { get; set; }
 
 		public DateTime Created { get; }
+
+		public bool IsOpen { get; set; }
 		
 		// TODO add remaining fields
 		public virtual ICollection<Vote> Votes { get; set; }
@@ -25,6 +27,7 @@ namespace COI.BL.Domain.Ideation
 
 		public Ideation()
 		{
+			IsOpen = true;
 			Created = DateTime.Now;
 			this.Votes = new List<Vote>();
 			this.Ideas = new List<Idea>();

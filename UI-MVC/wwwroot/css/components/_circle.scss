@@ -33,9 +33,11 @@
   &.circle__brussel {
     background: $color-text-light;
     border: 1px solid $color-text-light;
+    &:hover{
+      color: $color-text-light;
+      background: $color-background;
+    }
+    
   }
-  &.circle__brussel:hover {
-    color: $color-text-light;
-    background: $color-background;
-  }
+  
 }

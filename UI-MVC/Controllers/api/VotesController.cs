@@ -49,6 +49,7 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
+		[AllowAnonymous]
 		[HttpPost]
 		public IActionResult PostNewVote(NewVoteDto vote)
 		{
@@ -58,15 +59,15 @@ namespace COI.UI.MVC.Controllers.api
 
 				if (vote.IdeaId != null)
 				{
-					newVote = _coiCtrl.AddVoteToIdea(vote.Value, vote.UserId, vote.IdeaId.Value);
+					newVote = _coiCtrl.AddVoteToIdea(vote.Value, vote.UserId, vote.Email, vote.IdeaId.Value);
 				}
 				else if (vote.IdeationId != null)
 				{
-					newVote = _coiCtrl.AddVoteToIdeation(vote.Value, vote.UserId, vote.IdeationId.Value);
+					newVote = _coiCtrl.AddVoteToIdeation(vote.Value, vote.UserId, vote.Email, vote.IdeationId.Value);
 				}
 				else if (vote.CommentId != null)
 				{
-					newVote = _coiCtrl.AddVoteToComment(vote.Value, vote.UserId, vote.CommentId.Value);
+					newVote = _coiCtrl.AddVoteToComment(vote.Value, vote.UserId, vote.Email, vote.CommentId.Value);
 				}
 
 				if (newVote != null)

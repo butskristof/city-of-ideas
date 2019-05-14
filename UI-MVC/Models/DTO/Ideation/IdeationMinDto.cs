@@ -10,7 +10,7 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public string Title { get; set; }
 		
 		public DateTime Created { get; set; }
-		
+		public bool IsOpen { get; set; }
 		public int VoteCount { get; set; }
 		
 		public List<FieldDto> Fields { get; set; }

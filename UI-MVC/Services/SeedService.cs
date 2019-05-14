@@ -219,11 +219,11 @@ namespace COI.UI.MVC.Services
 
 				List<Vote> votes = new List<Vote>();
 
-				votes.Add(_cityOfIdeasController.AddVoteToIdea(1, users[1].Id, ideas[0].IdeaId));
-				votes.Add(_cityOfIdeasController.AddVoteToIdea(-1, users[2].Id, ideas[0].IdeaId));
-				votes.Add(_cityOfIdeasController.AddVoteToIdea(1, users[3].Id, ideas[0].IdeaId));
-				votes.Add(_cityOfIdeasController.AddVoteToIdea(-1, users[4].Id, ideas[0].IdeaId));
-				votes.Add(_cityOfIdeasController.AddVoteToIdea(1, users[5].Id, ideas[0].IdeaId));
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(1, users[1].Id, null, ideas[0].IdeaId));
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(-1, users[2].Id, null, ideas[0].IdeaId));
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(1, users[3].Id, null, ideas[0].IdeaId));
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(-1, users[4].Id, null, ideas[0].IdeaId));
+				votes.Add(_cityOfIdeasController.AddVoteToIdea(1, users[5].Id, null, ideas[0].IdeaId));
 
 				#endregion
 

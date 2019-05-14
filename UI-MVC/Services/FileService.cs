@@ -1,90 +1,54 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using COI.BL.Organisation;
 using COI.BL.User;
+using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace COI.UI.MVC.Services
 {
 	public interface IFileService
 	{
 		Task<string> SetUserProfilePicture(string userId, IFormFile picture);
-		Task<string> ConvertFileToLocation(IFormFile file);
+		Task<string> SetOrganisationLogo(int organisationId, IFormFile picture);
+		Task<string> ConvertFileToLocation(IFormFile file, string folder = FolderConstants.FilePath);
 	}
 	
 	public class FileService : IFileService
 	{
 		private readonly IUserManager _userManager;
+		private readonly IOrganisationManager _organisationManager;
 		private readonly IHostingEnvironment _hostingEnvironment;
 
-		public FileService(IUserManager userManager, IHostingEnvironment hostingEnvironment)
+		public FileService(IUserManager userManager, IOrganisationManager organisationManager, IHostingEnvironment hostingEnvironment)
 		{
 			_userManager = userManager;
+			_organisationManager = organisationManager;
 			_hostingEnvironment = hostingEnvironment;
 		}
 
 		public async Task<string> SetUserProfilePicture(string userId, IFormFile picture)
 		{
-            var basepath = Path.Combine(_hostingEnvironment.WebRootPath, "uploads", "users");
-            var userfolderpath = Path.Combine(basepath, userId);
-
-            // create directory if it doesn't exist yet
-            Directory.CreateDirectory(userfolderpath);
-
-            if (picture != null && picture.Length > 0)
-            {
-                // generate unique filename
-                var extension = Path.GetExtension(picture.FileName);
-                var filename = Guid.NewGuid() + extension;
-                // TODO check extension and file type
-                var filepath = Path.Combine(userfolderpath, filename);
-                using (var fileStream = new FileStream(filepath, FileMode.Create))
-                {
-                    await picture.CopyToAsync(fileStream);
-                }
-
-                var imgpath = $"/uploads/users/{userId}/{filename}";
-                _userManager.AddPictureLocationToUser(userId, imgpath);
-
-                return imgpath;
-            }
-
-            return null;
+			var folderpath = Path.Combine(FolderConstants.UserPath, userId);
+			var imgpath = await ConvertFileToLocation(picture, folderpath);
+			_userManager.AddPictureLocationToUser(userId, imgpath);
+			return imgpath;
 		}
 
-		public async Task<string> UploadNewField(string fieldId, IFormFile file)
+		public async Task<string> SetOrganisationLogo(int organisationId, IFormFile picture)
 		{
-            var basepath = Path.Combine(_hostingEnvironment.WebRootPath, "uploads", "fields");
-            var userfolderpath = Path.Combine(basepath, fieldId);
-
-            // create directory if it doesn't exist yet
-            Directory.CreateDirectory(userfolderpath);
-
-            if (file != null && file.Length > 0)
-            {
-                // generate unique filename
-                var extension = Path.GetExtension(file.FileName);
-                var filename = Guid.NewGuid() + extension;
-                // TODO check extension and file type
-                var filepath = Path.Combine(userfolderpath, filename);
-                using (var fileStream = new FileStream(filepath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-
-                var imgpath = $"/uploads/fields/{fieldId}/{filename}";
-//                _userManager.AddPictureLocationToUser(userId, imgpath);
-
-                return imgpath;
-            }
-
-            return null;
+			var folderpath = Path.Combine(FolderConstants.OrganisationPath, organisationId.ToString());
+			var imgpath = await ConvertFileToLocation(picture, folderpath);
+			_organisationManager.AddLogoToOrganisation(organisationId, imgpath);
+			return imgpath;
 		}
 
-		public async Task<string> ConvertFileToLocation(IFormFile file)
+		public async Task<string> ConvertFileToLocation(IFormFile file, string folder = FolderConstants.FilePath)
 		{
-            var basepath = Path.Combine(_hostingEnvironment.WebRootPath, "uploads", "files");
+            var basepath = Path.Combine(_hostingEnvironment.WebRootPath, FolderConstants.UploadPath, folder);
             
             // create directory if it doesn't exist yet
             Directory.CreateDirectory(basepath);
@@ -101,11 +65,11 @@ namespace COI.UI.MVC.Services
 		            await file.CopyToAsync(fileStream);
 	            }
 
-	            var webpath = $"/uploads/files/{filename}";
+	            var webpath = $"/{FolderConstants.UploadPath}/{folder}/{filename}";
 	            return webpath;
             }
-
-            return null;
+            
+            throw new ArgumentException("No file.");
 		}
 	}
 }
