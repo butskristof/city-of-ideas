@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
+using Castle.Core.Internal;
 using COI.BL;
 using COI.BL.Domain.Organisation;
 using COI.BL.Domain.Project;
@@ -49,6 +50,35 @@ namespace COI.UI.MVC.Controllers.api
 			var response = _mapper.Map<List<ProjectMinDto>>(projs);
 
 			return Ok(response);
+		}
+
+		[AllowAnonymous]
+		[HttpGet("last")]
+		public IActionResult GetLastProject([FromQuery(Name = "state")] string stateString)
+		{
+			Project ret = null;
+			
+			if (!stateString.IsNullOrEmpty())
+			{
+                bool stateValid = Enum.TryParse(stateString, true, out ProjectState state);
+                if (!stateValid)
+                {
+                    return BadRequest("Project state invalid.");
+                }
+
+                ret = _projectManager.GetLastProjectWithState(state);
+			}
+			else
+			{
+				ret = _projectManager.GetLastNProjects(1).FirstOrDefault();
+			}
+
+			if (ret == null)
+			{
+				return BadRequest("No projects found for the current criteria.");
+			}
+
+			return Ok(_mapper.Map<ProjectMinDto>(ret));
 		}
 		
 		[AllowAnonymous]

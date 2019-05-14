@@ -26,6 +26,12 @@ namespace COI.DAL.Project.EF
 				.AsEnumerable();
 		}
 
+		public BL.Domain.Project.Project ReadLastProjectWithState(ProjectState state)
+		{
+			return _ctx.Projects
+				.LastOrDefault(p => p.State == state);
+		}
+
 		public BL.Domain.Project.Project ReadProject(int id)
 		{
 			return _ctx.Projects.Find(id);
