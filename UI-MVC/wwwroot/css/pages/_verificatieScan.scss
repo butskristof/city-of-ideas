@@ -2,6 +2,8 @@
     Page VerificatieScan
 */
 
+@import "../abstracts/all";
+
 /* form email */
 .email_verificatie {
   @include screen-from("tablet") {

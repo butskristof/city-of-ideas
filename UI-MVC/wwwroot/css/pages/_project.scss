@@ -2,6 +2,8 @@
     Page Project
 */
 
+@import "../abstracts/all";
+
 /* fase stage */
 .inklapbaar_fase {
   @include screen-from("tablet") {
