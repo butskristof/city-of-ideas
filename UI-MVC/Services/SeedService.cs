@@ -237,17 +237,17 @@ namespace COI.UI.MVC.Services
 				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Usability evaluation", "Beste bezoeker, In volgende enquete willen wij graag de tevredenheid bij het gebruik van onze website bevragen.", phases[1].ProjectPhaseId));
 				
 				questions.Add(_questionnaireManager.AddQuestion("Hoe heeft u onze website gevonden?",
-					QuestionType.MultipleChoice, questionnaires[0].QuestionnaireId));
+					true, QuestionType.MultipleChoice, questionnaires[0].QuestionnaireId));
 				options.Add(_questionnaireManager.AddOption("Zoekmachine", questions[0].QuestionId));
 				options.Add(_questionnaireManager.AddOption("Sociale media", questions[0].QuestionId));
 				options.Add(_questionnaireManager.AddOption("Online advertentie", questions[0].QuestionId));
 				options.Add(_questionnaireManager.AddOption("Via vrienden of kennissen", questions[0].QuestionId));
 				questions.Add(_questionnaireManager.AddQuestion("Is onze website makkelijk te gebruiken?",
-					QuestionType.SingleChoice, questionnaires[0].QuestionnaireId));
+					true, QuestionType.SingleChoice, questionnaires[0].QuestionnaireId));
 				options.Add(_questionnaireManager.AddOption("Ja", questions[1].QuestionId));
 				options.Add(_questionnaireManager.AddOption("Neen", questions[1].QuestionId));
 				questions.Add(_questionnaireManager.AddQuestion("Wat vindt u van het design van onze website",
-					QuestionType.OpenQuestion, questionnaires[0].QuestionnaireId));
+					true, QuestionType.OpenQuestion, questionnaires[0].QuestionnaireId));
 
 				#endregion
 			}
