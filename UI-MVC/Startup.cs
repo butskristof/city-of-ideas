@@ -189,6 +189,17 @@ namespace COI.UI.MVC
 
 			app.UseAuthentication();
 
+			app.Use(async (context, next) =>
+			{
+				var cookies = context.Request.Cookies;
+				var orgCookie = cookies["organisation"];
+				if (orgCookie == null && !context.Request.Path.ToString().StartsWith("/organisation"))
+				{
+					context.Response.Redirect("/organisation");
+				}
+				await next.Invoke();
+			});
+
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(

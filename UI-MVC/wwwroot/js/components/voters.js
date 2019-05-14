@@ -21,8 +21,8 @@ export default {
 				if (response.ok) {
 					const counter = this.dataset.counter;
 					const counterEL = Page.query("#" + counter);
-					
-					// TODO: Set counterEL value to returned value from response
+					const oldVal = parseInt(counterEL.innerText);
+					counterEL.innerText = oldVal + 1;
 				}
 			});
 		});
