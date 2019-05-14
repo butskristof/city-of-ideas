@@ -7,6 +7,7 @@ namespace COI.UI.MVC.Models.DTO.Questionnaire
 	{
 		public int QuestionId { get; set; }
 		public string Inquiry { get; set; }
+		public bool Required { get; set; }
 		
 		public QuestionType QuestionType { get; set; }
 		
