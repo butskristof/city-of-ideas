@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AutoMapper;
 using COI.BL;
 using COI.BL.Application;
@@ -50,37 +51,47 @@ namespace COI.UI.MVC.Controllers.api
 		}
 
 		[HttpPost]
-		public IActionResult PostNewAnswer(NewAnswerDto answer)
+		public IActionResult PostNewAnswer(List<NewAnswerDto> answerInputs)
 		{
 			try
 			{
-				Answer createdAnswer = null;
-				if (answer.OptionId != null && answer.OptionId != 0)
-				{
-					createdAnswer = _cityOfIdeasController.AddAnswerToOption(answer.UserId, answer.OptionId.Value);
-				}
-				else if (answer.QuestionId != null && answer.QuestionId != 0)
-				{
-					createdAnswer =
-						_cityOfIdeasController.AddAnswerToQuestion(answer.Content, answer.UserId,
-							answer.QuestionId.Value);
-				}
-				else
-				{
-					return BadRequest("Either option or question id should be given.");
-				}
+                _unitOfWorkManager.StartUnitOfWork();
+                List<Answer> answers = new List<Answer>();
+                
+                answerInputs.ForEach(answer =>
+                {
+                    Answer createdAnswer = null;
+                    if (answer.OptionId != null && answer.OptionId != 0)
+                    {
+                        createdAnswer = _cityOfIdeasController.AddAnswerToOption(answer.UserId, answer.OptionId.Value);
+                    }
+                    else if (answer.QuestionId != null && answer.QuestionId != 0)
+                    {
+                        createdAnswer =
+                            _cityOfIdeasController.AddAnswerToQuestion(answer.Content, answer.UserId,
+                                answer.QuestionId.Value);
+                    }
+                    else
+                    {
+//                        return BadRequest("Either option or question id should be given.");
+						throw new Exception("Invalid answer: either option or question id should be given.");
+                    }
 
-				if (createdAnswer != null)
-				{
-					return Ok(_mapper.Map<AnswerDto>(createdAnswer));
-				}
+                    if (createdAnswer != null)
+                    {
+//                        return Ok(_mapper.Map<AnswerDto>(createdAnswer));
+						answers.Add(createdAnswer);
+                    }
+                });
+                
+                _unitOfWorkManager.EndUnitOfWork();
+
+                return Ok(_mapper.Map<List<AnswerDto>>(answers));
 			}
 			catch (Exception e)
 			{
 				return BadRequest(e.Message);
 			}
-			
-			return BadRequest("Something went wrong while creating the answer.");
 		}
 	}
 }
