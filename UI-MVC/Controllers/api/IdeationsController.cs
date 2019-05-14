@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using Castle.Core.Internal;
 using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
@@ -12,6 +14,7 @@ using COI.BL.Ideation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.User;
+using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,13 +29,15 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IIdeationManager _ideationManager;
 		private readonly ICityOfIdeasController _coiCtrl;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
+		private readonly IFileService _fileService;
 
-		public IdeationsController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager)
+		public IdeationsController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
 			_coiCtrl = coiCtrl;
 			_unitOfWorkManager = unitOfWorkManager;
+			_fileService = fileService;
 		}
 
 		[AllowAnonymous]
@@ -75,20 +80,33 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public IActionResult PostNewIdeation(NewIdeationDto ideation)
+		public async Task<IActionResult> PostNewIdeation([FromForm]NewIdeationDto ideation)
 		{
+			if (ideation.Texts.IsNullOrEmpty() && ideation.Images.IsNullOrEmpty())
+			{
+				return BadRequest("Either images or text content should be provided.");
+			}
+			
 			try
 			{
 //				var fields = _mapper.Map<List<Field>>(ideation.Fields);
 				_unitOfWorkManager.StartUnitOfWork();
+				
 				Ideation createdIdeation = _ideationManager.AddIdeation(
 					ideation.Title, 
 					ideation.ProjectPhaseId);
 				
-//				List<Field> fields = new List<Field>();
-				foreach (FieldDto field in ideation.Fields)
+				List<Field> fields = new List<Field>();
+				
+				foreach (var image in ideation.Images)
 				{
-					_ideationManager.AddFieldToIdeation(field.FieldType, field.Content, createdIdeation.IdeationId);
+					string imgLocation = await _fileService.ConvertFileToLocation(image);
+					_ideationManager.AddFieldToIdeation(FieldType.Picture, imgLocation, createdIdeation.IdeationId);
+				}
+
+				foreach (var textfield in ideation.Texts)
+				{
+					_ideationManager.AddFieldToIdeation(FieldType.Text, textfield, createdIdeation.IdeationId);
 				}
 				
 				_unitOfWorkManager.EndUnitOfWork();
