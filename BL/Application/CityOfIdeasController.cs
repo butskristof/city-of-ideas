@@ -227,24 +227,24 @@ namespace COI.BL.Application
 
 		public Answer AddAnswerToQuestion(string content, string userId, int questionId)
 		{
-			_unitOfWorkManager.StartUnitOfWork();
+//			_unitOfWorkManager.StartUnitOfWork();
 
 			Answer answer = _questionnaireManager.AnswerQuestion(content, questionId);
 			_userManager.AddAnswerToUser(answer, userId);
 			
-			_unitOfWorkManager.EndUnitOfWork();
+//			_unitOfWorkManager.EndUnitOfWork();
 
 			return answer;
 		}
 
 		public Answer AddAnswerToOption(string userId, int optionId)
 		{
-			_unitOfWorkManager.StartUnitOfWork();
+//			_unitOfWorkManager.StartUnitOfWork();
 
 			Answer answer = _questionnaireManager.AnswerOption(optionId);
 			_userManager.AddAnswerToUser(answer, userId);
 			
-			_unitOfWorkManager.EndUnitOfWork();
+//			_unitOfWorkManager.EndUnitOfWork();
 
 			return answer;
 		}
