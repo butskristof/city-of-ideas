@@ -8,6 +8,8 @@ namespace COI.BL.Domain.Questionnaire
 	{
 		OpenQuestion,
 		SingleChoice,
-		MultipleChoice
+		MultipleChoice,
+		Dropdown,
+		Email
 	}
 }
