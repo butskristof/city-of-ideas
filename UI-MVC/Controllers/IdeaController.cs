@@ -17,9 +17,9 @@ namespace COI.UI.MVC.Controllers
 	{
 		private readonly IIdeationManager _ideationManager;
 		private readonly IMapper _mapper;
-		private readonly CityOfIdeasController _coiCtrl;
+		private readonly ICityOfIdeasController _coiCtrl;
 
-		public IdeaController(IIdeationManager ideationManager, IMapper mapper, CityOfIdeasController coiCtrl)
+		public IdeaController(IIdeationManager ideationManager, IMapper mapper, ICityOfIdeasController coiCtrl)
 		{
 			_ideationManager = ideationManager;
 			_mapper = mapper;

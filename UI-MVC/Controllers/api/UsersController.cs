@@ -31,9 +31,13 @@ namespace COI.UI.MVC.Controllers.api
 		[HttpPost("Register")]
 		public async Task<IActionResult> RegisterNewUser(RegisterDto input)
 		{
-			if (string.IsNullOrWhiteSpace(input.Email) || string.IsNullOrWhiteSpace(input.Password))
+			if (string.IsNullOrWhiteSpace(input.Email) 
+			    || string.IsNullOrWhiteSpace(input.Password)
+			    || !input.Gender.HasValue
+			    || !input.DateOfBirth.HasValue
+			    || !input.PostalCode.HasValue)
 			{
-				return BadRequest("Email or password is empty.");
+				return BadRequest("Not all required fields are provided.");
 			}
 
 			if (input.Password != input.ConfirmPassword)
@@ -44,7 +48,14 @@ namespace COI.UI.MVC.Controllers.api
 			try
 			{
 				var newUser =
-					await _userService.RegisterNewUser(input.Email, input.Password, input.FirstName, input.LastName);
+					await _userService.RegisterNewUser(
+						input.Email, 
+						input.Password, 
+						input.FirstName, 
+						input.LastName,
+						input.Gender.Value,
+						input.DateOfBirth.Value,
+						input.PostalCode.Value);
 
 				return Ok(_mapper.Map<UserDto>(newUser));
 			}

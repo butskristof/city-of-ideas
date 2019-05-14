@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using COI.BL.Domain.Common;
 using COI.BL.Domain.User;
 using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +17,14 @@ namespace COI.UI.MVC.Services
 	public interface IUserService
 	{
 		Task<JwtSecurityToken> GenerateJwt(string email, string password);
-		Task<User> RegisterNewUser(string email, string password, string firstname, string lastname);
+		Task<User> RegisterNewUser(
+			string email, 
+			string password, 
+			string firstName, 
+			string lastName,
+			Gender gender,
+			DateTime dateOfBirth,
+			int postalCode);
 		Task<string> Login(string email, string password);
 		Task<bool> Logout();
 
@@ -72,15 +81,32 @@ namespace COI.UI.MVC.Services
 			return token;
 		}
 
-		public async Task<User> RegisterNewUser(string email, string password, string firstname, string lastname)
+		public async Task<User> RegisterNewUser(string email, 
+			string password, 
+			string firstName, 
+			string lastName, 
+			Gender gender,
+			DateTime dateOfBirth, 
+			int postalCode)
 		{
 			var newUser = new User()
 			{
 				UserName = email,
 				Email = email,
-				FirstName = firstname,
-				LastName = lastname
+				FirstName = firstName,
+				LastName = lastName,
+				Gender = gender,
+				DateOfBirth = dateOfBirth,
+				PostalCode = postalCode
 			};
+			try
+			{
+				ValidateUser(newUser);
+			}
+			catch (ValidationException ve)
+			{
+				throw new ArgumentException($"Invalid input data: {ve.Message}");
+			}
 
 			IdentityResult userCreationResult = null;
 			try
@@ -129,6 +155,11 @@ namespace COI.UI.MVC.Services
 		public int NumberOfUsers()
 		{
 			return _userManager.Users.Count();
+		}
+
+		private void ValidateUser(User user)
+		{
+			Validator.ValidateObject(user, new ValidationContext(user), true);
 		}
 	}
 }

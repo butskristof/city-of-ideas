@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using COI.BL.Domain.Common;
+using COI.BL.Domain.Helpers;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.Relations;
@@ -17,9 +18,15 @@ namespace COI.BL.Domain.User
 		public String LastName { get; set; }
 
 		public Gender Gender { get; set; }
+		
+		[DateOfBirth(MinAge = 13, MaxAge = 150)]
 		[Required]
 		public DateTime DateOfBirth { get; set; }
-		public virtual Address Address { get; set; }
+		
+		[Required]
+		[Range(1000,9999)]
+		public int PostalCode { get; set; }
+		
 		public string ProfilePictureLocation { get; set; }
 
 //		public Role Role { get; set; }

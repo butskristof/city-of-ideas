@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using COI.BL.Application;
+using COI.BL.Domain.Common;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Organisation;
 using COI.BL.Domain.Project;
@@ -52,12 +53,12 @@ namespace COI.UI.MVC.Services
 
 				List<User> users = new List<User>();
 
-				users.Add(await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts"));
-				users.Add(await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan"));
-				users.Add(await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns"));
-				users.Add(await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek"));
-				users.Add(await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters"));
-				users.Add(await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters"));
+				users.Add(await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts", Gender.Male, new DateTime(1996, 6, 2), 2222));
+				users.Add(await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan", Gender.Male, new DateTime(1996, 6, 2), 2222));
+				users.Add(await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns", Gender.Male, new DateTime(1996, 6, 2), 2222));
+				users.Add(await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek", Gender.Male, new DateTime(1996, 6, 2), 2222));
+				users.Add(await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters", Gender.Male, new DateTime(1996, 6, 2), 2222));
+				users.Add(await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters", Gender.Female, new DateTime(1996, 6, 2), 2222));
 
 				#endregion
 
