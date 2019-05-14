@@ -23,6 +23,14 @@ namespace COI.UI.MVC.Models.Profiles
 				.ForMember(v => v.CommentId,
 					opt => opt.MapFrom(
 						m => m.Comment.CommentId));
+
+			CreateMap<Flag, FlagDto>()
+				.ForMember(f => f.IdeaId,
+					opt => opt.MapFrom(
+						o => o.Idea.IdeaId))
+				.ForMember(f => f.CommentId,
+					opt => opt.MapFrom(
+						o => o.Comment.CommentId));
 		}
 	}
 }
