@@ -1,0 +1,82 @@
+@model COI.UI.MVC.Views.Superadmin.URL
+
+@{
+    ViewData["Title"] = "Superadmin";
+}
+
+<main class="content content--shadow container">
+    <h1 class="padding-t1remM">Superadmin</h1>
+    <div>
+        <h4>Verander de instellingen</h4>
+        <hr />
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a
+                        class="nav-link nav-item__background"
+                        id="nieuwPlatform"
+                        asp-controller="Superadmin" asp-action="Index"
+                    >Nieuw Platform</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link nav-item__background"
+                        id="activeProjects"
+                        asp-controller="Superadmin" asp-action="ActiveProjects"
+                    >Actieve Projecten</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link nav-item__background"
+                        id="closedProjects"
+                        asp-controller="Superadmin" asp-action="ClosedProjects">
+                        Gesloten Projecten
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link nav-item__background"
+                        id="latestActivity"
+                        asp-controller="Superadmin" asp-action="LatestActivities"
+                    >Laatste Activiteiten</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link nav-item__background active"
+                        id="url"
+                        asp-controller="Superadmin" asp-action="URL"
+                    >URL</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <h4 class="padding-t1remM">URL</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <form id="profile-form" method="POST">
+                        <div class="form-group margin-b1rem">
+                            <label for="url">URL Organisatie</label>
+                            <input
+                                class="form-control"
+                                disabled
+                                type="text"
+                                id="url"
+                                name="url"
+                                value="www.cityofideas.invacto.com/Antwerpen"
+                            />
+                            <button
+                                id="btnUrl"
+                                type="submit"
+                                class="btn btn-primary btn__witteAchtergrond btn__links btn__margintop"
+                            >
+                                Verander URL
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

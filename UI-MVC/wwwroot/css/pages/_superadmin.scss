@@ -1,0 +1,9 @@
+@import "../abstracts/all";
+
+.padding-t1remM{
+  padding-top: 1rem;
+  
+  @include screen-from("tablet"){
+    padding-top: 0;
+  }
+}
