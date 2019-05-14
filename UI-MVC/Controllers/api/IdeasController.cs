@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using Castle.Core.Internal;
 using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
@@ -11,6 +13,7 @@ using COI.BL.Ideation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.User;
+using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,13 +28,15 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IIdeationManager _ideationManager;
 		private readonly ICityOfIdeasController _coiCtrl;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
+		private readonly IFileService _fileService;
 
-		public IdeasController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager)
+		public IdeasController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
 			_coiCtrl = coiCtrl;
 			_unitOfWorkManager = unitOfWorkManager;
+			_fileService = fileService;
 		}
 
 		[AllowAnonymous]
@@ -64,8 +69,13 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public IActionResult PostNewIdea(NewIdeaDto idea)
+		public async Task<IActionResult> PostNewIdea(NewIdeaDto idea)
 		{
+			if (idea.Texts.IsNullOrEmpty() && idea.Images.IsNullOrEmpty())
+			{
+				return BadRequest("Either images or text content should be provided.");
+			}
+			
 			try
 			{
 //				var fields = _mapper.Map<List<Field>>(idea.Fields);
@@ -75,9 +85,17 @@ namespace COI.UI.MVC.Controllers.api
 					idea.Title, 
 					idea.IdeationId);
 
-				foreach (var field in idea.Fields)
+				List<Field> fields = new List<Field>();
+
+				foreach (var image in idea.Images)
 				{
-					_ideationManager.AddFieldToIdea(field.FieldType, field.Content, createdIdea.IdeaId);
+					string imgLocation = await _fileService.ConvertFileToLocation(image);
+					_ideationManager.AddFieldToComment(FieldType.Picture, imgLocation, createdIdea.IdeaId);
+				}
+
+				foreach (var textfield in idea.Texts)
+				{
+					_ideationManager.AddFieldToComment(FieldType.Text, textfield, createdIdea.IdeaId);
 				}
 				
 				_unitOfWorkManager.EndUnitOfWork();
