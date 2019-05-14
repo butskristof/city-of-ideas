@@ -13,7 +13,7 @@ namespace COI.BL.Questionnaire
 
 		IEnumerable<Question> GetQuestionsForQuestionnaire(int questionnaireId);
 		Question GetQuestion(int questionId);
-		Question AddQuestion(string inquiry, QuestionType type, int questionnaireId);
+		Question AddQuestion(string inquiry, bool required, QuestionType type, int questionnaireId);
 		Question ChangeQuestion(int id, string inquiry, QuestionType type, int questionnaireId);
 		Question RemoveQuestion(int id);
 

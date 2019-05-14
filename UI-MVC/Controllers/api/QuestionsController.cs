@@ -82,6 +82,7 @@ namespace COI.UI.MVC.Controllers.api
 				_unitOfWorkManager.StartUnitOfWork();
 				Question createdQuestion = _questionnaireManager.AddQuestion(
 					question.Inquiry, 
+					question.Required,
 					question.QuestionType,
 					question.QuestionnaireId);
 				_unitOfWorkManager.EndUnitOfWork();

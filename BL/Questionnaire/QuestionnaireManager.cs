@@ -107,7 +107,7 @@ namespace COI.BL.Questionnaire
 			return _questionRepository.ReadQuestion(questionId);
 		}
 
-		public Question AddQuestion(string inquiry, QuestionType type, int questionnaireId)
+		public Question AddQuestion(string inquiry, bool required, QuestionType type, int questionnaireId)
 		{
 			Domain.Questionnaire.Questionnaire questionnaire = GetQuestionnaire(questionnaireId);
 			if (questionnaire == null)
