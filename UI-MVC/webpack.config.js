@@ -5,7 +5,8 @@ module.exports = {
 		site: './wwwroot/js/site.js',
 		bootstrap_js: './wwwroot/js/bootstrap_js.js',
 		validation: './wwwroot/js/validation.js',
-		idea: './wwwroot/js/entries/idea.js'
+		idea: './wwwroot/js/entries/idea.js',
+		project: './wwwroot/js/entries/project.js'
 	},
 	output: {
 		filename: '[name].entry.js',

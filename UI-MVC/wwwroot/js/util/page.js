@@ -12,15 +12,18 @@ export default {
 	queryAll(selector, parent = document) {
 		return parent.querySelectorAll(selector);
 	},
-	setCookie(key, value) {
-		document.cookie = `${key}=${value}`;
+	readCookie(key) {
+		const cookieStrings = document.cookie.split(";");
+		for (let i = 0; i < cookieStrings.length; i++) {
+			const partials = cookieStrings[i].split("=");
+			if (partials[0] === key) {
+				console.log(partials[1]);
+				return partials[1];
+			}
+		}
+		return null;
 	},
-	getCookies() {
-		return document.cookie;
-	},
-	getCookie(key) {
-		return this.getCookies().filter((ckey, cvalue) => {
-			return ckey === key;
-		})[0];
+	getOrganisationId() {
+		return this.readCookie("organisation");
 	}
 }

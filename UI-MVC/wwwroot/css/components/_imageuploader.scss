@@ -1,0 +1,27 @@
+@import "../abstracts/all";
+
+.image-uploader__file-upload {
+  display: none;
+}
+
+.image-uploader__images {
+  display: flex;
+  flex-flow: row wrap;
+  margin-right: -10px;
+
+  img {
+    width: 100px;
+    height: 80px;
+    border-radius: 13px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+    margin-right: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+
+    @include screen-from('tablet') {
+      width: 200px;
+      height: 160px;
+    }
+  }
+}

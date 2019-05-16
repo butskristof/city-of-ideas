@@ -12,6 +12,13 @@
 @import "layout/page";
 @import "layout/spacing";
 
+// Components
+@import "components/button";
+@import "components/circle";
+@import "components/dropdown";
+@import "components/textbox";
+@import "components/imageuploader";
+
 // Partials
 @import "partials/navbar";
 @import "partials/options_bar";
