@@ -10,6 +10,7 @@
   width: 100%;
   height: 100vh;
   background-size: cover;
+  background-position: center;
 
   .hero__container {
     display: flex;
@@ -45,6 +46,19 @@
         padding: 16px 48px;
         font-size: 1.25rem;
       }
+    }
+  }
+
+  &.hero--medium {
+    height: 30vh;
+
+    @include screen-from('tablet') {
+      height: 400px;
+    }
+    
+    .hero__container {
+      padding-top: 0;
+      justify-content: center;
     }
   }
 }

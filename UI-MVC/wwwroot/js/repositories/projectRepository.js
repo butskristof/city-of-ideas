@@ -1,7 +1,7 @@
 import Repository from "./repository";
 
 export default {
-	create(title, description, startDate, endDate, organisationId) {
+	createProject(title, description, startDate, endDate, organisationId) {
 		return Repository.post("/api/projects", {
 			title,
 			description,
@@ -9,5 +9,14 @@ export default {
 			endDate,
 			organisationId
 		});
+	},
+	createPhase(title, description, startDate, endDate, projectId) {
+		return Repository.post("/api/projectPhases", {
+			title,
+			description,
+			startDate,
+			endDate,
+			projectId
+		})
 	}
 }

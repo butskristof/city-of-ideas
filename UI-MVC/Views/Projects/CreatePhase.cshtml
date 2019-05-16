@@ -1,0 +1,30 @@
+
+<section class="container">
+    <h1 class="mb-5">Create ProjectPhase</h1>
+    <form id="phase_create">
+        <ul class="form__errors"></ul>
+        
+        <div class="form-group">
+            <label for="projectPhase-title">Title</label>
+            <input type="text" name="title" id="projectPhase-title" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="projectPhase-description">Description</label>
+            <textarea name="description" id="projectPhase-description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="projectPhase-start">Start date</label>
+            <input type="date" name="startDate" id="projectPhase-start" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="projectPhase-end">End date</label>
+            <input type="date" name="endDate" id="projectPhase-end" class="form-control">
+        </div>
+        <button type="submit" class="btn">Create</button>
+    </form>
+</section>
+
+@section Scripts
+{
+    <script type="text/javascript" src="/dist/project.entry.js" defer></script>
+}
