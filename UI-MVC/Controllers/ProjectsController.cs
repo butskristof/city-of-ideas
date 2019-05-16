@@ -15,12 +15,10 @@ namespace COI.UI.MVC.Controllers
     public class ProjectsController : Controller
     {
         private readonly IProjectManager _projectManager;
-        private readonly IMapper _mapper;
 
-        public ProjectsController(IProjectManager projectManager, IMapper mapper)
+        public ProjectsController(IProjectManager projectManager)
         {
             _projectManager = projectManager;
-            _mapper = mapper;
         }
         
         public IActionResult Index()
