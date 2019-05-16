@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using COI.BL.Domain.User;
 using COI.UI.MVC.Models.DTO.User;
 using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,25 @@ namespace COI.UI.MVC.Controllers.api
 			_mapper = mapper;
 			_userService = userService;
 			_fileService = fileService;
+		}
+
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetUserInfo(string id)
+		{
+			try
+			{
+				var user = await _userService.GetUser(id);
+				if (user == null)
+				{
+					return NotFound("User not found.");
+				}
+
+				return Ok(_mapper.Map<UserDto>(user));
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
 		}
 
 		[AllowAnonymous]

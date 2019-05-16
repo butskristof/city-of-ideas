@@ -16,6 +16,7 @@ namespace COI.UI.MVC.Services
 {
 	public interface IUserService
 	{
+		Task<User> GetUser(string userId);
 		Task<JwtSecurityToken> GenerateJwt(string email, string password);
 		Task<User> RegisterNewUser(
 			string email, 
@@ -42,6 +43,11 @@ namespace COI.UI.MVC.Services
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_config = config;
+		}
+
+		public async Task<User> GetUser(string userId)
+		{
+			return await _userManager.FindByIdAsync(userId);
 		}
 
 		public async Task<JwtSecurityToken> GenerateJwt(string email, string password)
