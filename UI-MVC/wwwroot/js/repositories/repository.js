@@ -21,7 +21,8 @@ export default {
             cache: "no-cache",
             credentials: "same-origin",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+				"Accept": "application/json"
             },
             redirect: "follow",
             body: (body == null) ? undefined : JSON.stringify(body)

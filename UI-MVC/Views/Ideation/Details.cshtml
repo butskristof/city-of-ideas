@@ -1,0 +1,47 @@
+@using COI.BL.Domain.Ideation
+@model COI.BL.Domain.Ideation.Ideation
+
+
+<section
+    class="hero hero--medium"
+    style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/img/pexels-photo-167676.jpeg')">
+    <div class="hero__container">
+        <h1 class="hero__title">
+            @Model.Title
+        </h1>
+    </div>
+</section>
+
+
+<section class="ideation container mt-5">
+    @foreach (var field in @Model.Fields)
+    {
+        @if (field.FieldType.Equals(FieldType.Text))
+         {
+            <p class="hero__text">
+                @field.Content
+            </p>
+         }
+    }
+</section>
+
+
+<section class="ideation__ideas container">
+    @foreach (var idea in @Model.Ideas)
+    {
+        <a class="idea" href="/idea/details/@idea.IdeaId">
+            <h2 class="idea__title">
+                @idea.Title
+            </h2>
+            @foreach (var field in @idea.Fields)
+            {
+                @if (field.FieldType.Equals(FieldType.Text))
+                 {
+                    <p class="idea__text">
+                        @field.Content
+                    </p>
+                 }
+            }
+        </a>
+    }
+</section>

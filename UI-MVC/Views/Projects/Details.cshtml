@@ -1,3 +1,145 @@
+@using COI.BL.Domain.Ideation
 @model COI.BL.Domain.Project.Project
 
-<h1>@Model.Title</h1>
+<div class="projectomschrijving">
+    <div class="periodeDatum">
+        @Model.StartDate.ToString("dd/MM/yyyy") - @Model.EndDate.ToString("dd/MM/yyyy")
+    </div>
+    <div>
+        @Model.Description
+    </div>
+    <div>
+        <a asp-controller="Projects" asp-action="CreatePhase" class="btn">Create ProjectPhase</a>
+    </div>
+</div>
+
+<div id="accordion" class="inklapbaar_fase">
+    @foreach(var projectPhase in @Model.ProjectPhases)
+    {
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <div>
+                        <button
+                            class="btn btn-link btn__witteAchtergrond btn__fase"
+                            data-toggle="collapse"
+                            data-target="@("#projectPhase" + projectPhase.ProjectPhaseId)"
+                            aria-expanded="true"
+                            aria-controls="@("projectPhase" + projectPhase.ProjectPhaseId)">
+                            @projectPhase.Title
+                        </button>
+                        <span class="datumTot">Tot @projectPhase.EndDate.ToString("yy/MM/yyyy")</span>
+                    </div>
+                </h5>
+            </div>
+
+            <div
+                id="@("projectPhase" + projectPhase.ProjectPhaseId)"
+                class="collapse @(projectPhase.EndDate > DateTime.Now && projectPhase.StartDate < DateTime.Now ? "show" : "")"
+                aria-labelledby="headingOne"
+                data-parent="#accordion">
+                <div class="card-body">
+                    @foreach (var ideation in projectPhase.Ideations)
+                    {
+                        <a asp-controller="Ideation" asp-action="Details" asp-route-id="@ideation.IdeationId" class="ideation">
+                            <h2 class="pphase-child__title">
+                                [ i ] @ideation.Title
+                            </h2>
+                            @foreach (var field in ideation.Fields)
+                            {
+                                @if (field.FieldType.Equals(FieldType.Text))
+                                 {
+                                    <p class="pphase-child__text">
+                                        @field.Content
+                                    </p>
+                                 }
+                            }
+                        </a>
+                    }
+                    @foreach (var questionnaire in projectPhase.Questionnaires)
+                    {
+                        <a asp-controller="Questionnaire" asp-action="Details" asp-route-id="@questionnaire.QuestionnaireId" class="ideation">
+                            <h2 class="pphase-child__title">
+                                [ q ] @questionnaire.Title
+                            </h2>
+                            <p class="pphase-child__text">
+                                @questionnaire.Description
+                            </p>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    @* <div class="card"> *@
+    @*     <div class="card-header" id="headingTwo"> *@
+    @*         <h5 class="mb-0"> *@
+    @*             <div> *@
+    @*                 <button *@
+    @*                     class="btn btn-link btn__witteAchtergrond btn__fase" *@
+    @*                     data-toggle="collapse" *@
+    @*                     data-target="#collapseTwo" *@
+    @*                     aria-expanded="false" *@
+    @*                     aria-controls="collapseTwo"> *@
+    @*                     Fase 1 *@
+    @*                 </button> *@
+    @*                 <span class="datumTot">Tot dag</span> *@
+    @*             </div> *@
+    @*         </h5> *@
+    @*     </div> *@
+    @*     <div *@
+    @*         id="collapseTwo" *@
+    @*         class="collapse" *@
+    @*         aria-labelledby="headingTwo" *@
+    @*         data-parent="#accordion"> *@
+    @*         <div class="card-body"> *@
+    @*             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus *@
+    @*             terry richardson ad squid. 3 wolf moon officia aute, non cupidatat *@
+    @*             skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. *@
+    @*             Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid *@
+    @*             single-origin coffee nulla assumenda shoreditch et. Nihil anim *@
+    @*             keffiyeh helvetica, craft beer labore wes anderson cred nesciunt *@
+    @*             sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings *@
+    @*             occaecat craft beer farm-to-table, raw denim aesthetic synth *@
+    @*             nesciunt you probably haven't heard of them accusamus labore *@
+    @*             sustainable VHS. *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+    @* <div class="card"> *@
+    @*     <div class="card-header" id="headingThree"> *@
+    @*         <h5 class="mb-0"> *@
+    @*             <div> *@
+    @*                 <button *@
+    @*                     class="btn btn-link btn__witteAchtergrond btn__fase" *@
+    @*                     data-toggle="collapse" *@
+    @*                     data-target="#collapseThree" *@
+    @*                     aria-expanded="false" *@
+    @*                     aria-controls="collapseThree"> *@
+    @*                     Fase 0 *@
+    @*                 </button> *@
+    @*                 <span class="datumTot">Tot dag</span> *@
+    @*             </div> *@
+    @*         </h5> *@
+    @*     </div> *@
+    @*     <div *@
+    @*         id="collapseThree" *@
+    @*         class="collapse" *@
+    @*         aria-labelledby="headingThree" *@
+    @*         data-parent="#accordion"> *@
+    @*         <div class="card-body"> *@
+    @*             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus *@
+    @*             terry richardson ad squid. 3 wolf moon officia aute, non cupidatat *@
+    @*             skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. *@
+    @*             Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid *@
+    @*             single-origin coffee nulla assumenda shoreditch et. Nihil anim *@
+    @*             keffiyeh helvetica, craft beer labore wes anderson cred nesciunt *@
+    @*             sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings *@
+    @*             occaecat craft beer farm-to-table, raw denim aesthetic synth *@
+    @*             nesciunt you probably haven't heard of them accusamus labore *@
+    @*             sustainable VHS. *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+</div>
+
