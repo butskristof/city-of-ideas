@@ -12,5 +12,6 @@ namespace COI.UI.MVC.Models.DTO.User
 		public Gender Gender { get; set; }
 		public DateTime DateOfBirth { get; set; }
 		public int PostalCode { get; set; }
+		public string ProfilePictureLocation { get; set; }
 	}
 }
