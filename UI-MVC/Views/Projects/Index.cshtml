@@ -23,7 +23,9 @@ $(document).ready(function(){
         </select>
     </div>
     
-    
+    <div class="create-project__container">
+        <a asp-controller="Projects" asp-action="Create" class="btn create-project">Create project</a>
+    </div>
     
     <div class="card-list mb-4">
         @foreach (var project in Model)
@@ -37,7 +39,7 @@ $(document).ready(function(){
                         </p>
                     </div>
                     <div class="card-footer card-footer--invis">
-                        <a href="#" class="btn btn--org">Geef jouw mening</a>
+                        <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn--org">Geef jouw mening</a>
                     </div>
                 </div>
             }
