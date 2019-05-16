@@ -12,17 +12,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace COI.UI.MVC.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
-    public class ProjectsController : Controller
+    public class ProjectController : Controller
     {
         private readonly IProjectManager _projectManager;
         private readonly IMapper _mapper;
 
-        public ProjectsController(IProjectManager projectManager, IMapper mapper)
+        public ProjectController(IProjectManager projectManager, IMapper mapper)
         {
             _projectManager = projectManager;
             _mapper = mapper;
         }
         
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index()
         {
             IEnumerable<Project> projects = _projectManager.GetProjects().ToList();
