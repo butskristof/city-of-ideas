@@ -27,6 +27,7 @@
 @* </ul> *@
 
 <ul class="nav navbar-nav navbar-right">
+    <div class="nav-inherit">
     <li class="nav-item">
         <a href="#" class="nav-link nav-login" id="searchIcon">
             <i class="fas fa-search"></i>
@@ -40,10 +41,11 @@
         </a>
     </li>
     <li class="nav-item">
-        <a href="#" class="nav-link nav-login">
+        <a href="https://twitter.com/treecomp" class="nav-link nav-login">
             <i class="fab fa-twitter"></i>
         </a>
     </li>
+    </div>
     
     @if (SignInManager.IsSignedIn(User))
     {
