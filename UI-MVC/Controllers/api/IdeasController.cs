@@ -9,6 +9,7 @@ using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Ideation;
+using COI.BL.User;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.User;
@@ -25,13 +26,15 @@ namespace COI.UI.MVC.Controllers.api
 	{
 		private readonly IMapper _mapper;
 		private readonly IIdeationManager _ideationManager;
+		private readonly IUserManager _userManager;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 		private readonly IFileService _fileService;
 
-		public IdeasController(IMapper mapper, IIdeationManager ideationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
+		public IdeasController(IMapper mapper, IIdeationManager ideationManager, IUserManager userManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
+			_userManager = userManager;
 			_unitOfWorkManager = unitOfWorkManager;
 			_fileService = fileService;
 		}
@@ -80,6 +83,7 @@ namespace COI.UI.MVC.Controllers.api
 				Idea createdIdea = _ideationManager.AddIdea(
 					idea.Title, 
 					idea.IdeationId);
+				_userManager.AddIdeaToUser(createdIdea, idea.UserId);
 
 				foreach (var video in idea.Videos)
 				{
@@ -166,7 +170,7 @@ namespace COI.UI.MVC.Controllers.api
 					return BadRequest("Something went wrong while deleting the idea.");
 				}
 
-				return Ok(_mapper.Map<IdeaDto>(deleted));
+				return Ok(_mapper.Map<IdeaMinDto>(deleted));
 			}
 			catch (ArgumentException)
 			{

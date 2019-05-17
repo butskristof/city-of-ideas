@@ -34,6 +34,7 @@ namespace COI.BL.Ideation
 		Field ChangeIdeaField(int id, FieldType type, string content, int ideaId);
 		Field ChangeIdeationField(int id, FieldType type, string content, int ideationId);
 		Field ChangeCommentField(int id, FieldType type, string content, int commentId);
+		Field ChangeProjectField(int id, FieldType type, string content, int projectId);
 		Field RemoveField(int fieldId);
 		
 		void AddVoteToIdea(Vote vote, int ideaId);

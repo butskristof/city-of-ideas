@@ -31,8 +31,11 @@ namespace COI.UI.MVC.Models.Profiles
 			CreateMap<Option, OptionDto>()
 				.ForMember(q => q.QuestionId,
 					opt => opt.MapFrom(
-						c => c.Question.QuestionId));
-			
+						c => c.Question.QuestionId))
+				.ForMember(q => q.AnswerCount,
+					opt => opt.MapFrom(
+						c => c.Answers.Count));
+
 			CreateMap<Option, OptionMinDto>()
 				.ForMember(q => q.QuestionId,
 					opt => opt.MapFrom(
