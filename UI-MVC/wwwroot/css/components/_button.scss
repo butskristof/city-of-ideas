@@ -77,6 +77,8 @@
     &.btn__fase {
       margin-left: 0;
       margin-bottom: 0;
+      text-decoration: none;
+      font-family: $font-text;
     }
     /* Facebook button login */
     &.btn__popupFacebook {
