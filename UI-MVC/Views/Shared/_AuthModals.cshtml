@@ -1,0 +1,173 @@
+<!-- LoginModal -->
+<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content login-popup">
+            <div class="modal-body login-popup-body">
+                <div class="row popup__row">
+                    <div class="popup__afbeeldingkolom col-md-6">
+                        <section
+                            class="popup__afbeelding"
+                            style="background-image: url('/img/pexels-photo-167676.jpeg')"
+                        ></section>
+                    </div>
+                    <form class="popup__container col-md-6 col-sm-12" id="auth_login">
+                        <h1 class="paginatitel paginatitel__popup mb-4">Log in</h1>
+                        <ul class="form__errors"></ul>
+                        <input
+                            required
+                            type="email"
+                            name="email"
+                            class="form__inputfield form__inputfield2 form__popupEmail form-control"
+                            placeholder="Email"
+                        />
+                        <input
+                            required
+                            type="password"
+                            name="password"
+                            class="form__inputfield form__inputfield2 form__popupWachtwoord form-control"
+                            placeholder="Wachtwoord"
+                        />
+                        <button class="btn btn__witteAchtergrond btn__popupLogin" type="submit">
+                            Log In
+                        </button>
+                        <div class="login-popup__vergeten">Wachtwoord vergeten?</div>
+                        <button class="btn btn__witteAchtergrond btn__popupFacebook">
+                            <i class="fab fa-facebook-f popup__icoon" id="fb"></i>
+                            <span class="login-popup__facebook">Facebook log in</span>
+                        </button>
+                        <button class="btn btn__witteAchtergrond btn__popupGoogle">
+                            <i
+                                class="fab fa-google popup__icoon popup_icoonGoogle"
+                                id="google"
+                            ></i>
+                            <span class="login-popup__google"> Google log in</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /LoginModal -->
+
+
+<!-- RegisterModal -->
+<div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" aria-labelledby="RegisterModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content login-popup">
+            <div class="modal-body">
+                <div class="row popup__row">
+                    <div class="popup__afbeeldingkolom col-md-6">
+                        <section
+                            class="popup__afbeelding"
+                            id="registreer-popup__afbeelding"
+                            style="background-image: url('/img/pexels-photo-167676.jpeg')">
+                        </section>
+                    </div>
+                    <form class="login-popup__container col-md-6 col-sm-12" id="auth_register">
+                        <h1 class="paginatitel paginatitel__popup paginatitel__popup__registreren mb-4">Registreren</h1>
+                        
+                        <ul class="form__errors"></ul>
+
+                        
+                        
+                        <div class="forms popup__forms custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="cb-organisatie">
+                            <label class="custom-control-label" for="cb-organisatie">Organisatie</label>
+                        </div>
+                        
+                        
+
+                        <div id="div1" class="hide input__organisatie">
+                            <input
+                                type="text"
+                                class="registreer-popup__organisatie-input form-control"
+                                class="registreer-popup__organisatie-input form-control"
+                                id="organisatie-inputveld"
+                                placeholder="Organisatie"/>
+                        </div>
+
+                        <div class="form__inputfield form__inputfield2">
+                            <div class="row">
+                                <div class="col">
+                                    <input
+                                        required
+                                        type="text"
+                                        name="first_name"
+                                        class="form-control inputvoornaam"
+                                        placeholder="Voornaam"/>
+                                </div>
+                                <div class="col">
+                                    <input
+                                        required
+                                        type="text"
+                                        name="last_name"
+                                        class="form-control inputachternaam"
+                                        placeholder="Achternaam"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form__inputfield form__inputfield2">
+                            <div class="row">
+                                <div class="col">
+                                    <input 
+                                        required
+                                        type="date" 
+                                        name="birthdate"
+                                        id="birthdate"
+                                        class="form-control">
+                                </div>
+                                <div class="col">
+                                    <input
+                                        type="text"
+                                        name="zip"
+                                        class="form-control inputpostcode"
+                                        placeholder="Postcode"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <select name="gender" class="custom-select selectGeslacht">
+                            <option selected>Geslacht</option>
+                            <option value="male">Man</option>
+                            <option value="female">Vrouw</option>
+                        </select>
+
+                        <input
+                            required
+                            type="text"
+                            name="email"
+                            class="form__inputfield form__inputfield2 form-control"
+                            placeholder="Email"/>
+                        
+                        <div class="form__inputfield form__inputfield2">
+                            <div class="row">
+                                <div class="col">
+                                    <input
+                                        required
+                                        type="password"
+                                        name="password"
+                                        class="form-control inputwachtwoord"
+                                        placeholder="Passwoord"/>
+                                </div>
+                                <div class="col">
+                                    <input
+                                        required
+                                        type="password"
+                                        name="password_re"
+                                        class="form-control inputherhaalwachtwoord"
+                                        placeholder="Herhaal passwoord"/>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn__witteAchtergrond btn__popupLogin">
+                            Registreer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /RegisterModal -->
