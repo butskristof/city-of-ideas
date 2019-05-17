@@ -1,6 +1,4 @@
-using System;
 using System.ComponentModel.DataAnnotations;
-using COI.BL.Domain.Common;
 
 namespace COI.BL.Domain.Ideation
 {

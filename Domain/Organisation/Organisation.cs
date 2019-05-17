@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 using COI.BL.Domain.Relations;
 
 namespace COI.BL.Domain.Organisation
@@ -22,7 +21,6 @@ namespace COI.BL.Domain.Organisation
 
 		public string LogoLocation { get; set; }
 
-		public virtual Platform.Platform Platform { get; set; }
 		public virtual ICollection<Project.Project> Projects { get; set; }
 		public virtual ICollection<OrganisationUser> Users { get; set; }
 

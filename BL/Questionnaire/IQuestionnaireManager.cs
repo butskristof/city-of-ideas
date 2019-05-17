@@ -23,17 +23,10 @@ namespace COI.BL.Questionnaire
 		Option ChangeOption(int id, string content, int questionId);
 		Option RemoveOption(int optionId);
 		
-//		OpenQuestion GetOpenQuestion(int questionId);
 		IEnumerable<Answer> GetAnswersForQuestion(int questionId);
 		IEnumerable<Answer> GetAnswersForOption(int optionId);
 		Answer GetAnswer(int id);
 		Answer AnswerQuestion(string content, int questionId);
 		Answer AnswerOption(int optionId);
-//		void AddAnswerToOpenQuestion(int questionId, Answer answer);
-//
-//		Choice GetChoiceQuestion(int questionId);
-//		Option GetOption(int optionId);
-//		Answer AnswerChoiceQuestion(int optionId);
-//		void AddAnswerToOption(int optionId, Answer answer);
 	}
 }

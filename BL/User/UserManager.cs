@@ -5,7 +5,6 @@ using System.Linq;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.User;
-using COI.BL.Ideation;
 using COI.DAL.User;
 
 namespace COI.BL.User
@@ -14,33 +13,16 @@ namespace COI.BL.User
 	{
 		private readonly IUserRepository _userRepository;
 		private readonly IVoteRepository _voteRepository;
-		private readonly IIdeationManager _ideationManager;
 
-		public UserManager(IUserRepository userRepository, IVoteRepository voteRepository, IIdeationManager ideationManager)
+		public UserManager(IUserRepository userRepository, IVoteRepository voteRepository)
 		{
 			_userRepository = userRepository;
 			_voteRepository = voteRepository;
-			_ideationManager = ideationManager;
 		}
 
 		public Domain.User.User GetUser(string userId)
 		{
 			return _userRepository.ReadUser(userId);
-		}
-
-		public void AddVoteToUser(string userId, Vote vote)
-		{
-			Domain.User.User u = this.GetUser(userId);
-			if (u != null)
-			{
-				vote.User = u;
-				u.Votes.Add(vote);
-				_userRepository.UpdateUser(u);
-			}
-			else
-			{
-				throw new ArgumentException("User not found.");
-			}
 		}
 
 		public void AddCommentToUser(Comment comment, string userId)
@@ -173,6 +155,10 @@ namespace COI.BL.User
 			return commentVotes.FirstOrDefault(v => v.User.Id == userId);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Vote vote)
 		{
 			Validator.ValidateObject(vote, new ValidationContext(vote), true);

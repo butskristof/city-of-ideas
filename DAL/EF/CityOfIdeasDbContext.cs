@@ -1,27 +1,16 @@
 using System;
-using System.IO;
 using COI.BL.Domain.Ideation;
-using COI.BL.Domain.Organisation;
-using COI.BL.Domain.Platform;
 using COI.BL.Domain.Project;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.Relations;
 using COI.BL.Domain.User;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
 
 namespace COI.DAL.EF
 {
 	public class CityOfIdeasDbContext : IdentityDbContext<BL.Domain.User.User>
 	{
-		public CityOfIdeasDbContext()
-		{
-			this.Database.EnsureCreated();
-		}
-
 		public CityOfIdeasDbContext(DbContextOptions options) : base(options)
 		{
 			this.Database.EnsureCreated();
@@ -42,8 +31,6 @@ namespace COI.DAL.EF
 
 		#region Entities
 
-		public DbSet<Platform> Platforms { get; set; }
-		
 		public DbSet<BL.Domain.Organisation.Organisation> Organisations { get; set; }
 
 		public DbSet<BL.Domain.Project.Project> Projects { get; set; }
@@ -61,7 +48,6 @@ namespace COI.DAL.EF
 		
 		public DbSet<BL.Domain.User.User> Users { get; set; }
 		public DbSet<Vote> Votes { get; set; }
-		public DbSet<Share> Shares { get; set; }
 		public DbSet<Flag> Flags { get; set; }
 		
 		public DbSet<OrganisationUser> OrganisationUsers { get; set; }

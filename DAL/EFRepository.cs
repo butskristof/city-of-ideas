@@ -1,4 +1,3 @@
-using System;
 using COI.DAL.EF;
 
 namespace COI.DAL

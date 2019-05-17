@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Domain.User;
@@ -16,8 +15,6 @@ namespace COI.BL.User
 		Vote AddVoteToUser(int value, string userId);
 		Vote AddVoteWithEmail(int value, string email);
 		Vote AddAnonymousVote(int value);
-//		Vote AddVoteToIdea(int value, int userId, int ideaId);
-//		Vote ChangeIdeaVote(int id, int value, string userId, int ideaId);
 		Vote ChangeVoteValue(int id, int value);
 		Vote RemoveVote(int voteId);
 

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using COI.BL.Domain.Project;
 using COI.DAL.EF;
 using Microsoft.EntityFrameworkCore;

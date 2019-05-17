@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using COI.BL.Domain.Ideation;
-using COI.DAL.Ideation.EF;
 using COI.DAL.Organisation;
 
 namespace COI.BL.Organisation
@@ -62,6 +60,10 @@ namespace COI.BL.Organisation
 			return _organisationRepository.DeleteOrganisation(id);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Domain.Organisation.Organisation org)
 		{
 			Validator.ValidateObject(org, new ValidationContext(org), true);

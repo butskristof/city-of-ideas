@@ -6,7 +6,6 @@ using COI.BL.User;
 using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace COI.UI.MVC.Services
 {

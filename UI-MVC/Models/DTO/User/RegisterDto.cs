@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using COI.BL.Domain.Common;
 using COI.BL.Domain.Helpers;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace COI.UI.MVC.Models.DTO.User
 {

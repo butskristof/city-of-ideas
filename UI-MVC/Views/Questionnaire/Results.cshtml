@@ -24,17 +24,7 @@
 	<form class="form" id="questionnaireForm">
 		@foreach (var question in @Model.Questions)
 		{
-			if (question is OpenQuestion)
-			{
-				<partial name="Partials/_OpenQuestionResultPartial" for="@question" />
-			} else if (question is Choice)
-			{
-				<partial name="Partials/_MultipleChoiceResultPartial" for="@question" />
-			}
-			else
-			{
-				<p>Unsupported question type.</p>
-			}
+            <p>Unsupported question type.</p>
 		}
 	</form>
 	

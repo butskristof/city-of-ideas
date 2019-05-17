@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
 using Castle.Core.Internal;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
@@ -8,25 +6,11 @@ using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.BL.Questionnaire;
 using COI.BL.User;
-using COI.DAL.Ideation;
-using COI.DAL.Ideation.EF;
-using COI.DAL.Questionnaire;
-using COI.DAL.Questionnaire.EF;
-using COI.DAL.User;
-using COI.DAL.User.EF;
 
 namespace COI.BL.Application
 {
-	/**
-	 * The application controller will orchestrate actions from the UI where multiple managers have to do work.
-	 * It will act as an intermediary when a Unit of Work pattern is applied.
-	 * Otherwise, manager methods will be called directly.
-	 */
 	public interface ICityOfIdeasController
 	{
-//		Answer AnswerOpenQuestion(string userId, int questionId, string content);
-//		Answer AnswerChoiceQuestion(string userId, int optionId);
-		
 		// Comments
 		Comment AddCommentToIdea(string userId, int ideaId);
 		
@@ -60,12 +44,8 @@ namespace COI.BL.Application
 		
 		public Comment AddCommentToIdea(string userId, int ideaId)
 		{
-//			_unitOfWorkManager.StartUnitOfWork();
-			
 			Comment comment = _ideationManager.AddCommentToIdea(ideaId);
 			_userManager.AddCommentToUser(comment, userId);
-			
-//			_unitOfWorkManager.EndUnitOfWork();
 
 			return comment;
 		}
@@ -227,24 +207,16 @@ namespace COI.BL.Application
 
 		public Answer AddAnswerToQuestion(string content, string userId, int questionId)
 		{
-//			_unitOfWorkManager.StartUnitOfWork();
-
 			Answer answer = _questionnaireManager.AnswerQuestion(content, questionId);
 			_userManager.AddAnswerToUser(answer, userId);
-			
-//			_unitOfWorkManager.EndUnitOfWork();
 
 			return answer;
 		}
 
 		public Answer AddAnswerToOption(string userId, int optionId)
 		{
-//			_unitOfWorkManager.StartUnitOfWork();
-
 			Answer answer = _questionnaireManager.AnswerOption(optionId);
 			_userManager.AddAnswerToUser(answer, userId);
-			
-//			_unitOfWorkManager.EndUnitOfWork();
 
 			return answer;
 		}

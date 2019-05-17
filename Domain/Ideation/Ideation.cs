@@ -20,7 +20,6 @@ namespace COI.BL.Domain.Ideation
 		// TODO add remaining fields
 		public virtual ICollection<Vote> Votes { get; set; }
 		public virtual ICollection<Idea> Ideas { get; set; }
-		public virtual ICollection<Share> Shares { get; set; }
 		public virtual ICollection<Field> Fields { get; set; }
 
 		public virtual ProjectPhase ProjectPhase { get; set; }
@@ -31,7 +30,6 @@ namespace COI.BL.Domain.Ideation
 			Created = DateTime.Now;
 			this.Votes = new List<Vote>();
 			this.Ideas = new List<Idea>();
-			this.Shares = new List<Share>();
 			this.Fields = new List<Field>();
 		}
 

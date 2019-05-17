@@ -1,4 +1,4 @@
-namespace COI.UI.MVC.Models.DTO.Ideation
+namespace COI.UI.MVC.Models.DTO.User
 {
 	public class NewVoteDto
 	{

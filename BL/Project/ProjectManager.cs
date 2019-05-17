@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Project;
 using COI.BL.Organisation;
-using COI.DAL.Organisation;
 using COI.DAL.Project;
 
 namespace COI.BL.Project
@@ -106,6 +104,10 @@ namespace COI.BL.Project
 			return _projectRepository.DeleteProject(id);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Domain.Project.Project project)
 		{
 			Validator.ValidateObject(project, new ValidationContext(project), true);
@@ -175,6 +177,10 @@ namespace COI.BL.Project
 			return _projectPhaseRepository.DeleteProjectPhase(projectPhaseId);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(ProjectPhase phase)
 		{
 			Validator.ValidateObject(phase, new ValidationContext(phase), true);

@@ -18,7 +18,6 @@ namespace COI.BL.Domain.Ideation
 		// TODO AllowedFieldTypes
 		public virtual ICollection<Field> Fields { get; set; }
 
-		public virtual ICollection<Share> Shares { get; set; }
 		public virtual ICollection<Flag> Flags { get; set; }
 		public virtual ICollection<Vote> Votes { get; set; }
 		public virtual ICollection<Comment> Comments { get; set; }
@@ -29,7 +28,6 @@ namespace COI.BL.Domain.Ideation
 		public Idea()
 		{
 			Created = DateTime.Now;
-			this.Shares = new List<Share>();
 			this.Fields = new List<Field>();
 			this.Flags = new List<Flag>();
 			this.Comments = new List<Comment>();

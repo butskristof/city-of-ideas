@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 using AutoMapper;
 using COI.BL;
 using COI.BL.Application;
-using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
-using COI.BL.Domain.User;
 using COI.BL.Questionnaire;
 using COI.UI.MVC.Models;
-using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.Questionnaire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,14 +20,12 @@ namespace COI.UI.MVC.Controllers.api
 	{
 		private readonly IMapper _mapper;
 		private readonly IQuestionnaireManager _questionnaireManager;
-		private readonly ICityOfIdeasController _coiCtrl;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-		public QuestionsController(IMapper mapper, IQuestionnaireManager questionnaireManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager)
+		public QuestionsController(IMapper mapper, IQuestionnaireManager questionnaireManager, IUnitOfWorkManager unitOfWorkManager)
 		{
 			_mapper = mapper;
 			_questionnaireManager = questionnaireManager;
-			_coiCtrl = coiCtrl;
 			_unitOfWorkManager = unitOfWorkManager;
 		}
 
