@@ -15,6 +15,8 @@ $(document).ready(function(){
 </script>
 
 <main class="content content--shadow container">
+   
+    
     <div class="form-group dd_project">
         <select name="dropdownFase" class="dd_project1">
             <option value="0" class="keuze">Alle projecten</option>
@@ -22,30 +24,30 @@ $(document).ready(function(){
             <option value="2" class="keuze">Gesloten projecten</option>
         </select>
     </div>
-    
-    <div class="create-project__container">
-        <a asp-controller="Project" asp-action="Create" class="btn create-project">Create project</a>
-    </div>
-    
+
     <div class="card-list mb-4">
         @foreach (var project in Model)
-            {
-                <div class="card">
-                    <img src="/img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
-                    <div class="card-body">
-                        <h2 class="card-title">@project.Title</h2>
-                        <p class="card-text">
-                            @project.Description
-                        </p>
-                    </div>
-                    <div class="card-footer card-footer--invis">
-                        <a asp-controller="Project" asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn--org">Geef jouw mening</a>
-                    </div>
+        {
+            <div class="card">
+                <img src="/img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
+                <div class="card-body">
+                    <h2 class="card-title">@project.Title</h2>
+                    <p class="card-text">
+                        @project.Description
+                    </p>
                 </div>
-            }
+                <div class="card-footer card-footer--invis">
+                    <a asp-controller="Project" asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn--org">Geef jouw mening</a>
+                </div>
+            </div>
+        }
     </div>
     
-    
+    <div class="create-project__container">
+        <a asp-controller="Project" asp-action="Create" class="btn btn--org create-project">Create project</a>
+    </div>
+
+
 
 
 </main>

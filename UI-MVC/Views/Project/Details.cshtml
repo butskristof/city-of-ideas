@@ -8,9 +8,7 @@
     <div>
         @Model.Description
     </div>
-    <div>
-        <a asp-controller="Project" asp-action="CreatePhase" class="btn">Create ProjectPhase</a>
-    </div>
+    
 </div>
 
 <div id="accordion" class="inklapbaar_fase">
@@ -49,9 +47,9 @@
                             {
                                 @if (field.FieldType.Equals(FieldType.Text))
                                  {
-                                    <p class="pphase-child__text">
-                                        @field.Content
-                                    </p>
+                                     <p class="pphase-child__text">
+                                         @field.Content
+                                     </p>
                                  }
                             }
                         </a>
@@ -71,6 +69,11 @@
             </div>
         </div>
     }
+    
+    <div>
+        <a asp-controller="Project" asp-action="CreatePhase" class="btn btn--org">Create ProjectPhase</a>
+    </div>
+    
     @* <div class="card"> *@
     @*     <div class="card-header" id="headingTwo"> *@
     @*         <h5 class="mb-0"> *@
@@ -142,4 +145,3 @@
     @*     </div> *@
     @* </div> *@
 </div>
-
