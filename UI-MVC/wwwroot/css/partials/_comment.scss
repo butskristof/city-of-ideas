@@ -1,6 +1,7 @@
 /*
     Comments
 */
+@import "../abstracts/all";
 
 .comments {
   
@@ -17,9 +18,39 @@
     &:last-child {
       margin-bottom: 0;
     }
+    
+    .comment__name {
+      margin-bottom: 0.75rem;
+    }
 
     .comment__content {
       grid-area: comment_content;
+      
+      
+      .comment__text {
+        margin-bottom: 0.75rem;
+      }
+
+      .comment__images {
+        display: flex;
+        flex-flow: row wrap;
+        margin-right: -10px;
+
+        img {
+          width: 100px;
+          height: 80px;
+          border-radius: 13px;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+          object-fit: cover;
+          margin-right: 10px;
+          margin-top: 10px;
+
+          @include screen-from('tablet') {
+            width: 200px;
+            height: 160px;
+          }
+        }
+      }
     }
 
     .comment__profile {

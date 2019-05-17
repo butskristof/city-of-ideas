@@ -14,14 +14,14 @@ export default {
 		let imagesArray = [];
 		
 		const addButton = Page.query(".image-uploader__add", imageUploadElement);
-		addButton.addEventListener("click", () => {
+		addButton.addEventListener("click", (e) => {
+			e.preventDefault();
 			Page.query(".image-uploader__file-upload", imageUploadElement).click();
 		});
 		
 		Page.query(".image-uploader__file-upload", imageUploadElement).addEventListener("change", function () {
 			if (this.files && this.files[0]) {
 				console.log(this.files);
-				// this.files.forEach(file => {
 				for (let i = 0; i < this.files.length; i++) {
 					const file = this.files[i];
 					
@@ -48,5 +48,10 @@ export default {
 				}
 			}
 		});
+		return {
+			getImages() {
+				return imagesArray;
+			}
+		}
 	}
 }

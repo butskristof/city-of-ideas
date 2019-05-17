@@ -12,26 +12,13 @@ Page.onLoad(async () => {
 	const editorElement = Page.query("#ideaEditor");
 	if (editorElement != null) {
 		const editor = Editor.init(Page.query("#ideaEditor"));
-		editor.onSubmit(async (fields) => {
-			console.log(fields);
-			const response = await CommentsRepository.new(ideaId, userId, fields);
+		editor.onSubmit(async (formData) => {
+			formData.append("ideaId", ideaId);
+			formData.append("userId", userId);
+			const response = await CommentsRepository.new(formData);
+			const responseData = await response.text();
 			console.log(response);
-			const responseData = await response.json();
 			console.log(responseData);
-			// const response = await CommentsRepository.new(ideaId, {
-			// 	fields: [
-			// 		{
-			// 			content: "test",
-			// 			ideaId: ideaId
-			// 		}
-			// 	],
-			// 	__RequestVerificationToken: formData.__RequestVerificationToken
-			// });
-			// if (!response.ok) {
-			// 	// const ro = await response.json();
-			// 	console.log("err:", await response.text());
-			// }
-			// console.log(response);
 		});
 	}
 	

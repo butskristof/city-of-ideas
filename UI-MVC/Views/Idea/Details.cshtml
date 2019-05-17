@@ -57,9 +57,13 @@
                         <i class="material-icons">add_photo_alternate</i>
                         Foto toevoegen
                     </div>
-                    <div class="editor__option editor__option--image">
-                        <i class="material-icons">add_location</i>
-                        Locatie toevoegen
+                    @* <div class="editor__option editor__option--image"> *@
+                    @*     <i class="material-icons">add_location</i> *@
+                    @*     Locatie toevoegen *@
+                    @* </div> *@
+                    <div class="editor__option editor__option--video">
+                        <i class="material-icons">video_call</i>
+                        Video toevoegen
                     </div>
                 </div>
 
@@ -71,11 +75,16 @@
             </div>
 
             <div class="editor__images"></div>
+            <div class="editor__videos"></div>
 
             <input
                 type="file"
-                class="editor__file-upload"
+                class="editor__file-upload editor__file-upload--image"
                 accept="image/x-png,image/gif,image/jpeg"
+            />
+            <input
+                type="file"
+                class="editor__file-upload editor__file-upload--video"
             />
 
             <button type="submit" class="btn editor__submit mt-2">

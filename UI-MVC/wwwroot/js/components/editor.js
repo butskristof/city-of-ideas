@@ -32,12 +32,12 @@ export default {
 		
 		// Add images
 		Page.query(".editor__option--image", editor).addEventListener("click", function () {
-			Page.query(".editor__file-upload", editor).click();
+			Page.query(".editor__file-upload--image", editor).click();
 		});
 		
 		let imagesArray = [];
 		
-		Page.query(".editor__file-upload", editor).addEventListener("change", function () {
+		Page.query(".editor__file-upload--image", editor).addEventListener("change", function () {
 			if (this.files && this.files[0]) {
 				const file = this.files[0];
 				if (file.size > MAX_FILE_SIZE) {
@@ -63,6 +63,41 @@ export default {
 			}
 		});
 		
+		// Add videos
+		Page.query(".editor__option--video", editor).addEventListener("click", function () {
+			Page.query(".editor__file-upload--video", editor).click();
+		});
+
+		let videosArray = [];
+		
+		Page.query(".editor__file-upload--video", editor).addEventListener("change", function () {
+			if (this.files && this.files[0]) {
+				const file = this.files[0];
+				// if (file.size > MAX_FILE_SIZE) {
+				// 	logger.error(`The maximum file size is ${MAX_FILE_SIZE / 1000000} megabyte`);
+				// 	return;
+				// }
+				if (Page.query(".editor__videos", editor).childElementCount >= 3) {
+					logger.error(`You can only upload up to ${MAX_UPLOAD_COUNT} images`);
+					return;
+				}
+				const reader = new FileReader();
+				imagesArray.push(file);
+				reader.onload = function(e) {
+					const video = document.createElement("video");
+					const source = document.createElement("source");
+					source.src = e.target.result;
+					video.appendChild(source);
+					video.addEventListener("click", function () {
+						this.parentNode.removeChild(this);
+						videosArray = videosArray.filter(el => el === file);
+					});
+					Page.query(".editor__videos", editor).appendChild(video);
+				};
+				reader.readAsDataURL(this.files[0]);
+			}
+		});
+		
 		const editorForm = Form.init(editor);
 		
 		return {
@@ -71,11 +106,12 @@ export default {
 					if (formData.get('text').length < 10) {
 						callback(formData);
 					}
-					const fields = [];
-					fields.push({
-						content: Page.query(".editor__text", editor).value
+					const resultFormData = new FormData();
+					imagesArray.forEach(image => {
+						resultFormData.append("images", image);
 					});
-					callback(fields);
+					resultFormData.append("texts", formData.get('text'));
+					callback(resultFormData);
 				});
 			}
 		}
