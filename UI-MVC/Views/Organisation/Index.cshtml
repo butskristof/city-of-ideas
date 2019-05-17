@@ -1,11 +1,13 @@
 @model System.Collections.Generic.IEnumerable<COI.BL.Domain.Organisation.Organisation>
 @{
-	ViewBag.Title = "Organisatie";
-	Layout = "_Layout";
+    ViewBag.Title = "Organisatie";
+    Layout = "_Layout";
 }
 
-<h1>Organisations</h1>
+<h1 class="paginatitel paginatitel__bovenaan">Organisaties</h1>
 
-<form action="/organisation/1" method="post">
-    <input type="submit" value="Selecteer Antwerpen">
-</form>
+<div class="card-list mb-4">
+    <form action="/organisation/1" method="post" class="m-auto">
+        <input class="circle circle__antwerpen" type="submit" value="Antwerpen">
+    </form>
+</div>
