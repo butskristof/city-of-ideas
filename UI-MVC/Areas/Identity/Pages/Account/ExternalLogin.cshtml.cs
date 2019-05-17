@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using COI.BL.Domain.User;
+using COI.UI.MVC.Models.DTO.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -30,8 +31,9 @@ namespace COI.UI.MVC.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
+        // adapted to our own registration model
         [BindProperty]
-        public InputModel Input { get; set; }
+        public RegisterDto Input { get; set; }
 
         public string LoginProvider { get; set; }
 
@@ -39,13 +41,6 @@ namespace COI.UI.MVC.Areas.Identity.Pages.Account
 
         [TempData]
         public string ErrorMessage { get; set; }
-
-        public class InputModel
-        {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
-        }
 
         public IActionResult OnGetAsync()
         {
@@ -88,17 +83,16 @@ namespace COI.UI.MVC.Areas.Identity.Pages.Account
             }
             else
             {
-                // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 LoginProvider = info.LoginProvider;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                // fill in info and call post method 
+                Input = new RegisterDto()
                 {
-                    Input = new InputModel
-                    {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
-                }
-                return Page();
+                    Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                    FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
+                    LastName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+                };
+                return await OnPostConfirmationAsync();
             }
         }
 
@@ -115,7 +109,11 @@ namespace COI.UI.MVC.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                var user = new User
+                {
+                    UserName = Input.Email, Email = Input.Email,
+                    FirstName = Input.FirstName, LastName = Input.LastName
+                };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
