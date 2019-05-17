@@ -21,7 +21,8 @@ export default {
 					const counter = this.dataset.counter;
 					const counterEL = Page.query("#" + counter);
 					const oldVal = parseInt(counterEL.innerText);
-					counterEL.innerText = oldVal + 1;
+					const value = parseInt(this.dataset.value);
+					counterEL.innerText = oldVal + value;
 				}
 			});
 		});

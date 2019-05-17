@@ -22,7 +22,6 @@ Page.onLoad(async () => {
 		});
 	}
 	
-	
 	Voters.init();
 	
 	

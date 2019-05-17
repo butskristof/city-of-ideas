@@ -82,7 +82,7 @@ export default {
 					return;
 				}
 				const reader = new FileReader();
-				imagesArray.push(file);
+				videosArray.push(file);
 				reader.onload = function(e) {
 					const video = document.createElement("video");
 					const source = document.createElement("source");
@@ -104,15 +104,21 @@ export default {
 			onSubmit(callback) {
 				editorForm.onSubmit((formData) => {
 					if (formData.get('text').length < 10) {
-						callback(formData);
+						// callback(formData);
+						return;
 					}
-					const resultFormData = new FormData();
 					imagesArray.forEach(image => {
-						resultFormData.append("images", image);
+						formData.append("images", image);
 					});
-					resultFormData.append("texts", formData.get('text'));
-					callback(resultFormData);
+					videosArray.forEach(image => {
+						formData.append("videos", image);
+					});
+					formData.append("texts", formData.get('text'));
+					callback(formData);
 				});
+			},
+			getForm() {
+				return editorForm;
 			}
 		}
 	}

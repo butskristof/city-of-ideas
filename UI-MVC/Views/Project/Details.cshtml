@@ -40,16 +40,16 @@
                 @*     </div> *@
                 @* </h5> *@
             <div class="card-button">
-                                        <button
-                                            class="btn btn-link btn__witteAchtergrond btn__fase"
-                                            data-toggle="collapse"
-                                            data-target="@("#projectPhase" + projectPhase.ProjectPhaseId)"
-                                            aria-expanded="true"
-                                            aria-controls="@("projectPhase" + projectPhase.ProjectPhaseId)">
-                                            @projectPhase.Title
-                                        </button>
-                                        <span class="datumTot">Tot @projectPhase.EndDate.ToString("yy/MM/yyyy")</span>
-                                    </div>
+                <button
+                    class="btn btn-link btn__witteAchtergrond btn__fase"
+                    data-toggle="collapse"
+                    data-target="@("#projectPhase" + projectPhase.ProjectPhaseId)"
+                    aria-expanded="true"
+                    aria-controls="@("projectPhase" + projectPhase.ProjectPhaseId)">
+                    @projectPhase.Title
+                </button>
+                <span class="datumTot">Tot @projectPhase.EndDate.ToString("yy/MM/yyyy")</span>
+            </div>
             </div>
 
             <div
@@ -91,7 +91,7 @@
         </div>
     }
     <div class="margin-t35rem paddingL-20">
-        <a asp-controller="Project" asp-action="CreatePhase" class="btn btn--org">Create ProjectPhase</a>
+        <a asp-controller="Project" asp-action="CreatePhase" asp-route-id="@Model.ProjectId" class="btn btn--org">Create ProjectPhase</a>
     </div>
 
     @* <div class="card"> *@

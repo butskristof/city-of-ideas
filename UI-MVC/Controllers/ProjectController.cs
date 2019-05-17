@@ -43,9 +43,10 @@ namespace COI.UI.MVC.Controllers
 	        return View();
         }
 
-        public IActionResult CreatePhase()
+        // ID = projectId
+        public IActionResult CreatePhase(int id)
         {
-	        return View();
+	        return View(id);
         }
     }
 }
