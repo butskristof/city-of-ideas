@@ -24,7 +24,10 @@ namespace COI.UI.MVC.Models.Profiles
 						s => s.Ideation.IdeationId))
 				.ForMember(f => f.CommentId, 
 					opt => opt.MapFrom(
-						s => s.Comment.CommentId));
+						s => s.Comment.CommentId))
+				.ForMember(f => f.ProjectId, 
+					opt => opt.MapFrom(
+						s => s.Project.ProjectId));
 		}
 	}
 }

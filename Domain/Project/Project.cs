@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using COI.BL.Domain.Common;
+using COI.BL.Domain.Ideation;
 
 namespace COI.BL.Domain.Project
 {
@@ -17,7 +18,7 @@ namespace COI.BL.Domain.Project
 		public DateTime EndDate { get; set; }
 		
 		public virtual ProjectState State { get; set; }
-//		public Styling Styling { get; set; }
+		public virtual ICollection<Field> Fields { get; set; }
 
 		public virtual Organisation.Organisation Organisation { get; set; }
 		public virtual ICollection<ProjectPhase> ProjectPhases { get; set; }

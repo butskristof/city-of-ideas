@@ -293,6 +293,24 @@ namespace COI.BL.Ideation
 			return AddField(field);
 		}
 
+		public Field AddFieldToProject(FieldType type, string content, int projectId)
+		{
+			Domain.Project.Project project = _projectManager.GetProject(projectId);
+			if (project == null)
+			{
+				throw new ArgumentException("Project not found.", "projectId");
+			}
+			
+			Field field = new Field()
+			{
+				Content = content,
+				FieldType = type,
+				Project = project
+			};
+
+			return AddField(field);
+		}
+
 		private Field AddField(Field field)
 		{
 			Validate(field);
