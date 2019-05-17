@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using COI.BL.Domain.Common;
 using COI.BL.Domain.Ideation;
 
 namespace COI.BL.Domain.Project
@@ -12,7 +11,6 @@ namespace COI.BL.Domain.Project
 		
 		[Required]
 		public String Title { get; set; }
-		public String Description { get; set; }
 		
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }

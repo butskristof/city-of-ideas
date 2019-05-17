@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Castle.Core.Logging;
 using COI.UI.MVC.Services;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -14,9 +13,9 @@ namespace COI.UI.MVC
     {
         public static void Main(string[] args)
         {
-//            CreateWebHostBuilder(args).Build().Run();
             var host = CreateWebHostBuilder(args).Build();
 
+            // adapted to make sure roles are created first
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -25,7 +24,7 @@ namespace COI.UI.MVC
                     var serviceProvider = services.GetRequiredService<IServiceProvider>();
                     var conf = services.GetRequiredService<IConfiguration>();
 
-                    Seed.CreateRoles(serviceProvider, conf).Wait();
+                    RoleSeed.CreateRoles(serviceProvider, conf).Wait();
                 }
                 catch (Exception e)
                 {
@@ -41,6 +40,7 @@ namespace COI.UI.MVC
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
                     {
+                        // configure environment files
                         config.SetBasePath(Directory.GetCurrentDirectory());
                         config.AddJsonFile("coi_env.json", optional: false, reloadOnChange: true); // TODO implement IOptions
                         config.AddJsonFile("prod_env.json", optional: true, reloadOnChange: true); // TODO implement IOptions

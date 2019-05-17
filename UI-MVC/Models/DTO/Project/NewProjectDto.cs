@@ -8,7 +8,6 @@ namespace COI.UI.MVC.Models.DTO.Project
 	public class NewProjectDto
 	{
 		public string Title { get; set; }
-		public string Description { get; set; }
 		
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
@@ -19,5 +18,13 @@ namespace COI.UI.MVC.Models.DTO.Project
 		
 		public List<string> Texts { get; set; }
 		public List<IFormFile> Images { get; set; }
+		public List<IFormFile> Videos { get; set; }
+
+		public NewProjectDto()
+		{
+			this.Texts = new List<string>();
+			this.Images = new List<IFormFile>();
+			this.Videos = new List<IFormFile>();
+		}
 	}
 }

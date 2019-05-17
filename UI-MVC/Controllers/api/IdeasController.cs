@@ -8,7 +8,6 @@ using Castle.Core.Internal;
 using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
-using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
@@ -26,15 +25,13 @@ namespace COI.UI.MVC.Controllers.api
 	{
 		private readonly IMapper _mapper;
 		private readonly IIdeationManager _ideationManager;
-		private readonly ICityOfIdeasController _coiCtrl;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 		private readonly IFileService _fileService;
 
-		public IdeasController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
+		public IdeasController(IMapper mapper, IIdeationManager ideationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
-			_coiCtrl = coiCtrl;
 			_unitOfWorkManager = unitOfWorkManager;
 			_fileService = fileService;
 		}
@@ -69,7 +66,7 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public async Task<IActionResult> PostNewIdea(NewIdeaDto idea)
+		public async Task<IActionResult> PostNewIdea([FromForm]NewIdeaDto idea)
 		{
 			if (idea.Texts.IsNullOrEmpty() && idea.Images.IsNullOrEmpty())
 			{
@@ -78,24 +75,27 @@ namespace COI.UI.MVC.Controllers.api
 			
 			try
 			{
-//				var fields = _mapper.Map<List<Field>>(idea.Fields);
 				_unitOfWorkManager.StartUnitOfWork();
 				
 				Idea createdIdea = _ideationManager.AddIdea(
 					idea.Title, 
 					idea.IdeationId);
 
-				List<Field> fields = new List<Field>();
+				foreach (var video in idea.Videos)
+				{
+					string imgLocation = await _fileService.ConvertFileToLocation(video);
+					_ideationManager.AddFieldToIdea(FieldType.Video, imgLocation, createdIdea.IdeaId);
+				}
 
 				foreach (var image in idea.Images)
 				{
 					string imgLocation = await _fileService.ConvertFileToLocation(image);
-					_ideationManager.AddFieldToComment(FieldType.Picture, imgLocation, createdIdea.IdeaId);
+					_ideationManager.AddFieldToIdea(FieldType.Picture, imgLocation, createdIdea.IdeaId);
 				}
 
 				foreach (var textfield in idea.Texts)
 				{
-					_ideationManager.AddFieldToComment(FieldType.Text, textfield, createdIdea.IdeaId);
+					_ideationManager.AddFieldToIdea(FieldType.Text, textfield, createdIdea.IdeaId);
 				}
 				
 				_unitOfWorkManager.EndUnitOfWork();
@@ -198,34 +198,5 @@ namespace COI.UI.MVC.Controllers.api
 			
 			return Ok(response);
 		}
-		
-		// POST: api/Ideas/Vote
-//		[HttpPost("Vote")]
-//		public IActionResult PostIdeaVote(NewIdeaVoteDto vote)
-//		{
-//			try
-//			{
-//				Vote createdVote = _coiCtrl.AddVoteToIdea(
-//					vote.Value, 
-//					vote.UserId, 
-//					vote.IdeaId);
-//
-//				// TODO update response
-////				return CreatedAtAction();
-//				return Ok();
-//			}
-//			catch (ArgumentException e)
-//			{
-//				switch (e.ParamName)
-//				{
-//					case "ideaId":
-//						return UnprocessableEntity(e.Message);
-//					case "userId":
-//						return UnprocessableEntity(e.Message);
-//					default:
-//						return BadRequest(e.Message);
-//				}
-//			}
-//		}
 	}
 }

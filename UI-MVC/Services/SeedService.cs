@@ -74,13 +74,19 @@ namespace COI.UI.MVC.Services
 
 				List<Project> projects = new List<Project>();
 
-				var proj1 = _projectManager.AddProject("Vrijbroekspark",
+				projects.Add(_projectManager.AddProject("Vrijbroekspark",
+					new DateTime(2019, 2, 16), 
+					new DateTime(2019, 3, 16), 
+					organisations[0].OrganisationId));
+				_ideationManager.AddFieldToProject(FieldType.Text,
 					"In onze gemeente hebben we een prachtig park. Beslis mee over dit prachtige park.",
-					new DateTime(2019, 2, 16), new DateTime(2019, 3, 16), organisations[0].OrganisationId);
+					projects[0].ProjectId);
 				
-				var proj2 = _projectManager.AddProject("Haven van antwerpen",
+				projects.Add(_projectManager.AddProject("Haven van antwerpen",
+					new DateTime(2019, 2, 16), new DateTime(2019, 3, 12), organisations[0].OrganisationId));
+				_ideationManager.AddFieldToProject(FieldType.Text, 
 					"De haven van Antwerpen is toe aan vernieuwingen, hoe moeten deze gebeuren?",
-					new DateTime(2019, 2, 16), new DateTime(2019, 3, 12), organisations[0].OrganisationId);
+					projects[1].ProjectId);
 				
 
 				#endregion
@@ -90,11 +96,11 @@ namespace COI.UI.MVC.Services
 				List<ProjectPhase> phases = new List<ProjectPhase>();
 
 				phases.Add(_projectManager.AddProjectPhase("Project setup", "De setup van het Vrijbroekspark",
-					new DateTime(2019, 4, 16), new DateTime(2019, 4, 20), proj1.ProjectId));
+					new DateTime(2019, 4, 16), new DateTime(2019, 4, 20), projects[0].ProjectId));
 				phases.Add(_projectManager.AddProjectPhase("Bank plaatsen", "Het bankje plaatsen",
-					new DateTime(2019, 4, 21), new DateTime(2019, 5, 1), proj1.ProjectId));
+					new DateTime(2019, 4, 21), new DateTime(2019, 5, 1), projects[0].ProjectId));
 				phases.Add(_projectManager.AddProjectPhase("Afwerking bank", "Het bankje afwerken en controleren",
-					new DateTime(2019, 5, 2), new DateTime(2019, 6, 21), proj1.ProjectId));
+					new DateTime(2019, 5, 2), new DateTime(2019, 6, 21), projects[0].ProjectId));
 
 				#endregion
 
@@ -253,6 +259,7 @@ namespace COI.UI.MVC.Services
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e.Message);
 				return;
 			}
 		}

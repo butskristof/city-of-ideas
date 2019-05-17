@@ -8,7 +8,7 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 	{
 		public int CommentId { get; set; }
 		
-		public ICollection<FieldDto> Fields { get; set; }
+		public List<FieldDto> Fields { get; set; }
 		
 		public DateTime Created { get; set; }
 		

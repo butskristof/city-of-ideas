@@ -7,7 +7,6 @@ using Castle.Core.Internal;
 using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
-using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
@@ -67,14 +66,17 @@ namespace COI.UI.MVC.Controllers.api
 			
 			try
 			{
-//				var fields = _mapper.Map<List<Field>>(comment.Content);
 				_unitOfWorkManager.StartUnitOfWork();
 				
 				Comment createdComment = _coiCtrl.AddCommentToIdea(
 					comment.UserId, 
 					comment.IdeaId);
 				
-				List<Field> fields = new List<Field>();
+				foreach (var video in comment.Videos)
+				{
+					string imgLocation = await _fileService.ConvertFileToLocation(video);
+					_ideationManager.AddFieldToComment(FieldType.Video, imgLocation, createdComment.CommentId);
+				}
 
 				foreach (var image in comment.Images)
 				{

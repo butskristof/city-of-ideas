@@ -29,16 +29,6 @@ namespace COI.UI.MVC.Controllers.api
 			_unitOfWorkManager = unitOfWorkManager;
 		}
 
-//		[AllowAnonymous]
-//		[HttpGet]
-//		public IActionResult GetQuestionnaires()
-//		{
-//			var questionnaires = _questionnaireManager.GetQuestionnaires().ToList();
-//			var response = _mapper.Map<List<QuestionnaireDto>>(questionnaires);
-//
-//			return Ok(response);
-//		}
-
 		[AllowAnonymous]
 		[HttpGet("{id}/Questions")]
 		public IActionResult GetQuestionsForQuestionnaire(int id)

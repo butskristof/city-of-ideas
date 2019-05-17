@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AutoMapper;
 using COI.BL.Domain.Project;
 using COI.UI.MVC.Models.DTO.Project;

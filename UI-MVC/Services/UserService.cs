@@ -81,7 +81,7 @@ namespace COI.UI.MVC.Services
 			};
 
 			var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-				_config["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddMinutes(30), 
+				_config["Jwt:Audience"], claims, expires: DateTime.UtcNow.AddDays(31), 
 				signingCredentials: credentials);
 			
 			return token;

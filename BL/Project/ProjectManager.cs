@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Project;
 using COI.BL.Organisation;
-using COI.DAL.Organisation;
 using COI.DAL.Project;
 
 namespace COI.BL.Project
@@ -49,7 +47,7 @@ namespace COI.BL.Project
 			return _projectRepository.ReadPhasesForProject(projectId);
 		}
 
-		public Domain.Project.Project AddProject(string title, string description, DateTime start, DateTime end, int organisationId)
+		public Domain.Project.Project AddProject(string title, DateTime start, DateTime end, int organisationId)
 		{
 			Domain.Organisation.Organisation org = _organisationManager.GetOrganisation(organisationId);
 
@@ -61,7 +59,6 @@ namespace COI.BL.Project
 			Domain.Project.Project newProject = new Domain.Project.Project()
 			{
 				Title = title,
-				Description = description,
 				StartDate = start,
 				EndDate = end,
 				Organisation = org
@@ -76,7 +73,7 @@ namespace COI.BL.Project
 			return _projectRepository.CreateProject(p);
 		}
 
-		public Domain.Project.Project ChangeProject(int id, string title, string description, DateTime start, DateTime end, int organisationId)
+		public Domain.Project.Project ChangeProject(int id, string title, DateTime start, DateTime end, int organisationId)
 		{
 			Domain.Organisation.Organisation org = _organisationManager.GetOrganisation(organisationId);
 
@@ -89,7 +86,6 @@ namespace COI.BL.Project
 			if (p != null)
 			{
 				p.Title = title;
-				p.Description = description;
 				p.StartDate = start;
 				p.EndDate = end;
 				p.Organisation = org;
@@ -106,6 +102,10 @@ namespace COI.BL.Project
 			return _projectRepository.DeleteProject(id);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Domain.Project.Project project)
 		{
 			Validator.ValidateObject(project, new ValidationContext(project), true);
@@ -175,6 +175,10 @@ namespace COI.BL.Project
 			return _projectPhaseRepository.DeleteProjectPhase(projectPhaseId);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(ProjectPhase phase)
 		{
 			Validator.ValidateObject(phase, new ValidationContext(phase), true);

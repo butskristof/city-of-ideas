@@ -11,7 +11,7 @@
 		<h1 class="hero__title">
 			Geef jouw idee voor de toekomst van de haven
 		</h1>
-		<a href="#" class="btn btn--org hero__button">Geef jouw idee!</a>
+		<a asp-controller="Project" asp-action="Index" class="btn btn--org hero__button">Geef jouw idee!</a>
 	</div>
 </section>
 
@@ -23,15 +23,14 @@
         @foreach (var project in Model)
         {
             <div class="card">
-                <img src="img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
+                <img src="/img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
                 <div class="card-body">
                     <h2 class="card-title">@project.Title</h2>
                     <p class="card-text">
-                        @project.Description
                     </p>
                 </div>
                 <div class="card-footer card-footer--invis">
-                    <a href="#" class="btn btn--org">Geef jouw mening</a>
+                    <a asp-controller="Project" asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn--org">Geef jouw mening</a>
                 </div>
             </div>
         }

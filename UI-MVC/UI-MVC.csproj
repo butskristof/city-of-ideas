@@ -38,6 +38,11 @@
 	  <_ContentIncludedByDefault Remove="wwwroot\css\popups\_verificatieScan.scss" />
 	  <_ContentIncludedByDefault Remove="Views\Ideas\Details.cshtml" />
 	  <_ContentIncludedByDefault Remove="Views\Ideas\Index.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Questionnaire\Partials\_MultipleChoicePartial.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Questionnaire\Partials\_MultipleChoiceResultPartial.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Questionnaire\Partials\_OpenQuestionPartial.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Questionnaire\Partials\_OpenQuestionResultPartial.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Questionnaire\Partials\_SingleChoicePartial.cshtml" />
 	</ItemGroup>
 
 </Project>
