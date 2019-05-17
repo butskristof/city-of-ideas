@@ -25,6 +25,9 @@ export default {
 			createDOMElement(comment) {
 				let newComment = document.createElement("div");
 				newComment.classList.add("comment");
+				const textContent = this.getTextContent(comment);
+				const images = this.getImagesContent(comment);
+				console.log(images);
 				newComment.innerHTML = `
 					<div class="comment__profile">
 						<div
@@ -40,8 +43,15 @@ export default {
 							<time class="timeago" datetime="${comment.created}"></time>
 						</div>
 						<p class="comment__text">
-							${comment.fields[0].content}
+							${textContent}
 						</p>
+						<div class="comment__images">
+							${images.map(imageSrc => {
+								return `
+									<img class="mb-3" src="${imageSrc}" alt="">
+								`
+							}).join("")}
+						</div>
 					  </div>
 					  <div class="options-bar">
 						<div class="options-bar__option">
@@ -55,6 +65,24 @@ export default {
 					</div>
 				`;
 				return newComment;
+			},
+			getTextContent(comment) {
+				let text = "";
+				comment.fields.forEach(field => {
+					if (field.fieldType === "Text") {
+						text += field.content;
+					}
+				});
+				return text;
+			},
+			getImagesContent(comment) {
+				let images = [];
+				comment.fields.forEach(field => {
+					if (field.fieldType === "Picture") {
+						images.push(field.content);
+					}
+				});
+				return images;
 			}
 		}
 	}

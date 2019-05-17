@@ -16,13 +16,10 @@
     <div class="periodeDatum">
         @Model.StartDate.ToString("dd/MM/yyyy") - @Model.EndDate.ToString("dd/MM/yyyy")
     </div>
-    <div>
-    </div>
-    
 </div>
 
 <div id="accordion" class="inklapbaar_fase">
-    @foreach(var projectPhase in @Model.ProjectPhases)
+    @foreach (var projectPhase in @Model.ProjectPhases)
     {
         <div class="card">
             <div class="card-header" id="headingOne">
@@ -39,17 +36,17 @@
                 @*         <span class="datumTot">Tot @projectPhase.EndDate.ToString("yy/MM/yyyy")</span> *@
                 @*     </div> *@
                 @* </h5> *@
-            <div class="card-button">
-                                        <button
-                                            class="btn btn-link btn__witteAchtergrond btn__fase"
-                                            data-toggle="collapse"
-                                            data-target="@("#projectPhase" + projectPhase.ProjectPhaseId)"
-                                            aria-expanded="true"
-                                            aria-controls="@("projectPhase" + projectPhase.ProjectPhaseId)">
-                                            @projectPhase.Title
-                                        </button>
-                                        <span class="datumTot">Tot @projectPhase.EndDate.ToString("yy/MM/yyyy")</span>
-                                    </div>
+                <div class="card-button">
+                    <button
+                        class="btn btn-link btn__witteAchtergrond btn__fase"
+                        data-toggle="collapse"
+                        data-target="@("#projectPhase" + projectPhase.ProjectPhaseId)"
+                        aria-expanded="true"
+                        aria-controls="@("projectPhase" + projectPhase.ProjectPhaseId)">
+                        @projectPhase.Title
+                    </button>
+                    <span class="datumTot">Tot @projectPhase.EndDate.ToString("yy/MM/yyyy")</span>
+                </div>
             </div>
 
             <div
@@ -91,7 +88,7 @@
         </div>
     }
     <div class="margin-t35rem paddingL-20">
-        <a asp-controller="Project" asp-action="CreatePhase" class="btn btn--org">Create ProjectPhase</a>
+        <a asp-controller="Project" asp-action="CreatePhase" asp-route-id="@Model.ProjectId" class="btn btn--org">Create ProjectPhase</a>
     </div>
 
     @* <div class="card"> *@

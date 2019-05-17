@@ -1,14 +1,9 @@
 import Repository from "./repository";
 
 export default {
-	createProject(title, description, startDate, endDate, organisationId) {
-		return Repository.post("/api/projects", {
-			title,
-			description,
-			startDate,
-			endDate,
-			organisationId
-		});
+	createProject(formData) {
+		console.log("ORG: ", formData.get('organisationId'));
+		return Repository.post("/api/projects", formData, true);
 	},
 	createPhase(title, description, startDate, endDate, projectId) {
 		return Repository.post("/api/projectPhases", {

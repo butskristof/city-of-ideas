@@ -14,10 +14,13 @@
       position: absolute;
       display: flex;
       flex-flow: row nowrap;
-      top: 0px;
+      top: 0;
       left: -2px;
       
       .editor__option {
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
         background-color: transparent;
         font-weight: bold;
         border: none;
@@ -82,6 +85,28 @@
       }
     }
   }
+  
+  .editor__videos {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -10px;
+
+    video {
+      width: 100px;
+      height: 80px;
+      border-radius: 13px;
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      object-fit: cover;
+      margin-right: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+
+      @include screen-from('tablet') {
+        width: 200px;
+        height: 160px;
+      }
+    }
+  }
 
   .editor__file-upload {
     display: none;
@@ -99,7 +124,7 @@
         background-color: $color-dark;
   
         &::after {
-          content: "Reactie te kort";
+          content: "Text te kort";
           background-color: $color-dark;
           position: absolute;
           top: 12px;

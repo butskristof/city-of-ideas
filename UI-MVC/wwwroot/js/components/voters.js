@@ -4,7 +4,6 @@ import VoteRepository from "../repositories/voteRepository";
 export default {
 	init() {
 		const voters = Page.queryAll(".voter");
-		console.log(voters);
 		voters.forEach(voter => {
 			voter.addEventListener("click", async function () {
 				if (userId === "-1") {
@@ -22,7 +21,8 @@ export default {
 					const counter = this.dataset.counter;
 					const counterEL = Page.query("#" + counter);
 					const oldVal = parseInt(counterEL.innerText);
-					counterEL.innerText = oldVal + 1;
+					const value = parseInt(this.dataset.value);
+					counterEL.innerText = oldVal + value;
 				}
 			});
 		});
