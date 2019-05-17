@@ -228,12 +228,12 @@
                         <div class="form__inputfield form__inputfield2">
                             <div class="row">
                                 <div class="col">
-                                    <input
+                                    <input 
                                         required
-                                        type="text"
-                                        name="age"
-                                        class="form-control inputleeftijd"
-                                        placeholder="Leeftijd"/>
+                                        type="date" 
+                                        name="birthdate"
+                                        id="birthdate"
+                                        class="form-control">
                                 </div>
                                 <div class="col">
                                     <input
@@ -246,10 +246,10 @@
                             </div>
                         </div>
 
-                        <select required name="sex" class="custom-select selectGeslacht">
+                        <select name="gender" class="custom-select selectGeslacht">
                             <option selected>Geslacht</option>
-                            <option value="1">Man</option>
-                            <option value="2">Vrouw</option>
+                            <option value="male">Man</option>
+                            <option value="female">Vrouw</option>
                         </select>
 
                         <input
