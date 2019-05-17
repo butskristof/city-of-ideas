@@ -16,14 +16,19 @@ $(document).ready(function(){
 
 <main class="content content--shadow container">
    
-    
-    <div class="form-group dd_project">
-        <select name="dropdownFase" class="dd_project1">
-            <option value="0" class="keuze">Alle projecten</option>
-            <option value="1" class="keuze">Open projecten</option>
-            <option value="2" class="keuze">Gesloten projecten</option>
-        </select>
+    <div class="d-inline-flex w-100 ">
+        <div class="form-group dd_project">
+            <select name="dropdownFase" class="dd_project1">
+                <option value="0" class="keuze">Alle projecten</option>
+                <option value="1" class="keuze">Open projecten</option>
+                <option value="2" class="keuze">Gesloten projecten</option>
+            </select>
+        </div>
+        <div class="create-project__container">
+            <a asp-controller="Project" asp-action="Create" class="btn btn--org create-project">Create project</a>
+        </div>
     </div>
+    
 
     <div class="card-list mb-4">
         @foreach (var project in Model)
@@ -42,9 +47,7 @@ $(document).ready(function(){
         }
     </div>
     
-    <div class="create-project__container">
-        <a asp-controller="Project" asp-action="Create" class="btn btn--org create-project">Create project</a>
-    </div>
+    
 
 
 
