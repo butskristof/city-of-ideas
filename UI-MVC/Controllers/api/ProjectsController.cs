@@ -135,6 +135,12 @@ namespace COI.UI.MVC.Controllers.api
 				
 				List<Field> fields = new List<Field>();
 				
+				foreach (var video in newProj.Videos)
+				{
+					string imgLocation = await _fileService.ConvertFileToLocation(video);
+					_ideationManager.AddFieldToProject(FieldType.Video, imgLocation, p.ProjectId);
+				}
+
 				foreach (var image in newProj.Images)
 				{
 					string imgLocation = await _fileService.ConvertFileToLocation(image);

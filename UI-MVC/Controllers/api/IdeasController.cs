@@ -69,7 +69,7 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public async Task<IActionResult> PostNewIdea(NewIdeaDto idea)
+		public async Task<IActionResult> PostNewIdea([FromForm]NewIdeaDto idea)
 		{
 			if (idea.Texts.IsNullOrEmpty() && idea.Images.IsNullOrEmpty())
 			{
@@ -87,15 +87,21 @@ namespace COI.UI.MVC.Controllers.api
 
 				List<Field> fields = new List<Field>();
 
+				foreach (var video in idea.Videos)
+				{
+					string imgLocation = await _fileService.ConvertFileToLocation(video);
+					_ideationManager.AddFieldToIdea(FieldType.Video, imgLocation, createdIdea.IdeaId);
+				}
+
 				foreach (var image in idea.Images)
 				{
 					string imgLocation = await _fileService.ConvertFileToLocation(image);
-					_ideationManager.AddFieldToComment(FieldType.Picture, imgLocation, createdIdea.IdeaId);
+					_ideationManager.AddFieldToIdea(FieldType.Picture, imgLocation, createdIdea.IdeaId);
 				}
 
 				foreach (var textfield in idea.Texts)
 				{
-					_ideationManager.AddFieldToComment(FieldType.Text, textfield, createdIdea.IdeaId);
+					_ideationManager.AddFieldToIdea(FieldType.Text, textfield, createdIdea.IdeaId);
 				}
 				
 				_unitOfWorkManager.EndUnitOfWork();
