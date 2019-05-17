@@ -47,7 +47,7 @@ namespace COI.BL.Project
 			return _projectRepository.ReadPhasesForProject(projectId);
 		}
 
-		public Domain.Project.Project AddProject(string title, string description, DateTime start, DateTime end, int organisationId)
+		public Domain.Project.Project AddProject(string title, DateTime start, DateTime end, int organisationId)
 		{
 			Domain.Organisation.Organisation org = _organisationManager.GetOrganisation(organisationId);
 
@@ -59,7 +59,6 @@ namespace COI.BL.Project
 			Domain.Project.Project newProject = new Domain.Project.Project()
 			{
 				Title = title,
-				Description = description,
 				StartDate = start,
 				EndDate = end,
 				Organisation = org
@@ -74,7 +73,7 @@ namespace COI.BL.Project
 			return _projectRepository.CreateProject(p);
 		}
 
-		public Domain.Project.Project ChangeProject(int id, string title, string description, DateTime start, DateTime end, int organisationId)
+		public Domain.Project.Project ChangeProject(int id, string title, DateTime start, DateTime end, int organisationId)
 		{
 			Domain.Organisation.Organisation org = _organisationManager.GetOrganisation(organisationId);
 
@@ -87,7 +86,6 @@ namespace COI.BL.Project
 			if (p != null)
 			{
 				p.Title = title;
-				p.Description = description;
 				p.StartDate = start;
 				p.EndDate = end;
 				p.Organisation = org;

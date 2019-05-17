@@ -125,7 +125,6 @@ namespace COI.UI.MVC.Controllers.api
 				
 				Project p = _projectManager.AddProject(
 					newProj.Title, 
-					newProj.Description, 
 					newProj.StartDate, 
 					newProj.EndDate, 
 					newProj.OrganisationId);
@@ -173,7 +172,6 @@ namespace COI.UI.MVC.Controllers.api
 				Project updatedProject = _projectManager.ChangeProject(
 					id, 
 					updatedValues.Title,
-					updatedValues.Description, 
 					updatedValues.StartDate, 
 					updatedValues.EndDate, 
 					updatedValues.OrganisationId);
