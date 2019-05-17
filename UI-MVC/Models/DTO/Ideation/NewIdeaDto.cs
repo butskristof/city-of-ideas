@@ -11,5 +11,12 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public List<IFormFile> Videos { get; set; }
 		public int IdeationId { get; set; }
 		// TODO add user createdby
+
+		public NewIdeaDto()
+		{
+			this.Texts = new List<string>();
+			this.Images = new List<IFormFile>();
+			this.Videos = new List<IFormFile>();
+		}
 	}
 }

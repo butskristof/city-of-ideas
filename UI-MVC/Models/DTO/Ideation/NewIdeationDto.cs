@@ -10,5 +10,12 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public List<string> Texts { get; set; }
 		public List<IFormFile> Images { get; set; }
 		public List<IFormFile> Videos { get; set; }
+
+		public NewIdeationDto()
+		{
+			this.Texts = new List<string>();
+			this.Images = new List<IFormFile>();
+			this.Videos = new List<IFormFile>();
+		}
 	}
 }
