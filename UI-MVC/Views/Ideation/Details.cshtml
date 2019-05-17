@@ -1,4 +1,9 @@
 @using COI.BL.Domain.Ideation
+@using COI.BL.Domain.User
+@using COI.UI.MVC.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @model COI.BL.Domain.Ideation.Ideation
 
 
@@ -37,11 +42,30 @@
             {
                 @if (field.FieldType.Equals(FieldType.Text))
                  {
-                    <p class="idea__text">
-                        @field.Content
-                    </p>
+                     <p class="idea__text">
+                         @field.Content
+                     </p>
                  }
             }
         </a>
     }
 </section>
+
+<section class="ideation__editor container">
+    @{
+        Html.RenderPartial("_Editor", new Editor
+        {
+            FormId = "idea_create",
+            Type = "idee"
+        });
+    }
+</section>
+
+@section Scripts
+{
+    <script>
+        const ideationId = @Model.IdeationId;
+        const userId = '@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : "-1")';
+    </script>
+    <script type="text/javascript" src="/dist/idea.entry.js" defer></script>
+}

@@ -4,6 +4,7 @@ import VoteRepository from "../repositories/voteRepository";
 export default {
 	init() {
 		const voters = Page.queryAll(".voter");
+		if (!voters) return;
 		voters.forEach(voter => {
 			voter.addEventListener("click", async function () {
 				if (userId === "-1") {

@@ -1,4 +1,7 @@
 @model System.Collections.Generic.IEnumerable<COI.BL.Domain.Project.Project>
+@using COI.BL.Domain.User
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
 
 @{
     ViewBag.Title = "Overzicht";
@@ -24,9 +27,13 @@ $(document).ready(function(){
                 <option value="2" class="keuze">Gesloten projecten</option>
             </select>
         </div>
-        <div class="create-project__container">
-            <a asp-controller="Project" asp-action="Create" class="btn btn--org create-project">Create project</a>
-        </div>
+        
+        @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Superadmin")))
+        {
+            <div class="create-project__container">
+                <a asp-controller="Project" asp-action="Create" class="btn btn--org create-project">Create project</a>
+            </div>
+        }
     </div>
     
 

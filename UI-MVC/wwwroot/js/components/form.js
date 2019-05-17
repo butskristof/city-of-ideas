@@ -16,10 +16,12 @@ export default {
 			// Shows an error at the top of the form in the .form__errors
 			showError(msg) {
 				const res = Page.query(".form__errors", form);
-				const errorLI = document.createElement("LI");
-				const textNode = document.createTextNode(msg);
-				errorLI.appendChild(textNode);
-				res.appendChild(errorLI);
+				if (res != null) {
+					const errorLI = document.createElement("LI");
+					const textNode = document.createTextNode(msg);
+					errorLI.appendChild(textNode);
+					res.appendChild(errorLI);
+				}
 			},
 			// Uses a list of errors from dotnet
 			showErrors(errors) {
@@ -36,6 +38,18 @@ export default {
 				if (errorList != null) {
 					while (errorList.firstChild) {
 						errorList.removeChild(errorList.firstChild);
+					}
+				}
+			},
+			async handleResponse(response, onSuccess) {
+				if (response.ok) {
+					onSuccess()
+				} else {
+					const responseObject = await response.json();
+					if (responseObject.errors) {
+						this.showErrors(responseObject.errors);
+					} else {
+						this.showError(responseObject);
 					}
 				}
 			}
