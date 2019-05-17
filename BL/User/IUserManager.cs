@@ -10,6 +10,7 @@ namespace COI.BL.User
 		
 		void AddCommentToUser(Comment comment, string userId);
 		void AddAnswerToUser(Answer answer, string userId);
+		void AddIdeaToUser(Idea idea, string userId);
 
 		Vote GetVote(int voteId);
 		Vote AddVoteToUser(int value, string userId);

@@ -70,6 +70,11 @@ namespace COI.UI.MVC.Controllers.api
 					updatedField = _ideationManager.ChangeCommentField(id, updatedValues.FieldType,
 						updatedValues.Content, updatedValues.CommentId.Value);
 				}
+				else if (updatedValues.ProjectId.HasValue && updatedValues.ProjectId != 0)
+				{
+					updatedField = _ideationManager.ChangeProjectField(id, updatedValues.FieldType,
+						updatedValues.Content, updatedValues.ProjectId.Value);
+				}
 				else
 				{
 					return BadRequest("Idea, ideation or comment ID should be given.");

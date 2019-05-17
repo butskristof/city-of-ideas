@@ -51,6 +51,19 @@ namespace COI.BL.User
 			_userRepository.UpdateUser(user);
 		}
 
+		public void AddIdeaToUser(Idea idea, string userId)
+		{
+			Domain.User.User user = this.GetUser(userId);
+			if (user == null)
+			{
+				throw new ArgumentException("User not found.");
+			}
+
+			idea.CreatedBy = user;
+			user.Ideas.Add(idea);
+			_userRepository.UpdateUser(user);
+		}
+
 		#region Votes
 
 		public Vote GetVote(int voteId)

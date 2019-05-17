@@ -5,6 +5,7 @@ using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Project;
 using COI.BL.Domain.User;
 using COI.BL.Project;
+using COI.BL.User;
 using COI.DAL.Ideation;
 
 namespace COI.BL.Ideation
@@ -382,6 +383,28 @@ namespace COI.BL.Ideation
 				toChange.FieldType = type;
 				toChange.Content = content;
 				toChange.Comment = comment;
+
+				Validate(toChange);
+				return _fieldRepository.UpdateField(toChange);
+			}
+			
+			throw new ArgumentException("Field not found.", "id");
+		}
+
+		public Field ChangeProjectField(int id, FieldType type, string content, int projectId)
+		{
+			Field toChange = GetField(id);
+			if (toChange != null)
+			{
+				Domain.Project.Project project = _projectManager.GetProject(projectId);
+				if (project == null)
+				{
+                    throw new ArgumentException("Project not found.", "projectId");
+				}
+
+				toChange.FieldType = type;
+				toChange.Content = content;
+				toChange.Project = project;
 
 				Validate(toChange);
 				return _fieldRepository.UpdateField(toChange);
