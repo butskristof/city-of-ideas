@@ -253,6 +253,7 @@ namespace COI.UI.MVC.Services
 			}
 			catch (Exception e)
 			{
+				Console.WriteLine(e.Message);
 				return;
 			}
 		}

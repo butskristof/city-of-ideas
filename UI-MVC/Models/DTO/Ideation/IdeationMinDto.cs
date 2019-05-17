@@ -16,7 +16,5 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public List<FieldDto> Fields { get; set; }
 
 		public int ProjectPhaseId { get; set; }
-		
-//		public int ShareCount { get; set; }
 	}
 }

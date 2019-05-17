@@ -73,13 +73,11 @@ namespace COI.UI.MVC.Controllers.api
                     }
                     else
                     {
-//                        return BadRequest("Either option or question id should be given.");
 						throw new Exception("Invalid answer: either option or question id should be given.");
                     }
 
                     if (createdAnswer != null)
                     {
-//                        return Ok(_mapper.Map<AnswerDto>(createdAnswer));
 						answers.Add(createdAnswer);
                     }
                 });

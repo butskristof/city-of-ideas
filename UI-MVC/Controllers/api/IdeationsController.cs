@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,7 +8,6 @@ using Castle.Core.Internal;
 using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
-using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
@@ -27,15 +25,13 @@ namespace COI.UI.MVC.Controllers.api
 	{
 		private readonly IMapper _mapper;
 		private readonly IIdeationManager _ideationManager;
-		private readonly ICityOfIdeasController _coiCtrl;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 		private readonly IFileService _fileService;
 
-		public IdeationsController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
+		public IdeationsController(IMapper mapper, IIdeationManager ideationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
-			_coiCtrl = coiCtrl;
 			_unitOfWorkManager = unitOfWorkManager;
 			_fileService = fileService;
 		}
@@ -89,14 +85,11 @@ namespace COI.UI.MVC.Controllers.api
 			
 			try
 			{
-//				var fields = _mapper.Map<List<Field>>(ideation.Fields);
 				_unitOfWorkManager.StartUnitOfWork();
 				
 				Ideation createdIdeation = _ideationManager.AddIdeation(
 					ideation.Title, 
 					ideation.ProjectPhaseId);
-				
-				List<Field> fields = new List<Field>();
 				
 				foreach (var video in ideation.Videos)
 				{

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using COI.BL.Domain.Project;
-using COI.BL.Domain.User;
 
 namespace COI.BL.Domain.Questionnaire
 {
@@ -17,12 +16,10 @@ namespace COI.BL.Domain.Questionnaire
 		
 		// TODO add remaining fields
 		public virtual ICollection<Question> Questions { get; set; }
-		public virtual ICollection<Share> Shares { get; set; }
 
 		public Questionnaire()
 		{
 			this.Questions = new List<Question>();
-			this.Shares = new List<Share>();
 		}
 	}
 }

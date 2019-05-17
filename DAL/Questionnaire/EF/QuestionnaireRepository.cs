@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Questionnaire;
 using COI.DAL.EF;
 using Microsoft.EntityFrameworkCore;

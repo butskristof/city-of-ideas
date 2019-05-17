@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using COI.BL;
 using COI.BL.Application;
@@ -24,7 +23,6 @@ using COI.DAL.User;
 using COI.DAL.User.EF;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -62,10 +60,12 @@ namespace COI.UI.MVC
 
 			if (HostingEnvironment.IsProduction())
 			{
+				// get environment variables from configuration files
 				string server = Configuration["prod:SQL_IP"];
 				string dbname = Configuration["prod:SQL_DB"];
 				string user = Configuration["prod:SQL_USER"];
 				string pw = Configuration["prod:SQL_PW"];
+				// build connection string
 				string connectionString = String.Format("server={0};database={1};user={2};password={3}",
 					server, dbname, user, pw);
                 services.AddDbContext<CityOfIdeasDbContext>(options =>
@@ -82,7 +82,6 @@ namespace COI.UI.MVC
                         .UseLazyLoadingProxies()
                 );
 			}
-			// TODO differentiate between dev and production environments
 
 			#region Authentication setup
 

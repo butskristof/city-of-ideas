@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace COI.UI.MVC.Services
 {
-	public static class Seed
+	public static class RoleSeed
 	{
 		public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration Configuration)
 		{
@@ -45,9 +45,9 @@ namespace COI.UI.MVC.Services
 			};
 
 			string userPw = adminData["UserPassword"];
-			var _user = await userManager.FindByEmailAsync(powerUser.Email);
+			var user = await userManager.FindByEmailAsync(powerUser.Email);
 
-			if (_user == null)
+			if (user == null)
 			{
 				var createPowerUser = await userManager.CreateAsync(powerUser, userPw);
 				if (createPowerUser.Succeeded)

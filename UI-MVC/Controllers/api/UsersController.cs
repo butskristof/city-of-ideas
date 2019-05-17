@@ -3,7 +3,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using COI.BL.Domain.User;
 using COI.UI.MVC.Models.DTO.User;
 using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;

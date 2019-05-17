@@ -30,7 +30,6 @@ namespace COI.BL
 
 		public void Save()
 		{
-//			UnitOfWork.CommitChanges();
 			UnitOfWork.EndUnitOfWork();
 		}
 	}

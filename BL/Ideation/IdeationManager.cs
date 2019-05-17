@@ -1,16 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Project;
 using COI.BL.Domain.User;
 using COI.BL.Project;
-using COI.BL.User;
 using COI.DAL.Ideation;
-using COI.DAL.Ideation.EF;
-using COI.DAL.Project;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace COI.BL.Ideation
 {
@@ -106,6 +101,10 @@ namespace COI.BL.Ideation
 			throw new ArgumentException("Ideation not found.", "id");
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Domain.Ideation.Ideation ideation)
 		{
 			Validator.ValidateObject(ideation, new ValidationContext(ideation), true);
@@ -179,6 +178,10 @@ namespace COI.BL.Ideation
 			return _ideaRepository.DeleteIdea(id);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Idea idea)
 		{
 			Validator.ValidateObject(idea, new ValidationContext(idea), true);
@@ -225,6 +228,10 @@ namespace COI.BL.Ideation
 			return _commentRepository.DeleteComment(id);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Comment comment)
 		{
 			Validator.ValidateObject(comment, new ValidationContext(comment), true);
@@ -383,6 +390,10 @@ namespace COI.BL.Ideation
 			throw new ArgumentException("Field not found.", "id");
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Field field)
 		{
 			Validator.ValidateObject(field, new ValidationContext(field), true);

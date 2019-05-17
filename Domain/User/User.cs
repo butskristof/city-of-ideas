@@ -30,7 +30,6 @@ namespace COI.BL.Domain.User
 		public string ProfilePictureLocation { get; set; }
 
 //		public Role Role { get; set; }
-		public virtual ICollection<Share> Shares { get; set; }
 		public virtual ICollection<Flag> Flags { get; set; }
 		public virtual ICollection<Vote> Votes { get; set; }
 		public virtual ICollection<Answer> Answers { get; set; }
@@ -46,7 +45,6 @@ namespace COI.BL.Domain.User
 
 		public User()
 		{
-			this.Shares = new List<Share>();
 			this.Flags = new List<Flag>();
 			this.Votes = new List<Vote>();
 			this.Answers = new List<Answer>();

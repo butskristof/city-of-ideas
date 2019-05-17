@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Project;
 
 namespace COI.BL.Project

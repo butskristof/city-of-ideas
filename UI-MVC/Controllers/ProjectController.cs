@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using COI.BL.Domain.Project;
-using COI.BL.Domain.User;
 using COI.BL.Project;
 using COI.UI.MVC.Models;
-using COI.UI.MVC.Models.DTO.Ideation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,7 +37,6 @@ namespace COI.UI.MVC.Controllers
             return View(project);
         }
 
-//        [Authorize(Roles=["test"])]
 //		TODO: Authorization
         public IActionResult Create()
         {

@@ -1,5 +1,3 @@
-using System;
-
 namespace COI.UI.MVC.Models.DTO.Questionnaire
 {
 	public class OpenQuestionAnswerDto

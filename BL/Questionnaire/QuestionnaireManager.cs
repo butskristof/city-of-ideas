@@ -88,6 +88,10 @@ namespace COI.BL.Questionnaire
 			return _questionnaireRepository.DeleteQuestionnaire(id);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Domain.Questionnaire.Questionnaire questionnaire)
 		{
 			Validator.ValidateObject(questionnaire, new ValidationContext(questionnaire), true);
@@ -158,6 +162,10 @@ namespace COI.BL.Questionnaire
 			return _questionRepository.DeleteQuestion(id);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Question question)
 		{
 			Validator.ValidateObject(question, new ValidationContext(question), true);
@@ -226,6 +234,10 @@ namespace COI.BL.Questionnaire
 			return _optionRepository.DeleteOption(optionId);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Option option)
 		{
 			Validator.ValidateObject(option, new ValidationContext(option), true);
@@ -289,77 +301,15 @@ namespace COI.BL.Questionnaire
 			return _answerRepository.CreateAnswer(answer);
 		}
 
+		/**
+		 * Helper method to validate the object we want to persist against the validation annotations.
+		 * Will throw a ValidationException upon failing.
+		 */
 		private void Validate(Answer answer)
 		{
 			Validator.ValidateObject(answer, new ValidationContext(answer), true);
 		}
 
 		#endregion
-		
-//		public OpenQuestion GetOpenQuestion(int questionId)
-//		{
-//			return _questionRepository.ReadOpenQuestion(questionId);
-//		}
-//
-//		public Answer AnswerOpenQuestion(int questionId, string content)
-//		{
-//			Answer answer = new Answer()
-//			{
-//				Content = content
-//			};
-//			
-//			AddAnswerToOpenQuestion(questionId, answer);
-//
-//			return _answerRepository.CreateAnswer(answer);
-//		}
-//
-//		public void AddAnswerToOpenQuestion(int questionId, Answer answer)
-//		{
-//			OpenQuestion question = this.GetOpenQuestion(questionId);
-//			if (question != null)
-//			{
-//				answer.OpenQuestion = question;
-//				question.Answers.Add(answer);
-//				_questionRepository.UpdateQuestion(question);
-//			}
-//			else
-//			{
-//				throw new ArgumentException("Question not found.");
-//			}
-//		}
-//
-//		public Choice GetChoiceQuestion(int questionId)
-//		{
-//			return _questionRepository.ReadChoice(questionId);
-//		}
-//
-//		public Option GetOption(int optionId)
-//		{
-//			return _questionRepository.ReadOption(optionId);
-//		}
-//
-//		public Answer AnswerChoiceQuestion(int optionId)
-//		{
-//			Answer answer = new Answer();
-//			
-//			AddAnswerToOption(optionId, answer);
-//
-//			return _answerRepository.CreateAnswer(answer);
-//		}
-//
-//		public void AddAnswerToOption(int optionId, Answer answer)
-//		{
-//			Option option = this.GetOption(optionId);
-//			if (option != null)
-//			{
-//				answer.Option = option;
-//				option.Answers.Add(answer);
-//				_questionRepository.UpdateOption(option);
-//			}
-//			else
-//			{
-//				throw new ArgumentException("Option not found.");
-//			}
-//		}
 	}
 }

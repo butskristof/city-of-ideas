@@ -7,12 +7,10 @@ using AutoMapper;
 using Castle.Core.Internal;
 using COI.BL;
 using COI.BL.Domain.Ideation;
-using COI.BL.Domain.Organisation;
 using COI.BL.Domain.Project;
 using COI.BL.Ideation;
 using COI.BL.Project;
 using COI.UI.MVC.Models;
-using COI.UI.MVC.Models.DTO.Organisation;
 using COI.UI.MVC.Models.DTO.Project;
 using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -44,7 +42,6 @@ namespace COI.UI.MVC.Controllers.api
 		[HttpGet]
 		public IActionResult GetProjects([FromQuery(Name = "limit")] int numberOfProjectsToGet)
 		{
-//			var projs = _projectManager.GetProjects().ToList();
 			IEnumerable<Project> projs = null;
 			if (numberOfProjectsToGet != 0)
 			{
@@ -132,8 +129,6 @@ namespace COI.UI.MVC.Controllers.api
 					newProj.StartDate, 
 					newProj.EndDate, 
 					newProj.OrganisationId);
-				
-				List<Field> fields = new List<Field>();
 				
 				foreach (var video in newProj.Videos)
 				{

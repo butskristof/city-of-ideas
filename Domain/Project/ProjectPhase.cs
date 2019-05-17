@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using COI.BL.Domain.Ideation;
 
 namespace COI.BL.Domain.Project
 {

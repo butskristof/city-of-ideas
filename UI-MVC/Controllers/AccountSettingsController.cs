@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using COI.UI.MVC.Models;
 
 namespace COI.UI.MVC.Controllers
 {
