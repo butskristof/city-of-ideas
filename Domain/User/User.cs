@@ -20,16 +20,13 @@ namespace COI.BL.Domain.User
 		public Gender Gender { get; set; }
 		
 		[DateOfBirth(MinAge = 13, MaxAge = 150)]
-		[Required]
 		public DateTime DateOfBirth { get; set; }
 		
-		[Required]
 		[Range(1000,9999)]
 		public int PostalCode { get; set; }
 		
 		public string ProfilePictureLocation { get; set; }
 
-//		public Role Role { get; set; }
 		public virtual ICollection<Flag> Flags { get; set; }
 		public virtual ICollection<Vote> Votes { get; set; }
 		public virtual ICollection<Answer> Answers { get; set; }

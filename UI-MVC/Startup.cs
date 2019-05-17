@@ -100,6 +100,16 @@ namespace COI.UI.MVC
 				.AddDefaultTokenProviders();
 			
 			services.AddAuthentication()
+				.AddFacebook(options =>
+				{
+					options.AppId = Configuration["Facebook:AppId"];
+					options.AppSecret = Configuration["Facebook:AppSecret"];
+				})
+				.AddGoogle(options =>
+				{
+					options.ClientId = Configuration["Google:ClientId"];
+					options.ClientSecret = Configuration["Google:ClientSecret"];
+				})
 				.AddCookie(cfg => cfg.SlidingExpiration = true) // still support default identity behaviour
 				.AddJwtBearer(cfg => // add JWT for Android app etc
 				{
