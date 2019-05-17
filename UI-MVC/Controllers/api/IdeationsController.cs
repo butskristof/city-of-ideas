@@ -98,6 +98,12 @@ namespace COI.UI.MVC.Controllers.api
 				
 				List<Field> fields = new List<Field>();
 				
+				foreach (var video in ideation.Videos)
+				{
+					string imgLocation = await _fileService.ConvertFileToLocation(video);
+					_ideationManager.AddFieldToIdeation(FieldType.Video, imgLocation, createdIdeation.IdeationId);
+				}
+				
 				foreach (var image in ideation.Images)
 				{
 					string imgLocation = await _fileService.ConvertFileToLocation(image);

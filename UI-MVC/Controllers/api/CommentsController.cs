@@ -76,6 +76,12 @@ namespace COI.UI.MVC.Controllers.api
 				
 				List<Field> fields = new List<Field>();
 
+				foreach (var video in comment.Videos)
+				{
+					string imgLocation = await _fileService.ConvertFileToLocation(video);
+					_ideationManager.AddFieldToComment(FieldType.Video, imgLocation, createdComment.CommentId);
+				}
+
 				foreach (var image in comment.Images)
 				{
 					string imgLocation = await _fileService.ConvertFileToLocation(image);

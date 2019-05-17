@@ -19,5 +19,6 @@ namespace COI.UI.MVC.Models.DTO.Project
 		
 		public List<string> Texts { get; set; }
 		public List<IFormFile> Images { get; set; }
+		public List<IFormFile> Videos { get; set; }
 	}
 }
