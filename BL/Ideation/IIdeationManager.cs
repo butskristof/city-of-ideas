@@ -32,6 +32,7 @@ namespace COI.BL.Ideation
 		Field AddFieldToIdea(FieldType type, string content, int ideaId);
 		Field AddFieldToIdeation(FieldType type, string content, int ideationId);
 		Field AddFieldToComment(FieldType type, string content, int commentId);
+		Field AddFieldToProject(FieldType type, string content, int projectId);
 		Field ChangeIdeaField(int id, FieldType type, string content, int ideaId);
 		Field ChangeIdeationField(int id, FieldType type, string content, int ideationId);
 		Field ChangeCommentField(int id, FieldType type, string content, int commentId);

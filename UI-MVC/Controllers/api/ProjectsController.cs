@@ -2,15 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Castle.Core.Internal;
 using COI.BL;
+using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Organisation;
 using COI.BL.Domain.Project;
+using COI.BL.Ideation;
 using COI.BL.Project;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Organisation;
 using COI.UI.MVC.Models.DTO.Project;
+using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,13 +27,17 @@ namespace COI.UI.MVC.Controllers.api
 	{
 		private readonly IMapper _mapper;
 		private readonly IProjectManager _projectManager;
+		private readonly IIdeationManager _ideationManager;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
+		private readonly IFileService _fileService;
 
-		public ProjectsController(IMapper mapper, IProjectManager projectManager, IUnitOfWorkManager unitOfWorkManager)
+		public ProjectsController(IMapper mapper, IProjectManager projectManager, IIdeationManager ideationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
 		{
 			_mapper = mapper;
 			_projectManager = projectManager;
+			_ideationManager = ideationManager;
 			_unitOfWorkManager = unitOfWorkManager;
+			_fileService = fileService;
 		}
 
 		[AllowAnonymous]
@@ -112,17 +120,32 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public IActionResult PostNewProject(NewProjectDto newProj)
+		public async Task<IActionResult> PostNewProject([FromForm]NewProjectDto newProj)
 		{
 			try
 			{
 				_unitOfWorkManager.StartUnitOfWork();
+				
 				Project p = _projectManager.AddProject(
 					newProj.Title, 
 					newProj.Description, 
 					newProj.StartDate, 
 					newProj.EndDate, 
 					newProj.OrganisationId);
+				
+				List<Field> fields = new List<Field>();
+				
+				foreach (var image in newProj.Images)
+				{
+					string imgLocation = await _fileService.ConvertFileToLocation(image);
+					_ideationManager.AddFieldToProject(FieldType.Picture, imgLocation, p.ProjectId);
+				}
+
+				foreach (var textfield in newProj.Texts)
+				{
+					_ideationManager.AddFieldToProject(FieldType.Text, textfield, p.ProjectId);
+				}
+				
 				_unitOfWorkManager.EndUnitOfWork();
 
 				return CreatedAtAction(

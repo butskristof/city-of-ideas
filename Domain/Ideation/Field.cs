@@ -14,5 +14,6 @@ namespace COI.BL.Domain.Ideation
 		public virtual Ideation Ideation { get; set; }
 		public virtual Idea Idea { get; set; }
 		public virtual Comment Comment { get; set; }
+		public virtual Project.Project Project { get; set; }
 	}
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Project;
 
 namespace COI.BL.Project
@@ -21,7 +22,7 @@ namespace COI.BL.Project
 			int organisationId);
 
 		Domain.Project.Project RemoveProject(int id);
-
+		
 		ProjectPhase GetProjectPhase(int projectPhaseId);
 		ProjectPhase AddProjectPhase(string title, string description, DateTime start, DateTime end, int projectId);
 		ProjectPhase ChangeProjectPhase(int id, string title, string description, DateTime start, DateTime end, int projectId);

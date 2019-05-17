@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using COI.BL.Domain.Project;
+using COI.UI.MVC.Models.DTO.Ideation;
 
 namespace COI.UI.MVC.Models.DTO.Project
 {
