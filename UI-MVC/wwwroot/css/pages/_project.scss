@@ -21,6 +21,7 @@
 
   @include screen-from("tablet") {
     width: 70%;
+    padding-left: 5%;
   }
 }
 
@@ -46,4 +47,14 @@
 
 .paddingL-20{
   padding-left: 20px;
+}
+
+.create-project__container{
+  padding-left: 20%;
+  padding-top: 6%;
+  width: 40%;
+}
+
+.createprojectphase{
+  padding-right: 5%;
 }

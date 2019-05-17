@@ -6,7 +6,7 @@
 
 .dd_project {
   @include screen-from("tablet") {
-    width: 50%;
+    width: 33%;
 
     margin-top: 25px;
     margin-bottom: 25px;
@@ -19,7 +19,7 @@
 .dd_project1 {
   @include screen-from("tablet") {
     font-size: 27px;
-    width: 64%;
+    width: 100%;
   }
 
   font-weight: bold;

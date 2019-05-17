@@ -11,12 +11,19 @@
         </h1>
     </div>
 </section>
-
-<div class="projectomschrijving">
-    <div class="periodeDatum">
-        @Model.StartDate.ToString("dd/MM/yyyy") - @Model.EndDate.ToString("dd/MM/yyyy")
+<div class="w-100 d-inline-flex">
+    <div class="projectomschrijving">
+        <div class="periodeDatum">
+            @Model.StartDate.ToString("dd/MM/yyyy") - @Model.EndDate.ToString("dd/MM/yyyy")
+        </div>
+        
+    </div>
+    
+    <div class="padding-t1rem createprojectphase">
+        <a asp-controller="Project" asp-action="CreatePhase" class="btn btn--org">Create ProjectPhase</a>
     </div>
 </div>
+
 
 <div id="accordion" class="inklapbaar_fase">
     @foreach (var projectPhase in @Model.ProjectPhases)
@@ -87,9 +94,7 @@
             </div>
         </div>
     }
-    <div class="margin-t35rem paddingL-20">
-        <a asp-controller="Project" asp-action="CreatePhase" asp-route-id="@Model.ProjectId" class="btn btn--org">Create ProjectPhase</a>
-    </div>
+    
 
     @* <div class="card"> *@
     @*     <div class="card-header" id="headingTwo"> *@
@@ -162,4 +167,3 @@
     @*     </div> *@
     @* </div> *@
 </div>
-
