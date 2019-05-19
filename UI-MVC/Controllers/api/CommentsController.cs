@@ -89,6 +89,11 @@ namespace COI.UI.MVC.Controllers.api
 					_ideationManager.AddFieldToComment(FieldType.Text, textfield, createdComment.CommentId);
 				}
 				
+				foreach (var location in comment.Locations)
+				{
+					_ideationManager.AddFieldToComment(FieldType.Location, location, createdComment.CommentId);
+				}
+				
 				_unitOfWorkManager.EndUnitOfWork();
 
 				return CreatedAtAction(

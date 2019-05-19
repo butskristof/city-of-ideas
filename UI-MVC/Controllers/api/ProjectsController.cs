@@ -146,6 +146,11 @@ namespace COI.UI.MVC.Controllers.api
 					_ideationManager.AddFieldToProject(FieldType.Text, textfield, p.ProjectId);
 				}
 				
+				foreach (var location in newProj.Locations)
+				{
+					_ideationManager.AddFieldToProject(FieldType.Location, location, p.ProjectId);
+				}
+				
 				_unitOfWorkManager.EndUnitOfWork();
 
 				return CreatedAtAction(

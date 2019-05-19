@@ -108,6 +108,11 @@ namespace COI.UI.MVC.Controllers.api
 					_ideationManager.AddFieldToIdeation(FieldType.Text, textfield, createdIdeation.IdeationId);
 				}
 				
+				foreach (var location in ideation.Locations)
+				{
+					_ideationManager.AddFieldToIdeation(FieldType.Location, location, createdIdeation.IdeationId);
+				}
+				
 				_unitOfWorkManager.EndUnitOfWork();
 				
 				return CreatedAtAction(
