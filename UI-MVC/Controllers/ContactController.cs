@@ -8,5 +8,11 @@ namespace COI.UI.MVC.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult SendContact()
+        {
+	        return RedirectToAction("Index");
+        }
     }
 }

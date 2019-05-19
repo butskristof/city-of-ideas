@@ -52,14 +52,85 @@
 </section>
 
 <section class="ideation__editor container">
-    @{
-        Html.RenderPartial("_Editor", new Editor
-        {
-            FormId = "idea_create",
-            Type = "idee"
-        });
-    }
+@*     @{ *@
+@*         Html.RenderPartial("_Editor", new Editor *@
+@*         { *@
+@*             FormId = "idea_create", *@
+@*             Type = "idee" *@
+@*         }); *@
+@*     } *@
+@if (SignInManager.IsSignedIn(User))
+{
+    <!-- Editor -->
+    <form method="post" class="editor mt-10" id="idea_create">
+        <h2 clas="mb-2">Plaats jouw idee</h2>
+        
+        <div class="form__errors"></div>
+
+        <div class="editor__text-container">
+            <div class="editor__options">
+                <div class="editor__option editor__option--image">
+                    <i class="material-icons">add_photo_alternate</i>
+                    Foto toevoegen
+                </div>
+                @* <div class="editor__option editor__option--image"> *@
+                @*     <i class="material-icons">add_location</i> *@
+                @*     Locatie toevoegen *@
+                @* </div> *@
+                <div class="editor__option editor__option--video">
+                    <i class="material-icons">video_call</i>
+                    Video toevoegen
+                </div>
+            </div>
+            
+            <input
+                type="text"
+                name="title"
+                class="editor__text editor__text--title"
+                placeholder="Titel"
+                rows="2"
+            />
+
+            <textarea
+                name="text"
+                class="editor__text mt-2"
+                placeholder="Beschrijving"
+            ></textarea>
+        </div>
+
+        <div class="editor__images"></div>
+        <div class="editor__videos"></div>
+
+        <input
+            type="file"
+            class="editor__file-upload editor__file-upload--image"
+            accept="image/x-png,image/gif,image/jpeg"/>
+        <input
+            type="file"
+            class="editor__file-upload editor__file-upload--video"/>
+
+        <button type="submit" class="btn editor__submit mt-2">
+            Idee plaatsen
+        </button>
+    </form>
+    <!-- /Editor -->
+}
+else
+{
+    <!-- Log in -->
+    <section class="editor mt-10">
+        <h2>Login om een idee te plaatsen</h2>
+        
+        <button class="btn" data-toggle="modal" data-target="#LoginModal">Log in</button>
+        <button class="btn" data-toggle="modal" data-target="#RegisterModal">Maak een account</button>
+    </section>
+    <!-- /Log in -->
+}
 </section>
+
+
+
+
 
 @section Scripts
 {

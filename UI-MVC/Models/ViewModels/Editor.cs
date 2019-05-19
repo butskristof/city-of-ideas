@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace COI.UI.MVC.Models
 {
 	public class Editor

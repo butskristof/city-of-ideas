@@ -3,7 +3,6 @@ import Editor from "../components/editor";
 import Comments from "../components/comments";
 import CommentsRepository from "../repositories/commentsRepository";
 import IdeationRepository from "../repositories/ideationRepository";
-import Voters from "../components/voters";
 
 Page.onLoad(async () => {
 	
@@ -39,12 +38,10 @@ Page.onLoad(async () => {
 			const response = await IdeationRepository.createIdea(formData);
 			editor.getForm().handleResponse(response, () => {
 				Page.reload();
+				editor.getForm().clear();
 			});
 		})
 	}
-	
-	// Voters
-	Voters.init();
 	
 });
 

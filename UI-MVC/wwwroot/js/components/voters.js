@@ -4,14 +4,13 @@ import VoteRepository from "../repositories/voteRepository";
 export default {
 	init() {
 		const voters = Page.queryAll(".voter");
-		if (!voters) return;
 		voters.forEach(voter => {
 			voter.addEventListener("click", async function () {
 				if (userId === "-1") {
 					Page.query("#loginButton").click();
 					return;
 				}
-				
+
 				const target = this.dataset.target + "Id";
 				const targetId = this.dataset.targetid;
 				const value = this.dataset.value;
@@ -28,4 +27,4 @@ export default {
 			});
 		});
 	}
-}
+};

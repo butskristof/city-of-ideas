@@ -8,9 +8,9 @@ export default {
 		return {
 			onSubmit(callback) {
 				form.addEventListener("submit", (e) => {
+					e.preventDefault();
 					const formData = new FormData(e.target);
 					callback(formData);
-					e.preventDefault();
 				}, false);
 			},
 			// Shows an error at the top of the form in the .form__errors
@@ -27,10 +27,6 @@ export default {
 			showErrors(errors) {
 				const errorList = Object.values(errors);
 				this.showError(errorList[0].toString());
-				/*errorList.forEach(error => {
-					this.showError(error[0]);
-				});*/
-				
 			},
 			clear() {
 				// Remove errors
@@ -40,6 +36,11 @@ export default {
 						errorList.removeChild(errorList.firstChild);
 					}
 				}
+				// Remove data from fields
+				const inputs = Page.queryAll("input", form);
+				inputs.forEach(input => input.value = "");
+				const textareas = Page.queryAll("textarea", form);
+				textareas.forEach(textarea => textarea.value = "");
 			},
 			async handleResponse(response, onSuccess) {
 				if (response.ok) {
