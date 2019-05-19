@@ -25,6 +25,14 @@ namespace COI.DAL.Project.EF
 				.AsEnumerable();
 		}
 
+		public IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int numberOfProjectsToGet, ProjectState state)
+		{
+			return _ctx.Projects
+				.Where(p => p.State == state)
+				.Skip(Math.Max(0, _ctx.Projects.Count() - numberOfProjectsToGet))
+				.AsEnumerable();
+		}
+
 		public BL.Domain.Project.Project ReadLastProjectWithState(ProjectState state)
 		{
 			return _ctx.Projects

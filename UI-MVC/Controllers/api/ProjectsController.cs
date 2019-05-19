@@ -40,12 +40,25 @@ namespace COI.UI.MVC.Controllers.api
 
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult GetProjects([FromQuery(Name = "limit")] int numberOfProjectsToGet)
+		public IActionResult GetProjects([FromQuery(Name = "limit")] int numberOfProjectsToGet, [FromQuery(Name = "state")] string stateString)
 		{
 			IEnumerable<Project> projs = null;
+            bool stateValid = Enum.TryParse(stateString, true, out ProjectState state);
+            
 			if (numberOfProjectsToGet != 0)
 			{
-				projs = _projectManager.GetLastNProjects(numberOfProjectsToGet).ToList();
+				if (stateValid)
+				{
+                    projs = _projectManager.GetLastNProjects(
+                        numberOfProjectsToGet, state
+                        ).ToList();
+				}
+				else
+				{
+                    projs = _projectManager.GetLastNProjects(
+                        numberOfProjectsToGet
+                        ).ToList();
+				}
 			}
 			else
 			{

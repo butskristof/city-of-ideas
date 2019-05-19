@@ -8,6 +8,7 @@ namespace COI.BL.Project
 	{
 		IEnumerable<Domain.Project.Project> GetProjects();
 		IEnumerable<Domain.Project.Project> GetLastNProjects(int numberOfProjectsToGet);
+		IEnumerable<Domain.Project.Project> GetLastNProjects(int numberOfProjectsToGet, ProjectState state);
 		BL.Domain.Project.Project GetLastProjectWithState(ProjectState state);
 		Domain.Project.Project GetProject(int id);
 
