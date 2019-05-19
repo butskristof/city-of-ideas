@@ -32,6 +32,11 @@ namespace COI.BL.Project
             return _projectRepository.ReadLastNProjects(numberOfProjectsToGet);
 		}
 
+		public IEnumerable<Domain.Project.Project> GetLastNProjects(int numberOfProjectsToGet, ProjectState state)
+		{
+            return _projectRepository.ReadLastNProjects(numberOfProjectsToGet, state);
+		}
+
 		public Domain.Project.Project GetLastProjectWithState(ProjectState state)
 		{
 			return _projectRepository.ReadLastProjectWithState(state);

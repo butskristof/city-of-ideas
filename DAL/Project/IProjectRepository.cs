@@ -7,6 +7,7 @@ namespace COI.DAL.Project
 	{
 		IEnumerable<BL.Domain.Project.Project> ReadProjects();
 		IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int numberOfProjectsToGet);
+		IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int numberOfProjectsToGet, ProjectState state);
 		BL.Domain.Project.Project ReadLastProjectWithState(ProjectState state);
 		BL.Domain.Project.Project ReadProject(int id);
 		IEnumerable<ProjectPhase> ReadPhasesForProject(int projectId);
