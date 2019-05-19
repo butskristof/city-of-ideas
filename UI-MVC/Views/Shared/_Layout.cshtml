@@ -1,8 +1,10 @@
 ﻿@using System.Security.Claims
 @using COI.BL.Domain.User
+@using COI.BL.Project
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject IProjectManager ProjectManager
 
 <!DOCTYPE html>
 <html lang="nl">
@@ -75,9 +77,13 @@
             <div class="site-footer__projects">
                 <h3 class="title--light">Projecten</h3>
                 <ul>
-                    <li><a href="">Vrijbroekspark</a></li>
-                    <li><a href="">Dorpsplein</a></li>
-                    <li><a href="">Lage emissiezone</a></li>
+                    @{
+                        var footerProjects = ProjectManager.GetLastNProjects(3).ToList();
+                    }
+                    @foreach (var project in footerProjects)
+                    {
+                        <li><a href="">@project.Title</a></li>
+                    }
                 </ul>
             </div>
             <!-- /Footer-projects -->

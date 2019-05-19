@@ -19,7 +19,7 @@ namespace COI.UI.MVC.Controllers
         
         public IActionResult Index()
         {
-            IEnumerable<Project> projects = _projectManager.GetProjects().ToList();
+            IEnumerable<Project> projects = _projectManager.GetLastNProjects(6).ToList();
             return View(projects);
         }
 
