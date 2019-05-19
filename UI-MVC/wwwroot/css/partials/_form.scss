@@ -7,6 +7,14 @@
 @import "../components/circle";
 @import "../components/dropdown";
 
+.form__errors {
+  list-style: none;
+  color: var(--danger);
+  li {
+    margin-bottom: 10px;
+  }
+}
+
 .form {
   margin-top: 60px;
 

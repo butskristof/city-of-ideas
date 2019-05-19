@@ -37,13 +37,14 @@ namespace COI.UI.MVC.Controllers
             return View(project);
         }
 
-//		TODO: Authorization
-        public IActionResult Create()
+		[Authorize(Roles="Admin,Superadmin")]
+	    public IActionResult Create()
         {
 	        return View();
         }
 
         // ID = projectId
+		[Authorize(Roles="Admin,Superadmin")]
         public IActionResult CreatePhase(int id)
         {
 	        return View(id);

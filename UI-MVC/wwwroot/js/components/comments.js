@@ -27,7 +27,8 @@ export default {
 				newComment.classList.add("comment");
 				const textContent = this.getTextContent(comment);
 				const images = this.getImagesContent(comment);
-				console.log(images);
+				const videosContent = this.getVideosContent(comment);
+				// console.log(videosContent);
 				newComment.innerHTML = `
 					<div class="comment__profile">
 						<div
@@ -51,6 +52,9 @@ export default {
 									<img class="mb-3" src="${imageSrc}" alt="">
 								`
 							}).join("")}
+						</div>
+						<div class="comment__videos">
+							${videosContent}
 						</div>
 					  </div>
 					  <div class="options-bar">
@@ -83,6 +87,19 @@ export default {
 					}
 				});
 				return images;
+			},
+			getVideosContent(comment) {
+				let content = "";
+				comment.fields.forEach((field) => {
+					if (field.fieldType !== "Video") return;
+					
+					content += `
+						<video controls>
+							<source src="${field.content}"/>
+						</video>
+					`;
+				});
+				return content;
 			}
 		}
 	}

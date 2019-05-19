@@ -10,7 +10,7 @@ export default {
 					Page.query("#loginButton").click();
 					return;
 				}
-				
+
 				const target = this.dataset.target + "Id";
 				const targetId = this.dataset.targetid;
 				const value = this.dataset.value;
@@ -27,4 +27,4 @@ export default {
 			});
 		});
 	}
-}
+};

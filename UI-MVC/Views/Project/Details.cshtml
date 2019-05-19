@@ -1,4 +1,7 @@
 @using COI.BL.Domain.Ideation
+@using COI.BL.Domain.User
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
 @model COI.BL.Domain.Project.Project
 
 <section
@@ -18,10 +21,12 @@
         </div>
         
     </div>
-    
-    <div class="padding-t1rem createprojectphase">
-        <a asp-controller="Project" asp-action="CreatePhase" class="btn btn--org">Create ProjectPhase</a>
-    </div>
+    @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Superadmin")))
+    {
+        <div class="padding-t1rem createprojectphase">
+            <a asp-controller="Project" asp-action="CreatePhase" class="btn btn--org">Create ProjectPhase</a>
+        </div>
+    }
 </div>
 
 

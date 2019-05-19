@@ -5,6 +5,7 @@ export default {
 	},
 	reload() {
 		location.reload();
+		// location = location;
 	},
 	query(selector, parent = document) {
 		return parent.querySelector(selector);
