@@ -44,6 +44,7 @@
 	  <_ContentIncludedByDefault Remove="Views\Questionnaire\Partials\_OpenQuestionResultPartial.cshtml" />
 	  <_ContentIncludedByDefault Remove="Views\Questionnaire\Partials\_SingleChoicePartial.cshtml" />
 	  <_ContentIncludedByDefault Remove="wwwroot\js\autos\readme.md" />
+	  <_ContentIncludedByDefault Remove="wwwroot\js\global\organisation.js" />
 	</ItemGroup>
 
 </Project>
