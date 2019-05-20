@@ -14,6 +14,7 @@ namespace COI.BL.Domain.Project
 		
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
+		public DateTime Created { get; }
 
 		public virtual ProjectState ProjectState => (EndDate < DateTime.Now) ? ProjectState.Closed : ProjectState.Open;
 
@@ -24,6 +25,7 @@ namespace COI.BL.Domain.Project
 
 		public Project()
 		{
+			this.Created = DateTime.Now;
 			this.ProjectPhases = new List<ProjectPhase>();
 		}
 	}

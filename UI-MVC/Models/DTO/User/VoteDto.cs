@@ -1,3 +1,5 @@
+using System;
+
 namespace COI.UI.MVC.Models.DTO.User
 {
 	public class VoteDto
@@ -6,6 +8,7 @@ namespace COI.UI.MVC.Models.DTO.User
 		public int Value { get; set; }
 		public string UserId { get; set; }
 		public string Email { get; set; }
+		public DateTime Created { get; set; }
 		public int? IdeationId { get; set; }
 		public int? IdeaId { get; set; }
 		public int? CommentId { get; set; }
