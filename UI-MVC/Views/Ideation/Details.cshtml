@@ -8,8 +8,9 @@
 
 
 <section
-    class="hero hero--medium"
-    style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/img/pexels-photo-167676.jpeg')">
+    class="hero hero__project"
+    style="background-image: url('/img/pexels-photo-167676.jpeg')"
+>
     <div class="hero__container">
         <h1 class="hero__title">
             @Model.Title
@@ -23,109 +24,121 @@
     {
         @if (field.FieldType.Equals(FieldType.Text))
          {
-            <p class="hero__text">
-                @field.Content
-            </p>
+             <p class="hero__text">
+                 @field.Content
+             </p>
          }
     }
 </section>
 
-
 <section class="ideation__ideas container">
-    @foreach (var idea in @Model.Ideas)
-    {
-        <a class="idea" href="/idea/details/@idea.IdeaId">
-            <h2 class="idea__title">
-                @idea.Title
-            </h2>
-            @foreach (var field in @idea.Fields)
-            {
-                @if (field.FieldType.Equals(FieldType.Text))
-                 {
-                     <p class="idea__text">
-                         @field.Content
-                     </p>
-                 }
-            }
-        </a>
-    }
-</section>
-
-<section class="ideation__editor container">
-@*     @{ *@
-@*         Html.RenderPartial("_Editor", new Editor *@
-@*         { *@
-@*             FormId = "idea_create", *@
-@*             Type = "idee" *@
-@*         }); *@
-@*     } *@
-@if (SignInManager.IsSignedIn(User))
-{
-    <!-- Editor -->
-    <form method="post" class="editor mt-10" id="idea_create">
-        <h2 clas="mb-2">Plaats jouw idee</h2>
-        
-        <div class="form__errors"></div>
-
-        <div class="editor__text-container">
-            <div class="editor__options">
-                <div class="editor__option editor__option--image">
-                    <i class="material-icons">add_photo_alternate</i>
-                    Foto toevoegen
+    <div class="card-list mb-4">
+        @foreach (var idea in @Model.Ideas)
+        {
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h2 class="card-title">@idea.Title</h2>
+                    <p class="card-text">
+                        @foreach (var field in @idea.Fields)
+                        {
+                            @if (field.FieldType.Equals(FieldType.Text))
+                             {
+                                 @field.Content
+                             }
+                        }
+                    </p>
+                    <div class="options-bar">
+                        <div class="options-bar__option">
+                            <span class="options-bar__votes mr-2" id="ideaVoteCount">@Model.GetScore()</span>
+                            <i class="voter material-icons outline mr-2" data-counter="ideaVoteCount" data-target="Idea" data-targetId="@idea.IdeaId" data-value="1">thumb_up</i>
+                            <i class="voter material-icons outline" data-counter="ideaVoteCount" data-target="idea" data-targetId="@idea.IdeaId" data-value="-1">thumb_down</i>
+                        </div>
+                    </div>
                 </div>
-                @* <div class="editor__option editor__option--image"> *@
-                @*     <i class="material-icons">add_location</i> *@
-                @*     Locatie toevoegen *@
-                @* </div> *@
-                <div class="editor__option editor__option--video">
-                    <i class="material-icons">video_call</i>
-                    Video toevoegen
+                <div class="card-footer card-footer--invis">
+                    <a asp-controller="Idea" asp-action="Details" asp-route-id="@idea.IdeaId" class="btn btn-primary">Geef een reactie</a>
                 </div>
             </div>
-            
-            <input
-                type="text"
-                name="title"
-                class="editor__text editor__text--title"
-                placeholder="Titel"
-                rows="2"
-            />
+        }
+    </div>
+</section>
 
-            <textarea
+
+<section class="ideation__editor container">
+    @*     @{ *@
+    @*         Html.RenderPartial("_Editor", new Editor *@
+    @*         { *@
+    @*             FormId = "idea_create", *@
+    @*             Type = "idee" *@
+    @*         }); *@
+    @*     } *@
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <!-- Editor -->
+        <form method="post" class="editor mt-10" id="idea_create">
+            <h2 clas="mb-2">Plaats jouw idee</h2>
+        
+            <div class="form__errors"></div>
+
+            <div class="editor__text-container">
+                <div class="editor__options">
+                    <div class="editor__option editor__option--image">
+                        <i class="material-icons">add_photo_alternate</i>
+                        Foto toevoegen
+                    </div>
+                    @* <div class="editor__option editor__option--image"> *@
+                    @*     <i class="material-icons">add_location</i> *@
+                    @*     Locatie toevoegen *@
+                    @* </div> *@
+                    <div class="editor__option editor__option--video">
+                        <i class="material-icons">video_call</i>
+                        Video toevoegen
+                    </div>
+                </div>
+            
+                <input
+                    type="text"
+                    name="title"
+                    class="editor__text editor__text--title"
+                    placeholder="Titel"
+                    rows="2"
+                />
+
+                <textarea
                 name="text"
                 class="editor__text mt-2"
                 placeholder="Beschrijving"
             ></textarea>
-        </div>
+            </div>
 
-        <div class="editor__images"></div>
-        <div class="editor__videos"></div>
+            <div class="editor__images"></div>
+            <div class="editor__videos"></div>
 
-        <input
-            type="file"
-            class="editor__file-upload editor__file-upload--image"
-            accept="image/x-png,image/gif,image/jpeg"/>
-        <input
-            type="file"
-            class="editor__file-upload editor__file-upload--video"/>
+            <input
+                type="file"
+                class="editor__file-upload editor__file-upload--image"
+                accept="image/x-png,image/gif,image/jpeg"/>
+            <input
+                type="file"
+                class="editor__file-upload editor__file-upload--video"/>
 
-        <button type="submit" class="btn editor__submit mt-2">
-            Idee plaatsen
-        </button>
-    </form>
-    <!-- /Editor -->
-}
-else
-{
-    <!-- Log in -->
-    <section class="editor mt-10">
-        <h2>Login om een idee te plaatsen</h2>
+            <button type="submit" class="btn editor__submit mt-2">
+                Idee plaatsen
+            </button>
+        </form>
+        <!-- /Editor -->
+    }
+    else
+    {
+        <!-- Log in -->
+        <section class="editor mt-10">
+            <h2>Login om een idee te plaatsen</h2>
         
-        <button class="btn" data-toggle="modal" data-target="#LoginModal">Log in</button>
-        <button class="btn" data-toggle="modal" data-target="#RegisterModal">Maak een account</button>
-    </section>
-    <!-- /Log in -->
-}
+            <button class="btn" data-toggle="modal" data-target="#LoginModal">Log in</button>
+            <button class="btn" data-toggle="modal" data-target="#RegisterModal">Maak een account</button>
+        </section>
+        <!-- /Log in -->
+    }
 </section>
 
 

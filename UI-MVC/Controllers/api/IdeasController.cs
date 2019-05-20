@@ -10,6 +10,7 @@ using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Ideation;
 using COI.BL.User;
+using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.User;
@@ -30,37 +31,38 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 		private readonly IFileService _fileService;
 
-		public IdeasController(IMapper mapper, IIdeationManager ideationManager, IUserManager userManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
+		private readonly ICommentsHelper _commentsHelper;
+		private readonly IIdeasHelper _ideasHelper;
+
+		public IdeasController(IMapper mapper, IIdeationManager ideationManager, IUserManager userManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService, ICommentsHelper commentsHelper, IIdeasHelper ideasHelper)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
 			_userManager = userManager;
 			_unitOfWorkManager = unitOfWorkManager;
 			_fileService = fileService;
+			_commentsHelper = commentsHelper;
+			_ideasHelper = ideasHelper;
 		}
 
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult GetIdeas()
+		public IActionResult GetIdeas([FromQuery] string userId)
 		{
-			var ideas = _ideationManager.GetIdeas().ToList();
-			var response = _mapper.Map<List<IdeaDto>>(ideas);
-			
-			return Ok(response);
+			return Ok(_ideasHelper.GetIdeas(userId));
 		}
 		
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public IActionResult GetIdea(int id)
+		public IActionResult GetIdea(int id, [FromQuery] string userId)
 		{
 			try
 			{
-				var idea = _ideationManager.GetIdea(id);
-				if (idea == null)
-				{
-					return NotFound("Idea not found.");
-				}
-				return Ok(_mapper.Map<IdeaDto>(idea));
+				return Ok(_ideasHelper.GetIdea(id, userId));
+			}
+			catch (ArgumentException e)
+			{
+				return NotFound(e.Message);
 			}
 			catch (Exception e)
 			{
@@ -105,6 +107,11 @@ namespace COI.UI.MVC.Controllers.api
 				foreach (var location in idea.Locations)
 				{
 					_ideationManager.AddFieldToIdea(FieldType.Location, location, createdIdea.IdeaId);
+				}
+
+				foreach (var link in idea.Links)
+				{
+					_ideationManager.AddFieldToIdea(FieldType.Link, link, createdIdea.IdeaId);
 				}
 				
 				_unitOfWorkManager.EndUnitOfWork();
@@ -200,12 +207,9 @@ namespace COI.UI.MVC.Controllers.api
 		
 		[AllowAnonymous]
 		[HttpGet("{id}/Comments")]
-		public IActionResult GetCommentsForIdea(int id)
+		public IActionResult GetCommentsForIdea(int id, [FromQuery] string userId)
 		{
-			var comments = _ideationManager.GetCommentsForIdea(id).ToList();
-			var response = _mapper.Map<List<CommentDto>>(comments);
-			
-			return Ok(response);
+			return Ok(_commentsHelper.GetCommentsForIdea(id, userId));
 		}
 	}
 }

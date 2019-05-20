@@ -21,6 +21,7 @@ using COI.DAL.Questionnaire;
 using COI.DAL.Questionnaire.EF;
 using COI.DAL.User;
 using COI.DAL.User.EF;
+using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Builder;
@@ -172,6 +173,10 @@ namespace COI.UI.MVC
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<ISeedService, SeedService>();
 			services.AddScoped<IFileService, FileService>();
+			services.AddScoped<ICommentsHelper, CommentsHelper>();
+			services.AddScoped<IIdeasHelper, IdeasHelper>();
+			services.AddScoped<IIdeationsHelper, IdeationsHelper>();
+			services.AddScoped<IProjectPhasesHelper, ProjectPhasesHelper>();
 
 			#endregion
 

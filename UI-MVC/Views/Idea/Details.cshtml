@@ -5,8 +5,8 @@
 @model COI.BL.Domain.Ideation.Idea
 
 @{
-	ViewBag.Title = @Model.Title;
-	Layout = "_Layout";
+    ViewBag.Title = @Model.Title;
+    Layout = "_Layout";
 }
 
 <!-- Content -->
@@ -19,28 +19,28 @@
 			<div class="options-bar__option">
                 <span class="options-bar__votes mr-2" id="ideaVoteCount">@Model.GetScore()</span>
                 <i class="voter material-icons outline mr-2" data-counter="ideaVoteCount" data-target="Idea" data-targetId="@Model.IdeaId" data-value="1">thumb_up</i>
-				<i class="voter material-icons outline" data-counter="ideaVoteCount" data-target="idea" data-targetId="@Model.IdeaId" data-value="-1">thumb_down</i>
-			</div>
-			<div class="options-bar__option">
-				<i class="material-icons outline ml-4">share</i>
-			</div>
-		</div>
-	</article>
-	<!-- /Idea -->
+                <i class="voter material-icons outline" data-counter="ideaVoteCount" data-target="idea" data-targetId="@Model.IdeaId" data-value="-1">thumb_down</i>
+            </div>
+            <div class="options-bar__option">
+                <i class="material-icons outline ml-4">share</i>
+            </div>
+        </div>
+    </article>
+    <!-- /Idea -->
 
-	<!-- Comments -->
-	<section class="comments mt-5 pt-4">
-		<h1 class="comments__title pb-4">
-			Reacties
-		</h1>
+    <!-- Comments -->
+    <section class="comments mt-5 pt-4">
+        <h1 class="comments__title pb-4">
+            Reacties
+        </h1>
 		
         <div id="comments">
         </div>
-	</section>
-	<!-- /Comments -->
+    </section>
+    <!-- /Comments -->
 	
-	@if (SignInManager.IsSignedIn(User))
-	{
+    @if (SignInManager.IsSignedIn(User))
+    {
         <!-- Editor -->
         <form method="post" class="editor mt-10" id="ideaEditor">
             <h2 clas="mb-2">Schrijf een eigen reactie</h2>
@@ -86,9 +86,9 @@
             </button>
         </form>
         <!-- /Editor -->
-	}
-	else
-	{
+    }
+    else
+    {
         <!-- Log in -->
         <section class="editor mt-10">
             <h2>Schrijf een eigen reactie</h2>
@@ -97,7 +97,7 @@
             <button class="btn" data-toggle="modal" data-target="#RegisterModal">Maak een account</button>
         </section>
         <!-- /Log in -->
-	}
+    }
 
 </main>
 <!-- /Content -->
@@ -105,23 +105,23 @@
 
 <!-- LightBox Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!-- /LightBox Modal -->
 

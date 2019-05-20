@@ -3,19 +3,19 @@
 @using COI.UI.MVC.Models
 @model System.Collections.Generic.IEnumerable<COI.BL.Domain.Project.Project>
 @{
-		ViewData["Title"] = "Home";
+    ViewData["Title"] = "Home";
 }
 
 <section
-	class="hero"
-	style="background-image: url('img/pexels-photo-167676.jpeg')"
+    class="hero"
+    style="background-image: url('img/pexels-photo-167676.jpeg')"
 >
-	<div class="hero__container">
-		<h1 class="hero__title">
-			Geef jouw idee voor de toekomst van de haven
-		</h1>
-		<a asp-controller="Project" asp-action="Index" class="btn btn--org hero__button">Geef jouw idee!</a>
-	</div>
+    <div class="hero__container">
+        <h1 class="hero__title">
+            Geef jouw idee voor de toekomst van de haven
+        </h1>
+        <a asp-controller="Project" asp-action="Index" class="btn btn--org hero__button">Geef jouw idee!</a>
+    </div>
 </section>
 
 <!-- Content -->
@@ -30,6 +30,13 @@
                 <div class="card-body">
                     <h2 class="card-title">@project.Title</h2>
                     <p class="card-text">
+                        @foreach (var field in @project.Fields)
+                        {
+                            @if (field.FieldType.Equals(FieldType.Text))
+                             {
+                                 @field.Content
+                             }
+                        }
                     </p>
                 </div>
                 <div class="card-footer card-footer--invis">
