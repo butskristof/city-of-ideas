@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using COI.BL.Domain.Questionnaire;
+using COI.BL.Project;
 using COI.BL.Questionnaire;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +34,11 @@ namespace COI.UI.MVC.Controllers
 		{
 			Questionnaire questionnaire = _questionnaireManager.GetQuestionnaire(id);
 			return View(questionnaire);
+		}
+
+		public IActionResult Thanks()
+		{
+			return View();
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Project;
 using COI.BL.Ideation;
+using COI.BL.Organisation;
 using COI.BL.Project;
 using Microsoft.AspNetCore.Mvc;
 
