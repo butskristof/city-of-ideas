@@ -69,7 +69,7 @@ namespace COI.UI.MVC.Controllers.api
 			try
 			{
 				_unitOfWorkManager.StartUnitOfWork();
-				Organisation org = _organisationManager.AddOrganisation(newOrg.Name, newOrg.Identifier, newOrg.Color);
+				Organisation org = _organisationManager.AddOrganisation(newOrg.Name, newOrg.Identifier, newOrg.Description, newOrg.Color);
 				_unitOfWorkManager.EndUnitOfWork();
 
 				return CreatedAtAction(
@@ -99,6 +99,7 @@ namespace COI.UI.MVC.Controllers.api
 					id,
 					updatedValues.Name,
 					updatedValues.Identifier,
+					updatedValues.Description,
 					updatedValues.Color);
 				_unitOfWorkManager.EndUnitOfWork();
 

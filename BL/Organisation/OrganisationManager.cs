@@ -24,12 +24,13 @@ namespace COI.BL.Organisation
 			return _organisationRepository.ReadOrganisation(orgId);
 		}
 
-		public Domain.Organisation.Organisation AddOrganisation(string name, string identifier, string color)
+		public Domain.Organisation.Organisation AddOrganisation(string name, string identifier, string description, string color)
 		{
 			Domain.Organisation.Organisation org = new Domain.Organisation.Organisation()
 			{
 				Name = name,
 				Identifier = identifier,
+				Description = description,
 				Color = color
 			};
 
@@ -42,13 +43,14 @@ namespace COI.BL.Organisation
 			return _organisationRepository.CreateOrganisation(organisation);
 		}
 
-		public Domain.Organisation.Organisation ChangeOrganisation(int id, string name, string identifier, string color)
+		public Domain.Organisation.Organisation ChangeOrganisation(int id, string name, string identifier, string description, string color)
 		{
 			Domain.Organisation.Organisation org = GetOrganisation(id);
 			if (org != null)
 			{
 				org.Name = name;
 				org.Identifier = identifier;
+				org.Description = description;
 				org.Color = color;
 				Validate(org);
 				return _organisationRepository.UpdateOrganisation(org);
