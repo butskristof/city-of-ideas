@@ -9,6 +9,7 @@ using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Ideation;
+using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.User;
@@ -28,46 +29,44 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 		private readonly IFileService _fileService;
 
-		public IdeationsController(IMapper mapper, IIdeationManager ideationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
+		private readonly IIdeasHelper _ideasHelper;
+		private readonly IIdeationsHelper _ideationsHelper;
+
+		public IdeationsController(IMapper mapper, IIdeationManager ideationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService, IIdeasHelper ideasHelper, IIdeationsHelper ideationsHelper)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
 			_unitOfWorkManager = unitOfWorkManager;
 			_fileService = fileService;
+			_ideasHelper = ideasHelper;
+			_ideationsHelper = ideationsHelper;
 		}
 
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult GetIdeations()
+		public IActionResult GetIdeations([FromQuery] string userId)
 		{
-			var ideations = _ideationManager.GetIdeations().ToList();
-			var response = _mapper.Map<List<IdeationMinDto>>(ideations);
-			
-			return Ok(response);
+			return Ok(_ideationsHelper.GetIdeations(userId));
 		}
 		
 		[AllowAnonymous]
 		[HttpGet("{id}/ideas")]
-		public IActionResult GetIdeasForIdeation(int id)
+		public IActionResult GetIdeasForIdeation(int id, [FromQuery] string userId)
 		{
-			var ideas = _ideationManager.GetIdeasForIdeation(id).ToList();
-			var response = _mapper.Map<List<IdeaMinDto>>(ideas);
-			
-			return Ok(response);
+			return Ok(_ideasHelper.GetMinIdeas(userId, id));
 		}
 		
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public IActionResult GetIdeation(int id)
+		public IActionResult GetIdeation(int id, [FromQuery] string userId)
 		{
 			try
 			{
-				var ideation = _ideationManager.GetIdeation(id);
-				if (ideation == null)
-				{
-					return NotFound("Ideation not found.");
-				}
-				return Ok(_mapper.Map<IdeationDto>(ideation));
+				return Ok(_ideationsHelper.GetIdeation(id, userId));
+			}
+			catch (ArgumentException e)
+			{
+				return NotFound(e.Message);
 			}
 			catch (Exception e)
 			{

@@ -10,6 +10,7 @@ using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Project;
 using COI.BL.Ideation;
 using COI.BL.Project;
+using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Project;
 using COI.UI.MVC.Services;
@@ -29,13 +30,16 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 		private readonly IFileService _fileService;
 
-		public ProjectsController(IMapper mapper, IProjectManager projectManager, IIdeationManager ideationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
+		private readonly IProjectPhasesHelper _projectPhasesHelper;
+
+		public ProjectsController(IMapper mapper, IProjectManager projectManager, IIdeationManager ideationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService, IProjectPhasesHelper projectPhasesHelper)
 		{
 			_mapper = mapper;
 			_projectManager = projectManager;
 			_ideationManager = ideationManager;
 			_unitOfWorkManager = unitOfWorkManager;
 			_fileService = fileService;
+			_projectPhasesHelper = projectPhasesHelper;
 		}
 
 		[AllowAnonymous]
@@ -121,12 +125,9 @@ namespace COI.UI.MVC.Controllers.api
 		
 		[AllowAnonymous]
 		[HttpGet("{id}/projectPhases")]
-		public IActionResult GetPhasesForProject(int id)
+		public IActionResult GetPhasesForProject(int id, [FromQuery] string userId)
 		{
-			var phases = _projectManager.GetPhasesForProject(id).ToList();
-			var response = _mapper.Map<List<ProjectPhaseDto>>(phases);
-
-			return Ok(response);
+			return Ok(_projectPhasesHelper.GetProjectPhases(id, userId));
 		}
 		
 		[HttpPost]
