@@ -23,6 +23,19 @@ export default {
 					res.appendChild(errorLI);
 				}
 			},
+			showSuccess(msg) {
+				const res = Page.query(".form__errors", form);
+				if (res != null) {
+					const errorLI = document.createElement("LI");
+					errorLI.classList.add("success");
+					const textNode = document.createTextNode(msg);
+					errorLI.appendChild(textNode);
+					res.appendChild(errorLI);
+					setTimeout(() => {
+						this.clearErrors();
+					}, 2000);
+				}
+			},
 			// Uses a list of errors from dotnet
 			showErrors(errors) {
 				const errorList = Object.values(errors);
@@ -30,22 +43,26 @@ export default {
 			},
 			clear() {
 				// Remove errors
-				const errorList = Page.query(".form__errors", form);
-				if (errorList != null) {
-					while (errorList.firstChild) {
-						errorList.removeChild(errorList.firstChild);
-					}
-				}
+				this.clearErrors();
 				// Remove data from fields
 				const inputs = Page.queryAll("input", form);
 				inputs.forEach(input => input.value = "");
 				const textareas = Page.queryAll("textarea", form);
 				textareas.forEach(textarea => textarea.value = "");
 			},
+			clearErrors() {
+				const errorList = Page.query(".form__errors", form);
+				if (errorList != null) {
+					while (errorList.firstChild) {
+						errorList.removeChild(errorList.firstChild);
+					}
+				}
+			},
 			async handleResponse(response, onSuccess) {
 				if (response.ok) {
 					onSuccess()
 				} else {
+					console.log(response);
 					const responseObject = await response.json();
 					if (responseObject.errors) {
 						this.showErrors(responseObject.errors);

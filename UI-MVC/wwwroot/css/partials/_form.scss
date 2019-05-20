@@ -12,6 +12,10 @@
   color: var(--danger);
   li {
     margin-bottom: 10px;
+    
+    &.success {
+      color: var(--success);
+    }
   }
 }
 

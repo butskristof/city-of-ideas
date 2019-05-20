@@ -70,12 +70,5 @@
 
 @section Scripts
 {
-    @* <script type="text/javascript"> *@
-    @*        let idea = @Html.Raw(JsonConvert.SerializeObject(Model)); *@
-    @*        let userId = "@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : null)"; *@
-    @* </script> *@
-    @* <script type="text/javascript" src="@Url.Content("~/dist/idea.entry.js")" defer></script> *@
-    @* <script type="text/javascript" src="@Url.Content("~/dist/pages/idea.entry.js")" defer></script> *@
-    
-    <script type="text/javascript" src="/dist/idea.entry.js" defer></script>
+    <script type="text/javascript" src="/dist/admin.entry.js" defer></script>
 }

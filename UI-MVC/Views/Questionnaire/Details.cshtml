@@ -1,4 +1,8 @@
 @using COI.BL.Domain.Questionnaire
+@using COI.BL.Domain.User
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @model COI.BL.Domain.Questionnaire.Questionnaire
 
 @{
@@ -21,20 +25,76 @@
 	<!-- /Intro -->
 	
 	<!-- Form -->
-	<form class="form" id="questionnaireForm">
-		@foreach (var question in @Model.Questions)
-		{
-            <p>Unsupported question type.</p>
-		}
-		
-		<div class="form__submit">
-			<input type="submit" value="Verzenden" class="btn"/>
-		</div>
-	</form>
+    <form class="form questions" id="questionnaire_fill">
+        <ul class="form__errors"></ul>
+        @foreach (var question in @Model.Questions)
+        {
+            <div class="form-group question">
+                @if (question.QuestionType.Equals(QuestionType.Email))
+                {
+                    <label class="question__inquiry" for="@("question" + question.QuestionId)">@question.Inquiry</label>
+                    <input required type="email" class="form-control" name="@question.QuestionId" id="@("question" + question.QuestionId)"/>
+                }
+                else if (question.QuestionType.Equals(QuestionType.OpenQuestion))
+                {
+                    <label class="question__inquiry" for="@("question" + question.QuestionId)">@question.Inquiry</label>
+                    <textarea required type="email" class="form-control" name="@question.QuestionId" id="@("question" + question.QuestionId)"></textarea>
+                }
+                else if (question.QuestionType.Equals(QuestionType.Dropdown))
+                {
+                    <label class="question__inquiry" for="@("question" + question.QuestionId)">@question.Inquiry</label>
+                    <select name="" id="@("question" + question.QuestionId)">
+                        @foreach (var option in question.Options)
+                        {
+                            <option value="@option.OptionId">@option.Content</option>
+                        }
+                    </select>
+                }
+                else if (question.QuestionType.Equals(QuestionType.MultipleChoice))
+                {
+                    <label class="question__inquiry" for="">@question.Inquiry</label>
+                    @foreach (var option in question.Options)
+                     {
+                         <div class="form-check">
+                             <input class="form-check-input" name="@question.QuestionId" value="@option.OptionId" type="checkbox" id="@("option" + option.OptionId)"/>
+                             <label class="form-check-label" for="@("option" + option.OptionId)">
+                                 @option.Content
+                             </label>
+                         </div>
+                     }
+                }
+                else if (question.QuestionType.Equals(QuestionType.SingleChoice))
+                {
+                    <label class="question__inquiry" for="">@question.Inquiry</label>
+                    @foreach (var option in question.Options)
+                     {
+                         <div class="form-check">
+                             <input required class="form-check-input" type="radio" id="@("option" + option.OptionId)" name="@question.QuestionId" value="@option.OptionId"/>
+                             <label class="form-check-label" for="@("option" + option.OptionId)">
+                                 @option.Content
+                             </label>
+                         </div>
+                     }
+                }
+                else
+                {
+                    <p>Unsupported question type.</p>
+                }
+            </div>
+        }
+
+        <div class="form__submit">
+            <input type="submit" value="Verzenden" class="btn"/>
+        </div>
+    </form>
 	
 </main>
 
 @section Scripts
 {
-	<script type="module" src="~/dist/questionnaires.entry.js" defer></script>
+    <script>
+        const questionnaireId = @Model.QuestionnaireId;
+        const userId = '@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : "-1")';
+    </script>
+    <script type="text/javascript" src="/dist/questionnaire.entry.js" defer></script>
 }

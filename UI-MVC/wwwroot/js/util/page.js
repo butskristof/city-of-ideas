@@ -7,6 +7,9 @@ export default {
 		location.reload();
 		// location = location;
 	},
+	routeTo(newLocation) {
+		location = newLocation
+	},
 	query(selector, parent = document) {
 		return parent.querySelector(selector);
 	},
@@ -18,7 +21,6 @@ export default {
 		for (let i = 0; i < cookieStrings.length; i++) {
 			const partials = cookieStrings[i].split("=");
 			if (partials[0] === key) {
-				console.log(partials[1]);
 				return partials[1];
 			}
 		}

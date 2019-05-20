@@ -55,42 +55,45 @@
             <h4 class="padding-t1remM">Nieuw Platform</h4>
             <div class="row">
                 <div class="col-md-6">
-                    <form id="profile-form" method="POST">
-                        <div
-                            class="text-danger validation-summary-valid"
-                            data-valmsg-summary="true"
-                        >
-                            <ul>
-                                <li style="display:none"></li>
-                            </ul>
-                        </div>
+                    <div
+                        class="text-danger validation-summary-valid"
+                        data-valmsg-summary="true"
+                    >
+                        <ul>
+                            <li style="display:none"></li>
+                        </ul>
+                    </div>
+                    <form id="admin_change-logo-form">
                         <div class="form-group margin-b1rem">
                             <label for="Logo">Logo Organisatie</label>
-                            <input
-                                class="form-control"
-                                disabled
-                                type="text"
-                                id="Logo"
-                                name="Logo"
-                                value="Logo.jpeg"
-                            />
+                            <ul class="form__errors"></ul>
+                            @* <input *@
+                            @*     class="form-control" *@
+                            @*     disabled *@
+                            @*     type="text" *@
+                            @*     id="Logo" *@
+                            @*     name="Logo" *@
+                            @*     value="Logo.jpeg" *@
+                            @* /> *@
+                            <img src="" class="" id="admin_org-logo">
                             <button
-                                id="btnLogo"
+                                id="admin_change-logo"
                                 type="submit"
                                 class="btn btn-primary btn__witteAchtergrond btn__links btn__margintop"
                             >
                                 Verander Logo
                             </button>
+                            <input type="file" id="admin_logo-file-input" class="image-uploader__file-upload">
                         </div>
+                    </form>
+                    <form id="admin_change-color">
                         <div class="form-group margin-b1rem">
                             <label for="Kleur">Kleur Organisatie</label>
                             <input
                                 class="form-control"
-                                disabled
                                 type="text"
-                                id="Kleur"
-                                name="Kleur"
-                                value="#d11f38"
+                                name="color"
+                                id="admin_org-color"
                             />
                             <button
                                 id="btnKleur"
@@ -100,38 +103,21 @@
                                 Verander Kleur
                             </button>
                         </div>
+                    </form>
+                    <form id="admin_change-identifier">
                         <div class="form-group margin-b1rem">
                             <label for="Naam">Naam Organisatie</label>
+                            <ul class="form__errors"></ul>
                             <input
                                 class="form-control"
-                                disabled
                                 type="text"
-                                id="Naam"
-                                name="Naam"
-                                value="Antwerpen"
-                            />
+                                required
+                                id="admin_org-identifier"
+                                name="identifier"/>
                             <button
-                                id="btnNaam"
                                 type="submit"
-                                class="btn btn-primary btn__witteAchtergrond btn__links btn__margintop"
-                            >
+                                class="btn btn-primary btn__witteAchtergrond btn__links btn__margintop">
                                 Verander Naam
-                            </button>
-                        </div>
-                        <div class="form-group margin-b1rem">
-                            <label for="Naam">Uitleg Organisatie</label>
-                            <textarea
-                    class="form-control"
-                    rows="5"
-                    id="Uitleg"
-                    name="Uitleg"
-                  >Antwerpen</textarea>
-                            <button
-                                id="btnUitleg"
-                                type="submit"
-                                class="btn btn-primary btn__witteAchtergrond btn__links btn__margintop"
-                            >
-                                Verander Uitleg
                             </button>
                         </div>
                     </form>
@@ -140,3 +126,8 @@
         </div>
     </div>
 </main>
+
+@section Scripts
+{
+    <script type="text/javascript" src="/dist/admin.entry.js" defer></script>
+}
