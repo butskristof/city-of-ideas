@@ -108,6 +108,11 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					_ideationManager.AddFieldToIdea(FieldType.Location, location, createdIdea.IdeaId);
 				}
+
+				foreach (var link in idea.Links)
+				{
+					_ideationManager.AddFieldToIdea(FieldType.Link, link, createdIdea.IdeaId);
+				}
 				
 				_unitOfWorkManager.EndUnitOfWork();
 				

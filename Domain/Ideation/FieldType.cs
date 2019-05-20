@@ -9,6 +9,7 @@ namespace COI.BL.Domain.Ideation
 		Text,
 		Picture,
 		Video,
-		Location
+		Location,
+		Link
 	}
 }

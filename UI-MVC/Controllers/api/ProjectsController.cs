@@ -164,6 +164,11 @@ namespace COI.UI.MVC.Controllers.api
 				{
 					_ideationManager.AddFieldToProject(FieldType.Location, location, p.ProjectId);
 				}
+
+				foreach (var link in newProj.Links)
+				{
+					_ideationManager.AddFieldToProject(FieldType.Link, link, p.ProjectId);
+				}
 				
 				_unitOfWorkManager.EndUnitOfWork();
 
