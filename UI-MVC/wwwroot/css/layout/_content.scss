@@ -5,17 +5,17 @@
 @import "../abstracts/all";
 
 .content {
-	padding-top: 40px;
+	padding-top: 60px;
 
 	@include screen-from('tablet') {
 		padding-top: 70px;
 	}
 
-	&.big-padding {
-		padding-top: 70px;
+	&.content--more-top {
+		padding-top: 120px;
 		
 		@include screen-from('tablet') {
-			padding-top: 130px;
+			padding-top: 150px;
 		}
 	}
 	

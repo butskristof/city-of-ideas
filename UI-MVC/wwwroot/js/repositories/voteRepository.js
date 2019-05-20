@@ -7,6 +7,7 @@ export default {
 			value: parseInt(value),
 			userId
 		};
+		console.log(data);
 		return Repository.post("/api/votes", data);
 	}
 }

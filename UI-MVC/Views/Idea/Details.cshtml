@@ -11,18 +11,12 @@
 
 <!-- Content -->
 <main class="content content--shadow container">
-    <!-- Idea -->
-    <article class="page__intro mt-3">
-        <h1 id="ideaTitle">@Model.Title</h1>
-
-        <p id="ideaFields">
-            @foreach (var field in @Model.Fields)
-            {
-                @field.Content
-            }
-        </p>
+	<!-- Idea -->
+	<article class="page__intro mt-3">
+        @Html.Partial("_Idea", Model)
+        
         <div class="options-bar">
-            <div class="options-bar__option">
+			<div class="options-bar__option">
                 <span class="options-bar__votes mr-2" id="ideaVoteCount">@Model.GetScore()</span>
                 <i class="voter material-icons outline mr-2" data-counter="ideaVoteCount" data-target="Idea" data-targetId="@Model.IdeaId" data-value="1">thumb_up</i>
                 <i class="voter material-icons outline" data-counter="ideaVoteCount" data-target="idea" data-targetId="@Model.IdeaId" data-value="-1">thumb_down</i>
@@ -141,12 +135,6 @@
 
 @section Scripts
 {
-    @* <script type="text/javascript"> *@
-    @*        let idea = @Html.Raw(JsonConvert.SerializeObject(Model)); *@
-    @*        let userId = "@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : null)"; *@
-    @* </script> *@
-    @* <script type="text/javascript" src="@Url.Content("~/dist/idea.entry.js")" defer></script> *@
-    @* <script type="text/javascript" src="@Url.Content("~/dist/pages/idea.entry.js")" defer></script> *@
     <script>
         const ideaId = @Model.IdeaId;
         const userId = '@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : "-1")';

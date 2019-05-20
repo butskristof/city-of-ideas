@@ -1,0 +1,27 @@
+@using COI.BL.Domain.User
+@using Microsoft.AspNetCore.Identity
+@model COI.BL.Domain.Ideation.Idea
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<main class="content content--more-top container">
+    
+    <h1 class="">Bevestig uw stem</h1>
+    
+    <form id="idea_confirm-email" class="mt-3">
+        <div class="form-group">
+            <input class="form-control" type="email" name="email" id="email" placeholder="Email">
+        </div>
+        <button class="btn" type="submit">Bevestig</button>
+    </form>
+    
+</main>
+
+@section Scripts
+{
+    <script>
+        const ideaId = @Model.IdeaId;
+        const userId = '@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : "-1")';
+    </script>
+    <script type="text/javascript" src="/dist/idea.entry.js" defer></script>
+}
