@@ -82,7 +82,8 @@ namespace COI.UI.MVC.Services
 
 				List<Organisation> organisations = new List<Organisation>();
 
-				organisations.Add(_organisationManager.AddOrganisation("District Antwerpen", "districtantwerpen"));
+				organisations.Add(_organisationManager.AddOrganisation("District Antwerpen", "districtantwerpen", "#d11f38"));
+				_organisationManager.AddImageToOrganisation(organisations.Last().OrganisationId, "/img/pexels-photo-167676.jpeg");
 
 				#endregion
 

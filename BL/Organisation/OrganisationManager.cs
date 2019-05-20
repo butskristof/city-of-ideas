@@ -24,12 +24,13 @@ namespace COI.BL.Organisation
 			return _organisationRepository.ReadOrganisation(orgId);
 		}
 
-		public Domain.Organisation.Organisation AddOrganisation(string name, string identifier)
+		public Domain.Organisation.Organisation AddOrganisation(string name, string identifier, string color)
 		{
 			Domain.Organisation.Organisation org = new Domain.Organisation.Organisation()
 			{
 				Name = name,
-				Identifier = identifier
+				Identifier = identifier,
+				Color = color
 			};
 
 			return AddOrganisation(org);
@@ -41,13 +42,14 @@ namespace COI.BL.Organisation
 			return _organisationRepository.CreateOrganisation(organisation);
 		}
 
-		public Domain.Organisation.Organisation ChangeOrganisation(int id, string name, string identifier)
+		public Domain.Organisation.Organisation ChangeOrganisation(int id, string name, string identifier, string color)
 		{
 			Domain.Organisation.Organisation org = GetOrganisation(id);
 			if (org != null)
 			{
 				org.Name = name;
 				org.Identifier = identifier;
+				org.Color = color;
 				Validate(org);
 				return _organisationRepository.UpdateOrganisation(org);
 			}
@@ -78,6 +80,18 @@ namespace COI.BL.Organisation
 			}
 
 			organisation.LogoLocation = imgPath;
+			_organisationRepository.UpdateOrganisation(organisation);
+		}
+
+		public void AddImageToOrganisation(int organisationId, string imgPath)
+		{
+			Domain.Organisation.Organisation organisation = GetOrganisation(organisationId);
+			if (organisation == null)
+			{
+				throw new ArgumentException("Organisation not found.");
+			}
+
+			organisation.ImageLocation = imgPath;
 			_organisationRepository.UpdateOrganisation(organisation);
 		}
 	}

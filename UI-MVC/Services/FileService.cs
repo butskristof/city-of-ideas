@@ -13,6 +13,7 @@ namespace COI.UI.MVC.Services
 	{
 		Task<string> SetUserProfilePicture(string userId, IFormFile picture);
 		Task<string> SetOrganisationLogo(int organisationId, IFormFile picture);
+		Task<string> SetOrganisationImage(int organisationId, IFormFile picture);
 		Task<string> ConvertFileToLocation(IFormFile file, string folder = FolderConstants.FilePath);
 	}
 	
@@ -42,6 +43,14 @@ namespace COI.UI.MVC.Services
 			var folderpath = Path.Combine(FolderConstants.OrganisationPath, organisationId.ToString());
 			var imgpath = await ConvertFileToLocation(picture, folderpath);
 			_organisationManager.AddLogoToOrganisation(organisationId, imgpath);
+			return imgpath;
+		}
+
+		public async Task<string> SetOrganisationImage(int organisationId, IFormFile picture)
+		{
+			var folderpath = Path.Combine(FolderConstants.OrganisationPath, organisationId.ToString());
+			var imgpath = await ConvertFileToLocation(picture, folderpath);
+			_organisationManager.AddImageToOrganisation(organisationId, imgpath);
 			return imgpath;
 		}
 

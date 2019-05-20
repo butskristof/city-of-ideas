@@ -20,6 +20,9 @@ namespace COI.BL.Domain.Organisation
 //		public Styling Styling { get; set; }
 
 		public string LogoLocation { get; set; }
+		public string ImageLocation { get; set; }
+		[RegularExpression("^#[0-9a-fA-F]{6}$")]
+		public string Color { get; set; }
 
 		public virtual ICollection<Project.Project> Projects { get; set; }
 		public virtual ICollection<OrganisationUser> Users { get; set; }

@@ -69,7 +69,7 @@ namespace COI.UI.MVC.Controllers.api
 			try
 			{
 				_unitOfWorkManager.StartUnitOfWork();
-				Organisation org = _organisationManager.AddOrganisation(newOrg.Name, newOrg.Identifier);
+				Organisation org = _organisationManager.AddOrganisation(newOrg.Name, newOrg.Identifier, newOrg.Color);
 				_unitOfWorkManager.EndUnitOfWork();
 
 				return CreatedAtAction(
@@ -98,7 +98,8 @@ namespace COI.UI.MVC.Controllers.api
 				Organisation updatedOrganisation = _organisationManager.ChangeOrganisation(
 					id,
 					updatedValues.Name,
-					updatedValues.Identifier);
+					updatedValues.Identifier,
+					updatedValues.Color);
 				_unitOfWorkManager.EndUnitOfWork();
 
 				if (updatedOrganisation == null)
@@ -150,6 +151,23 @@ namespace COI.UI.MVC.Controllers.api
 			try
 			{
 				string imgpath = await _fileService.SetOrganisationLogo(input.OrganisationId, input.Picture);
+				return Ok(new
+				{
+					imgPath = imgpath
+				});
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+
+		[HttpPost("Image")]
+		public async Task<IActionResult> PostNewOrganisationImage([FromForm] NewOrganisationImageDto input)
+		{
+			try
+			{
+				string imgpath = await _fileService.SetOrganisationImage(input.OrganisationId, input.Picture);
 				return Ok(new
 				{
 					imgPath = imgpath
