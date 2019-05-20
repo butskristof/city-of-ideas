@@ -16,9 +16,12 @@ namespace COI.BL.Domain.Questionnaire
 		
 		// TODO add remaining fields
 		public virtual ICollection<Question> Questions { get; set; }
+		
+		public DateTime Created { get; }
 
 		public Questionnaire()
 		{
+			this.Created = DateTime.Now;
 			this.Questions = new List<Question>();
 		}
 	}

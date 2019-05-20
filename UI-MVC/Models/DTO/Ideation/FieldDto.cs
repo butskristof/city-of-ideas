@@ -8,6 +8,8 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public int FieldId { get; set; }
 		public String Content { get; set; }
 		public FieldType FieldType { get; set; }
+		
+		public DateTime Created { get; }
 
 		public int? IdeaId { get; set; }
 		public int? IdeationId { get; set; }

@@ -9,11 +9,14 @@ namespace COI.BL.Domain.Questionnaire
 		
 		public String Content { get; set; }
 		public virtual ICollection<Answer> Answers { get; set; }
+		
+		public DateTime Created { get; }
 
 		public virtual Question Question { get; set; }
 
 		public Option()
 		{
+			this.Created = DateTime.Now;
 			this.Answers = new List<Answer>();
 		}
 	}
