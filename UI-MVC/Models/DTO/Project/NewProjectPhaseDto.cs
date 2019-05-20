@@ -11,8 +11,6 @@ namespace COI.UI.MVC.Models.DTO.Project
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
 
-		public ProjectState State { get; set; }
-
 		public int ProjectId { get; set; }
 	}
 }
