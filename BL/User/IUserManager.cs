@@ -19,10 +19,10 @@ namespace COI.BL.User
 		Vote ChangeVoteValue(int id, int value);
 		Vote RemoveVote(int voteId);
 
-		Vote GetVoteForIdea(int ideaId, string userId);
 		Vote GetEmailVoteForIdea(int ideaId, string email);
 		Vote GetEmailVoteForComment(int commentId, string email);
 		Vote GetEmailVoteForIdeation(int ideationId, string email);
+		Vote GetVoteForIdea(int ideaId, string userId);
 		Vote GetVoteForIdeation(int ideationId, string userId);
 		Vote GetVoteForComment(int commentId, string userId);
 

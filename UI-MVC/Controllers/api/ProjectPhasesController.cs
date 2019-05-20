@@ -4,6 +4,7 @@ using AutoMapper;
 using COI.BL;
 using COI.BL.Domain.Project;
 using COI.BL.Project;
+using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Project;
 using Microsoft.AspNetCore.Authorization;
@@ -20,26 +21,27 @@ namespace COI.UI.MVC.Controllers.api
 		private readonly IProjectManager _projectManager;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-		public ProjectPhasesController(IMapper mapper, IProjectManager projectManager, IUnitOfWorkManager unitOfWorkManager)
+		private readonly IProjectPhasesHelper _projectPhasesHelper;
+
+		public ProjectPhasesController(IMapper mapper, IProjectManager projectManager, IUnitOfWorkManager unitOfWorkManager, IProjectPhasesHelper projectPhasesHelper)
 		{
 			_mapper = mapper;
 			_projectManager = projectManager;
 			_unitOfWorkManager = unitOfWorkManager;
+			_projectPhasesHelper = projectPhasesHelper;
 		}
 
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public IActionResult GetProjectPhase(int id)
+		public IActionResult GetProjectPhase(int id, [FromQuery] string userId)
 		{
 			try
 			{
-				var phase = _projectManager.GetProjectPhase(id);
-				if (phase == null)
-				{
-					return NotFound("Project phase not found.");
-				}
-
-				return Ok(_mapper.Map<ProjectPhaseDto>(phase));
+				return Ok(_projectPhasesHelper.GetProjectPhase(id, userId));
+			}
+			catch (ArgumentException e)
+			{
+				return NotFound(e.Message);
 			}
 			catch (Exception e)
 			{

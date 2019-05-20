@@ -135,13 +135,13 @@ namespace COI.BL.User
 		public Vote GetVoteForIdea(int ideaId, string userId)
 		{
 			IEnumerable<Vote> ideaVotes = _voteRepository.ReadVotesForIdea(ideaId);
-			return ideaVotes.FirstOrDefault(v => v.User.Id == userId);
+			return ideaVotes.FirstOrDefault(v => v.User != null && v.User.Id == userId);
 		}
 
 		public Vote GetEmailVoteForIdea(int ideaId, string email)
 		{
 			IEnumerable<Vote> ideaVotes = _voteRepository.ReadVotesForIdea(ideaId);
-			return ideaVotes.FirstOrDefault(v => v.Email == email);
+			return ideaVotes.FirstOrDefault(v => v.Email != null && v.Email == email);
 		}
 
 		public Vote GetEmailVoteForComment(int commentId, string email)

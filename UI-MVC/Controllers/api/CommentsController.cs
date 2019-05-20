@@ -8,6 +8,8 @@ using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Ideation;
+using COI.BL.User;
+using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.User;
@@ -24,31 +26,35 @@ namespace COI.UI.MVC.Controllers.api
 	{
 		private readonly IMapper _mapper;
 		private readonly IIdeationManager _ideationManager;
+		private readonly IUserManager _userManager;
 		private readonly ICityOfIdeasController _coiCtrl;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 		private readonly IFileService _fileService;
 
-		public CommentsController(IMapper mapper, IIdeationManager ideationManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager, IFileService fileService)
+		private readonly ICommentsHelper _commentsHelper;
+
+		public CommentsController(IMapper mapper, IIdeationManager ideationManager, IUserManager userManager, ICityOfIdeasController coiCtrl, IUnitOfWorkManager unitOfWorkManager, IFileService fileService, ICommentsHelper commentsHelper)
 		{
 			_mapper = mapper;
 			_ideationManager = ideationManager;
+			_userManager = userManager;
 			_coiCtrl = coiCtrl;
 			_unitOfWorkManager = unitOfWorkManager;
 			_fileService = fileService;
+			_commentsHelper = commentsHelper;
 		}
 
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public IActionResult GetComment(int id)
+		public IActionResult GetComment(int id, [FromQuery] string userId)
 		{
 			try
 			{
-				var comment = _ideationManager.GetComment(id);
-				if (comment == null)
-				{
-					return NotFound("Comment not found.");
-				}
-				return Ok(_mapper.Map<CommentDto>(comment));
+				return Ok(_commentsHelper.GetComment(id, userId));
+			}
+			catch (ArgumentException e)
+			{
+				return NotFound(e.Message);
 			}
 			catch (Exception e)
 			{

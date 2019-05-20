@@ -18,7 +18,7 @@ namespace COI.BL.Application
 		Vote AddVoteToIdea(int value, string userId, string email, int ideaId);
 		Vote AddVoteToIdeation(int value, string userId, string email, int ideationId);
 		Vote AddVoteToComment(int value, string userId, string email, int commentId);
-		
+
 		// Answers
 		Answer AddAnswerToQuestion(string content, string userId, int questionId);
 		Answer AddAnswerToOption(string userId, int optionId);
@@ -41,7 +41,7 @@ namespace COI.BL.Application
 		}
 
 		#region Comments
-		
+
 		public Comment AddCommentToIdea(string userId, int ideaId)
 		{
 			Comment comment = _ideationManager.AddCommentToIdea(ideaId);

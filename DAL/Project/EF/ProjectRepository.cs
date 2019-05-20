@@ -21,7 +21,8 @@ namespace COI.DAL.Project.EF
 		public IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int numberOfProjectsToGet)
 		{
 			return _ctx.Projects
-				.Skip(Math.Max(0, _ctx.Projects.Count() - numberOfProjectsToGet))
+				.OrderByDescending(p => p.ProjectId)
+				.Take(numberOfProjectsToGet)
 				.AsEnumerable();
 		}
 
@@ -29,7 +30,8 @@ namespace COI.DAL.Project.EF
 		{
 			return _ctx.Projects
 				.Where(p => p.ProjectState == state)
-				.Skip(Math.Max(0, _ctx.Projects.Count() - numberOfProjectsToGet))
+				.OrderByDescending(p => p.ProjectId)
+				.Take(numberOfProjectsToGet)
 				.AsEnumerable();
 		}
 
