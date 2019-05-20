@@ -14,8 +14,9 @@ namespace COI.BL.Domain.Project
 		
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
-		
-		public virtual ProjectState State { get; set; }
+
+		public virtual ProjectState ProjectState => (EndDate < DateTime.Now) ? ProjectState.Closed : ProjectState.Open;
+
 		public virtual ICollection<Field> Fields { get; set; }
 
 		public virtual Organisation.Organisation Organisation { get; set; }
@@ -24,7 +25,6 @@ namespace COI.BL.Domain.Project
 		public Project()
 		{
 			this.ProjectPhases = new List<ProjectPhase>();
-			this.State = ProjectState.Open;
 		}
 	}
 }
