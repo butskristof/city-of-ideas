@@ -10,47 +10,49 @@
                             style="background-image: url('/img/pexels-photo-167676.jpeg')"
                         ></section>
                     </div>
-                    <form class="popup__container col-md-6 col-sm-12" id="auth_login">
-                        <h1 class="paginatitel paginatitel__popup mb-4">Log in</h1>
-                        <ul class="form__errors"></ul>
-                        <input
-                            required
-                            type="email"
-                            name="email"
-                            class="form__inputfield form__inputfield2 form__popupEmail form-control"
-                            placeholder="Email"
-                        />
-                        <input
-                            required
-                            type="password"
-                            name="password"
-                            class="form__inputfield form__inputfield2 form__popupWachtwoord form-control"
-                            placeholder="Wachtwoord"
-                        />
-                        <button class="btn btn__witteAchtergrond btn__popupLogin" type="submit">
-                            Log In
-                        </button>
-                        <div class="login-popup__vergeten">
-                            <a asp-area="Identity" asp-page="/Account/ForgotPassword">
-                                Wachtwoord vergeten?
-                            </a>
-                        </div>
-                    </form>
-                    <form asp-area="Identity" asp-page="/Account/ExternalLogin" method="post">
-                        <button class="btn btn__witteAchtergrond btn__popupFacebook"
-                                type="submit" name="provider" value="Facebook">
-                            <i class="fab fa-facebook-f popup__icoon" id="fb"></i>
-                            <span class="login-popup__facebook">Log in met Facebook</span>
-                        </button>
-                        <button class="btn btn__witteAchtergrond btn__popupGoogle"
-                                type="submit" name="provider" value="Google">
-                            <i
-                                class="fab fa-google popup__icoon popup_icoonGoogle"
-                                id="google"
-                            ></i>
-                            <span class="login-popup__google">Log in met Google</span>
-                        </button>
-                    </form>
+                    <div class="popup__container col-md-6 col-sm-12">
+                        <form id="auth_login">
+                            <h1 class="paginatitel paginatitel__popup mb-4">Log in</h1>
+                            <ul class="form__errors"></ul>
+                            <input
+                                required
+                                type="email"
+                                name="email"
+                                class="form__inputfield form__inputfield2 form__popupEmail form-control"
+                                placeholder="Email"
+                            />
+                            <input
+                                required
+                                type="password"
+                                name="password"
+                                class="form__inputfield form__inputfield2 form__popupWachtwoord form-control"
+                                placeholder="Wachtwoord"
+                            />
+                            <button class="btn btn__witteAchtergrond btn__popupLogin" type="submit">
+                                Log In
+                            </button>
+                            <div class="login-popup__vergeten">
+                                <a asp-area="Identity" asp-page="/Account/ForgotPassword">
+                                    Wachtwoord vergeten?
+                                </a>
+                            </div>
+                        </form>
+                        <form asp-area="Identity" asp-page="/Account/ExternalLogin" method="post">
+                            <button class="btn btn__witteAchtergrond btn__popupFacebook"
+                                    type="submit" name="provider" value="Facebook">
+                                <i class="fab fa-facebook-f popup__icoon" id="fb"></i>
+                                <span class="login-popup__facebook">Log in met Facebook</span>
+                            </button>
+                            <button class="btn btn__witteAchtergrond btn__popupGoogle"
+                                    type="submit" name="provider" value="Google">
+                                <i
+                                    class="fab fa-google popup__icoon popup_icoonGoogle"
+                                    id="google"
+                                ></i>
+                                <span class="login-popup__google">Log in met Google</span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
