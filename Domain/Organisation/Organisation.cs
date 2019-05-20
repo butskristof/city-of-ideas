@@ -18,6 +18,8 @@ namespace COI.BL.Domain.Organisation
 		[MaxLength(20)]
 		public String Identifier { get; set; } // for web URL
 
+		public string Description { get; set; }
+
 		public string LogoLocation { get; set; }
 		public string ImageLocation { get; set; }
 		[RegularExpression("^#[0-9a-fA-F]{6}$")]
