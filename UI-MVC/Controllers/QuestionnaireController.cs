@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Project;
 using COI.BL.Questionnaire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers
@@ -37,6 +38,12 @@ namespace COI.UI.MVC.Controllers
 		}
 
 		public IActionResult Thanks()
+		{
+			return View();
+		}
+		
+		[Authorize(Roles="Admin,Superadmin")]
+		public IActionResult Create()
 		{
 			return View();
 		}
