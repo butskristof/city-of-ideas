@@ -1,0 +1,36 @@
+@using COI.BL.Domain.Ideation
+@model COI.BL.Domain.Ideation.Idea
+
+<h1 id="idea__title">@Model.Title</h1>
+
+<p id="idea__text">
+    @foreach (var field in Model.Fields)
+    {
+        @if (field.FieldType.Equals(FieldType.Text))
+         {
+            @field.Content
+         }
+    }
+</p>
+
+<div class="idea__images">
+    @foreach (var field in Model.Fields)
+    {
+        @if (field.FieldType.Equals(FieldType.Picture))
+         {
+             <img src="@field.Content" alt="@Model.Title"/>
+         }
+    }
+</div>
+
+<div class="idea__videos">
+    @foreach (var field in Model.Fields)
+    {
+        @if (field.FieldType.Equals(FieldType.Video))
+         {
+             <video controls>
+                 <source src="@field.Content">
+             </video>
+         }
+    }
+</div>

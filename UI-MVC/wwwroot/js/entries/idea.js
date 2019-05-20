@@ -3,6 +3,8 @@ import Editor from "../components/editor";
 import Comments from "../components/comments";
 import CommentsRepository from "../repositories/commentsRepository";
 import IdeationRepository from "../repositories/ideationRepository";
+import Form from "../components/form";
+import Voter from "../components/voter";
 
 Page.onLoad(async () => {
 	
@@ -12,6 +14,8 @@ Page.onLoad(async () => {
 		const comments = Comments.init(commentsEl);
 		await comments.addCommentsForIdea(ideaId);
 	}
+	
+	Voter.initAll();
 
 	// Post a comment
 	const editorElement = Page.query("#ideaEditor");
@@ -41,6 +45,15 @@ Page.onLoad(async () => {
 				editor.getForm().clear();
 			});
 		})
+	}
+	
+	// QR Code idea
+	const confirmEmailEl = Page.query("#idea_confirm-email");
+	if (confirmEmailEl != null) {
+		const cEform = Form.init(confirmEmailEl);
+		cEform.onSubmit(formData => {
+			console.log(formData.get('email'));
+		});
 	}
 	
 });
