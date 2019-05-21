@@ -26,7 +26,18 @@ export default {
 		}
 		return null;
 	},
+	getOrganisation() {
+		const JSONString = this.readCookie("organisation");
+		return JSON.parse(JSONString);
+	},
 	getOrganisationId() {
-		return this.readCookie("organisation");
+		return this.getOrganisation().organisationId;
+	},
+	scrollTo(el) {
+		window.scrollTo({
+			behavior:  'smooth',
+			left: 0,
+			top: el.offsetTop
+		})
 	}
 }

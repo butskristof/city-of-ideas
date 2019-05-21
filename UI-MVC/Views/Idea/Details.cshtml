@@ -1,8 +1,10 @@
+@using COI.BL.Domain.Ideation
 @using COI.BL.Domain.User
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@model COI.BL.Domain.Ideation.Idea
+@* @model COI.BL.Domain.Ideation.Idea *@
+@model COI.UI.MVC.Models.DTO.Ideation.IdeaDto
 
 @{
     ViewBag.Title = @Model.Title;
@@ -16,10 +18,15 @@
         @Html.Partial("_Idea", Model)
         
         <div class="options-bar">
-			<div class="options-bar__option">
-                <span class="options-bar__votes mr-2" id="ideaVoteCount">@Model.GetScore()</span>
-                <i class="voter material-icons outline mr-2" data-counter="ideaVoteCount" data-target="Idea" data-targetId="@Model.IdeaId" data-value="1">thumb_up</i>
-                <i class="voter material-icons outline" data-counter="ideaVoteCount" data-target="idea" data-targetId="@Model.IdeaId" data-value="-1">thumb_down</i>
+            <div 
+                class="options-bar__option options-bar__option--vote"
+                data-target="Idea"
+                data-targetId="@Model.IdeaId"
+                data-userVal="@Model.UserVoteValue"
+                >
+                <span class="options-bar__votes mr-2">@Model.VoteCount</span>
+                <i class="voter outline material-icons mr-2" data-value="1">thumb_up</i>
+                <i class="voter outline material-icons" data-value="-1">thumb_down</i>
             </div>
             <div class="options-bar__option">
                 <i class="material-icons outline ml-4">share</i>

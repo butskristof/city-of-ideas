@@ -17,27 +17,9 @@
   margin-top: 50px;
   user-select: none;
 
-  &.circle:hover {
-    transition: 0.8s;
-  }
-
-  &.circle__antwerpen {
-    background: $color-primary;
-    border: 1px solid $color-primary;
-  }
-  &.circle__antwerpen:hover {
-    color: $color-primary;
-    background: $color-background;
-  }
-
-  &.circle__brussel {
-    background: $color-text-light;
-    border: 1px solid $color-text-light;
-    &:hover{
-      color: $color-text-light;
-      background: $color-background;
-    }
-    
+  &:hover {
+    transition: 0.1s;
+    opacity: 0.8;
   }
   
 }

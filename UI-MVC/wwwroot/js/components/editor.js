@@ -12,6 +12,9 @@ export default {
 		if (!editor) {
 			throw Error("Editor not valid");
 		}
+
+		let imagesArray = [];
+		let videosArray = [];
 		
 		editor.addEventListener("keyup", function () {
 			// Show submit
@@ -35,80 +38,85 @@ export default {
 		});
 		
 		// Add images
-		Page.query(".editor__option--image", editor).addEventListener("click", function () {
-			Page.query(".editor__file-upload--image", editor).click();
-		});
-		
-		let imagesArray = [];
-		
-		Page.query(".editor__file-upload--image", editor).addEventListener("change", function () {
-			if (this.files && this.files[0]) {
-				const file = this.files[0];
-				if (file.size > MAX_FILE_SIZE_IMAGES) {
-					logger.error(`The maximum file size is ${MAX_FILE_SIZE_IMAGES / 1000000} megabyte`);
-					return;
+		const addImagesEl = Page.query(".editor__option--image", editor);
+		if (addImagesEl != null) {
+			addImagesEl.addEventListener("click", function () {
+				Page.query(".editor__file-upload--image", editor).click();
+			});
+
+			Page.query(".editor__file-upload--image", editor).addEventListener("change", function () {
+				if (this.files && this.files[0]) {
+					const file = this.files[0];
+					if (file.size > MAX_FILE_SIZE_IMAGES) {
+						logger.error(`The maximum file size is ${MAX_FILE_SIZE_IMAGES / 1000000} megabyte`);
+						return;
+					}
+					if (Page.query(".editor__images", editor).childElementCount >= 3) {
+						logger.error(`You can only upload up to ${MAX_UPLOAD_COUNT_IMAGES} images`);
+						return;
+					}
+					const reader = new FileReader();
+					imagesArray.push(file);
+					reader.onload = function(e) {
+						const img = document.createElement("img");
+						img.src = e.target.result;
+						img.addEventListener("click", function () {
+							this.parentNode.removeChild(this);
+							imagesArray = imagesArray.filter(el => el === file);
+						});
+						Page.query(".editor__images", editor).appendChild(img);
+					};
+					reader.readAsDataURL(this.files[0]);
 				}
-				if (Page.query(".editor__images", editor).childElementCount >= 3) {
-					logger.error(`You can only upload up to ${MAX_UPLOAD_COUNT_IMAGES} images`);
-					return;
-				}
-				const reader = new FileReader();
-				imagesArray.push(file);
-				reader.onload = function(e) {
-					const img = document.createElement("img");
-					img.src = e.target.result;
-					img.addEventListener("click", function () {
-						this.parentNode.removeChild(this);
-						imagesArray = imagesArray.filter(el => el === file);
-					});
-					Page.query(".editor__images", editor).appendChild(img);
-				};
-				reader.readAsDataURL(this.files[0]);
-			}
-		});
+			});
+		}
 		
 		// Add videos
-		Page.query(".editor__option--video", editor).addEventListener("click", function () {
-			Page.query(".editor__file-upload--video", editor).click();
-		});
+		const addVideosEl = Page.query(".editor__option--video", editor);
+		if (addVideosEl != null) {
+			addVideosEl.addEventListener("click", function () {
+				Page.query(".editor__file-upload--video", editor).click();
+			});
 
-		let videosArray = [];
-		
-		Page.query(".editor__file-upload--video", editor).addEventListener("change", function () {
-			if (this.files && this.files[0]) {
-				const file = this.files[0];
-				if (file.size > MAX_FILE_SIZE_VIDEOS) {
-					logger.error(`The maximum file size is ${MAX_FILE_SIZE_VIDEOS / 1000000} megabyte`);
-					return;
+			Page.query(".editor__file-upload--video", editor).addEventListener("change", function () {
+				if (this.files && this.files[0]) {
+					const file = this.files[0];
+					if (file.size > MAX_FILE_SIZE_VIDEOS) {
+						logger.error(`The maximum file size is ${MAX_FILE_SIZE_VIDEOS / 1000000} megabyte`);
+						return;
+					}
+					if (Page.query(".editor__videos", editor).childElementCount >= 3) {
+						logger.error(`You can only upload up to ${MAX_UPLOAD_COUNT_VIDEOS} videos`);
+						return;
+					}
+					const reader = new FileReader();
+					videosArray.push(file);
+					reader.onload = function(e) {
+						const video = document.createElement("video");
+						const source = document.createElement("source");
+						source.src = e.target.result;
+						video.appendChild(source);
+						video.addEventListener("click", function () {
+							this.parentNode.removeChild(this);
+							videosArray = videosArray.filter(el => el === file);
+						});
+						Page.query(".editor__videos", editor).appendChild(video);
+					};
+					reader.readAsDataURL(this.files[0]);
 				}
-				if (Page.query(".editor__videos", editor).childElementCount >= 3) {
-					logger.error(`You can only upload up to ${MAX_UPLOAD_COUNT_VIDEOS} videos`);
-					return;
-				}
-				const reader = new FileReader();
-				videosArray.push(file);
-				reader.onload = function(e) {
-					const video = document.createElement("video");
-					const source = document.createElement("source");
-					source.src = e.target.result;
-					video.appendChild(source);
-					video.addEventListener("click", function () {
-						this.parentNode.removeChild(this);
-						videosArray = videosArray.filter(el => el === file);
-					});
-					Page.query(".editor__videos", editor).appendChild(video);
-				};
-				reader.readAsDataURL(this.files[0]);
-			}
-		});
+			});
+		}
 		
 		const editorForm = Form.init(editor);
 		
 		return {
 			onSubmit(callback) {
 				editorForm.onSubmit((formData) => {
-					if (formData.get('text').length < 10) {
-						return;
+					this.getForm().clearErrors();
+					if (formData.get('text')) {
+						if (formData.get('text').length < 10) {
+							return;
+						}
 					}
 					imagesArray.forEach(image => {
 						formData.append("images", image);

@@ -7,7 +7,17 @@
 <h1 class="paginatitel paginatitel__bovenaan">Organisaties</h1>
 
 <div class="card-list mb-4">
-    <form action="/organisation/1" method="post" class="m-auto">
-        <input class="circle circle__antwerpen" type="submit" value="Antwerpen">
-    </form>
+    @* <form action="/organisation/1" method="post" class="m-auto"> *@
+    @*     <input class="circle circle__antwerpen" type="submit" value="Antwerpen"> *@
+    @* </form> *@
+    
+    @foreach (var organisation in Model)
+    {
+        <form action="/organisation/@organisation.OrganisationId" method="post" class="m-auto">
+            <input class="circle" id="@organisation.OrganisationId" type="submit" value="@(organisation.Name.Substring(0, 1))" style="background-color: @organisation.Color"/>
+            <div class="text-center">
+                <label for="@organisation.OrganisationId">@organisation.Name</label>
+            </div>
+        </form>
+    }
 </div>

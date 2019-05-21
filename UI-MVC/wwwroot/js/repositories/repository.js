@@ -9,6 +9,7 @@ export default {
         return this.callApi("POST", route, data, useFormData);
     },
     put(route, data = null, useFormData = false) {
+    	console.log(data);
         return this.callApi("PUT", route, data, useFormData);
     },
     delete(route, data = null, useFormData = false) {

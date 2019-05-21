@@ -1,11 +1,15 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using AutoMapper;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.User;
 using COI.BL.Ideation;
+using COI.BL.User;
+using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers
@@ -14,10 +18,14 @@ namespace COI.UI.MVC.Controllers
 	public class IdeaController : Controller
 	{
 		private readonly IIdeationManager _ideationManager;
+		private readonly UserManager<User> _userManager;
+		private readonly IIdeasHelper _ideasHelper;
 
-		public IdeaController(IIdeationManager ideationManager)
+		public IdeaController(IIdeationManager ideationManager, IIdeasHelper ideasHelper, UserManager<User> userManager)
 		{
 			_ideationManager = ideationManager;
+			_userManager = userManager;
+			_ideasHelper = ideasHelper;
 		}
 
 		[HttpGet]
@@ -32,7 +40,8 @@ namespace COI.UI.MVC.Controllers
 		[AllowAnonymous]
 		public IActionResult Details(int id)
 		{
-			Idea idea = _ideationManager.GetIdea(id);
+			var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+			var idea = _ideasHelper.GetIdea(id, userId);
 			return View(idea);
 		}
 
@@ -40,7 +49,8 @@ namespace COI.UI.MVC.Controllers
 		[AllowAnonymous]
 		public IActionResult Vote(int id)
 		{
-			var idea = _ideationManager.GetIdea(id);
+			var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+			var idea = _ideasHelper.GetIdea(id, userId);
 			return View(idea);
 		}
 		
