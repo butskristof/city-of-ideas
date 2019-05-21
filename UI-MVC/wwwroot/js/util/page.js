@@ -27,11 +27,10 @@ export default {
 		return null;
 	},
 	getOrganisation() {
-		const JSONString = this.readCookie("organisation");
-		return JSON.parse(JSONString);
+		return organisation;
 	},
 	getOrganisationId() {
-		return this.getOrganisation().organisationId;
+		return this.getOrganisation().OrganisationId;
 	},
 	scrollTo(el) {
 		window.scrollTo({

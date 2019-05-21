@@ -1,9 +1,11 @@
 ﻿@using COI.BL.Domain.User
+@using COI.BL.Organisation
 @using COI.BL.Project
 @using COI.UI.MVC.Helpers
 @using COI.UI.MVC.Models
 @using COI.UI.MVC.Models.DTO.Organisation
 @using Microsoft.AspNetCore.Identity
+@using Newtonsoft.Json
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @inject IProjectManager ProjectManager
@@ -24,17 +26,13 @@
 <body>
 
 @{
-    NoRefOrganisationDto organisation = OrganisationHelper.getOrganisationFromCookie( );
+    NoRefOrganisationDto organisation = OrganisationHelper.GetOrganisationFromCookie();
+    Console.WriteLine(organisation);
 }
 
 <!-- HEADER -->
 <nav class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand" id="organisation" asp-controller="Organisation" asp-action="Index" style="color: @organisation.Color !important;" >@organisation.Name</a>
-    @* <a class="navbar-brand" asp-controller="Organisation" asp-action="Index"> *@
-    @*     <img src="@organisation.LogoLocation" alt=""> *@
-    @* </a> *@
-    
-    
     
     <button
         class="navbar-toggler"
@@ -153,7 +151,7 @@
 
 @if (!SignInManager.IsSignedIn(User))
 {
-    <partial name="_AuthModals"></partial>
+    <partial name="_AuthModals"/>
     
 }
 
@@ -180,7 +178,9 @@
 @*     </div> *@
 @* </div> *@
 
-
+<script >
+    const organisation = @Html.Raw(JsonConvert.SerializeObject(organisation));
+</script>
 @RenderSection("Scripts", required: false)
 </body>
 </html>
