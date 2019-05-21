@@ -48,6 +48,8 @@ namespace COI.UI.MVC.Helpers
 				{
 					dto.UserVoteValue = vote.Value;
 				}
+
+				dto.Comments = _commentsHelper.GetCommentsForIdea(idea.IdeaId, userId);
 				
 				return dto;
 			}
