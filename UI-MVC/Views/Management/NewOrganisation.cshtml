@@ -1,0 +1,102 @@
+@using COI.UI.MVC.Models
+
+@{
+    ViewData["Title"] = "Superadmin";
+}
+
+<main class="content content--shadow container">
+    <h1 class="padding-t1remM">Superadmin</h1>
+    <div>
+        <h4>Verander de site instellingen</h4>
+        <hr />
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills flex-column">
+                
+                @if (User.IsInRole(Roles.Superadmin) || User.IsInRole(Roles.Admin))
+                {
+                    <li class="nav-item">
+                        <a
+                            class="nav-link nav-item__background"
+                            asp-action="Organisation">Organisatie</a>
+                    </li>
+                }
+                @if (User.IsInRole(Roles.Superadmin))
+                {
+                    <li class="nav-item">
+                        <a
+                            class="nav-link nav-item__background active"
+                            asp-action="NewOrganisation">Nieuwe Organisatie</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <!-- Editor -->
+                <form method="post" class="editor col-md-6" id="admin_org" data-action="create">
+                    <h2 clas="mb-2">Nieuwe organisatie maken</h2>
+                    
+                    <ul class="form__errors"></ul>
+
+                    <div class="form-group">
+                        <label for="admin_org-name">Naam</label>
+                        <input class="form-control" type="text" name="name" id="admin_org-name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="admin_org-identifier">URL</label>
+                        <input class="form-control" type="text" name="identifier" id="admin_org-identifier">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="admin_org-color">Kleur</label>
+                        <input class="form-control" type="text" name="color" id="admin_org-color">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin_org-desc">Beschrijving</label>
+                        <textarea class="form-control" name="description" id="admin_org-desc"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin_org-logo">Logo</label>
+                        <div class="editor__images">
+                            <img src="" alt="organisation Logo" id="admin_org-logo"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="admin_org-image">Image</label>
+                        <div class="editor__images">
+                            <img src="" alt="organisation image" id="admin_org-image"/>
+                        </div>
+                    </div>
+
+                    <input
+                        type="file"
+                        class="editor__file-upload editor__file-upload--image"
+                        id="admin_org-logo-upload"
+                        accept="image/x-png,image/gif,image/jpeg"/>
+                    
+                    <input
+                        type="file"
+                        class="editor__file-upload editor__file-upload--image"
+                        id="admin_org-image-upload"
+                        accept="image/x-png,image/gif,image/jpeg"/>
+
+                    <button type="submit" class="btn btn--org mt-2">
+                        Maken
+                    </button>
+                </form>
+                <!-- /Editor -->
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts
+{
+    <script type="text/javascript" src="/dist/admin.entry.js" defer></script>
+}

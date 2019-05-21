@@ -21,6 +21,7 @@ export default {
 					const textNode = document.createTextNode(msg);
 					errorLI.appendChild(textNode);
 					res.appendChild(errorLI);
+					Page.scrollTo(errorLI);
 				}
 			},
 			showSuccess(msg) {
@@ -34,6 +35,7 @@ export default {
 					setTimeout(() => {
 						this.clearErrors();
 					}, 2000);
+					Page.scrollTo(errorLI);
 				}
 			},
 			// Uses a list of errors from dotnet

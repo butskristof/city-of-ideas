@@ -1,5 +1,5 @@
 @using COI.BL.Domain.Ideation
-@model COI.BL.Domain.Ideation.Idea
+@model COI.UI.MVC.Models.DTO.Ideation.IdeaDto
 
 <h1 id="idea__title">@Model.Title</h1>
 
@@ -29,7 +29,7 @@
         @if (field.FieldType.Equals(FieldType.Video))
          {
              <video controls>
-                 <source src="@field.Content">
+                 <source src="@field.Content"/>
              </video>
          }
     }

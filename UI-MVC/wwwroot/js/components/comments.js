@@ -1,5 +1,6 @@
 import Page from "../util/page";
 import CommentsRepository from "../repositories/commentsRepository";
+import Voter from "./voter";
 
 export default {
 	init(commentsList) {
@@ -28,7 +29,6 @@ export default {
 				const textContent = this.getTextContent(comment);
 				const images = this.getImagesContent(comment);
 				const videosContent = this.getVideosContent(comment);
-				// console.log(videosContent);
 				newComment.innerHTML = `
 					<div class="comment__profile">
 						<div
@@ -58,10 +58,15 @@ export default {
 						</div>
 					  </div>
 					  <div class="options-bar">
-						<div class="options-bar__option">
+						<div 
+							class="options-bar__option options-bar__option--vote" 
+							data-target="Comment"
+							data-targetId="${comment.commentId}"
+							data-userVal="${comment.userVoteValue}"
+							>
 							<span class="options-bar__votes mr-2">${comment.voteCount}</span>
-							<i class="material-icons outline mr-2">thumb_up</i>
-							<i class="material-icons outline">thumb_down</i>
+							<i class="voter material-icons outline mr-2" data-value="1">thumb_up</i>
+							<i class="voter material-icons outline" data-value="-1">thumb_down</i>
 						</div>
 						<div class="options-bar__option">
 							<i class="material-icons outline ml-4">share</i>

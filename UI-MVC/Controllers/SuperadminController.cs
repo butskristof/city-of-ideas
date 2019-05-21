@@ -20,31 +20,31 @@ namespace COI.UI.MVC.Controllers
             _ideationManager = ideationManager;
         }
         
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult ActiveProjects()
-        {
-            IEnumerable<Project> activeProjects = _projectManager.GetProjects().ToList();
-            return View(activeProjects);
-        }
-        public IActionResult ClosedProjects()
-        {
-            IEnumerable<Project> closedProjects = _projectManager.GetProjects().ToList();
-            return View(closedProjects);
-        }
-        
-        [HttpGet]
-        public IActionResult LatestActivities()
-        {
-            IEnumerable<Idea> latestIdea = _ideationManager.GetIdeas().ToList();
-            return View(latestIdea);
-        }
-        
-        public IActionResult URL()
-        {
-            return View();
-        }
+//        public IActionResult Index()
+//        {
+//            return View();
+//        }
+//        public IActionResult ActiveProjects()
+//        {
+//            IEnumerable<Project> activeProjects = _projectManager.GetProjects().ToList();
+//            return View(activeProjects);
+//        }
+//        public IActionResult ClosedProjects()
+//        {
+//            IEnumerable<Project> closedProjects = _projectManager.GetProjects().ToList();
+//            return View(closedProjects);
+//        }
+//        
+//        [HttpGet]
+//        public IActionResult LatestActivities()
+//        {
+//            IEnumerable<Idea> latestIdea = _ideationManager.GetIdeas().ToList();
+//            return View(latestIdea);
+//        }
+//        
+//        public IActionResult URL()
+//        {
+//            return View();
+//        }
     }
 }

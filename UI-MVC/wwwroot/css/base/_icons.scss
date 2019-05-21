@@ -13,6 +13,7 @@ i {
     -webkit-text-stroke: 1px $color-text-dark;
     -webkit-text-fill-color: transparent;
     transition: all 0.05s ease-in-out;
+    font-size: 20px;
 
     &:hover {
       -webkit-text-fill-color: $color-text-dark;

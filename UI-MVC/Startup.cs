@@ -177,6 +177,7 @@ namespace COI.UI.MVC
 			services.AddScoped<IIdeasHelper, IdeasHelper>();
 			services.AddScoped<IIdeationsHelper, IdeationsHelper>();
 			services.AddScoped<IProjectPhasesHelper, ProjectPhasesHelper>();
+			services.AddScoped<IOrganisationsHelper, OrganisationsHelper>();
 
 			#endregion
 

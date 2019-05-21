@@ -1,64 +1,101 @@
 import Page from "../util/page";
 import Form from "../components/form";
 import OrganisationRepository from "../repositories/organisationRepository";
+import Editor from "../components/editor";
+import Logger from "../util/logger";
+
+const MAX_FILE_SIZE_IMAGES = 2000000;
+
+let images = [];
 
 Page.onLoad(async () => {
 	
-	const organisationResponse = await OrganisationRepository.singleOrganisation(Page.getOrganisationId());
-	const organisation = await organisationResponse.json();
-	
-	const orgLogoEl = Page.query("#admin_org-logo");
-	if (orgLogoEl != null) {
-		orgLogoEl.src = organisation.logoLocation;
-	}
-	const orgColorEl = Page.query("#admin_org-color");
-	if (orgColorEl != null) {
-		// orgColorEl.value = organisation.identifier;
-	}
-	const orgIdentEl = Page.query("#admin_org-identifier");
-	if (orgIdentEl != null) {
-		orgIdentEl.value = organisation.identifier;
-	}
-	
-	const logoFormEl = Page.query("#admin_change-logo-form");
-	if (logoFormEl != null) {
-		const logoForm = Form.init(logoFormEl);
-		const logoFileInput = Page.query("#admin_logo-file-input");
+	const orgEditorEl = Page.query("#admin_org");
+	if (orgEditorEl != null) {
+		const orgEditor = Editor.init(orgEditorEl);
 		
-		logoForm.onSubmit(() => {
-			logoFileInput.click();
-		});
+		// Org logo
+		initImageSelect(
+			"logo",
+			Page.query("#admin_org-logo"),
+			Page.query("#admin_org-logo-upload"),
+			Page.query("#admin_org-logo")
+		);
+		initImageSelect(
+			"image",
+			Page.query("#admin_org-image"),
+			Page.query("#admin_org-image-upload"),
+			Page.query("#admin_org-image")
+		);
 		
-		logoFileInput.addEventListener("change", async function () {
-			if (!this.files || !this.files[0]) return;
-			
-			const formData = new FormData();
-			formData.append("organisationId", Page.getOrganisationId());
-			formData.append("picture", this.files[0]);
-			
-			const response = await OrganisationRepository.changeLogo(formData);
-			logoForm.handleResponse(response, () => {
-				logoForm.clearErrors();
-				Page.reload();
+		const action = orgEditorEl.dataset.action;
+		
+		orgEditor.onSubmit(async formData => {
+			let response = null;
+			if (action === "update") {
+				response = await OrganisationRepository.changeOrganisation(
+					Page.getOrganisationId(),
+					formData.get('name'),
+					formData.get('identifier'),
+					formData.get('color'),
+					formData.get('description')
+				);
+			} else {
+				response = await OrganisationRepository.createOrganisation(
+					formData.get('name'),
+					formData.get('identifier'),
+					formData.get('color'),
+					formData.get('description')
+				);
+			}
+			orgEditor.getForm().handleResponse(response, async () => {
+				const org = await response.json();
+				
+				if (images["logo"]) {
+					const response = await OrganisationRepository.changeLogo(org.organisationId, images["logo"]);
+					if (!response.ok) {
+						orgEditor.getForm().handleResponse(response);
+						return;
+					}
+				}
+				if (images["image"]) {
+					const response = await OrganisationRepository.changeImage(org.organisationId, images["image"]);
+					if (!response.ok) {
+						orgEditor.getForm().handleResponse(response);
+						return;
+					}
+				}
+				
+				if (action === "update") {
+					orgEditor.getForm().showSuccess("De update is geslaagd")
+				} else {
+					Page.routeTo("/organisation");
+				}
 			});
 		});
 	}
-	
-	
-	const orgIdentFormEl = Page.query("#admin_change-identifier");
-	if (orgIdentFormEl != null) {
-		const orgIdentForm = Form.init(orgIdentFormEl);
-		orgIdentForm.onSubmit(async function (formData) {
-			const response = await OrganisationRepository.changeOrganisation(Page.getOrganisationId(), {
-				identifier: formData.get('identifier'),
-				name: formData.get('identifier')
-			});
-			orgIdentForm.handleResponse(response, () => {
-				orgIdentForm.showSuccess("De organisatie naam is succesvol veranderd");
-			});
-		});
-	}
-	
 	
 	
 });
+
+function initImageSelect(imagesKey, triggerEl, uploadEl, imageEl) {
+	triggerEl.addEventListener("click", function () {
+		uploadEl.click();
+	});
+
+	uploadEl.addEventListener("change", function () {
+		if (this.files && this.files[0]) {
+			const file = this.files[0];
+			if (file.size > MAX_FILE_SIZE_IMAGES) {
+				Logger.error(`The maximum file size is ${MAX_FILE_SIZE_IMAGES / 1000000} megabyte`);
+				return;
+			}
+			const reader = new FileReader();
+			images[imagesKey] = file;
+			reader.onload = function(e) {
+				imageEl.src = e.target.result;
+			};
+			reader.readAsDataURL(this.files[0]);
+		}
+	});
+}
