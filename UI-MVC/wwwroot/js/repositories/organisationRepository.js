@@ -14,8 +14,8 @@ export default {
 		return Repository.post(`/api/organisations/image`, formData, true);
 	},
 	changeOrganisation(organisationId, name, identifier, color, description) {
+		console.log(":", organisationId);
 		return Repository.put(`/api/organisations/${organisationId}`, {
-			organisationId,
 			name,
 			identifier,
 			color,

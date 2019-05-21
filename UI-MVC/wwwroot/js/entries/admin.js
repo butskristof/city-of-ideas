@@ -9,7 +9,6 @@ const MAX_FILE_SIZE_IMAGES = 2000000;
 let images = [];
 
 Page.onLoad(async () => {
-	
 	const orgEditorEl = Page.query("#admin_org");
 	if (orgEditorEl != null) {
 		const orgEditor = Editor.init(orgEditorEl);
@@ -50,6 +49,7 @@ Page.onLoad(async () => {
 			}
 			orgEditor.getForm().handleResponse(response, async () => {
 				const org = await response.json();
+				console.log(org);
 				
 				if (images["logo"]) {
 					const response = await OrganisationRepository.changeLogo(org.organisationId, images["logo"]);

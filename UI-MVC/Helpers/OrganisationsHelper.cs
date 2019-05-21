@@ -1,3 +1,4 @@
+using System.Web;
 using COI.UI.MVC.Models.DTO.Organisation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -8,7 +9,8 @@ namespace COI.UI.MVC.Helpers
 {
 	public interface IOrganisationsHelper
 	{
-		NoRefOrganisationDto getOrganisationFromCookie();
+		NoRefOrganisationDto GetOrganisationFromCookie();
+		string GetOrganisationJson();
 	}
 	
 	public class OrganisationsHelper : IOrganisationsHelper
@@ -20,10 +22,28 @@ namespace COI.UI.MVC.Helpers
 			_httpContextAccessor = httpContextAccessor;
 		}
 
-		public NoRefOrganisationDto getOrganisationFromCookie()
+		public NoRefOrganisationDto GetOrganisationFromCookie()
         {
 	        var json = _httpContextAccessor.HttpContext.Request.Cookies["organisation"];
-            return JsonConvert.DeserializeObject<NoRefOrganisationDto>(json);
+	        if (json == null)
+	        {
+		        return new NoRefOrganisationDto
+		        {
+			        Name = "No organisation",
+			        Color = "#333333",
+			        ImageLocation = null,
+			        LogoLocation = null,
+			        Description = "",
+			        Identifier = null
+		        };
+	        }
+	        return JsonConvert.DeserializeObject<NoRefOrganisationDto>(json);
         }
+
+		public string GetOrganisationJson()
+		{
+	        var json = _httpContextAccessor.HttpContext.Request.Cookies["organisation"];
+	        return json;
+		}
 	}
 }
