@@ -6,9 +6,9 @@ namespace COI.BL.Project
 {
 	public interface IProjectManager
 	{
-		IEnumerable<Domain.Project.Project> GetProjects(int organisationId);
-		IEnumerable<Domain.Project.Project> GetLastNProjects(int organisationId, int numberOfProjectsToGet);
-		IEnumerable<Domain.Project.Project> GetLastNProjects(int organisationId, int numberOfProjectsToGet, ProjectState state);
+		IEnumerable<Domain.Project.Project> GetProjects(string organisation);
+		IEnumerable<Domain.Project.Project> GetLastNProjects(string organisation, int numberOfProjectsToGet);
+		IEnumerable<Domain.Project.Project> GetLastNProjects(string organisation, int numberOfProjectsToGet, ProjectState state);
 //		BL.Domain.Project.Project GetLastProjectWithState(ProjectState state);
 		Domain.Project.Project GetProject(int id);
 

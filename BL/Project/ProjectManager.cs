@@ -22,19 +22,19 @@ namespace COI.BL.Project
 
 		#region Project
 
-		public IEnumerable<Domain.Project.Project> GetProjects(int organisationId)
+		public IEnumerable<Domain.Project.Project> GetProjects(string organisation)
 		{
-            return _projectRepository.ReadProjectsForOrganisation(organisationId);
+            return _projectRepository.ReadProjectsForOrganisation(organisation);
 		}
 
-		public IEnumerable<Domain.Project.Project> GetLastNProjects(int organisationId, int numberOfProjectsToGet)
+		public IEnumerable<Domain.Project.Project> GetLastNProjects(string organisation, int numberOfProjectsToGet)
 		{
-            return _projectRepository.ReadLastNProjects(organisationId, numberOfProjectsToGet);
+            return _projectRepository.ReadLastNProjects(organisation, numberOfProjectsToGet);
 		}
 
-		public IEnumerable<Domain.Project.Project> GetLastNProjects(int organisationId, int numberOfProjectsToGet, ProjectState state)
+		public IEnumerable<Domain.Project.Project> GetLastNProjects(string organisation, int numberOfProjectsToGet, ProjectState state)
 		{
-            return _projectRepository.ReadLastNProjects(organisationId, numberOfProjectsToGet, state);
+            return _projectRepository.ReadLastNProjects(organisation, numberOfProjectsToGet, state);
 		}
 
 		public Domain.Project.Project GetProject(int id)

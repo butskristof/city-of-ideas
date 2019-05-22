@@ -54,7 +54,7 @@ namespace COI.UI.MVC.Controllers.api
 			[FromQuery(Name = "limit")] int numberOfProjectsToGet, 
 			[FromQuery(Name = "state")] string stateString)
 		{
-			int organisationId = _organisationManager.GetOrganisation(orgId).OrganisationId;
+//			int organisationId = _organisationManager.GetOrganisation(orgId).OrganisationId;
 			
 			IEnumerable<Project> projs = null;
             bool stateValid = Enum.TryParse(stateString, true, out ProjectState state);
@@ -64,21 +64,21 @@ namespace COI.UI.MVC.Controllers.api
 				if (stateValid)
 				{
                     projs = _projectManager.GetLastNProjects(
-	                    organisationId,
+	                    orgId,
                         numberOfProjectsToGet, state
                         ).ToList();
 				}
 				else
 				{
                     projs = _projectManager.GetLastNProjects(
-	                    organisationId,
+	                    orgId,
                         numberOfProjectsToGet
                         ).ToList();
 				}
 			}
 			else
 			{
-				projs = _projectManager.GetProjects(organisationId).ToList();
+				projs = _projectManager.GetProjects(orgId).ToList();
 			}
 			
 			var response = _mapper.Map<List<ProjectMinDto>>(projs);
@@ -90,7 +90,7 @@ namespace COI.UI.MVC.Controllers.api
 		[HttpGet("last")]
 		public IActionResult GetLastProject(string orgId, [FromQuery(Name = "state")] string stateString)
 		{
-			int organisationId = _organisationManager.GetOrganisation(orgId).OrganisationId;
+//			int organisationId = _organisationManager.GetOrganisation(orgId).OrganisationId;
 			
 			Project ret = null;
 			if (!stateString.IsNullOrEmpty())
@@ -101,11 +101,11 @@ namespace COI.UI.MVC.Controllers.api
                     return BadRequest("Project state invalid.");
                 }
 
-                ret = _projectManager.GetLastNProjects(organisationId, 1, state).FirstOrDefault();
+                ret = _projectManager.GetLastNProjects(orgId, 1, state).FirstOrDefault();
 			}
 			else
 			{
-				ret = _projectManager.GetLastNProjects(organisationId, 1).FirstOrDefault();
+				ret = _projectManager.GetLastNProjects(orgId, 1).FirstOrDefault();
 			}
 
 			if (ret == null)
