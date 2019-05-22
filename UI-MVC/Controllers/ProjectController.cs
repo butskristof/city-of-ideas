@@ -6,6 +6,7 @@ using COI.BL.Project;
 using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace COI.UI.MVC.Controllers
 {
@@ -23,10 +24,20 @@ namespace COI.UI.MVC.Controllers
         
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index()
+        public IActionResult Index([FromQuery] bool open, [FromQuery] bool showLimited)
         {
-            // TODO get orgId
-            IEnumerable<Project> projects = _projectManager.GetProjects(1).ToList();
+	        IEnumerable<Project> projects = null;
+	        if (!showLimited)
+	        {
+		        projects = _projectManager.GetLastNProjects(6).ToList();
+	        }
+	        else
+	        {
+		        ProjectState projectStateShown = open ? ProjectState.Open : ProjectState.Closed;
+		        projects = _projectManager.GetLastNProjects(6, projectStateShown).ToList();
+	        }
+	        ViewBag.open = open;
+	        ViewBag.showLimited = showLimited;
             return View(projects);
         }
 
