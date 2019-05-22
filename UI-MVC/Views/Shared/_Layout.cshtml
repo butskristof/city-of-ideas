@@ -95,7 +95,7 @@
                 <ul>
                     @{
                         // TODO get orgId
-                        var footerProjects = ProjectManager.GetLastNProjects(1, 3).ToList();
+                        var footerProjects = ProjectManager.GetLastNProjects("districtantwerpen", 3).ToList();
                     }
                     @foreach (var project in footerProjects)
                     {

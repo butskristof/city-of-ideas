@@ -20,7 +20,7 @@ namespace COI.UI.MVC.Controllers
         public IActionResult Index()
         {
             // TODO get orgId
-            IEnumerable<Project> projects = _projectManager.GetLastNProjects(1, 6).ToList();
+            IEnumerable<Project> projects = _projectManager.GetLastNProjects("districtantwerpen", 6).ToList();
             return View(projects);
         }
 

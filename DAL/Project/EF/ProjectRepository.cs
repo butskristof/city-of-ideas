@@ -13,26 +13,26 @@ namespace COI.DAL.Project.EF
 		{
 		}
 
-		public IEnumerable<BL.Domain.Project.Project> ReadProjectsForOrganisation(int organisationId)
+		public IEnumerable<BL.Domain.Project.Project> ReadProjectsForOrganisation(string organisation)
 		{
 			return _ctx.Projects
-				.Where(p => p.Organisation.OrganisationId == organisationId)
+				.Where(p => p.Organisation.Identifier == organisation)
 				.AsEnumerable();
 		}
 
-		public IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int organisationId, int numberOfProjectsToGet)
+		public IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(string organisation, int numberOfProjectsToGet)
 		{
 			return _ctx.Projects
-				.Where(p => p.Organisation.OrganisationId == organisationId)
+				.Where(p => p.Organisation.Identifier == organisation)
 				.OrderByDescending(p => p.ProjectId)
 				.Take(numberOfProjectsToGet)
 				.AsEnumerable();
 		}
 
-		public IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int organisationId, int numberOfProjectsToGet, ProjectState state)
+		public IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(string organisation, int numberOfProjectsToGet, ProjectState state)
 		{
 			return _ctx.Projects
-				.Where(p => p.Organisation.OrganisationId == organisationId && p.ProjectState == state)
+				.Where(p => p.Organisation.Identifier == organisation && p.ProjectState == state)
 				.OrderByDescending(p => p.ProjectId)
 				.Take(numberOfProjectsToGet)
 				.AsEnumerable();
