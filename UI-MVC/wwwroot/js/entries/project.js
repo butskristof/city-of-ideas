@@ -7,6 +7,16 @@ import DateHelper from "../util/dateHelper";
 
 Page.onLoad(() => {
 
+	// Project page, open & closed
+	const selectStateEl = Page.query("#project_statedropdown");
+	if (selectStateEl != null) {
+		selectStateEl.addEventListener("change", () => {
+			Page.reloadWithQueryParams({
+				showLimited: selectStateEl.value !== "all",
+				open: selectStateEl.value === "open"
+			});
+		});
+	}
 
 	const createProjectFormEl = Page.query("#project_create");
 	if (createProjectFormEl != null) {

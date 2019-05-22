@@ -7,6 +7,15 @@ export default {
 		location.reload();
 		// location = location;
 	},
+	reloadWithQueryParams(params) {
+		let newLoc = location.origin + location.pathname + "?";
+		for (let key in params) {
+			const value = params[key];
+			newLoc += key + "=" + value + "&"
+		} 
+		newLoc = newLoc.substr(0, newLoc.length - 1);
+		this.routeTo(newLoc);
+	},
 	routeTo(newLocation) {
 		location = newLocation
 	},

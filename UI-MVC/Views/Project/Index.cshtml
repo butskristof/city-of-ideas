@@ -7,28 +7,20 @@
 @{
     ViewBag.Title = "Overzicht";
     Layout = "_Layout";
+    var open = ViewBag.open;
+    var showLimited = ViewBag.showLimited;
 }
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $("select.dd_project1").change(function(){
-        var selectedProjectPhase = $(this).children("option:selected").val();
-        console.log("De projectfase is: " + selectedProjectPhase);
-    });
-});
-</script>
-
 <main class="content content--shadow container">
-   
+
     <div class="d-inline-flex w-100 ">
         <div class="form-group dd_project">
-            <select name="dropdownFase" class="dd_project1">
-                <option value="0" class="keuze">Alle projecten</option>
-                <option value="1" class="keuze">Open projecten</option>
-                <option value="2" class="keuze">Gesloten projecten</option>
+            <select name="dropdownFase" class="dd_project1" id="project_statedropdown">
+                <option selected="@(!showLimited)" value="all" class="keuze">Alle projecten</option>
+                <option selected="@(open && showLimited)" value="open" class="keuze">Open projecten</option>
+                <option selected="@(!open && showLimited)" value="closed" class="keuze">Gesloten projecten</option>
             </select>
         </div>
-        
+
         @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Superadmin")))
         {
             <div class="create-project__container">
@@ -36,7 +28,7 @@ $(document).ready(function(){
             </div>
         }
     </div>
-    
+
 
     <div class="card-list mb-4">
         @foreach (var project in Model)
@@ -61,10 +53,9 @@ $(document).ready(function(){
             </div>
         }
     </div>
-    
-    
-
-
-
-
 </main>
+
+@section Scripts
+{
+    <script type="text/javascript" src="/dist/project.entry.js" defer></script>
+}
