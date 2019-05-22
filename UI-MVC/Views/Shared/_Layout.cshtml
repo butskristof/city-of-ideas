@@ -1,6 +1,7 @@
 ﻿@using COI.BL.Domain.User
 @using COI.BL.Organisation
 @using COI.BL.Project
+@using COI.UI.MVC.Authorization
 @using COI.UI.MVC.Helpers
 @using COI.UI.MVC.Models
 @using COI.UI.MVC.Models.DTO.Organisation
@@ -56,7 +57,7 @@
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Contact" asp-action="Index">Contact</a>
             </li>
-            @if (SignInManager.IsSignedIn(User) && (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Superadmin) || User.IsInRole(Roles.Moderator)))
+            @if (SignInManager.IsSignedIn(User) && (User.IsInRole(AuthConstants.Admin) || User.IsInRole(AuthConstants.Superadmin) || User.IsInRole(AuthConstants.Moderator)))
             {
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Management" asp-action="Organisation">Manage</a>
@@ -93,7 +94,8 @@
                 <h3 class="title--light">Projecten</h3>
                 <ul>
                     @{
-                        var footerProjects = ProjectManager.GetLastNProjects(3).ToList();
+                        // TODO get orgId
+                        var footerProjects = ProjectManager.GetLastNProjects(1, 3).ToList();
                     }
                     @foreach (var project in footerProjects)
                     {

@@ -69,7 +69,7 @@ namespace COI.DAL.EF
 			base.OnModelCreating(modelBuilder);
 			
 			modelBuilder.Entity<OrganisationUser>().Property<int>("OrganisationId");
-			modelBuilder.Entity<OrganisationUser>().Property<int>("UserId");
+			modelBuilder.Entity<OrganisationUser>().Property<string>("UserId");
 			modelBuilder.Entity<OrganisationUser>().HasKey("OrganisationId", "UserId");
 		}
 

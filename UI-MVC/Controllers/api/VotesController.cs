@@ -4,6 +4,7 @@ using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.User;
 using COI.BL.User;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
 using COI.UI.MVC.Models.DTO.User;
@@ -12,9 +13,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/{orgId}/[controller]")]
 	public class VotesController : ControllerBase
 	{
 		private readonly IMapper _mapper;
@@ -51,7 +53,7 @@ namespace COI.UI.MVC.Controllers.api
 
 		[AllowAnonymous]
 		[HttpPost]
-		public IActionResult PostNewVote(NewVoteDto vote)
+		public IActionResult PostNewVote(NewVoteDto vote, [FromRoute] string orgId)
 		{
 			try
 			{
@@ -72,7 +74,7 @@ namespace COI.UI.MVC.Controllers.api
 
 				if (newVote != null)
 				{
-					return CreatedAtAction("GetVote", new {id = newVote.VoteId}, _mapper.Map<VoteDto>(newVote));
+					return CreatedAtAction("GetVote", new {orgId, id = newVote.VoteId}, _mapper.Map<VoteDto>(newVote));
 				}
 
 				return BadRequest("No idea, ideation or comment specified.");

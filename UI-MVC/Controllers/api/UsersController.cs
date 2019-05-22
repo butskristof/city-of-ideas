@@ -74,7 +74,8 @@ namespace COI.UI.MVC.Controllers.api
 						input.LastName,
 						input.Gender.Value,
 						input.DateOfBirth.Value,
-						input.PostalCode.Value);
+						input.PostalCode.Value,
+						input.Organisation);
 
 				return Ok(_mapper.Map<UserDto>(newUser));
 			}
@@ -102,6 +103,24 @@ namespace COI.UI.MVC.Controllers.api
 				});
 			}
 			catch (ArgumentException e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+
+		[HttpPost("AddOrganisation")]
+		public async Task<IActionResult> AddOrganisation(OrganisationUserDto orgUserDto)
+		{
+			try
+			{
+				var ret = await _userService.AddUserToOrganisation(orgUserDto.UserId, orgUserDto.Organisation);
+				return Ok(_mapper.Map<UserDto>(ret));
+			}
+			catch (ArgumentException e)
+			{
+				return BadRequest(e.Message);
+			}
+			catch (Exception e)
 			{
 				return BadRequest(e.Message);
 			}

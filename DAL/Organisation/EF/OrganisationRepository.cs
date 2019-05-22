@@ -22,6 +22,11 @@ namespace COI.DAL.Organisation.EF
 			return _ctx.Organisations.Find(organisationId);
 		}
 
+		public BL.Domain.Organisation.Organisation ReadOrganisation(string identifier)
+		{
+			return _ctx.Organisations.FirstOrDefault(o => o.Identifier == identifier);
+		}
+
 		public BL.Domain.Organisation.Organisation CreateOrganisation(
 			BL.Domain.Organisation.Organisation organisation
 		)

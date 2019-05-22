@@ -5,6 +5,7 @@ using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Questionnaire;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Questionnaire;
 using Microsoft.AspNetCore.Authorization;
@@ -12,9 +13,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/{orgId}/[controller]")]
 	public class AnswersController : ControllerBase
 	{
 		private readonly IMapper _mapper;

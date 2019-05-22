@@ -9,6 +9,7 @@ using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Ideation;
 using COI.BL.User;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
@@ -19,9 +20,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/{orgId}/[controller]")]
 	public class CommentsController : ControllerBase
 	{
 		private readonly IMapper _mapper;
@@ -63,7 +65,7 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public async Task<IActionResult> PostNewIdeaComment([FromForm] NewIdeaCommentDto comment)
+		public async Task<IActionResult> PostNewIdeaComment([FromForm] NewIdeaCommentDto comment, [FromRoute] string orgId)
 		{
 			if (comment.Texts.IsNullOrEmpty() && comment.Images.IsNullOrEmpty())
 			{
@@ -109,7 +111,7 @@ namespace COI.UI.MVC.Controllers.api
 
 				return CreatedAtAction(
 					"GetComment", 
-					new {id = createdComment.CommentId},
+					new {orgId, id = createdComment.CommentId},
 					_mapper.Map<CommentDto>(createdComment));
 			}
 			catch (ValidationException ve)
