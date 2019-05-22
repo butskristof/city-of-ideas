@@ -1,4 +1,6 @@
 using AutoMapper;
+using COI.BL.Domain.Organisation;
+using COI.BL.Domain.Relations;
 using COI.BL.Domain.User;
 using COI.UI.MVC.Models.DTO.User;
 
@@ -12,7 +14,10 @@ namespace COI.UI.MVC.Models.Profiles
 				.ForMember(u => u.UserId,
 					opt => opt.MapFrom(
 						m => m.Id));
-
+			
+			CreateMap<OrganisationUser, string>()
+				.ConvertUsing(o => o.Organisation.Identifier);
+			
 			CreateMap<Vote, VoteDto>()
 				.ForMember(v => v.IdeationId,
 					opt => opt.MapFrom(

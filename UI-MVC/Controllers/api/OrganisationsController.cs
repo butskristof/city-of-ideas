@@ -7,6 +7,7 @@ using AutoMapper;
 using COI.BL;
 using COI.BL.Domain.Organisation;
 using COI.BL.Organisation;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Organisation;
 using COI.UI.MVC.Services;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+	[Authorize(Roles = AuthConstants.Superadmin)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]

@@ -9,7 +9,9 @@ using COI.BL;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.Project;
 using COI.BL.Ideation;
+using COI.BL.Organisation;
 using COI.BL.Project;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Project;
@@ -19,24 +21,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(Policy = AuthConstants.AdminPolicy)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/{orgId}/[controller]")]
 	public class ProjectsController : ControllerBase
 	{
 		private readonly IMapper _mapper;
 		private readonly IProjectManager _projectManager;
 		private readonly IIdeationManager _ideationManager;
+		private readonly IOrganisationManager _organisationManager;
 		private readonly IUnitOfWorkManager _unitOfWorkManager;
 		private readonly IFileService _fileService;
 
 		private readonly IProjectPhasesHelper _projectPhasesHelper;
 
-		public ProjectsController(IMapper mapper, IProjectManager projectManager, IIdeationManager ideationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService, IProjectPhasesHelper projectPhasesHelper)
+		public ProjectsController(IMapper mapper, IProjectManager projectManager, IIdeationManager ideationManager, IOrganisationManager organisationManager, IUnitOfWorkManager unitOfWorkManager, IFileService fileService, IProjectPhasesHelper projectPhasesHelper)
 		{
 			_mapper = mapper;
 			_projectManager = projectManager;
 			_ideationManager = ideationManager;
+			_organisationManager = organisationManager;
 			_unitOfWorkManager = unitOfWorkManager;
 			_fileService = fileService;
 			_projectPhasesHelper = projectPhasesHelper;
@@ -44,8 +49,13 @@ namespace COI.UI.MVC.Controllers.api
 
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult GetProjects([FromQuery(Name = "limit")] int numberOfProjectsToGet, [FromQuery(Name = "state")] string stateString)
+		public IActionResult GetProjects(
+			string orgId,
+			[FromQuery(Name = "limit")] int numberOfProjectsToGet, 
+			[FromQuery(Name = "state")] string stateString)
 		{
+			int organisationId = _organisationManager.GetOrganisation(orgId).OrganisationId;
+			
 			IEnumerable<Project> projs = null;
             bool stateValid = Enum.TryParse(stateString, true, out ProjectState state);
             
@@ -54,19 +64,21 @@ namespace COI.UI.MVC.Controllers.api
 				if (stateValid)
 				{
                     projs = _projectManager.GetLastNProjects(
+	                    organisationId,
                         numberOfProjectsToGet, state
                         ).ToList();
 				}
 				else
 				{
                     projs = _projectManager.GetLastNProjects(
+	                    organisationId,
                         numberOfProjectsToGet
                         ).ToList();
 				}
 			}
 			else
 			{
-				projs = _projectManager.GetProjects().ToList();
+				projs = _projectManager.GetProjects(organisationId).ToList();
 			}
 			
 			var response = _mapper.Map<List<ProjectMinDto>>(projs);
@@ -76,10 +88,11 @@ namespace COI.UI.MVC.Controllers.api
 
 		[AllowAnonymous]
 		[HttpGet("last")]
-		public IActionResult GetLastProject([FromQuery(Name = "state")] string stateString)
+		public IActionResult GetLastProject(string orgId, [FromQuery(Name = "state")] string stateString)
 		{
-			Project ret = null;
+			int organisationId = _organisationManager.GetOrganisation(orgId).OrganisationId;
 			
+			Project ret = null;
 			if (!stateString.IsNullOrEmpty())
 			{
                 bool stateValid = Enum.TryParse(stateString, true, out ProjectState state);
@@ -88,11 +101,11 @@ namespace COI.UI.MVC.Controllers.api
                     return BadRequest("Project state invalid.");
                 }
 
-                ret = _projectManager.GetLastProjectWithState(state);
+                ret = _projectManager.GetLastNProjects(organisationId, 1, state).FirstOrDefault();
 			}
 			else
 			{
-				ret = _projectManager.GetLastNProjects(1).FirstOrDefault();
+				ret = _projectManager.GetLastNProjects(organisationId, 1).FirstOrDefault();
 			}
 
 			if (ret == null)
@@ -131,7 +144,7 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public async Task<IActionResult> PostNewProject([FromForm]NewProjectDto newProj)
+		public async Task<IActionResult> PostNewProject([FromForm]NewProjectDto newProj, [FromRoute] string orgId)
 		{
 			try
 			{
@@ -174,7 +187,7 @@ namespace COI.UI.MVC.Controllers.api
 
 				return CreatedAtAction(
 					"GetProject", 
-					new {id = p.ProjectId},
+					new {orgId, id = p.ProjectId},
 					_mapper.Map<ProjectDto>(p));
 			}
 			catch (ValidationException ve)

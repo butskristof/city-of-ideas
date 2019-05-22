@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using COI.BL.Domain.Common;
 
 namespace COI.UI.MVC.Models.DTO.User
@@ -13,5 +14,6 @@ namespace COI.UI.MVC.Models.DTO.User
 		public DateTime DateOfBirth { get; set; }
 		public int PostalCode { get; set; }
 		public string ProfilePictureLocation { get; set; }
+		public List<string> Organisations { get; set; }
 	}
 }

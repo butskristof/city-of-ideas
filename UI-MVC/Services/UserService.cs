@@ -6,7 +6,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using COI.BL.Domain.Common;
+using COI.BL.Domain.Relations;
 using COI.BL.Domain.User;
+using COI.BL.Organisation;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +28,11 @@ namespace COI.UI.MVC.Services
 			string lastName,
 			Gender gender,
 			DateTime dateOfBirth,
-			int postalCode);
+			int postalCode,
+			string organisation);
+
+		Task<User> AddUserToOrganisation(string userId, string organisation);
+		
 		Task<string> Login(string email, string password);
 		Task<bool> Logout();
 
@@ -34,12 +41,14 @@ namespace COI.UI.MVC.Services
 	
 	public class UserService : IUserService
 	{
+		private readonly IOrganisationManager _organisationManager;
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
 		private readonly IConfiguration _config;
 
-		public UserService(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config)
+		public UserService(IOrganisationManager organisationManager, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config)
 		{
+			_organisationManager = organisationManager;
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_config = config;
@@ -75,9 +84,9 @@ namespace COI.UI.MVC.Services
 
 			var claims = new[]
 			{
-				new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+				new Claim(JwtRegisteredClaimNames.Sub, user.Id),
 				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-				new Claim(JwtRegisteredClaimNames.UniqueName, user.Id), 
+				new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName), 
 			};
 
 			var token = new JwtSecurityToken(_config["Jwt:Issuer"],
@@ -93,8 +102,15 @@ namespace COI.UI.MVC.Services
 			string lastName, 
 			Gender gender,
 			DateTime dateOfBirth, 
-			int postalCode)
+			int postalCode,
+			string organisation)
 		{
+			var org = _organisationManager.GetOrganisation(organisation);
+			if (org == null)
+			{
+				throw new ArgumentException("Organisation not found.", "organisation");
+			}
+			
 			var newUser = new User()
 			{
 				UserName = email,
@@ -105,6 +121,10 @@ namespace COI.UI.MVC.Services
 				DateOfBirth = dateOfBirth,
 				PostalCode = postalCode
 			};
+			newUser.Organisations.Add(new OrganisationUser()
+			{
+				User = newUser, Organisation = org
+			});
 			try
 			{
 				ValidateUser(newUser);
@@ -126,12 +146,46 @@ namespace COI.UI.MVC.Services
 
 			if (userCreationResult.Succeeded)
 			{
-				await _userManager.AddToRoleAsync(newUser, Roles.User);
+				await _userManager.AddToRoleAsync(newUser, AuthConstants.User);
 				return newUser;
 			}
 
 			string msg = string.Join(";", userCreationResult.Errors.Select(x => x.Description));
 			throw new Exception(msg);
+		}
+
+		public async Task<User> AddUserToOrganisation(string userId, string organisation)
+		{
+			var org = _organisationManager.GetOrganisation(organisation);
+			if (org == null)
+			{
+				throw new ArgumentException("Organisation not found.", "organisation");
+			}
+
+			var user = await _userManager.FindByIdAsync(userId);
+			if (user == null)
+			{
+				throw new ArgumentException("User not found.", "userId");
+			}
+			
+			if (org.Users.Any(ou => ou.User.Id == userId)) // user already in org
+			{
+				return user; 
+			}
+
+			
+			user.Organisations.Add(new OrganisationUser()
+			{
+				User = user, Organisation = org
+			});
+
+			var updateResult = await _userManager.UpdateAsync(user);
+			if (updateResult.Succeeded)
+			{
+                return user;
+			}
+
+			throw new Exception("Something went wrong when updating the user.");
 		}
 
 		public async Task<string> Login(string email, string password)

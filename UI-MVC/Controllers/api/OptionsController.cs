@@ -5,6 +5,7 @@ using AutoMapper;
 using COI.BL;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Questionnaire;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Questionnaire;
 using Microsoft.AspNetCore.Authorization;
@@ -12,9 +13,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/{orgId}/[controller]")]
 	public class OptionsController : ControllerBase
 	{
 		private readonly IMapper _mapper;
@@ -58,7 +60,7 @@ namespace COI.UI.MVC.Controllers.api
 		}
 
 		[HttpPost]
-		public IActionResult PostNewOption(NewOptionDto newOption)
+		public IActionResult PostNewOption(NewOptionDto newOption, [FromRoute] string orgId)
 		{
 			try
 			{
@@ -69,7 +71,7 @@ namespace COI.UI.MVC.Controllers.api
 
 				return CreatedAtAction(
 					"GetOption",
-					new {id = createdOption.OptionId},
+					new {orgId, id = createdOption.OptionId},
 					_mapper.Map<OptionMinDto>(createdOption));
 			}
 			catch (ValidationException ve)

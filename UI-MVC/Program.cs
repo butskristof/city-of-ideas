@@ -24,7 +24,16 @@ namespace COI.UI.MVC
                     var serviceProvider = services.GetRequiredService<IServiceProvider>();
                     var conf = services.GetRequiredService<IConfiguration>();
 
-                    RoleSeed.CreateRoles(serviceProvider, conf).Wait();
+                    try
+                    {
+                        RoleSeed.CreateRoles(serviceProvider, conf).Wait();
+                    }
+                    catch (Exception e)
+                    {
+                        var logger = services.GetRequiredService<ILogger<Program>>();
+                        logger.LogError(e.Message, "Error occurred in seeding database.");
+                    }
+
                 }
                 catch (Exception e)
                 {
