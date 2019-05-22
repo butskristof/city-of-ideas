@@ -4,6 +4,7 @@ using AutoMapper;
 using COI.BL;
 using COI.BL.Domain.Project;
 using COI.BL.Project;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Project;
@@ -12,9 +13,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(Policy = AuthConstants.AdminPolicy)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/{orgId}/[controller]")]
 	public class ProjectPhasesController : ControllerBase
 	{
 		private readonly IMapper _mapper;
@@ -50,7 +52,7 @@ namespace COI.UI.MVC.Controllers.api
 		}
 
 		[HttpPost]
-		public IActionResult PostNewProjectPhase(NewProjectPhaseDto newPhase)
+		public IActionResult PostNewProjectPhase(NewProjectPhaseDto newPhase, [FromRoute] string orgId)
 		{
 			try
 			{
@@ -65,7 +67,7 @@ namespace COI.UI.MVC.Controllers.api
 
 				return CreatedAtAction(
 					"GetProjectPhase", 
-					new {id = phase.ProjectPhaseId},
+					new {orgId, id = phase.ProjectPhaseId},
 					_mapper.Map<ProjectPhaseDto>(phase));
 			}
 			catch (ValidationException ve)

@@ -25,7 +25,8 @@ namespace COI.UI.MVC.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            IEnumerable<Project> projects = _projectManager.GetProjects().ToList();
+            // TODO get orgId
+            IEnumerable<Project> projects = _projectManager.GetProjects(1).ToList();
             return View(projects);
         }
 

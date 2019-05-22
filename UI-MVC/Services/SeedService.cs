@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.Configuration;
 using COI.BL.Application;
 using COI.BL.Domain.Common;
 using COI.BL.Domain.Ideation;
@@ -13,6 +14,10 @@ using COI.BL.Ideation;
 using COI.BL.Organisation;
 using COI.BL.Project;
 using COI.BL.Questionnaire;
+using COI.BL.User;
+using COI.UI.MVC.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace COI.UI.MVC.Services
 {
@@ -20,12 +25,14 @@ namespace COI.UI.MVC.Services
 	{
 		Task Seed();
 	}
+
 	public class SeedService : ISeedService
 	{
 		private readonly IOrganisationManager _organisationManager;
 		private readonly IUserService _userService;
 		private readonly IProjectManager _projectManager;
 		private readonly IIdeationManager _ideationManager;
+		private readonly IUserManager _userManager;
 		private readonly IQuestionnaireManager _questionnaireManager;
 		private readonly ICityOfIdeasController _cityOfIdeasController;
 
@@ -40,12 +47,13 @@ namespace COI.UI.MVC.Services
 			"BOMEN BOMEN BOMEN!!!!", "Zakkenvullers"
 		};
 
-		public SeedService(IOrganisationManager organisationManager, IUserService userService, IProjectManager projectManager, IIdeationManager ideationManager, IQuestionnaireManager questionnaireManager, ICityOfIdeasController cityOfIdeasController)
+		public SeedService(IOrganisationManager organisationManager, IUserService userService, IProjectManager projectManager, IIdeationManager ideationManager, IUserManager userManager, IQuestionnaireManager questionnaireManager, ICityOfIdeasController cityOfIdeasController)
 		{
 			_organisationManager = organisationManager;
 			_userService = userService;
 			_projectManager = projectManager;
 			_ideationManager = ideationManager;
+			_userManager = userManager;
 			_questionnaireManager = questionnaireManager;
 			_cityOfIdeasController = cityOfIdeasController;
 		}
@@ -57,27 +65,11 @@ namespace COI.UI.MVC.Services
 			{
 				return;
 			}
-			
-			/*
-			 */
 
 			try
 			{
 				Random rnd = new Random();
 				
-				#region Users
-
-				List<User> users = new List<User>();
-
-				users.Add(await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts", Gender.Male, new DateTime(1996, 6, 2), 2222));
-				users.Add(await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan", Gender.Male, new DateTime(1996, 6, 2), 2222));
-				users.Add(await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns", Gender.Male, new DateTime(1996, 6, 2), 2222));
-				users.Add(await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek", Gender.Male, new DateTime(1996, 6, 2), 2222));
-				users.Add(await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters", Gender.Male, new DateTime(1996, 6, 2), 2222));
-				users.Add(await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters", Gender.Female, new DateTime(1996, 6, 2), 2222));
-
-				#endregion
-
 				#region Organisations
 
 				List<Organisation> organisations = new List<Organisation>();
@@ -87,6 +79,39 @@ namespace COI.UI.MVC.Services
 					"Centraal gelegen district in de provincie Antwerpen", 
 					"#d11f38"));
 				_organisationManager.AddImageToOrganisation(organisations.Last().OrganisationId, "/img/pexels-photo-167676.jpeg");
+				_organisationManager.AddLogoToOrganisation(organisations.Last().OrganisationId, "/img/logo_antwerp.jpg");
+				organisations.Add(_organisationManager.AddOrganisation("Brussel", 
+					"brussels", 
+					"Hoofdstad", 
+					"#ffffff"));
+				_organisationManager.AddImageToOrganisation(organisations.Last().OrganisationId, "/img/brussel.jpeg");
+				_organisationManager.AddLogoToOrganisation(organisations.Last().OrganisationId, "/img/logo_brussels.png");
+
+				#endregion
+				
+				#region Users
+
+				List<User> users = new List<User>();
+
+				users.Add(await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
+				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_1.jpg");
+				
+				users.Add(await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
+				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_3.jpg");
+				
+				users.Add(await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
+				_userManager.AddPictureLocationToUser(users[2].Id, "/img/Profile_4.jpg");
+				
+				users.Add(await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
+				_userManager.AddPictureLocationToUser(users[3].Id, "/img/Profile_5.jpg");
+				
+				users.Add(await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
+				_userManager.AddPictureLocationToUser(users[4].Id, "/img/Profile_6.jpg");
+				
+				users.Add(await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters", Gender.Female, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
+				_userManager.AddPictureLocationToUser(users[5].Id, "/img/Profile_2.jpg");
+
+				await _userService.AddUserToOrganisation(users[1].Id, organisations[1].Identifier);
 
 				#endregion
 
@@ -472,6 +497,38 @@ namespace COI.UI.MVC.Services
 				options.Add(_questionnaireManager.AddOption("Neen", questions[1].QuestionId));
 				questions.Add(_questionnaireManager.AddQuestion("Wat vindt u van het design van onze website",
 					true, QuestionType.OpenQuestion, questionnaires[0].QuestionnaireId));
+				#endregion
+
+				#region Questionnaire 2
+				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging elektische steps", "Graag hadden we mee informatie ingewonnen over de populariteit van elektrische steps.", phases[3].ProjectPhaseId));
+				
+				questions.Add(_questionnaireManager.AddQuestion("Welke van onderstaande diensten heeft u reeds gebruikt?", true, QuestionType.MultipleChoice, questionnaires.Last().QuestionnaireId));
+				options.Add(_questionnaireManager.AddOption("BIRD", questions.Last().QuestionId));
+				options.Add(_questionnaireManager.AddOption("Lime", questions.Last().QuestionId));
+				options.Add(_questionnaireManager.AddOption("Poppy", questions.Last().QuestionId));
+				
+				questions.Add(_questionnaireManager.AddQuestion("Verplicht een helm dragen?", true, QuestionType.SingleChoice, questionnaires.Last().QuestionnaireId));
+				options.Add(_questionnaireManager.AddOption("Ja", questions.Last().QuestionId));
+				options.Add(_questionnaireManager.AddOption("Neen", questions.Last().QuestionId));
+				
+				questions.Add(_questionnaireManager.AddQuestion("Wat is uw mening over de elektrische step in het straatbeeld?",
+					true, QuestionType.OpenQuestion, questionnaires.Last().QuestionnaireId));
+
+				#endregion
+				
+				#region Questionnaire 3
+				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging uitbreiding haven", "Graag hadden we uw mening gehoord over de uitbreiding van de haven", phases[1].ProjectPhaseId));
+				
+				questions.Add(_questionnaireManager.AddQuestion("Wat vindt u van de uitbreiding van de haven?", true, QuestionType.OpenQuestion, questionnaires.Last().QuestionnaireId));
+				
+				questions.Add(_questionnaireManager.AddQuestion("Waaraan moeten we hoogste prioriteit geven?", true, QuestionType.Dropdown, questionnaires.Last().QuestionnaireId));
+				options.Add(_questionnaireManager.AddOption("Doorvoer verhogen", questions.Last().QuestionId));
+				options.Add(_questionnaireManager.AddOption("Overlast minimaliseren", questions.Last().QuestionId));
+				options.Add(_questionnaireManager.AddOption("Drugstraffiek aanpakken", questions.Last().QuestionId));
+				
+				questions.Add(_questionnaireManager.AddQuestion("Wat zou u doen om de vervuiling door de haven te verminderen?",
+					true, QuestionType.OpenQuestion, questionnaires.Last().QuestionnaireId));
+
 				#endregion
 
 				#endregion

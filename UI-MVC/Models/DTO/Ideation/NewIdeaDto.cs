@@ -15,7 +15,6 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public List<IFormFile> Videos { get; set; }
 		public List<string> Locations { get; set; }
 		public List<string> Links { get; set; }
-		// TODO add user createdby
 
 		public NewIdeaDto()
 		{

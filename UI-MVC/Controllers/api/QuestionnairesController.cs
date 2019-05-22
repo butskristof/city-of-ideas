@@ -6,6 +6,7 @@ using AutoMapper;
 using COI.BL;
 using COI.BL.Domain.Questionnaire;
 using COI.BL.Questionnaire;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Questionnaire;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +14,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/{orgId}/[controller]")]
 	public class QuestionnairesController : ControllerBase
 	{
 		private readonly IMapper _mapper;
@@ -60,7 +62,7 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public IActionResult PostNewQuestionnaire(NewQuestionnaireDto newQuestionnaire)
+		public IActionResult PostNewQuestionnaire(NewQuestionnaireDto newQuestionnaire, [FromRoute] string orgId)
 		{
 			try
 			{
@@ -70,7 +72,7 @@ namespace COI.UI.MVC.Controllers.api
 
 				return CreatedAtAction(
 					"GetQuestionnaire", 
-					new {id = questionnaire.QuestionnaireId},
+					new {orgId, id = questionnaire.QuestionnaireId},
 					_mapper.Map<QuestionnaireDto>(questionnaire)
 				);
 			}

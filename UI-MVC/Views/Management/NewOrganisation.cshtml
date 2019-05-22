@@ -1,3 +1,4 @@
+@using COI.UI.MVC.Authorization
 @using COI.UI.MVC.Models
 
 @{
@@ -14,7 +15,7 @@
         <div class="col-md-3">
             <ul class="nav nav-pills flex-column">
                 
-                @if (User.IsInRole(Roles.Superadmin) || User.IsInRole(Roles.Admin))
+                @if (User.IsInRole(AuthConstants.Superadmin) || User.IsInRole(AuthConstants.Admin))
                 {
                     <li class="nav-item">
                         <a
@@ -22,7 +23,7 @@
                             asp-action="Organisation">Organisatie</a>
                     </li>
                 }
-                @if (User.IsInRole(Roles.Superadmin))
+                @if (User.IsInRole(AuthConstants.Superadmin))
                 {
                     <li class="nav-item">
                         <a

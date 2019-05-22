@@ -19,7 +19,8 @@ namespace COI.UI.MVC.Controllers
         
         public IActionResult Index()
         {
-            IEnumerable<Project> projects = _projectManager.GetLastNProjects(6).ToList();
+            // TODO get orgId
+            IEnumerable<Project> projects = _projectManager.GetLastNProjects(1, 6).ToList();
             return View(projects);
         }
 

@@ -21,9 +21,11 @@ using COI.DAL.Questionnaire;
 using COI.DAL.Questionnaire.EF;
 using COI.DAL.User;
 using COI.DAL.User.EF;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -63,13 +65,12 @@ namespace COI.UI.MVC
 			if (HostingEnvironment.IsProduction())
 			{
 				// get environment variables from configuration files
-				string server = Configuration["prod:SQL_IP"];
-				string dbname = Configuration["prod:SQL_DB"];
-				string user = Configuration["prod:SQL_USER"];
-				string pw = Configuration["prod:SQL_PW"];
+				var server = Configuration["prod:SQL_IP"];
+				var dbname = Configuration["prod:SQL_DB"];
+				var user = Configuration["prod:SQL_USER"];
+				var pw = Configuration["prod:SQL_PW"];
 				// build connection string
-				string connectionString = String.Format("server={0};database={1};user={2};password={3}",
-					server, dbname, user, pw);
+				string connectionString = $"server={server};database={dbname};user={user};password={pw}";
                 services.AddDbContext<CityOfIdeasDbContext>(options =>
                     options
 	                    .UseMySql(connectionString)
@@ -129,6 +130,19 @@ namespace COI.UI.MVC
 			
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(AuthConstants.UserInOrgOrSuperadmin, 
+					policy => policy.Requirements.Add(new UserInOrgOrSuperadminRequirement())
+                );
+				options.AddPolicy(AuthConstants.AdminPolicy, 
+					policy => policy.RequireRole(AuthConstants.Superadmin, AuthConstants.Admin));
+				options.AddPolicy(AuthConstants.ModeratorPolicy, 
+					policy => policy.RequireRole(AuthConstants.Superadmin, AuthConstants.Admin, AuthConstants.Moderator));
+			});
+
+			services.AddScoped<IAuthorizationHandler, UserInOrgHandler>();
+			services.AddScoped<IAuthorizationHandler, SuperadminHandler>();
 			
 			#endregion
 

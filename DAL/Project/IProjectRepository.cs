@@ -5,9 +5,9 @@ namespace COI.DAL.Project
 {
 	public interface IProjectRepository
 	{
-		IEnumerable<BL.Domain.Project.Project> ReadProjects();
-		IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int numberOfProjectsToGet);
-		IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int numberOfProjectsToGet, ProjectState state);
+		IEnumerable<BL.Domain.Project.Project> ReadProjectsForOrganisation(int organisationId);
+		IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int organisationId, int numberOfProjectsToGet);
+		IEnumerable<BL.Domain.Project.Project> ReadLastNProjects(int organisationId, int numberOfProjectsToGet, ProjectState state);
 		BL.Domain.Project.Project ReadLastProjectWithState(ProjectState state);
 		BL.Domain.Project.Project ReadProject(int id);
 		IEnumerable<ProjectPhase> ReadPhasesForProject(int projectId);

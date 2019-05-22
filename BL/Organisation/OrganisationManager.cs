@@ -24,6 +24,11 @@ namespace COI.BL.Organisation
 			return _organisationRepository.ReadOrganisation(orgId);
 		}
 
+		public Domain.Organisation.Organisation GetOrganisation(string identifier)
+		{
+			return _organisationRepository.ReadOrganisation(identifier);
+		}
+
 		public Domain.Organisation.Organisation AddOrganisation(string name, string identifier, string description, string color)
 		{
 			Domain.Organisation.Organisation org = new Domain.Organisation.Organisation()

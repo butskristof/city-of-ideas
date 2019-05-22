@@ -25,6 +25,8 @@ namespace COI.UI.MVC.Models.DTO.User
 		[Range(1000,9999)]
 		public int? PostalCode { get; set; }
 		
+		[Required] public string Organisation { get; set; }
+		
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 		

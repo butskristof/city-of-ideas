@@ -9,6 +9,7 @@ using COI.BL;
 using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Ideation;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
@@ -19,9 +20,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(Policy = AuthConstants.AdminPolicy)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/{orgId}/[controller]")]
 	public class IdeationsController : ControllerBase
 	{
 		private readonly IMapper _mapper;
@@ -75,7 +77,7 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public async Task<IActionResult> PostNewIdeation([FromForm]NewIdeationDto ideation)
+		public async Task<IActionResult> PostNewIdeation([FromForm]NewIdeationDto ideation, [FromRoute] string orgId)
 		{
 			if (ideation.Texts.IsNullOrEmpty() && ideation.Images.IsNullOrEmpty())
 			{
@@ -121,7 +123,7 @@ namespace COI.UI.MVC.Controllers.api
 				
 				return CreatedAtAction(
 					"GetIdeation", 
-					new {id = createdIdeation.IdeationId},
+					new {orgId, id = createdIdeation.IdeationId},
 					_mapper.Map<IdeationDto>(createdIdeation));
 			}
 			catch (ValidationException ve)

@@ -10,6 +10,7 @@ using COI.BL.Application;
 using COI.BL.Domain.Ideation;
 using COI.BL.Ideation;
 using COI.BL.User;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Helpers;
 using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.Ideation;
@@ -20,9 +21,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
     [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/{orgId}/[controller]")]
 	public class IdeasController : ControllerBase
 	{
 		private readonly IMapper _mapper;
@@ -71,7 +73,7 @@ namespace COI.UI.MVC.Controllers.api
 		}
 		
 		[HttpPost]
-		public async Task<IActionResult> PostNewIdea([FromForm]NewIdeaDto idea)
+		public async Task<IActionResult> PostNewIdea([FromForm]NewIdeaDto idea, [FromRoute] string orgId)
 		{
 			if (idea.Texts.IsNullOrEmpty() && idea.Images.IsNullOrEmpty())
 			{
@@ -118,7 +120,7 @@ namespace COI.UI.MVC.Controllers.api
 				
 				return CreatedAtAction(
 					"GetIdea", 
-					new {id = createdIdea.IdeaId},
+					new {orgId, id = createdIdea.IdeaId},
 					_mapper.Map<IdeaMinDto>(createdIdea));
 			}
 			catch (ValidationException ve)
