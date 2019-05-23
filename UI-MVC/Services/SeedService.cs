@@ -94,22 +94,22 @@ namespace COI.UI.MVC.Services
 				List<User> users = new List<User>();
 
 				users.Add(await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_1.jpg");
+				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_1.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_3.jpg");
+				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_3.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users[2].Id, "/img/Profile_4.jpg");
+				_userManager.AddPictureLocationToUser(users[2].Id, "/img/Profile_4.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users[3].Id, "/img/Profile_5.jpg");
+				_userManager.AddPictureLocationToUser(users[3].Id, "/img/Profile_5.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users[4].Id, "/img/Profile_6.jpg");
+				_userManager.AddPictureLocationToUser(users[4].Id, "/img/Profile_6.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters", Gender.Female, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users[5].Id, "/img/Profile_2.jpg");
+				_userManager.AddPictureLocationToUser(users[5].Id, "/img/Profile_2.jpeg");
 
 				await _userService.AddUserToOrganisation(users[1].Id, organisations[1].Identifier);
 
