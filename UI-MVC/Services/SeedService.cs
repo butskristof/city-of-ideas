@@ -83,7 +83,7 @@ namespace COI.UI.MVC.Services
 				organisations.Add(_organisationManager.AddOrganisation("Brussel", 
 					"brussels", 
 					"Hoofdstad", 
-					"#ffffff"));
+					"#00027f"));
 				_organisationManager.AddImageToOrganisation(organisations.Last().OrganisationId, "/img/brussel.jpeg");
 				_organisationManager.AddLogoToOrganisation(organisations.Last().OrganisationId, "/img/logo_brussels.png");
 
