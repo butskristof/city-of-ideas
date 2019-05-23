@@ -221,16 +221,12 @@ namespace COI.UI.MVC
 			app.UseCookiePolicy();
 
 			app.UseAuthentication();
-
+			
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
 					"default",
 					"{controller=Home}/{action=Index}/{id?}");
-//				routes.MapRoute(
-//					"areas",
-//					"{area:exists}/{controller=Home}/test/{action=Index}/{id?}"
-//				);
 			});
 			
 		}

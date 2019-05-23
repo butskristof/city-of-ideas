@@ -1,7 +1,9 @@
 @using Microsoft.AspNetCore.Identity
 @using COI.BL.Domain.User
+@using COI.UI.MVC.Helpers
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject IOrganisationsHelper OrganisationsHelper;
 
 <ul class="nav navbar-nav navbar-right">
     <div class="nav-inherit">
@@ -28,12 +30,12 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link nav-login" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            <a class="nav-link nav-login" id="manage" href="@("/" + OrganisationsHelper.GetOrganisationIdentifier() + "/Account/Manage")" title="Manage">
                 <i class="fas fa-user"></i> @UserManager.GetUserName(User)
             </a>
         </li>
         <li class="nav-item">
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Context.Request.Path">
                 <button type="submit" class="nav-link nav-login">
                     <i class="fas fa-sign-in-alt"></i> Logout
                 </button>

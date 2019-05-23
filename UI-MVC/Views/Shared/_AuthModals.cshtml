@@ -37,7 +37,7 @@
                                 </a>
                             </div>
                         </form>
-                        <form asp-area="Identity" asp-page="/Account/ExternalLogin" method="post">
+                        <form asp-area="Identity" asp-page="/Account/ExternalLogin" asp-route-returnUrl="@Context.Request.Path" method="post">
                             <button class="btn btn__witteAchtergrond btn__popupFacebook"
                                     type="submit" name="provider" value="Facebook">
                                 <i class="fab fa-facebook-f popup__icoon" id="fb"></i>
