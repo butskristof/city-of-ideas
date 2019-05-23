@@ -33,7 +33,7 @@ Page.onLoad(async () => {
 			let response = null;
 			if (action === "update") {
 				response = await OrganisationRepository.changeOrganisation(
-					Page.getOrganisationId(),
+					Page.getOrganisation().OrganisationId,
 					formData.get('name'),
 					formData.get('identifier'),
 					formData.get('color'),
@@ -69,7 +69,7 @@ Page.onLoad(async () => {
 				if (action === "update") {
 					orgEditor.getForm().showSuccess("De update is geslaagd")
 				} else {
-					Page.routeTo("/organisation");
+					Page.routeTo("/");
 				}
 			});
 		});

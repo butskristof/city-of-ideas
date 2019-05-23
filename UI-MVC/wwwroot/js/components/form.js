@@ -14,17 +14,19 @@ export default {
 				}, false);
 			},
 			// Shows an error at the top of the form in the .form__errors
-			showError(msg) {
+			showError(msg, scroll = true) {
 				const res = Page.query(".form__errors", form);
 				if (res != null) {
 					const errorLI = document.createElement("LI");
 					const textNode = document.createTextNode(msg);
 					errorLI.appendChild(textNode);
 					res.appendChild(errorLI);
-					Page.scrollTo(errorLI);
+					if (scroll) {
+						Page.scrollTo(errorLI);
+					}
 				}
 			},
-			showSuccess(msg) {
+			showSuccess(msg, scroll = true) {
 				const res = Page.query(".form__errors", form);
 				if (res != null) {
 					const errorLI = document.createElement("LI");
@@ -35,7 +37,9 @@ export default {
 					setTimeout(() => {
 						this.clearErrors();
 					}, 2000);
-					Page.scrollTo(errorLI);
+					if (scroll) {
+						Page.scrollTo(errorLI);
+					}
 				}
 			},
 			// Uses a list of errors from dotnet
@@ -46,11 +50,13 @@ export default {
 			clear() {
 				// Remove errors
 				this.clearErrors();
-				// Remove data from fields
-				const inputs = Page.queryAll("input", form);
-				inputs.forEach(input => input.value = "");
-				const textareas = Page.queryAll("textarea", form);
-				textareas.forEach(textarea => textarea.value = "");
+				setTimeout(() => {
+					// Remove data from fields
+					const inputs = Page.queryAll("input", form);
+					inputs.forEach(input => input.value = "");
+					const textareas = Page.queryAll("textarea", form);
+					textareas.forEach(textarea => textarea.value = "");
+				}, 100);
 			},
 			clearErrors() {
 				const errorList = Page.query(".form__errors", form);
@@ -60,16 +66,16 @@ export default {
 					}
 				}
 			},
-			async handleResponse(response, onSuccess) {
+			async handleResponse(response, onSuccess, scroll = true) {
 				if (response.ok) {
 					onSuccess()
 				} else {
 					console.log(response);
 					const responseObject = await response.json();
 					if (responseObject.errors) {
-						this.showErrors(responseObject.errors);
+						this.showErrors(responseObject.errors, scroll);
 					} else {
-						this.showError(responseObject);
+						this.showError(responseObject, scroll);
 					}
 				}
 			}

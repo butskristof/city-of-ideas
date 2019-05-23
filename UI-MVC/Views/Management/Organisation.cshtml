@@ -25,7 +25,7 @@
                     <li class="nav-item">
                         <a
                             class="nav-link nav-item__background active"
-                            asp-action="Organisation">Organisatie</a>
+                            asp-action="Organisation" asp-route-orgId="@organisation.Identifier">Organisatie</a>
                     </li>
                 }
                 @if (User.IsInRole(AuthConstants.Superadmin))
@@ -33,7 +33,7 @@
                     <li class="nav-item">
                         <a
                             class="nav-link nav-item__background"
-                            asp-action="NewOrganisation">Nieuwe Organisatie</a>
+                            asp-action="NewOrganisation" asp-route-orgId="@organisation.Identifier">Nieuwe Organisatie</a>
                     </li>
                 }
             </ul>

@@ -7,7 +7,7 @@ export default {
         }, false, true);
     },
 	register (
-		firstName, lastName, email, password, password_re, gender, postalCode, dateofbirth
+		firstName, lastName, email, password, password_re, gender, postalCode, dateofbirth, organisation
 	) {
     	console.log(arguments);
     	return Repository.post("/api/users/register", {
@@ -18,7 +18,8 @@ export default {
 			ConfirmPassword: password_re,
 			postalCode: postalCode,
 			gender: gender,
-			DateOfBirth: dateofbirth
+			DateOfBirth: dateofbirth,
+			organisation
 		}, false, true);
 	}
 };
