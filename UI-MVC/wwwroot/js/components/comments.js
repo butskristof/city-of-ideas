@@ -32,11 +32,12 @@ export default {
 				const textContent = this.getTextContent(comment);
 				const images = this.getImagesContent(comment);
 				const videosContent = this.getVideosContent(comment);
+				console.log(comment);
 				newComment.innerHTML = `
 					<div class="comment__profile">
 						<div
 						  class="comment__profile-picture"
-						  style="background-image: url('/img/profile.jpeg')"
+						  style="background-image: url('${comment.user.profilePictureLocation}')"
 						></div>
 					  </div>
 					  <div class="comment__content">
