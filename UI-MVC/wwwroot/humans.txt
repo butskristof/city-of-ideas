@@ -1,0 +1,22 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Emre Arslan -- System Engineer
+    Jordy Bruyns -- Front-end developer
+    Kristof Buts -- Backend developer
+    Ian Jakubek -- Front-end developer
+    Wout Peeters -- Android developer
+    Jana Wouters -- Android developer
+
+# THANKS
+
+	The Tree Company
+	Karel de Grote University College
+
+# TECHNOLOGY COLOPHON
+
+	.NET Core, EF Core, Identity
+	HTML5, CSS3, ES6
+	Node + npm
