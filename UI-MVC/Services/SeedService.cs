@@ -83,7 +83,7 @@ namespace COI.UI.MVC.Services
 				organisations.Add(_organisationManager.AddOrganisation("Brussel", 
 					"brussels", 
 					"Hoofdstad", 
-					"#0000FF"));
+					"#00027f"));
 				_organisationManager.AddImageToOrganisation(organisations.Last().OrganisationId, "/img/brussel.jpeg");
 				_organisationManager.AddLogoToOrganisation(organisations.Last().OrganisationId, "/img/logo_brussels.png");
 
@@ -94,22 +94,22 @@ namespace COI.UI.MVC.Services
 				List<User> users = new List<User>();
 
 				users.Add(await _userService.RegisterNewUser("coi@kristofbuts.be", "testtest1", "Kristof", "Buts", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_1.jpg");
+				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_1.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("emre@kristofbuts.be", "testtest1", "Emre", "Arslan", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_3.jpg");
+				_userManager.AddPictureLocationToUser(users.Last().Id, "/img/Profile_3.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("jordy@kristofbuts.be", "testtest1", "Jordy", "Bruyns", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users[2].Id, "/img/Profile_4.jpg");
+				_userManager.AddPictureLocationToUser(users[2].Id, "/img/Profile_4.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("ian@kristofbuts.be", "testtest1", "Ian", "Jakubek", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users[3].Id, "/img/Profile_5.jpg");
+				_userManager.AddPictureLocationToUser(users[3].Id, "/img/Profile_5.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("wout@kristofbuts.be", "testtest1", "Wout", "Peeters", Gender.Male, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users[4].Id, "/img/Profile_6.jpg");
+				_userManager.AddPictureLocationToUser(users[4].Id, "/img/Profile_6.jpeg");
 				
 				users.Add(await _userService.RegisterNewUser("jana@kristofbuts.be", "testtest1", "Jana", "Wouters", Gender.Female, new DateTime(1996, 6, 2), 2222, organisations[0].Identifier));
-				_userManager.AddPictureLocationToUser(users[5].Id, "/img/Profile_2.jpg");
+				_userManager.AddPictureLocationToUser(users[5].Id, "/img/Profile_2.jpeg");
 
 				await _userService.AddUserToOrganisation(users[1].Id, organisations[1].Identifier);
 
@@ -502,7 +502,7 @@ namespace COI.UI.MVC.Services
 				#endregion
 
 				#region Questionnaire 2
-				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging elektische steps", "Graag hadden we mee informatie ingewonnen over de populariteit van elektrische steps.", phases[3].ProjectPhaseId));
+				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging elektische steps", "Graag hadden we mee informatie ingewonnen over de populariteit van elektrische steps.", phases[9].ProjectPhaseId));
 				
 				questions.Add(_questionnaireManager.AddQuestion("Welke van onderstaande diensten heeft u reeds gebruikt?", true, QuestionType.MultipleChoice, questionnaires.Last().QuestionnaireId));
 				options.Add(_questionnaireManager.AddOption("BIRD", questions.Last().QuestionId));
@@ -519,7 +519,7 @@ namespace COI.UI.MVC.Services
 				#endregion
 				
 				#region Questionnaire 3
-				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging uitbreiding haven", "Graag hadden we uw mening gehoord over de uitbreiding van de haven", phases[1].ProjectPhaseId));
+				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging uitbreiding haven", "Graag hadden we uw mening gehoord over de uitbreiding van de haven", phases[3].ProjectPhaseId));
 				
 				questions.Add(_questionnaireManager.AddQuestion("Wat vindt u van de uitbreiding van de haven?", true, QuestionType.OpenQuestion, questionnaires.Last().QuestionnaireId));
 				

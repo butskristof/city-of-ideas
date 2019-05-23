@@ -5,18 +5,17 @@ This .NET Core solution contains the main part of the City of Ideas project we m
 
 ## Technology
 Following technologies are used:
-* .NET Core 2.2 SDK
+* .NET Core 2.2 SDK with EF Core and ASP.NET Identity
 * JetBrains Rider (tested in Visual Studio)
 * NodeJS
+* webpack
+* Bootstrap 4
 
 ## Configuration
 To run the project, complete the following steps:
 * build the whole solution
-* create a new, empty 'db' folder in the root of the solution
-* run the UI-CA project
-	* This will initialise the Sqlite database
 * navigate to the UI-MVC project
-	* create a `coi_env.json` file to configure some runtime parameters. You can find the required layout below.
+	* create a `coi_env.json` file to configure runtime parameters. You can find the required layout below.
 	* run `npm install`, this will install the necessary front-end dependencies
 	* run `npm run build`, this will run a webpack configuration
 	* run the UI-MVC project. This will start the API and front-end web site. 
@@ -38,8 +37,8 @@ To run the project, complete the following steps:
 * For testing, you can browse to `https://localhost:5001/Database/Seed`, which will provide some test data.
 
 ## `coi_env.json` layout
-The `coi_env.json` file should be placed in the UI-MVC folder. It should contain the following key-value pairs: 
-```json
+The `coi_env.json` file should be placed in the UI-MVC folder. It should contain the following key-value pairs:
+```
 {
 	"Jwt": {
 		"Key": "YOUR_SECRET_KEY",
@@ -49,14 +48,25 @@ The `coi_env.json` file should be placed in the UI-MVC folder. It should contain
 	"Sqlite": {
 		"ConnectionString": "Data Source=../db/CityOfIdeas.db"
 	}, 
-	"MySQL": {
-		"ConnectionString": "YOUR_CONNECTION_STRING"
+	"AdminUser": {
+		"UserEmail": "ADMIN_EMAIL",
+		"UserPassword": "ADMIN_PASSWORD",
+		"FirstName": "Admin",
+		"LastName": "COI"
 	},
 	"SendGrid": {
-		"User": "YOUR_USERNAME",
-		"Key": "YOUR_SENDGRID_API_KEY"
+		"User": "SENDGRID_USER",
+		"Key": "SENDGRID_KEY"
+	},
+	"Facebook":{
+		"AppId": "FB_APP_ID",
+		"AppSecret": "FB_APP_SECRET"
+	}, 
+	"Google": {
+		"ClientId": "GOOGLE_CLIENT_ID",
+		"ClientSecret": "GOOGLE_CLIENT_SECRET"
 	}
 }
-```
+``` 
 
 Since it contains sensitive data (e.g. signing key for JWT tokens), it should **not** be committed to source control.
