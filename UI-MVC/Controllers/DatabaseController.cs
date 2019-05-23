@@ -13,12 +13,13 @@ namespace COI.UI.MVC.Controllers
 			_seedService = seedService;
 		}
 
-		// GET
+		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();
 		}
 
+		[HttpGet]
 		public async Task<IActionResult> Seed()
 		{
 			await _seedService.Seed();

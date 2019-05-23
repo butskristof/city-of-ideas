@@ -49,6 +49,7 @@
 	  <_ContentIncludedByDefault Remove="Views\Superadmin\ClosedProjects.cshtml" />
 	  <_ContentIncludedByDefault Remove="Views\Superadmin\LatestActivities.cshtml" />
 	  <_ContentIncludedByDefault Remove="Views\Superadmin\URL.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\AccountSettings\Index.cshtml" />
 	</ItemGroup>
 
 </Project>
