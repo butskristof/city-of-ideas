@@ -50,6 +50,7 @@
 	  <_ContentIncludedByDefault Remove="Views\Superadmin\LatestActivities.cshtml" />
 	  <_ContentIncludedByDefault Remove="Views\Superadmin\URL.cshtml" />
 	  <_ContentIncludedByDefault Remove="Views\AccountSettings\Index.cshtml" />
+	  <_ContentIncludedByDefault Remove="Pages\Contact.cshtml" />
 	</ItemGroup>
 
 </Project>
