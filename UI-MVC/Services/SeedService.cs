@@ -500,7 +500,7 @@ namespace COI.UI.MVC.Services
 				#endregion
 
 				#region Questionnaire 2
-				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging elektische steps", "Graag hadden we mee informatie ingewonnen over de populariteit van elektrische steps.", phases[3].ProjectPhaseId));
+				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging elektische steps", "Graag hadden we mee informatie ingewonnen over de populariteit van elektrische steps.", phases[9].ProjectPhaseId));
 				
 				questions.Add(_questionnaireManager.AddQuestion("Welke van onderstaande diensten heeft u reeds gebruikt?", true, QuestionType.MultipleChoice, questionnaires.Last().QuestionnaireId));
 				options.Add(_questionnaireManager.AddOption("BIRD", questions.Last().QuestionId));
@@ -517,7 +517,7 @@ namespace COI.UI.MVC.Services
 				#endregion
 				
 				#region Questionnaire 3
-				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging uitbreiding haven", "Graag hadden we uw mening gehoord over de uitbreiding van de haven", phases[1].ProjectPhaseId));
+				questionnaires.Add(_questionnaireManager.AddQuestionnaire("Bevraging uitbreiding haven", "Graag hadden we uw mening gehoord over de uitbreiding van de haven", phases[3].ProjectPhaseId));
 				
 				questions.Add(_questionnaireManager.AddQuestion("Wat vindt u van de uitbreiding van de haven?", true, QuestionType.OpenQuestion, questionnaires.Last().QuestionnaireId));
 				
