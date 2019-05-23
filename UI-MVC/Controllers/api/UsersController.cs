@@ -141,7 +141,7 @@ namespace COI.UI.MVC.Controllers.api
 				return Ok(new
 				{
 					token = new JwtSecurityTokenHandler().WriteToken(token),
-					userId = token.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.UniqueName)?.Value,
+					userId = token.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value,
 					expiration = token.ValidTo
 				});
 			}
