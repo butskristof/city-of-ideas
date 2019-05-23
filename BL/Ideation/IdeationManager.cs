@@ -137,6 +137,11 @@ namespace COI.BL.Ideation
 			{
 				throw new ArgumentException("Ideation not found.");
 			}
+
+			if (!ideation.IsOpen)
+			{
+				throw new ArgumentException("Ideation is not open for new ideas.");
+			}
 			
 			Idea idea = new Idea()
 			{
