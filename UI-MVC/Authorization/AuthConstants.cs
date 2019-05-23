@@ -20,6 +20,7 @@ namespace COI.UI.MVC.Authorization
 		
 		// POLICIES
 		public const string UserInOrgOrSuperadminPolicy = "UserInOrgOrSuperadmin";
+		public const string SuperadminPolicy = "Superadmin";
 		public const string AdminPolicy = "Admin";
 		public const string ModeratorPolicy = "Moderator";
 	}

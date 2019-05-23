@@ -138,6 +138,8 @@ namespace COI.UI.MVC
 				options.AddPolicy(AuthConstants.UserInOrgOrSuperadminPolicy, 
 					policy => policy.Requirements.Add(new UserInOrgOrSuperadminRequirement())
                 );
+				options.AddPolicy(AuthConstants.SuperadminPolicy,
+					policy => policy.RequireRole(AuthConstants.Superadmin));
 				options.AddPolicy(AuthConstants.AdminPolicy, 
 					policy => policy.RequireRole(AuthConstants.Superadmin, AuthConstants.Admin));
 				options.AddPolicy(AuthConstants.ModeratorPolicy, 

@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
-	[Authorize(Roles = AuthConstants.Superadmin)]
+	[Authorize(Policy = AuthConstants.SuperadminPolicy)]
     [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
