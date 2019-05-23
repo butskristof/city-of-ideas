@@ -56,6 +56,7 @@ namespace COI.DAL.EF
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
+			// only a fallback, options will be configured through DI in MVC with either MySQL or SQLite
 			if (!optionsBuilder.IsConfigured)
 			{
 				optionsBuilder

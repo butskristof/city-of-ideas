@@ -3,15 +3,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using COI.UI.MVC.Models;
 using COI.UI.MVC.Models.DTO.User;
 using COI.UI.MVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using JwtConstants = COI.UI.MVC.Models.JwtConstants;
 
 namespace COI.UI.MVC.Controllers.api
 {
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class UsersController : ControllerBase
@@ -108,6 +108,11 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
+		/// <summary>
+		/// Adds an additional organisation to a user
+		/// </summary>
+		/// <param name="orgUserDto"></param>
+		/// <returns></returns>
 		[HttpPost("AddOrganisation")]
 		public async Task<IActionResult> AddOrganisation(OrganisationUserDto orgUserDto)
 		{

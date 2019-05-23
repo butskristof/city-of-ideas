@@ -17,6 +17,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace COI.UI.MVC.Services
 {
+	/// <summary>
+	/// Provides a layer on top of Identity for use with both MVC and API.
+	/// Declared as a service in the presentation because Identity breaks n-tier possibilities.
+	/// </summary>
 	public interface IUserService
 	{
 		Task<User> GetUser(string userId);
@@ -59,6 +63,13 @@ namespace COI.UI.MVC.Services
 			return await _userManager.FindByIdAsync(userId);
 		}
 
+		/// <summary>
+		/// Verifies user credentials and returns a JWT that expires after 30 days.
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
 		public async Task<JwtSecurityToken> GenerateJwt(string email, string password)
 		{
 			var user = await _userManager.FindByEmailAsync(email);
@@ -77,6 +88,11 @@ namespace COI.UI.MVC.Services
 			throw new ArgumentException("Password incorrect", "password");
 		}
 		
+		/// <summary>
+		/// Generate JWT, secrets are read from configuration file.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <returns></returns>
 		private JwtSecurityToken GenerateJsonWebToken(User user)
 		{
 			var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -96,6 +112,20 @@ namespace COI.UI.MVC.Services
 			return token;
 		}
 
+		/// <summary>
+		/// Create a new user and grant the role 'User'.
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="password"></param>
+		/// <param name="firstName"></param>
+		/// <param name="lastName"></param>
+		/// <param name="gender"></param>
+		/// <param name="dateOfBirth"></param>
+		/// <param name="postalCode"></param>
+		/// <param name="organisation"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="Exception"></exception>
 		public async Task<User> RegisterNewUser(string email, 
 			string password, 
 			string firstName, 
@@ -154,6 +184,14 @@ namespace COI.UI.MVC.Services
 			throw new Exception(msg);
 		}
 
+		/// <summary>
+		/// Add an additional organisation to a user. 
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="organisation">Should be provided as string, eg 'districtantwerpen'</param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <exception cref="Exception"></exception>
 		public async Task<User> AddUserToOrganisation(string userId, string organisation)
 		{
 			var org = _organisationManager.GetOrganisation(organisation);
@@ -188,6 +226,13 @@ namespace COI.UI.MVC.Services
 			throw new Exception("Something went wrong when updating the user.");
 		}
 
+		/// <summary>
+		/// Will login a user with cookies.
+		/// </summary>
+		/// <param name="email"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
 		public async Task<string> Login(string email, string password)
 		{
 			var user = await _userManager.FindByEmailAsync(email);
@@ -206,12 +251,20 @@ namespace COI.UI.MVC.Services
 			throw new ArgumentException("Password incorrect", "password");
 		}
 
+		/// <summary>
+		/// Will log a user out with cookies.
+		/// </summary>
+		/// <returns></returns>
 		public async Task<bool> Logout()
 		{
 			await _signInManager.SignOutAsync();
 			return true;
 		}
 
+		/// <summary>
+		/// Returns the number of users currently in the application
+		/// </summary>
+		/// <returns></returns>
 		public int NumberOfUsers()
 		{
 			return _userManager.Users.Count();

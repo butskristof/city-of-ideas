@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace COI.UI.MVC.Controllers.api
 {
 	[Authorize(Roles = AuthConstants.Superadmin)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/[controller]")]
 	public class OrganisationsController : ControllerBase
@@ -126,28 +126,6 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 	
-		[HttpDelete("{id}")]
-		public IActionResult DeleteOrganisation(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Organisation deleted = _organisationManager.RemoveOrganisation(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return BadRequest("Something went wrong while deleting the organisation.");
-				}
-				
-				return Ok(_mapper.Map<OrganisationDto>(deleted));
-			}
-			catch (ArgumentException)
-			{
-				return NotFound("Organisation to delete not found.");
-			}
-		}
-
 		[HttpPost("Logo")]
 		public async Task<IActionResult> PostNewOrganisationLogo([FromForm] NewOrganisationLogoDto input)
 		{

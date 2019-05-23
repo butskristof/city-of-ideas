@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace COI.UI.MVC.Controllers.api
 {
     [Authorize(Policy = AuthConstants.AdminPolicy)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class ProjectPhasesController : ControllerBase
@@ -120,26 +120,5 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
-		[HttpDelete("{id}")]
-		public IActionResult DeleteOrganisation(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				ProjectPhase deleted = _projectManager.RemoveProjectPhase(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return BadRequest("Something went wrong while deleting the project.");
-				}
-				
-				return Ok(_mapper.Map<ProjectPhaseDto>(deleted));
-			}
-			catch (ArgumentException)
-			{
-				return NotFound("Project phase to delete not found.");
-			}
-		}
 	}
 }

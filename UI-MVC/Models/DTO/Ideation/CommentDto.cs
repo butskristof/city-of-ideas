@@ -15,7 +15,7 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public UserDto User { get; set; }
 		
 		public int VoteCount { get; set; }
-		public int UserVoteValue { get; set; }
+		public int UserVoteValue { get; set; } // current value of the requesting user's vote
 		public int IdeaId { get; set; }
 	}
 }

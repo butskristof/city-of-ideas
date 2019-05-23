@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
-    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadminPolicy)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class FieldsController : Controller
@@ -54,6 +54,7 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				// UoW is started here to make sure the request either fails or succeeds fully
 				_unitOfWorkManager.StartUnitOfWork();
 
 				Field updatedField = null;

@@ -16,6 +16,9 @@ namespace COI.BL.Domain.Project
 		public DateTime EndDate { get; set; }
 		public DateTime Created { get; }
 		
+		/// <summary>
+		/// Dynamically calculated based on the project end date
+		/// </summary>
 		public virtual ProjectState ProjectState => (EndDate < DateTime.Now) ? ProjectState.Closed : ProjectState.Open;
 
 		public virtual Project Project { get; set; }

@@ -20,8 +20,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
-    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadminPolicy)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class CommentsController : ControllerBase
@@ -74,6 +74,7 @@ namespace COI.UI.MVC.Controllers.api
 			
 			try
 			{
+				// UoW is started here to make sure the request either fails or succeeds fully
 				_unitOfWorkManager.StartUnitOfWork();
 				
 				Comment createdComment = _coiCtrl.AddCommentToIdea(
@@ -132,29 +133,6 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 		
-		[HttpDelete("{id}")]
-		public IActionResult DeleteComment(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Comment deleted = _ideationManager.RemoveComment(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return NotFound("Comment to delete not found.");
-				}
-
-				
-				return Ok(_mapper.Map<CommentDto>(deleted));
-			}
-			catch (ArgumentException)
-			{
-				return NotFound("Comment to delete not found.");
-			}
-		}
-
 		[AllowAnonymous]
 		[HttpGet("{id}/VoteCount")]
 		public IActionResult GetCommentScore(int id)
