@@ -7,7 +7,7 @@
 
 @{
     ViewData["Title"] = "Superadmin";
-    NoRefOrganisationDto organisation = OrganisationHelper.GetOrganisationFromCookie();
+    var organisation = OrganisationHelper.GetOrganisation();
 }
 
 <main class="content content--shadow container">

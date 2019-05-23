@@ -193,6 +193,7 @@ namespace COI.UI.MVC
 			services.AddScoped<IIdeationsHelper, IdeationsHelper>();
 			services.AddScoped<IProjectPhasesHelper, ProjectPhasesHelper>();
 			services.AddScoped<IOrganisationsHelper, OrganisationsHelper>();
+			services.AddScoped<IFieldHelper, FieldHelper>();
 
 			#endregion
 
@@ -209,7 +210,6 @@ namespace COI.UI.MVC
 			else
 			{
 				app.UseExceptionHandler("/Home/Error");
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
 
@@ -219,24 +219,26 @@ namespace COI.UI.MVC
 
 			app.UseAuthentication();
 
-//			app.Use(async (context, next) =>
+//			app.UseMvc(routes =>
 //			{
-//				var cookies = context.Request.Cookies;
-//				var orgCookie = cookies["organisation"];
-//				if (orgCookie == null && !context.Request.Path.ToString().StartsWith("/organisation"))
-//				{
-//					context.Response.Redirect("/organisation");
-//				}
-//				await next.Invoke();
+//				routes.MapRoute(
+//					name: "default",
+//					template: "{controller=Home}/{action=Index}/{id?}");
+//				routes.MapRoute(
+//					name: "areas",
+//					template: "{orgId}/{area:exists}/{controller=Home}/{action=Index}/{id?}");
 //			});
 
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
-					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
+					"default",
+					"{controller=Home}/{action=Index}/{id?}");
+//				routes.MapRoute(
+//					"areas",
+//					"{area:exists}/{controller=Home}/test/{action=Index}/{id?}"
+//				);
 			});
-			
 		}
 	}
 }

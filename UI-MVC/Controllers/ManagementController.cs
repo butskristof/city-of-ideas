@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers
 {
+	[Route("{orgId}/[controller]")]
 	public class ManagementController : Controller
 	{
 		private readonly IOrganisationManager _organisationManager;

@@ -13,6 +13,9 @@ export default {
 				const commentsResponse = await CommentsRepository.all(ideaId);
 				const comments = await commentsResponse.json();
 				this.addComments(comments);
+				if (comments.length === 0) {
+					commentsList.innerHTML = "<p class='ml-3'>Er zijn nog geen reacties</ph>"
+				}
 			},
 			addComments(comments) {
 				comments.forEach((comment) => {

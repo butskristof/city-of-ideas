@@ -1,15 +1,16 @@
 ﻿import 'bootstrap/dist/css/bootstrap.css';
-import "./bootstrap_js";
+import 'bootstrap';
+import './validation';
 
 // custom css
-import '../css/styles.scss';
+import '../../css/styles.scss';
 //
 // custom js
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'material-icons/iconfont/material-icons.css';
 // import setEventListeners from "./navbar";
 
-import "./auth";
+import "../partials/auth";
 
 // setEventListeners();
 

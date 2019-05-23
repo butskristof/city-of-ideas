@@ -3,7 +3,6 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@* @model COI.BL.Domain.Ideation.Idea *@
 @model COI.UI.MVC.Models.DTO.Ideation.IdeaDto
 
 @{
@@ -12,7 +11,7 @@
 }
 
 <!-- Content -->
-<main class="content content--shadow container">
+<main class="content content--more-top content--shadow container">
 	<!-- Idea -->
 	<article class="page__intro mt-3">
         @Html.Partial("_Idea", Model)
@@ -131,14 +130,6 @@
     </div>
 </div>
 <!-- /LightBox Modal -->
-
-
-
-
-
-
-
-
 
 @section Scripts
 {

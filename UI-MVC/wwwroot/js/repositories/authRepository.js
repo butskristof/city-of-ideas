@@ -4,7 +4,7 @@ export default {
     login(email, password) {
         return Repository.post("/api/users/Login",{
             email, password
-        });
+        }, false, true);
     },
 	register (
 		firstName, lastName, email, password, password_re, gender, postalCode, dateofbirth
@@ -19,6 +19,6 @@ export default {
 			postalCode: postalCode,
 			gender: gender,
 			DateOfBirth: dateofbirth
-		});
+		}, false, true);
 	}
 };

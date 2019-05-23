@@ -1,7 +1,7 @@
-import Page from "./util/page";
-import Form from "./components/form";
-import AuthRepository from "./repositories/authRepository";
-import Logger from "./util/logger";
+import Page from "../util/page";
+import Form from "../components/form";
+import AuthRepository from "../repositories/authRepository";
+import Logger from "../util/logger";
 
 /* Login */
 const loginFormEl = Page.query("#auth_login");
@@ -58,14 +58,3 @@ if (registerFormEl != null) {
 		});
 	});
 }
-
-// TODO: Wat is dit? is niet door mij geschreven das zeker
-// let organisationInputfield = Page.query("#div1");
-// Page.query("#cb-organisatie").addEventListener("change", function () {
-// 	if (this.checked){
-// 		organisationInputfield.style.display = "block";
-// 	}
-// 	else {
-// 		organisationInputfield.style.display = "none";
-// 	}
-// });

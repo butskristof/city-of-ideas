@@ -45,6 +45,10 @@
 	  <_ContentIncludedByDefault Remove="Views\Questionnaire\Partials\_SingleChoicePartial.cshtml" />
 	  <_ContentIncludedByDefault Remove="wwwroot\js\autos\readme.md" />
 	  <_ContentIncludedByDefault Remove="wwwroot\js\global\organisation.js" />
+	  <_ContentIncludedByDefault Remove="Views\Superadmin\ActiveProjects.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Superadmin\ClosedProjects.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Superadmin\LatestActivities.cshtml" />
+	  <_ContentIncludedByDefault Remove="Views\Superadmin\URL.cshtml" />
 	</ItemGroup>
 
 </Project>

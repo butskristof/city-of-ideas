@@ -1,49 +1,22 @@
-﻿@using COI.BL.Domain.Ideation
-@using COI.BL.Domain.Project
-@using COI.UI.MVC.Models
-@model System.Collections.Generic.IEnumerable<COI.BL.Domain.Project.Project>
+@model System.Collections.Generic.IEnumerable<COI.BL.Domain.Organisation.Organisation>
 @{
-    ViewData["Title"] = "Home";
+    ViewBag.Title = "Organisatie";
+    Layout = "_Layout";
 }
 
-<section
-    class="hero"
-    style="background-image: url('img/pexels-photo-167676.jpeg')"
->
-    <div class="hero__container">
-        <h1 class="hero__title">
-            Geef jouw idee voor de toekomst van de haven
-        </h1>
-        <a asp-controller="Project" asp-action="Index" class="btn btn--org hero__button">Geef jouw idee!</a>
-    </div>
-</section>
-
-<!-- Content -->
-<main class="content content--shadow container">
-    <h1 class="mb-5">Open projecten</h1>
+<main class="content container">
+    <h1 class="paginatitel paginatitel__bovenaan">Kies een organisatie</h1>
 
     <div class="card-list mb-4">
-        @foreach (var project in Model)
+        @foreach (var organisation in Model)
         {
-            <div class="card">
-                <img src="/img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
-                <div class="card-body">
-                    <h2 class="card-title">@project.Title</h2>
-                    <p class="card-text">
-                        @foreach (var field in @project.Fields)
-                        {
-                            @if (field.FieldType.Equals(FieldType.Text))
-                             {
-                                 @field.Content
-                             }
-                        }
-                    </p>
+            <form asp-controller="Home" asp-action="SetOrganisation" asp-route-orgIdentifier="@organisation.Identifier" method="post" class="m-auto">
+                <input class="circle" id="@organisation.Identifier" type="submit" value="@(organisation.Name.Substring(0, 1))" style="background-color: @organisation.Color"/>
+                <div class="text-center">
+                    <label for="@organisation.OrganisationId">@organisation.Name</label>
                 </div>
-                <div class="card-footer card-footer--invis">
-                    <a asp-controller="Project" asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn--org">Geef jouw mening</a>
-                </div>
-            </div>
+            </form>
         }
     </div>
 </main>
-<!-- /Content -->
+

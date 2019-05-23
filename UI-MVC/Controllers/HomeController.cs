@@ -1,38 +1,45 @@
-﻿using System.Collections.Generic;
+using System;
 using System.Diagnostics;
 using System.Linq;
-using COI.BL.Domain.Project;
-using COI.BL.Project;
+using System.Runtime.Serialization;
+using System.Web;
+using AutoMapper;
+using COI.BL.Organisation;
 using COI.UI.MVC.Models;
+using COI.UI.MVC.Models.DTO.Organisation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace COI.UI.MVC.Controllers
 {
-    public class HomeController : Controller
-    {
-        private readonly IProjectManager _projectManager;
+	public class HomeController : Controller
+	{
+		private readonly IOrganisationManager _organisationManager;
+		
+		public HomeController(IOrganisationManager organisationManager)
+		{
+			_organisationManager = organisationManager;
+		}
+		
+		[HttpGet]
+		public IActionResult Index()
+		{
+			var organisations = _organisationManager.GetOrganisations().ToList();
+			return View(organisations);
+		}
 
-        public HomeController(IProjectManager projectManager)
-        {
-            _projectManager = projectManager;
-        }
-        
-        public IActionResult Index()
-        {
-            // TODO get orgId
-            IEnumerable<Project> projects = _projectManager.GetLastNProjects("districtantwerpen", 6).ToList();
-            return View(projects);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+		[HttpPost]
+		[Route("/{orgIdentifier}")]
+		public IActionResult SetOrganisation(string orgIdentifier)
+		{
+			return RedirectToAction("Index", "Organisation",new {orgid = orgIdentifier} );
+		}
+		
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-    }
+	}
 }

@@ -1,11 +1,16 @@
 @using COI.BL.Domain.Ideation
 @using COI.BL.Domain.User
-@using COI.UI.MVC.Models
+@using COI.UI.MVC.Helpers
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@model COI.BL.Domain.Ideation.Ideation
+@inject IFieldHelper FieldHelper;
+@inject IOrganisationsHelper OrganisationsHelper;
+@model COI.UI.MVC.Models.ViewModels.IdeationUserVote
 
+@{
+    var orgId = OrganisationsHelper.GetOrganisationIdentifier();
+}
 
 <section
     class="hero hero__project"
@@ -13,50 +18,47 @@
 >
     <div class="hero__container">
         <h1 class="hero__title">
-            @Model.Title
+            @Model.ideation.Title
         </h1>
     </div>
 </section>
 
 
 <section class="ideation container mt-5">
-    @foreach (var field in @Model.Fields)
-    {
-        @if (field.FieldType.Equals(FieldType.Text))
-         {
-             <p class="hero__text">
-                 @field.Content
-             </p>
-         }
-    }
+    <p class="hero__text">
+        @FieldHelper.GetAllText(Model.ideation.Fields)
+    </p>
 </section>
 
 <section class="ideation__ideas container">
     <div class="card-list mb-4">
-        @foreach (var idea in @Model.Ideas)
+        @foreach (var idea in @Model.ideas)
         {
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h2 class="card-title">@idea.Title</h2>
                     <p class="card-text">
-                        @foreach (var field in @idea.Fields)
+                        @foreach (var field in idea.Fields)
                         {
-                            @if (field.FieldType.Equals(FieldType.Text))
-                             {
-                                 @field.Content
-                             }
+                            if (field.FieldType.Equals(FieldType.Text))
+                            {
+                                @field.Content
+                            }
                         }
                     </p>
                     <div class="options-bar">
-                        <div class="options-bar__option">
-                            <span class="options-bar__votes mr-2" id="ideaVoteCount">@Model.GetScore()</span>
-                            <i class="voter material-icons outline mr-2" data-counter="ideaVoteCount" data-target="Idea" data-targetId="@idea.IdeaId" data-value="1">thumb_up</i>
-                            <i class="voter material-icons outline" data-counter="ideaVoteCount" data-target="idea" data-targetId="@idea.IdeaId" data-value="-1">thumb_down</i>
+                        <div class="options-bar__option options-bar__option--vote"
+                             data-target="Idea"
+                             data-userVal="@idea.UserVoteValue"
+                             data-targetId="@idea.IdeaId">
+                            <span class="options-bar__votes mr-2" id="ideaVoteCount">@idea.VoteCount</span>
+                            <i class="voter material-icons outline mr-2" data-value="1">thumb_up</i>
+                            <i class="voter material-icons outline" data-value="-1">thumb_down</i>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer card-footer--invis">
-                    <a asp-controller="Idea" asp-action="Details" asp-route-id="@idea.IdeaId" class="btn btn-primary">Geef een reactie</a>
+                    <a asp-controller="Idea" asp-action="Details" asp-route-orgId="@orgId" asp-route-id="@idea.IdeaId" class="btn btn-primary">Geef een reactie</a>
                 </div>
             </div>
         }
@@ -65,13 +67,6 @@
 
 
 <section class="ideation__editor container">
-    @*     @{ *@
-    @*         Html.RenderPartial("_Editor", new Editor *@
-    @*         { *@
-    @*             FormId = "idea_create", *@
-    @*             Type = "idee" *@
-    @*         }); *@
-    @*     } *@
     @if (SignInManager.IsSignedIn(User))
     {
         <!-- Editor -->
@@ -148,7 +143,7 @@
 @section Scripts
 {
     <script>
-        const ideationId = @Model.IdeationId;
+        const ideationId = @Model.ideation.IdeationId;
         const userId = '@(SignInManager.IsSignedIn(User) ? UserManager.GetUserId(User) : "-1")';
     </script>
     <script type="text/javascript" src="/dist/idea.entry.js" defer></script>
