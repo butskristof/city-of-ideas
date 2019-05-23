@@ -34,7 +34,7 @@ Page.onLoad(() => {
 			}
 			const response = await QuestionnaireRepository.createAnswers(answers);
 			qForm.handleResponse(response, () => {
-				Page.routeTo("/questionnaire/thanks");
+				Page.routeTo(`/questionnaire/thanks`);
 			});
 		});
 	}

@@ -1,40 +1,37 @@
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using COI.BL.Domain.Project;
 using COI.BL.Project;
-using COI.UI.MVC.Models;
+using COI.UI.MVC.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace COI.UI.MVC.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(Policy = AuthConstants.AdminPolicy)]
+    [Route("{orgId}/[controller]")]
     public class ProjectController : Controller
     {
         private readonly IProjectManager _projectManager;
-        private readonly IMapper _mapper;
 
-        public ProjectController(IProjectManager projectManager, IMapper mapper)
+        public ProjectController(IProjectManager projectManager)
         {
             _projectManager = projectManager;
-            _mapper = mapper;
         }
         
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index([FromQuery] bool open, [FromQuery] bool showLimited)
+        public IActionResult Index([FromQuery] bool open, [FromQuery] bool showLimited, [FromRoute] string orgId)
         {
 	        IEnumerable<Project> projects = null;
 	        if (!showLimited)
 	        {
-		        projects = _projectManager.GetLastNProjects("districtantwerpen", 6).ToList();
+		        projects = _projectManager.GetLastNProjects(orgId, 6).ToList();
 	        }
 	        else
 	        {
 		        ProjectState projectStateShown = open ? ProjectState.Open : ProjectState.Closed;
-		        projects = _projectManager.GetLastNProjects("districtantwerpen", 6, projectStateShown).ToList();
+		        projects = _projectManager.GetLastNProjects(orgId, 6, projectStateShown).ToList();
 	        }
 	        ViewBag.open = open;
 	        ViewBag.showLimited = showLimited;
@@ -43,23 +40,23 @@ namespace COI.UI.MVC.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [Route("Details/{id}")]
         public IActionResult Details(int id)
         {
             Project project = _projectManager.GetProject(id);
             return View(project);
         }
 
-		[Authorize(Roles="Admin,Superadmin")]
+		[Route("Create")]
 	    public IActionResult Create()
         {
 	        return View();
         }
 
-        // ID = projectId
-		[Authorize(Roles="Admin,Superadmin")]
-        public IActionResult CreatePhase(int id)
+		[Route("CreatePhase/{projectId}")]
+        public IActionResult CreatePhase(int projectId)
         {
-	        return View(id);
+	        return View(projectId);
         }
     }
 }

@@ -1,13 +1,12 @@
 import Repository from "./repository";
 
 export default {
-	vote(target, targetId, value, userId) {
+	vote(target, targetId, value, userId, orgId) {
 		const data = {
 			[target]: parseInt(targetId),
 			value: parseInt(value),
 			userId
 		};
-		console.log(data);
-		return Repository.post("/api/votes", data);
+		return Repository.post(`/votes`, data);
 	}
 }

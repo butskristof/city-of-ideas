@@ -83,7 +83,7 @@ namespace COI.UI.MVC.Services
 				organisations.Add(_organisationManager.AddOrganisation("Brussel", 
 					"brussels", 
 					"Hoofdstad", 
-					"#ffffff"));
+					"#0000FF"));
 				_organisationManager.AddImageToOrganisation(organisations.Last().OrganisationId, "/img/brussel.jpeg");
 				_organisationManager.AddLogoToOrganisation(organisations.Last().OrganisationId, "/img/logo_brussels.png");
 
@@ -119,6 +119,19 @@ namespace COI.UI.MVC.Services
 
 				List<Project> projects = new List<Project>();
 				
+				// closed project 
+				projects.Add(_projectManager.AddProject("Fietspaden",
+					new DateTime(2019, 2, 20), 
+					new DateTime(2019, 4, 1), 
+					organisations[0].OrganisationId));
+				_ideationManager.AddFieldToProject(FieldType.Text,
+					"Wij hechten veel belang aan de veiligheid van de zwakke gebruiker.",
+					projects.Last().ProjectId);
+				_ideationManager.AddFieldToProject(FieldType.Picture,
+					"/img/slechtfietspad.jpg",
+					projects.Last().ProjectId);
+				
+				
 				// open project sample
 				projects.Add(_projectManager.AddProject("Vrijbroekspark",
 					new DateTime(2019, 2, 16), 
@@ -129,6 +142,18 @@ namespace COI.UI.MVC.Services
 					projects.Last().ProjectId);
 				_ideationManager.AddFieldToProject(FieldType.Picture,
 					"/img/park.jpg",
+					projects.Last().ProjectId);
+				
+				// open project
+				projects.Add(_projectManager.AddProject("Beleid voor elektrische steps",
+					new DateTime(2019, 5, 15), 
+					new DateTime(2019, 7, 15), 
+					organisations[0].OrganisationId));
+				_ideationManager.AddFieldToProject(FieldType.Text,
+					"Bedrijven als BIRD duiken snel overal op, hoe gaan we hier best mee om?",
+					projects.Last().ProjectId);
+				_ideationManager.AddFieldToProject(FieldType.Picture,
+					"/img/bird.jpg",
 					projects.Last().ProjectId);
 				
 				// closed project 
@@ -143,29 +168,6 @@ namespace COI.UI.MVC.Services
 					"/img/haven.jpg",
 					projects.Last().ProjectId);
 				
-				// closed project 
-				projects.Add(_projectManager.AddProject("Fietspaden",
-					new DateTime(2019, 2, 20), 
-					new DateTime(2019, 4, 1), 
-					organisations[0].OrganisationId));
-				_ideationManager.AddFieldToProject(FieldType.Text,
-					"Wij hechten veel belang aan de veiligheid van de zwakke gebruiker.",
-					projects.Last().ProjectId);
-				_ideationManager.AddFieldToProject(FieldType.Picture,
-					"/img/slechtfietspad.jpg",
-					projects.Last().ProjectId);
-				
-				// open project
-				projects.Add(_projectManager.AddProject("Beleid voor elektrische steps",
-					new DateTime(2019, 5, 15), 
-					new DateTime(2019, 7, 15), 
-					organisations[0].OrganisationId));
-				_ideationManager.AddFieldToProject(FieldType.Text,
-					"Bedrijven als BIRD duiken snel overal op, hoe gaan we hier best mee om?",
-					projects.Last().ProjectId);
-				_ideationManager.AddFieldToProject(FieldType.Picture,
-					"/img/bird.jpg",
-					projects.Last().ProjectId);
 
 				#endregion
 

@@ -5,7 +5,6 @@ export default {
 	},
 	reload() {
 		location.reload();
-		// location = location;
 	},
 	reloadWithQueryParams(params) {
 		let newLoc = location.origin + location.pathname + "?";
@@ -14,9 +13,12 @@ export default {
 			newLoc += key + "=" + value + "&"
 		} 
 		newLoc = newLoc.substr(0, newLoc.length - 1);
-		this.routeTo(newLoc);
+		this.routeTo(newLoc, true);
 	},
-	routeTo(newLocation) {
+	routeTo(newLocation, raw = false) {
+		if (!raw) {
+			newLocation = "/" + this.getOrgId() + newLocation;
+		}
 		location = newLocation
 	},
 	query(selector, parent = document) {
@@ -38,8 +40,8 @@ export default {
 	getOrganisation() {
 		return organisation;
 	},
-	getOrganisationId() {
-		return this.getOrganisation().OrganisationId;
+	getOrgId() {
+		return this.getOrganisation().Identifier;
 	},
 	scrollTo(el) {
 		window.scrollTo({

@@ -5,17 +5,17 @@ export default {
 		const formData = new FormData();
 		formData.append("picture", picture);
 		formData.append("organisationId", organisationId);
-		return Repository.post(`/api/organisations/logo`, formData, true);
+		return Repository.post(`/organisations/logo`, formData, true);
 	},
 	changeImage(organisationId, picture) {
 		const formData = new FormData();
 		formData.append("picture", picture);
 		formData.append("organisationId", organisationId);
-		return Repository.post(`/api/organisations/image`, formData, true);
+		return Repository.post(`/organisations/image`, formData, true);
 	},
 	changeOrganisation(organisationId, name, identifier, color, description) {
 		console.log(":", organisationId);
-		return Repository.put(`/api/organisations/${organisationId}`, {
+		return Repository.put(`/organisations/${organisationId}`, {
 			name,
 			identifier,
 			color,
@@ -23,7 +23,7 @@ export default {
 		});
 	},
 	createOrganisation(name, identifier, color, description) {
-		return Repository.post(`/api/organisations`, {
+		return Repository.post(`/organisations`, {
 			name,
 			identifier,
 			color,
@@ -31,6 +31,6 @@ export default {
 		});
 	},
 	singleOrganisation(organisationId) {
-		return Repository.get(`/api/organisations/${organisationId}`);
+		return Repository.get(`/organisations/${organisationId}`);
 	}
 }

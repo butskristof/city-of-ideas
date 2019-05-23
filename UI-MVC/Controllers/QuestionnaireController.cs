@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using COI.BL.Domain.Questionnaire;
-using COI.BL.Project;
 using COI.BL.Questionnaire;
+using COI.UI.MVC.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers
 {
+	[Route("{orgId}/[controller]")]
+    [Authorize(Policy = AuthConstants.AdminPolicy)]
 	public class QuestionnaireController : Controller
 	{
 		private readonly IQuestionnaireManager _questionnaireManager;
@@ -16,33 +18,40 @@ namespace COI.UI.MVC.Controllers
 			_questionnaireManager = questionnaireManager;
 		}
 		
-		// GET
+		[AllowAnonymous]
 		public IActionResult Index()
 		{
 			IEnumerable<Questionnaire> questionnaires = _questionnaireManager.GetQuestionnaires();
 			return View(questionnaires);
 		}
 		
-		// GET
+		[HttpGet]
+		[Route("Details/{id}")]
+		[AllowAnonymous]
 		public IActionResult Details(int id)
 		{
 			Questionnaire questionnaire = _questionnaireManager.GetQuestionnaire(id);
 			return View(questionnaire);
 		}
 		
-		// GET
+		[HttpGet]
+		[Route("Results/{id}")]
 		public IActionResult Results(int id)
 		{
 			Questionnaire questionnaire = _questionnaireManager.GetQuestionnaire(id);
 			return View(questionnaire);
 		}
 
+		[HttpGet]
+		[Route("Thanks")]
+		[AllowAnonymous]
 		public IActionResult Thanks()
 		{
 			return View();
 		}
 		
-		[Authorize(Roles="Admin,Superadmin")]
+		[HttpGet]
+		[Route("Create")]
 		public IActionResult Create()
 		{
 			return View();

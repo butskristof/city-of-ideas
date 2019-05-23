@@ -30,16 +30,23 @@ export default {
 					Page.query("#loginButton").click();
 					return;
 				}
+				
+				let valueToUpdateTo = value;
+				if (userVal === value) {
+					valueToUpdateTo = 0;
+				}
 
-				const response = await VoteRepository.vote(target, targetId, value, userId);
+				const response = await VoteRepository.vote(target, targetId, valueToUpdateTo, userId, Page.getOrgId());
 				if (response.ok) {
+					const newVote = await response.json();
 					const oldVal = parseInt(counterEl.innerText);
-					const value = parseInt(this.dataset.value);
+					const value = newVote.value;
 					counterEl.innerText = oldVal + value - userVal;
 					userVal = `${value}`;
 					voterWrapper.dataset.userval = userVal;
 					colorThumbs(voterWrapper);
 				} else {
+					console.log(response);
 					console.log(await response.json());
 				}
 			});

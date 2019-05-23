@@ -1,8 +1,11 @@
 @model System.Collections.Generic.IEnumerable<COI.BL.Domain.Project.Project>
 @using COI.BL.Domain.Ideation
 @using COI.BL.Domain.User
+@using COI.UI.MVC.Helpers
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
+@inject IFieldHelper FieldHelper;
+@inject IOrganisationsHelper OrganisationsHelper;
 
 @{
     ViewBag.Title = "Overzicht";
@@ -34,21 +37,15 @@
         @foreach (var project in Model)
         {
             <div class="card">
-                <img src="/img/pexels-photo-167676.jpeg" alt="" class="card-img-top"/>
+                <img src="@FieldHelper.GetFirstOfType(project.Fields, FieldType.Picture).Content" alt="" class="card-img-top"/>
                 <div class="card-body">
                     <h2 class="card-title">@project.Title</h2>
                     <p class="card-text">
-                        @foreach (var field in @project.Fields)
-                        {
-                            @if (field.FieldType.Equals(FieldType.Text))
-                             {
-                                 @field.Content
-                             }
-                        }
+                        @FieldHelper.GetAllText(project.Fields);
                     </p>
                 </div>
                 <div class="card-footer card-footer--invis">
-                    <a asp-controller="Project" asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn--org">Geef jouw mening</a>
+                    <a asp-controller="Project" asp-action="Details" asp-route-orgId="@OrganisationsHelper.GetOrganisationIdentifier()" asp-route-id="@project.ProjectId" class="btn btn--org">Geef jouw mening</a>
                 </div>
             </div>
         }

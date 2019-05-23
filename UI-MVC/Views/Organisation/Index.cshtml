@@ -1,23 +1,54 @@
-@model System.Collections.Generic.IEnumerable<COI.BL.Domain.Organisation.Organisation>
+﻿@using COI.BL.Domain.Ideation
+@using COI.BL.Domain.Organisation
+@using COI.BL.Domain.Project
+@using COI.UI.MVC.Helpers
+@using COI.UI.MVC.Models
+@model System.Collections.Generic.IEnumerable<COI.BL.Domain.Project.Project>
+@inject IOrganisationsHelper OrganisationHelper;
+@inject IFieldHelper FieldHelper;
 @{
-    ViewBag.Title = "Organisatie";
-    Layout = "_Layout";
+    ViewData["Title"] = "Home";
+    Organisation organisation = OrganisationHelper.GetOrganisation();
 }
 
-<h1 class="paginatitel paginatitel__bovenaan">Organisaties</h1>
+<section
+    class="hero"
+    style="background-image: url('@organisation.ImageLocation')"
+>
+    <div class="hero__container">
+        <h1 class="hero__title mb-5">
+            Geef jouw idee voor de toekomst van de haven
+        </h1>
+        <a asp-controller="Project" asp-action="Index" asp-route-orgId="@organisation.Identifier" class="btn btn--org hero__button">Geef jouw idee!</a>
+    </div>
+</section>
 
-<div class="card-list mb-4">
-    @* <form action="/organisation/1" method="post" class="m-auto"> *@
-    @*     <input class="circle circle__antwerpen" type="submit" value="Antwerpen"> *@
-    @* </form> *@
-    
-    @foreach (var organisation in Model)
-    {
-        <form action="/organisation/@organisation.OrganisationId" method="post" class="m-auto">
-            <input class="circle" id="@organisation.OrganisationId" type="submit" value="@(organisation.Name.Substring(0, 1))" style="background-color: @organisation.Color"/>
-            <div class="text-center">
-                <label for="@organisation.OrganisationId">@organisation.Name</label>
+<!-- Content -->
+<main class="content content--shadow container">
+    <h1 class="mb-5">Open projecten</h1>
+
+    <div class="card-list mb-4">
+        @foreach (var project in Model)
+        {
+            <div class="card">
+                <img src="@(FieldHelper.GetFirstOfType(project.Fields, FieldType.Picture).Content)" alt="" class="card-img-top"/>
+                <div class="card-body">
+                    <h2 class="card-title">@project.Title</h2>
+                    <p class="card-text">
+                        @foreach (var field in @project.Fields)
+                        {
+                            @if (field.FieldType.Equals(FieldType.Text))
+                             {
+                                 @field.Content
+                             }
+                        }
+                    </p>
+                </div>
+                <div class="card-footer card-footer--invis">
+                    <a asp-controller="Project" asp-action="Details" asp-route-orgId="@organisation.Identifier" asp-route-id="@project.ProjectId" class="btn btn--org">Geef jouw mening</a>
+                </div>
             </div>
-        </form>
-    }
-</div>
+        }
+    </div>
+</main>
+<!-- /Content -->

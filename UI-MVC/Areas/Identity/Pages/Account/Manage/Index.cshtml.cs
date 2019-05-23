@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace COI.UI.MVC.Areas.Identity.Pages.Account.Manage
 {
-    public partial class IndexModel : PageModel
+	public partial class IndexModel : PageModel
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;

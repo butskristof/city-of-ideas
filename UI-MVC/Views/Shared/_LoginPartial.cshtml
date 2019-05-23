@@ -3,45 +3,23 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
-@* <ul class="navbar-nav"> *@
-@*     @if (SignInManager.IsSignedIn(User)) *@
-@*     { *@
-@*         <li class="nav-item"> *@
-@*             <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a> *@
-@*         </li> *@
-@*         <li class="nav-item"> *@
-@*             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"> *@
-@*                 <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Logout</button> *@
-@*             </form> *@
-@*         </li> *@
-@*     } *@
-@*     else *@
-@*     { *@
-@*         <li class="nav-item"> *@
-@*             <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a> *@
-@*         </li> *@
-@*         <li class="nav-item"> *@
-@*             <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a> *@
-@*         </li> *@
-@*     } *@
-@* </ul> *@
-
 <ul class="nav navbar-nav navbar-right">
     <div class="nav-inherit">
-    <li class="nav-item">
-        <a href="#" class="nav-link nav-login" id="searchIcon">
-            <i class="fas fa-search"></i>
-        </a>
-    </li>
+    @* <li class="nav-item"> *@
+    @*     <a href="#" class="nav-link nav-login" id="searchIcon"> *@
+    @*         <i class="fas fa-search"></i> *@
+    @*     </a> *@
+    @* </li> *@
     <li class="nav-item">
         <a
+            target="_blank"
             href="https://www.facebook.com/treecompany.be/"
             class="nav-link nav-login">
             <i class="fab fa-facebook-f"></i>
         </a>
     </li>
     <li class="nav-item">
-        <a href="https://twitter.com/treecomp" class="nav-link nav-login">
+        <a target="_blank" href="https://twitter.com/treecomp" class="nav-link nav-login">
             <i class="fab fa-twitter"></i>
         </a>
     </li>
@@ -65,13 +43,11 @@
     else
     {
         <li class="nav-item">
-            @* <a class="nav-link nav-login" id="register" asp-area="Identity" asp-page="/Account/Register"> *@
-            <a href="" class="nav-link nav-login" id="register" data-toggle="modal" data-target="#RegisterModal">
+            <a class="nav-link nav-login" id="register" data-toggle="modal" data-target="#RegisterModal">
                 <i class="fas fa-user"></i> Sign Up
             </a>
         </li>
         <li class="nav-item">
-        @* <a class="nav-link nav-login" id="login" asp-area="Identity" asp-page="/Account/Login"> *@
             <a href="" class="nav-link nav-login" data-toggle="modal" data-target="#LoginModal" id="loginButton">
                 <i class="fas fa-sign-in-alt"></i> Login
             </a>

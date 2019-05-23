@@ -1,12 +1,19 @@
 @using COI.BL.Domain.Ideation
 @using COI.BL.Domain.User
+@using COI.UI.MVC.Helpers
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
+@inject IFieldHelper FieldHelper
+@inject IOrganisationsHelper OrganisationsHelper;
 @model COI.BL.Domain.Project.Project
+
+@{
+    var orgId = OrganisationsHelper.GetOrganisationIdentifier();
+}
 
 <section
     class="hero hero__project"
-    style="background-image: url('/img/pexels-photo-167676.jpeg')"
+    style="background-image: url('@FieldHelper.GetFirstOfType(Model.Fields, FieldType.Picture).Content')"
 >
     <div class="hero__container">
         <h1 class="hero__title">
@@ -41,19 +48,6 @@
     {
         <div class="card">
             <div class="card-header" id="headingOne">
-                @* <h5 class="mb-0"> *@
-                @*     <div class="card-button"> *@
-                @*         <button *@
-                @*             class="btn btn-link btn__witteAchtergrond btn__fase" *@
-                @*             data-toggle="collapse" *@
-                @*             data-target="@("#projectPhase" + projectPhase.ProjectPhaseId)" *@
-                @*             aria-expanded="true" *@
-                @*             aria-controls="@("projectPhase" + projectPhase.ProjectPhaseId)"> *@
-                @*             @projectPhase.Title *@
-                @*         </button> *@
-                @*         <span class="datumTot">Tot @projectPhase.EndDate.ToString("yy/MM/yyyy")</span> *@
-                @*     </div> *@
-                @* </h5> *@
                 <div class="card-button">
                     <button
                         class="btn btn-link btn__witteAchtergrond btn__fase"
@@ -75,25 +69,19 @@
                 <div class="card-body">
                     @foreach (var ideation in projectPhase.Ideations)
                     {
-                        <a asp-controller="Ideation" asp-action="Details" asp-route-id="@ideation.IdeationId" class="ideation">
+                        <a asp-controller="Ideation" asp-action="Details" asp-route-orgId="@orgId" asp-route-id="@ideation.IdeationId" class="ideation">
                             <h2 class="pphase-child__title">
                                 <i class="far fa-comment"></i> @ideation.Title
                             </h2>
-                            @foreach (var field in ideation.Fields)
-                            {
-                                @if (field.FieldType.Equals(FieldType.Text))
-                                 {
-                                     <p class="pphase-child__text">
-                                         @field.Content
-                                     </p>
-                                 }
-                            }
+                            <p class="pphase-child__text">
+                                @FieldHelper.GetAllText(ideation.Fields);
+                            </p>
                         </a>
                     }
                     
                     @foreach (var questionnaire in projectPhase.Questionnaires)
                     {
-                        <a asp-controller="Questionnaire" asp-action="Details" asp-route-id="@questionnaire.QuestionnaireId" class="ideation">
+                        <a asp-controller="Questionnaire" asp-action="Details" asp-route-orgId="@orgId" asp-route-id="@questionnaire.QuestionnaireId" class="ideation">
                             <h2 class="pphase-child__title">
                                 <i class="far fa-file-alt"></i> @questionnaire.Title
                             </h2>
@@ -104,12 +92,12 @@
                     }
                     @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Superadmin")))
                     {
-                        <a asp-controller="Ideation" asp-action="Create" class="ideation">
+                        <a asp-controller="Ideation" asp-action="Create" asp-route-orgId="@orgId" class="ideation">
                             <h2 class="pphase-child__title mb-3">
                                 <i class="fas fa-plus-circle"></i> Voeg Ideation toe
                             </h2>
                         </a>
-                        <a asp-controller="Questionnaire" asp-action="Create" class="ideation">
+                        <a asp-controller="Questionnaire" asp-action="Create" asp-route-orgId="@orgId" class="ideation">
                             <h2 class="pphase-child__title mb-3">
                                 <i class="fas fa-plus-circle"></i> Voeg Questionnaire toe
                             </h2>

@@ -1,21 +1,22 @@
+import Page from "../util/page"
 
-const baseUrl = "";
+const baseUrlDefault = `/api/${Page.getOrgId()}`;
 
 export default {
-    get(route, useFormData = false) {
-        return this.callApi("GET", route, null, useFormData);
+    get(route, useFormData = false, rawUrl = false) {
+        return this.callApi("GET", route, null, useFormData, rawUrl);
     },
-    post(route, data = null, useFormData = false) {
-        return this.callApi("POST", route, data, useFormData);
+    post(route, data = null, useFormData = false, rawUrl = false) {
+        return this.callApi("POST", route, data, useFormData, rawUrl);
     },
-    put(route, data = null, useFormData = false) {
+    put(route, data = null, useFormData = false, rawUrl = false) {
     	console.log(data);
-        return this.callApi("PUT", route, data, useFormData);
+        return this.callApi("PUT", route, data, useFormData, rawUrl);
     },
-    delete(route, data = null, useFormData = false) {
-        return this.callApi("DELETE", route, data, useFormData);
+    delete(route, data = null, useFormData = false, rawUrl = false) {
+        return this.callApi("DELETE", route, data, useFormData, rawUrl);
     },
-    callApi(method, route, data = null, useFormData = false) {
+    callApi(method, route, data = null, useFormData = false, rawUrl = false) {
     	let settings = {
 			method,
 			mode: "cors",
@@ -38,6 +39,11 @@ export default {
 			} else {
 				settings["body"] = JSON.stringify(data);
 			}
+		}
+    	
+    	let baseUrl = "";
+    	if (!rawUrl) {
+    		baseUrl = baseUrlDefault;
 		}
     	
         return fetch(baseUrl + route, settings).catch((err) => {

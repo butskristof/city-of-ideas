@@ -2,6 +2,6 @@ import Repository from "./repository";
 
 export default {
 	createIdea(formData) {
-		return Repository.post("/api/ideas", formData, true);
+		return Repository.post("/ideas", formData, true);
 	}
 }

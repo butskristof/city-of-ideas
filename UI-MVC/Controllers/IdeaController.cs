@@ -14,18 +14,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Route("{orgId}/[controller]")]
 	public class IdeaController : Controller
 	{
 		private readonly IIdeationManager _ideationManager;
-		private readonly UserManager<User> _userManager;
+		private readonly SignInManager<User> _signInManager;
 		private readonly IIdeasHelper _ideasHelper;
 
-		public IdeaController(IIdeationManager ideationManager, IIdeasHelper ideasHelper, UserManager<User> userManager)
+		public IdeaController(IIdeationManager ideationManager, IIdeasHelper ideasHelper, SignInManager<User> signInManager)
 		{
 			_ideationManager = ideationManager;
-			_userManager = userManager;
 			_ideasHelper = ideasHelper;
+			_signInManager = signInManager;
 		}
 
 		[HttpGet]
@@ -38,15 +38,21 @@ namespace COI.UI.MVC.Controllers
 	
 		[HttpGet]
 		[AllowAnonymous]
+		[Route("Details/{id}")]
 		public IActionResult Details(int id)
 		{
-			var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+			string userId = null;
+			if (_signInManager.IsSignedIn(User))
+			{
+				userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+			}
 			var idea = _ideasHelper.GetIdea(id, userId);
 			return View(idea);
 		}
 
 		[HttpGet]
 		[AllowAnonymous]
+		[Route("Vote/{id}")]
 		public IActionResult Vote(int id)
 		{
 			var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -56,6 +62,7 @@ namespace COI.UI.MVC.Controllers
 		
 		[HttpGet]
 		[AllowAnonymous]
+		[Route("ConfirmVote/{id}")]
 		public IActionResult ConfirmVote(int id)
 		{
 			var idea = _ideationManager.GetIdea(id);
