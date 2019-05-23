@@ -1,8 +1,11 @@
-﻿@page
+﻿@page "/{orgId}/Account/TwoFactor"
+@using COI.UI.MVC.Helpers
 @model TwoFactorAuthenticationModel
+@inject IOrganisationsHelper OrganisationsHelper
 @{
-    ViewData["Title"] = "Two-factor authentication (2FA)";
+    ViewData["Title"] = "Twee-factor authenticatie (2FA)";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+    var orgId = OrganisationsHelper.GetOrganisationIdentifier();
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
@@ -12,44 +15,44 @@
     if (Model.RecoveryCodesLeft == 0)
     {
         <div class="alert alert-danger">
-            <strong>You have no recovery codes left.</strong>
-            <p>You must <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+            <strong>U heeft geen herstelcodes meer over.</strong>
+            <p>U moet <a asp-page="./GenerateRecoveryCodes">een nieuwe set recovery codes genereren</a> voordat u kan inloggen met een recovery code.</p>
         </div>
     }
     else if (Model.RecoveryCodesLeft == 1)
     {
         <div class="alert alert-danger">
-            <strong>You have 1 recovery code left.</strong>
-            <p>You can <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+            <strong>U heeft nog 1 herstelcode over.</strong>
+            <p>U kan <a asp-page="./GenerateRecoveryCodes">een nieuwe set recovery codes genereren</a>.</p>
         </div>
     }
     else if (Model.RecoveryCodesLeft <= 3)
     {
         <div class="alert alert-warning">
-            <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
-            <p>You should <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+            <strong>U heeft @Model.RecoveryCodesLeft herstelcodes over.</strong>
+            <p>U kan <a asp-page="./GenerateRecoveryCodes">een nieuwe set recovery codes genereren</a>.</p>
         </div>
     }
 
     if (Model.IsMachineRemembered)
     {
         <form method="post" style="display: inline-block">
-            <button type="submit" class="btn btn-primary btn__witteAchtergrond btn__links">Forget this browser</button>
+            <button type="submit" class="btn btn-primary btn__witteAchtergrond btn__links">Vergeet deze browser</button>
         </form>
     }
     <a asp-page="./Disable2fa" class="btn btn-primary btn__witteAchtergrond btn__links">Disable 2FA</a>
-    <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary btn__witteAchtergrond btn__links">Reset recovery codes</a>
+    <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary btn__witteAchtergrond btn__links">Herstel codes resetten</a>
 }
 
 <h5>Authenticator app</h5>
 @if (!Model.HasAuthenticator)
 {
-    <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary btn__witteAchtergrond btn__links">Add authenticator app</a>
+    <a id="enable-authenticator" href="@("/" + orgId + "/Account/EnableAuthenticator")"  class="btn btn-primary btn__witteAchtergrond btn__links">Authenticator app toevoegen</a>
 }
 else
 {
-    <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary btn__witteAchtergrond btn__links">Setup authenticator app</a>
-    <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary btn__witteAchtergrond btn__links">Reset authenticator app</a>
+    <a id="enable-authenticator" href="@("/" + orgId + "/Account/EnableAuthenticator")"  class="btn btn-primary btn__witteAchtergrond btn__links">Authenticator app instellen</a>
+    <a id="reset-authenticator" href="@("/" + orgId + "/Account/ResetAuthenticator")"  class="btn btn-primary btn__witteAchtergrond btn__links">Authenticator app resetten</a>
 }
 
 @section Scripts {

@@ -34,38 +34,41 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand" id="organisation" asp-controller="Home" asp-action="Index" style="color: @organisation.Color !important;" >@organisation.Name</a>
     
-    <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    @if (OrganisationHelper.HasOrganisation())
+    {
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" asp-controller="Organisation" asp-action="Index" asp-route-orgId="@organisation.Identifier">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Project" asp-action="Index" asp-route-orgId="@organisation.Identifier">Projecten</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Contact" asp-action="Index" asp-route-orgId="@organisation.Identifier">Contact</a>
-            </li>
-            @if (SignInManager.IsSignedIn(User) && (User.IsInRole(AuthConstants.Admin) || User.IsInRole(AuthConstants.Superadmin) || User.IsInRole(AuthConstants.Moderator)))
-            {
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Management" asp-action="Organisation">Manage</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-controller="Organisation" asp-action="Index" asp-route-orgId="@organisation.Identifier">Home <span class="sr-only">(current)</span></a>
                 </li>
-            }
-        </ul>
-        
-        <partial name="_LoginPartial"/>
-    </div>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Project" asp-action="Index" asp-route-orgId="@organisation.Identifier">Projecten</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Contact" asp-action="Index" asp-route-orgId="@organisation.Identifier">Contact</a>
+                </li>
+                @if (SignInManager.IsSignedIn(User) && (User.IsInRole(AuthConstants.Admin) || User.IsInRole(AuthConstants.Superadmin) || User.IsInRole(AuthConstants.Moderator)))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Management" asp-action="Organisation">Manage</a>
+                    </li>
+                }
+            </ul>
+
+            <partial name="_LoginPartial"/>
+        </div>
+    }
 </nav>
 <!-- /HEADER -->
 <partial name="_CookieConsentPartial"/>

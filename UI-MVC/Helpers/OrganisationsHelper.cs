@@ -15,6 +15,7 @@ namespace COI.UI.MVC.Helpers
 	{
 		Organisation GetOrganisation();
 		string GetOrganisationIdentifier();
+		bool HasOrganisation();
 	}
 	
 	public class OrganisationsHelper : IOrganisationsHelper
@@ -47,6 +48,12 @@ namespace COI.UI.MVC.Helpers
 			return match.Groups[0].Value;
 		}
 
+		public bool HasOrganisation()
+		{
+			var orgId = GetOrganisationIdentifier();
+			return orgId != "" && orgId != "NoOrg";
+		}
+
 		/**
 		 * The following method returns an organisation with values to be shown when there is not organisation cookie
 		 */
@@ -54,10 +61,10 @@ namespace COI.UI.MVC.Helpers
 		{
 			return new Organisation
 			{
-				Name = "No Organisation",
+				Name = "The Tree Company",
 				Color = "#333333",
-				Description = "No organisation has been selected",
-				Identifier = "No Org",
+				Description = "The Tree Company",
+				Identifier = "treecompany",
 				ImageLocation = null,
 				LogoLocation = null
 			};

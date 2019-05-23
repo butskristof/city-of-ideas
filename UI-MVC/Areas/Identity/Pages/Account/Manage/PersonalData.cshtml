@@ -1,7 +1,8 @@
-﻿@page
+﻿@page "/{orgId}/Account/PersonalData"
+@using COI.UI.MVC.Helpers
 @model PersonalDataModel
 @{
-    ViewData["Title"] = "Personal Data";
+    ViewData["Title"] = "Persoonlijke data";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
@@ -9,16 +10,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
-        <form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
-            <button class="btn btn-primary btn__witteAchtergrond btn__links" type="submit">Download</button>
-        </form>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-primary btn__witteAchtergrond btn__links">Delete</a>
-        </p>
+        <p>Gelieve ons te contacteren via het contactformulier om uw persoonlijke data op te vragen.</p>
     </div>
 </div>
 

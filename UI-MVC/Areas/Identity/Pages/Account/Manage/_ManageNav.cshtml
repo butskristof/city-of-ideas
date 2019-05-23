@@ -1,14 +1,17 @@
+@using COI.UI.MVC.Helpers
 @inject SignInManager<User> SignInManager
+@inject IOrganisationsHelper OrganisationsHelper
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var orgId = OrganisationsHelper.GetOrganisationIdentifier();
 }
 <ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link nav-item__background @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link nav-item__background @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+    <li class="nav-item"><a href="@("/" + orgId + "/Account/Manage")" class="nav-link nav-item__background @ManageNavPages.IndexNavClass(ViewContext)" id="profile">Profiel</a></li>
+    <li class="nav-item"><a href="@("/" + orgId + "/Account/ChangePassword")"  class="nav-link nav-item__background @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password">Wachtwoord</a></li>
     @if (hasExternalLogins)
     {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link nav-item__background @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+        <li id="external-logins" class="nav-item"><a href="@("/" + orgId + "/Account/ExternalLogins")"  id="external-login" class="nav-link nav-item__background @ManageNavPages.ExternalLoginsNavClass(ViewContext)">Externe Logins</a></li>
     }
-    <li class="nav-item"><a class="nav-link nav-item__background @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="nav-item"><a class="nav-link nav-item__background @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+    <li class="nav-item"><a href="@("/" + orgId + "/Account/TwoFactor")"  class="nav-link nav-item__background @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor">Twee-factor authenticatie</a></li>
+    <li class="nav-item"><a href="@("/" + orgId + "/Account/PersonalData")"  class="nav-link nav-item__background @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" >Persoonlijke data</a></li>
 </ul>
