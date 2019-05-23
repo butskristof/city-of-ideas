@@ -61,7 +61,7 @@
                 @if (SignInManager.IsSignedIn(User) && (User.IsInRole(AuthConstants.Admin) || User.IsInRole(AuthConstants.Superadmin) || User.IsInRole(AuthConstants.Moderator)))
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Management" asp-action="Organisation">Manage</a>
+                        <a class="nav-link" asp-controller="Management" asp-action="Organisation" asp-route-orgId="@organisation.Identifier">Manage</a>
                     </li>
                 }
             </ul>
@@ -159,8 +159,9 @@
     
 }
 
-
+@*
 @* The following code is only used for Demo purposes *@
+@*
 @* <div class="demo-helper" style="position: fixed; bottom: 50px; right: 50px;"> *@
 @*     <div style="font-size: 50px; color: white; background-color: darkred; padding: 7px 45px 10px; font-weight: bold;"> *@
 @*         @{ *@

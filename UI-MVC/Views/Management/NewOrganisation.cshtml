@@ -1,8 +1,11 @@
 @using COI.UI.MVC.Authorization
+@using COI.UI.MVC.Helpers
 @using COI.UI.MVC.Models
+@inject IOrganisationsHelper OrganisationsHelper;
 
 @{
     ViewData["Title"] = "Superadmin";
+    var orgId = OrganisationsHelper.GetOrganisationIdentifier();
 }
 
 <main class="content content--shadow container">
@@ -20,7 +23,7 @@
                     <li class="nav-item">
                         <a
                             class="nav-link nav-item__background"
-                            asp-action="Organisation">Organisatie</a>
+                            asp-action="Organisation" asp-route-orgId="@orgId">Organisatie</a>
                     </li>
                 }
                 @if (User.IsInRole(AuthConstants.Superadmin))
@@ -28,7 +31,7 @@
                     <li class="nav-item">
                         <a
                             class="nav-link nav-item__background active"
-                            asp-action="NewOrganisation">Nieuwe Organisatie</a>
+                            asp-action="NewOrganisation" asp-route-orgId="@orgId">Nieuwe Organisatie</a>
                     </li>
                 }
             </ul>

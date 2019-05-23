@@ -21,6 +21,7 @@ namespace COI.UI.MVC.Controllers
 		}
 		
 		[HttpGet]
+		[Route("NewOrganisation")]
 		public IActionResult NewOrganisation()
 		{
 			return View();

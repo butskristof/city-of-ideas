@@ -7,17 +7,15 @@ import Logger from "../util/logger";
 const loginFormEl = Page.query("#auth_login");
 if (loginFormEl != null) {
 	const loginForm = Form.init(loginFormEl);
-	loginForm.onSubmit((formData) => {
-		loginForm.clear();
-		AuthRepository.login(formData.get('email'), formData.get('password'))
-			.then(async (response) => {
-				if (response.ok) {
-					Page.reload();
-					loginForm.clear();
-				} else {
-					loginForm.showError("Username and or password are not correct");
-				}
-			});
+	loginForm.onSubmit(async formData => {
+		loginForm.clearErrors();
+		const response = await AuthRepository.login(formData.get('email'), formData.get('password'));
+		loginForm.handleResponse(response, () => {
+			console.log(response);
+			Page.reload();
+			loginForm.clear();
+			Page.query("#loginButton").click();
+		});
 	});
 }
 
@@ -25,15 +23,13 @@ if (loginFormEl != null) {
 const registerFormEl = Page.query("#auth_register");
 if (registerFormEl != null) {
 	const registerForm = Form.init(registerFormEl);
-	registerForm.onSubmit((formData) => {
-		registerForm.clear();
-		console.log(formData.get('birthdate'));
-		console.log(new Date(formData.get('birthdate')).toISOString());
+	registerForm.onSubmit(async formData => {
+		registerForm.clearErrors();
 		if (formData.get('gender') !== "male" && formData.get('gender') !== "female") {
-			registerForm.showError("The gender field is required");
+			registerForm.showError("The gender field is required", false);
 			return;
 		}
-		AuthRepository.register(
+		const response = await AuthRepository.register(
 			formData.get('first_name'),
 			formData.get('last_name'),
 			formData.get('email'),
@@ -41,20 +37,14 @@ if (registerFormEl != null) {
 			formData.get('password_re'),
 			formData.get('gender'),
 			formData.get('zip'),
-			formData.get('birthdate')
-		).then(response => {
-			if (response.ok) {
-				registerForm.clear();
-				Page.reload();
-			} else {
-				response.json().then(body => {
-					if (body.errors) {
-						registerForm.showErrors(body.errors);
-					} else {
-						Logger.error(body);
-					}
-				});
-			}
+			formData.get('birthdate'),
+			Page.getOrgId()
+		);
+		registerForm.handleResponse(response, () => {
+			// Page.reload();
+			registerForm.clear();
+			Page.query("#registerButton").click();
+			Page.query("#loginButton").click();
 		});
 	});
 }
