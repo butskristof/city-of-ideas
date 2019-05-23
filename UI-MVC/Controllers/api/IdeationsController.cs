@@ -21,7 +21,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace COI.UI.MVC.Controllers.api
 {
     [Authorize(Policy = AuthConstants.AdminPolicy)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class IdeationsController : ControllerBase
@@ -86,6 +86,7 @@ namespace COI.UI.MVC.Controllers.api
 			
 			try
 			{
+				// UoW is started here to make sure the request either fails or succeeds fully
 				_unitOfWorkManager.StartUnitOfWork();
 				
 				Ideation createdIdeation = _ideationManager.AddIdeation(
@@ -172,28 +173,6 @@ namespace COI.UI.MVC.Controllers.api
 				}
 			}
 		}
-		
-		[HttpDelete("{id}")]
-		public IActionResult DeleteIdeation(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Ideation deleted = _ideationManager.RemoveIdeation(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return BadRequest("Something went wrong while deleting the ideation.");
-				}
-
-				return Ok(_mapper.Map<IdeationDto>(deleted));
-			}
-			catch (ArgumentException)
-			{
-				return NotFound("Ideation to delete not found.");
-			}
-		}
 
 		[AllowAnonymous]
 		[HttpGet("{id}/VoteCount")]
@@ -210,18 +189,34 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
+		/// <summary>
+		///  Open an ideation for new ideas
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpPost("{id}/Open")]
 		public IActionResult OpenIdeation(int id)
 		{
 			return ChangeIdeationState(id, true);
 		}
 		
+		/// <summary>
+		/// Close an ideation for new ideas
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpPost("{id}/Close")]
 		public IActionResult CloseIdeation(int id)
 		{
 			return ChangeIdeationState(id, false);
 		}
 
+		/// <summary>
+		/// Helper for reducing duplicate code
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="newState"></param>
+		/// <returns></returns>
 		private IActionResult ChangeIdeationState(int id, bool newState)
 		{
 			try

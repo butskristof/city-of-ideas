@@ -8,6 +8,9 @@ using COI.UI.MVC.Models.DTO.Ideation;
 
 namespace COI.UI.MVC.Helpers
 {
+	/// <summary>
+	/// Helper for accessing comments and adding the user's current vote to the return object
+	/// </summary>
 	public interface ICommentsHelper
 	{
 		CommentDto GetComment(int id, string userId);

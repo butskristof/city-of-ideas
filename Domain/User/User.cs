@@ -35,9 +35,15 @@ namespace COI.BL.Domain.User
 		public virtual ICollection<OrganisationUser> Organisations { get; set; }
 		public virtual ICollection<Idea> Ideas { get; set; }
 
+		/// <summary>
+		/// Helper for getting the user's full name
+		/// </summary>
+		/// <returns></returns>
 		public String GetName()
 		{
-			return String.Format("{0}{1}{2}", this.FirstName, (FirstName == null || LastName == null) ? null : " " , this.LastName);
+			return String.Format("{0}{1}{2}", this.FirstName, 
+				(String.IsNullOrEmpty(FirstName) || String.IsNullOrEmpty(LastName)) ? null : " ", // join with space
+				this.LastName);
 		}
 
 		public User()

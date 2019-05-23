@@ -21,6 +21,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace COI.UI.MVC.Services
 {
+	/// <summary>
+	/// Provides methods for seeding the application with test data.
+	/// </summary>
 	public interface ISeedService
 	{
 		Task Seed();
@@ -58,6 +61,11 @@ namespace COI.UI.MVC.Services
 			_cityOfIdeasController = cityOfIdeasController;
 		}
 
+		/// <summary>
+		/// Injects test data into the application. This will only run if the Superadmin (created on startup) is the
+		/// only user in the application.
+		/// </summary>
+		/// <returns></returns>
 		public async Task Seed()
 		{
 			// cancel if there's more data present than just the superadmin created by the role seed
@@ -423,7 +431,8 @@ namespace COI.UI.MVC.Services
 				#endregion
 
 				#region Comments
-
+				
+				// comments are generated randomly by using strings from the array declared above
 				List<Comment> comments = new List<Comment>();
 
 				for (int i = 0; i < 100; ++i)
@@ -439,7 +448,6 @@ namespace COI.UI.MVC.Services
 
 				#region Votes
 				List<Vote> votes = new List<Vote>();
-
 
 				// generate random user votes
 				for (int i = 0; i < 100; ++i)

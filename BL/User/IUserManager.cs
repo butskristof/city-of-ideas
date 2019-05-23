@@ -4,6 +4,10 @@ using COI.BL.Domain.User;
 
 namespace COI.BL.User
 {
+	/// <summary>
+	/// This interface will only concern user-related domain objects,
+	/// actual user functions will be handles by Identity-compatible UserManager 
+	/// </summary>
 	public interface IUserManager
 	{
 		Domain.User.User GetUser(string userId);

@@ -6,6 +6,11 @@ using SendGrid.Helpers.Mail;
 
 namespace COI.UI.MVC.Models
 {
+	/// <summary>
+	/// Simple implementation of an IEmailSender using SendGrid
+	/// Can be used for Identity e-mailverification and password reset.
+	/// disabled for development
+	/// </summary>
 	public class EmailSender : IEmailSender
 	{
 		private readonly IConfiguration _config;

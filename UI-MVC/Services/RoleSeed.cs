@@ -10,12 +10,14 @@ namespace COI.UI.MVC.Services
 {
 	public static class RoleSeed
 	{
+		// helper for making sure roles are created on startup
 		public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration Configuration)
 		{
 			var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 			var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
 
 			// loop over precompiled roles and create if necessary
+			// constants are used to eradicate typos
 			foreach (string roleName in AuthConstants.Roles)
 			{
 				var roleExists = await roleManager.RoleExistsAsync(roleName);

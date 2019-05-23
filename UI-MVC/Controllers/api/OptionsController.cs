@@ -13,8 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
-    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadminPolicy)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class OptionsController : ControllerBase
@@ -64,6 +64,7 @@ namespace COI.UI.MVC.Controllers.api
 		{
 			try
 			{
+				// UoW is started here to make sure the request either fails or succeeds fully
 				_unitOfWorkManager.StartUnitOfWork();
 				Option createdOption = _questionnaireManager.AddOption(
 					newOption.Content, newOption.QuestionId);
@@ -118,28 +119,6 @@ namespace COI.UI.MVC.Controllers.api
 					default:
 						return BadRequest(e.Message);
 				}
-			}
-		}
-		
-		[HttpDelete("{id}")]
-		public IActionResult DeleteOption(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Option deleted = _questionnaireManager.RemoveOption(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return NotFound("Option to delete not found.");
-				}
-
-				return Ok(_mapper.Map<OptionDto>(deleted));
-			}
-			catch (ArgumentException)
-			{
-				return NotFound("Option to delete not found.");
 			}
 		}
 	}

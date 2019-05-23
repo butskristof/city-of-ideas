@@ -13,8 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
-    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadminPolicy)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class VotesController : ControllerBase
@@ -51,6 +51,14 @@ namespace COI.UI.MVC.Controllers.api
 			}
 		}
 
+		/// <summary>
+		/// Posts a new vote
+		/// This action can also be used to change a user's vote: existence of a preceding vote will be checked
+		/// and updated accordingly with the new value
+		/// </summary>
+		/// <param name="vote"></param>
+		/// <param name="orgId"></param>
+		/// <returns></returns>
 		[AllowAnonymous]
 		[HttpPost]
 		public IActionResult PostNewVote(NewVoteDto vote, [FromRoute] string orgId)
@@ -87,28 +95,6 @@ namespace COI.UI.MVC.Controllers.api
 			catch (Exception e)
 			{
 				return BadRequest(e.Message);
-			}
-		}
-         
-		[HttpDelete("{id}")]
-		public IActionResult DeleteVote(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Vote deleted = _userManager.RemoveVote(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return NotFound("Comment to delete not found.");
-				}
-
-				return Ok(_mapper.Map<CommentDto>(deleted));
-			}
-			catch (ArgumentException)
-			{
-				return NotFound("Vote to delete not found.");
 			}
 		}
 	}

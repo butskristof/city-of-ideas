@@ -14,8 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
-    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadminPolicy)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class QuestionnairesController : ControllerBase
@@ -113,28 +113,6 @@ namespace COI.UI.MVC.Controllers.api
 			catch (ArgumentException e)
 			{
 				return NotFound(e.Message);
-			}
-		}
-	
-		[HttpDelete("{id}")]
-		public IActionResult DeleteQuestionnaire(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Questionnaire deleted = _questionnaireManager.RemoveQuestionnaire(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return BadRequest("Something went wrong while deleting the questionnaire.");
-				}
-				
-				return Ok(_mapper.Map<QuestionnaireDto>(deleted));
-			}
-			catch (ArgumentException)
-			{
-				return NotFound("Questionnaire to delete not found.");
 			}
 		}
 	}

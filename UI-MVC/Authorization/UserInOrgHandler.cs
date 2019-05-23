@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace COI.UI.MVC.Authorization
 {
+	/// <summary>
+	/// Handler to check whether a user is in the current organisation
+	/// </summary>
 	public class UserInOrgHandler : AuthorizationHandler<UserInOrgOrSuperadminRequirement>
 	{
 		private readonly UserManager<User> _userManager;
@@ -23,7 +26,7 @@ namespace COI.UI.MVC.Authorization
 		{
 			if (!(context.Resource is AuthorizationFilterContext authContext)) return Task.CompletedTask;
 			
-			var orgId = authContext.RouteData.Values["orgId"] as string;
+			var orgId = authContext.RouteData.Values["orgId"] as string; // get organisation identifier from request url
 			var org = _organisationManager.GetOrganisation(orgId);
 			if (org == null) // invalid org identifier
 			{

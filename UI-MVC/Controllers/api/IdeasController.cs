@@ -21,8 +21,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
-    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadminPolicy)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class IdeasController : ControllerBase
@@ -82,6 +82,7 @@ namespace COI.UI.MVC.Controllers.api
 			
 			try
 			{
+				// UoW is started here to make sure the request either fails or succeeds fully
 				_unitOfWorkManager.StartUnitOfWork();
 				
 				Idea createdIdea = _ideationManager.AddIdea(
@@ -167,28 +168,6 @@ namespace COI.UI.MVC.Controllers.api
 					default:
 						return BadRequest(e.Message);
 				}
-			}
-		}
-		
-		[HttpDelete("{id}")]
-		public IActionResult DeleteIdea(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Idea deleted = _ideationManager.RemoveIdea(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return BadRequest("Something went wrong while deleting the idea.");
-				}
-
-				return Ok(_mapper.Map<IdeaMinDto>(deleted));
-			}
-			catch (ArgumentException)
-			{
-				return NotFound("Idea to delete not found.");
 			}
 		}
 

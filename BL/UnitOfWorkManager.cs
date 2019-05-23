@@ -2,6 +2,11 @@ using COI.DAL;
 
 namespace COI.BL
 {
+	/// <summary>
+	/// Manages the Unit of Work implementation
+	/// This is also used in the presentation layer because of the dependency on the Identity framework which breaks
+	/// n-tier possibilities
+	/// </summary>
 	public interface IUnitOfWorkManager
 	{
 		void StartUnitOfWork();
