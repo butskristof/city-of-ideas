@@ -6,10 +6,6 @@ namespace COI.BL.Domain.User
 {
 	public class Vote
 	{
-		// email && user == null -> unverified
-		// email && user != null -> verified
-		// email && user.isVerified 
-		
 		public int VoteId { get; set; }
 		
 		[Required]

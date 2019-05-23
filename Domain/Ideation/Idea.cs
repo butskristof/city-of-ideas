@@ -15,7 +15,6 @@ namespace COI.BL.Domain.Ideation
 
 		public DateTime Created { get; }
 		
-		// TODO AllowedFieldTypes
 		public virtual ICollection<Field> Fields { get; set; }
 
 		public virtual ICollection<Flag> Flags { get; set; }

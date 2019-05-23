@@ -17,7 +17,6 @@ namespace COI.BL.Domain.Ideation
 
 		public bool IsOpen { get; set; }
 		
-		// TODO add remaining fields
 		public virtual ICollection<Vote> Votes { get; set; }
 		public virtual ICollection<Idea> Ideas { get; set; }
 		public virtual ICollection<Field> Fields { get; set; }

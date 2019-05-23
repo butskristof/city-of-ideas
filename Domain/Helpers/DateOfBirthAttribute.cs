@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace COI.BL.Domain.Helpers
 {
-	/**
-	 * Can be used to specify a range for the object's age
-	 */
+	/// <summary>
+	/// Attribute to denote a range of allowed ages
+	/// </summary>
 	public class DateOfBirthAttribute : ValidationAttribute
 	{
 		public int MinAge { get; set; }

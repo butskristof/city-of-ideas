@@ -9,11 +9,39 @@ using Microsoft.AspNetCore.Http;
 
 namespace COI.UI.MVC.Services
 {
+	/// <summary>
+	/// Various helpers for handling file access and binding the file location to the object.
+	/// </summary>
 	public interface IFileService
 	{
+		/// <summary>
+		/// Places file in the correct location on disk and saves the location to the user object.
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <param name="picture"></param>
+		/// <returns></returns>
 		Task<string> SetUserProfilePicture(string userId, IFormFile picture);
+		/// <summary>
+		/// Places file in the correct location on disk and saves the location to the organisation object.
+		/// </summary>
+		/// <param name="organisationId"></param>
+		/// <param name="picture"></param>
+		/// <returns></returns>
 		Task<string> SetOrganisationLogo(int organisationId, IFormFile picture);
+		/// <summary>
+		/// Places file in the correct location on disk and saves the location to the organisation object.
+		/// </summary>
+		/// <param name="organisationId"></param>
+		/// <param name="picture"></param>
+		/// <returns></returns>
 		Task<string> SetOrganisationImage(int organisationId, IFormFile picture);
+		/// <summary>
+		/// Takes in a file, writes it to an appropriate location on disk and returns the location as a string starting
+		/// from basepath.
+		/// </summary>
+		/// <param name="file"></param>
+		/// <param name="folder"></param>
+		/// <returns></returns>
 		Task<string> ConvertFileToLocation(IFormFile file, string folder = FolderConstants.FilePath);
 	}
 	
@@ -56,11 +84,13 @@ namespace COI.UI.MVC.Services
 
 		public async Task<string> ConvertFileToLocation(IFormFile file, string folder = FolderConstants.FilePath)
 		{
+			// establish standard upload path, optionally followed by a specific folder
             var basepath = Path.Combine(_hostingEnvironment.WebRootPath, FolderConstants.UploadPath, folder);
             
             // create directory if it doesn't exist yet
             Directory.CreateDirectory(basepath);
 
+            // only proceed if file is valid
             if (file != null && file.Length > 0)
             {
 	            // generate unique filename
@@ -73,6 +103,7 @@ namespace COI.UI.MVC.Services
 		            await file.CopyToAsync(fileStream);
 	            }
 
+	            // build location for web
 	            var webpath = $"/{FolderConstants.UploadPath}/{folder}/{filename}";
 	            return webpath;
             }

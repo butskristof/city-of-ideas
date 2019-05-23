@@ -14,7 +14,6 @@ namespace COI.BL.Domain.Questionnaire
 
 		public virtual ProjectPhase ProjectPhase { get; set; }
 		
-		// TODO add remaining fields
 		public virtual ICollection<Question> Questions { get; set; }
 		
 		public DateTime Created { get; }

@@ -14,8 +14,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace COI.UI.MVC.Controllers.api
 {
-    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadmin)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(Policy = AuthConstants.UserInOrgOrSuperadminPolicy)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class QuestionsController : ControllerBase
@@ -135,94 +135,5 @@ namespace COI.UI.MVC.Controllers.api
 				}
 			}
 		}
-		
-		[HttpDelete("{id}")]
-		public IActionResult DeleteQuestion(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Question deleted = _questionnaireManager.RemoveQuestion(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return BadRequest("Something went wrong while deleting the question.");
-				}
-
-				return Ok(_mapper.Map<QuestionDto>(deleted));
-			}
-			catch (ArgumentException)
-			{
-				return NotFound("Question to delete not found.");
-			}
-		}
-
-//		[HttpPost]
-//		public IActionResult PostAnswers(List<NewAnswerDto> answers)
-//		{
-//			try
-//			{
-//				answers.ForEach(a => PostAnswer(a.QuestionId, a));
-//				return NoContent();
-//			}
-//			catch (Exception e)
-//			{
-//				return BadRequest(e.Message);
-//			}
-//		}
-
-		// POST: api/Questions
-//		[HttpPost]
-//		public IActionResult PostMultipleAnswers(MultipleAnswersDto answers)
-//		{
-//			// TODO exception handling
-//			
-//			foreach (ChoiceAnswerDto choice in answers.Choices)
-//			{
-//				this.PostAnswerToChoice(choice);
-//			}
-//
-//			foreach (OpenQuestionAnswerDto answer in answers.OpenAnswers)
-//			{
-//				this.PostAnswerToOpenQuestion(answer);
-//			}
-//			
-//			// TODO answer with CreatedAtAction
-//			return NoContent();
-//		}
-//
-//		// POST: api/Questions/Open
-//		[HttpPost("Open")]
-//		public IActionResult PostAnswerToOpenQuestion(OpenQuestionAnswerDto answer)
-//		{
-//			try
-//			{
-//				Answer createdAnswer = _coiCtrl.AnswerOpenQuestion(answer.UserId, answer.QuestionId, answer.Content);
-//				// TODO answer with CreatedAtAction
-//				return NoContent();
-//			}
-//			catch (ArgumentException e)
-//			{
-//				return BadRequest(e.Message);
-//			}
-//		}
-//		
-//		// POST: api/Questions/Choice
-//		[HttpPost("Choice")]
-//		public IActionResult PostAnswerToChoice(ChoiceAnswerDto answer)
-//		{
-//			try
-//			{
-//				Answer createdAnswer = _coiCtrl.AnswerChoiceQuestion(answer.UserId, answer.OptionId);
-//
-//				// TODO answer with CreatedAtAction
-//				return NoContent();
-//			}
-//			catch (ArgumentException e)
-//			{
-//				return BadRequest(e.Message);
-//			}
-//		}
 	}
 }

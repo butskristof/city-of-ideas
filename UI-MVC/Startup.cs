@@ -86,7 +86,7 @@ namespace COI.UI.MVC
                 );
 			}
 
-			#region Authentication setup
+			#region Authentication and authorization setup
 
 			// set identity preferences
 			services.Configure<IdentityOptions>(options =>
@@ -102,6 +102,7 @@ namespace COI.UI.MVC
 				.AddEntityFrameworkStores<CityOfIdeasDbContext>()
 				.AddDefaultTokenProviders();
 			
+			// parameters are read from configuration files, see README
 			services.AddAuthentication()
 				.AddFacebook(options =>
 				{
@@ -130,9 +131,11 @@ namespace COI.UI.MVC
 			
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+			// set policies
+			// constants are used to eradicate typos
 			services.AddAuthorization(options =>
 			{
-				options.AddPolicy(AuthConstants.UserInOrgOrSuperadmin, 
+				options.AddPolicy(AuthConstants.UserInOrgOrSuperadminPolicy, 
 					policy => policy.Requirements.Add(new UserInOrgOrSuperadminRequirement())
                 );
 				options.AddPolicy(AuthConstants.AdminPolicy, 
@@ -140,9 +143,6 @@ namespace COI.UI.MVC
 				options.AddPolicy(AuthConstants.ModeratorPolicy, 
 					policy => policy.RequireRole(AuthConstants.Superadmin, AuthConstants.Admin, AuthConstants.Moderator));
 			});
-
-			services.AddScoped<IAuthorizationHandler, UserInOrgHandler>();
-			services.AddScoped<IAuthorizationHandler, SuperadminHandler>();
 			
 			#endregion
 
@@ -193,6 +193,8 @@ namespace COI.UI.MVC
 			services.AddScoped<IIdeationsHelper, IdeationsHelper>();
 			services.AddScoped<IProjectPhasesHelper, ProjectPhasesHelper>();
 			services.AddScoped<IOrganisationsHelper, OrganisationsHelper>();
+			services.AddScoped<IAuthorizationHandler, UserInOrgHandler>();
+			services.AddScoped<IAuthorizationHandler, SuperadminHandler>();
 			services.AddScoped<IFieldHelper, FieldHelper>();
 
 			#endregion
@@ -210,10 +212,11 @@ namespace COI.UI.MVC
 			else
 			{
 				app.UseExceptionHandler("/Home/Error");
+				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
 
-//			app.UseHttpsRedirection();
+//			app.UseHttpsRedirection(); // HTTPS is handled by nginx in deployment
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
 
@@ -225,6 +228,7 @@ namespace COI.UI.MVC
 					"default",
 					"{controller=Home}/{action=Index}/{id?}");
 			});
+			
 		}
 	}
 }

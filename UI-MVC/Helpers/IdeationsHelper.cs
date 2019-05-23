@@ -17,6 +17,9 @@ namespace COI.UI.MVC.Helpers
 		IEnumerable<IdeationMinDto> GetMinIdeations(string userId, int phaseId = 0);
 	}
 
+	/// <summary>
+	/// Helper for accessing ideations and adding the user's current vote to the return object
+	/// </summary>
 	public class IdeationsHelper : IIdeationsHelper
 	{
 		private readonly IMapper _mapper;

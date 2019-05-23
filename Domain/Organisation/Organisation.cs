@@ -16,14 +16,14 @@ namespace COI.BL.Domain.Organisation
 		[Required]
 		[MinLength(1)]
 		[MaxLength(20)]
-		public String Identifier { get; set; } // for web URL
+		public String Identifier { get; set; } // for web URL, eg 'districtantwerpen'
 
 		public string Description { get; set; }
 
 		public string LogoLocation { get; set; }
 		public string ImageLocation { get; set; }
 		[RegularExpression("^#[0-9a-fA-F]{6}$")]
-		public string Color { get; set; }
+		public string Color { get; set; } // should be saved as "#ffffff"
 
 		public DateTime Created { get; }
 

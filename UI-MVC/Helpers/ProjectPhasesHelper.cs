@@ -16,6 +16,9 @@ namespace COI.UI.MVC.Helpers
 		IEnumerable<ProjectPhaseDto> GetProjectPhases(int projectId, string userId);
 	}
 
+	/// <summary>
+	/// Helper for accessing project phases and adding the user's current vote to the return object
+	/// </summary>
 	public class ProjectPhasesHelper : IProjectPhasesHelper
 	{
 		private readonly IMapper _mapper;

@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace COI.UI.MVC.Controllers.api
 {
     [Authorize(Policy = AuthConstants.AdminPolicy)]
-    [Authorize(AuthenticationSchemes = JwtConstants.AuthSchemes)]
+    [Authorize(AuthenticationSchemes = AuthenticationConstants.AuthSchemes)]
 	[ApiController]
 	[Route("api/{orgId}/[controller]")]
 	public class ProjectsController : ControllerBase
@@ -54,8 +54,6 @@ namespace COI.UI.MVC.Controllers.api
 			[FromQuery(Name = "limit")] int numberOfProjectsToGet, 
 			[FromQuery(Name = "state")] string stateString)
 		{
-//			int organisationId = _organisationManager.GetOrganisation(orgId).OrganisationId;
-			
 			IEnumerable<Project> projs = null;
             bool stateValid = Enum.TryParse(stateString, true, out ProjectState state);
             
@@ -90,8 +88,6 @@ namespace COI.UI.MVC.Controllers.api
 		[HttpGet("last")]
 		public IActionResult GetLastProject(string orgId, [FromQuery(Name = "state")] string stateString)
 		{
-//			int organisationId = _organisationManager.GetOrganisation(orgId).OrganisationId;
-			
 			Project ret = null;
 			if (!stateString.IsNullOrEmpty())
 			{
@@ -236,28 +232,6 @@ namespace COI.UI.MVC.Controllers.api
 					default:
 						return BadRequest(e.Message);
 				}
-			}
-		}
-	
-		[HttpDelete("{id}")]
-		public IActionResult DeleteProject(int id)
-		{
-			try
-			{
-				_unitOfWorkManager.StartUnitOfWork();
-				Project deleted = _projectManager.RemoveProject(id);
-				_unitOfWorkManager.EndUnitOfWork();
-				
-				if (deleted == null)
-				{
-					return BadRequest("Something went wrong while deleting the project.");
-				}
-				
-				return Ok(_mapper.Map<ProjectDto>(deleted));
-			}
-			catch (ArgumentException e)
-			{
-				return NotFound(e.Message);
 			}
 		}
 	}

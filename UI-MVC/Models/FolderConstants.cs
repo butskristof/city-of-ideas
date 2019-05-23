@@ -1,8 +1,9 @@
 namespace COI.UI.MVC.Models
 {
-	/**
-	 * Define some constants for where the file service should move the content to
-	 */
+	/// <summary>
+	/// Constant values for folder names where the file service should place its content
+	/// Use constants to avoid typos and ease eventual changing of locations.
+	/// </summary>
 	public class FolderConstants
 	{
 		public const string UploadPath = "uploads";

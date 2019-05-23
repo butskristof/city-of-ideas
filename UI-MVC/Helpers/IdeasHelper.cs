@@ -16,6 +16,9 @@ namespace COI.UI.MVC.Helpers
 		IEnumerable<IdeaMinDto> GetMinIdeas(string userId, int ideationId = 0);
 	}
 
+	/// <summary>
+	/// Helper for accessing ideas and adding the user's current vote to the return object
+	/// </summary>
 	public class IdeasHelper : IIdeasHelper
 	{
 		private readonly IMapper _mapper;
