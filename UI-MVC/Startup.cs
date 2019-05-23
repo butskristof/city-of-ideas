@@ -198,6 +198,7 @@ namespace COI.UI.MVC
 			services.AddScoped<IAuthorizationHandler, UserInOrgHandler>();
 			services.AddScoped<IAuthorizationHandler, SuperadminHandler>();
 			services.AddScoped<IFieldHelper, FieldHelper>();
+			services.AddScoped<IEmailService, EmailService>();
 
 			#endregion
 

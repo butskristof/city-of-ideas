@@ -349,7 +349,7 @@ namespace COI.UI.MVC.Services
 				#region Ideation 4
 				ideas.Add(_ideationManager.AddIdea("3 keer dubbele banken",
 					ideations[3].IdeationId));
-				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Ik wil telkens 2 banken tegen elkaar, en in totaal 2 keer.", ideas[5].IdeaId));
+				fields.Add(_ideationManager.AddFieldToIdea(FieldType.Text, "Ik wil telkens 2 banken tegen elkaar, en in totaal 3 keer.", ideas[5].IdeaId));
 				#endregion
 				#region Ideation 5
 				ideas.Add(_ideationManager.AddIdea("2 meter lang per bank",
