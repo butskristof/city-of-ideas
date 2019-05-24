@@ -6,14 +6,12 @@ This .NET Core solution contains the main part of the City of Ideas project we m
 ## Technology
 Following technologies are used:
 * .NET Core 2.2 SDK with EF Core and ASP.NET Identity
-* JetBrains Rider (tested in Visual Studio)
+* JetBrains Rider (tested in Visual Studio 2019)
 * NodeJS
-* webpack
-* Bootstrap 4
 
 ## Configuration
 To run the project, complete the following steps:
-* build the whole solution
+* build the whole solution (`dotnet build`)
 * navigate to the UI-MVC project
 	* create a `coi_env.json` file to configure runtime parameters. You can find the required layout below.
 	* run `npm install`, this will install the necessary front-end dependencies
@@ -24,7 +22,7 @@ To run the project, complete the following steps:
 	
 ## Tips
 * If you edit your run configuration in Rider, it's possible to add the npm build script as a build step. 
-	* `Run` 
+	* `Run` menu option
 	* `Edit configurations` 
 	* select `MVC` under `.NET Launch Settings Profile` on the left-hand side 
 	* On the bottom there will be a `Before launch:` panel. Here you can add an extra step: `Run npm script`
