@@ -21,7 +21,10 @@ namespace COI.UI.MVC.Helpers
 				}
 			}
 
-			return null;
+			return new Field()
+			{
+				Content = ""
+			};
 		}
 
 		public string GetAllText(IEnumerable<Field> fields)

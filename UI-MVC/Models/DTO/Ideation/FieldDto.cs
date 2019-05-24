@@ -9,7 +9,7 @@ namespace COI.UI.MVC.Models.DTO.Ideation
 		public String Content { get; set; } // can have different meanings, see description in Domain
 		public FieldType FieldType { get; set; }
 		
-		public DateTime Created { get; }
+		public DateTime Created { get; set; }
 
 		public int? IdeaId { get; set; }
 		public int? IdeationId { get; set; }

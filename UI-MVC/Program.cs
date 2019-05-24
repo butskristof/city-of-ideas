@@ -54,6 +54,9 @@ namespace COI.UI.MVC
                         config.AddJsonFile("coi_env.json", optional: false, reloadOnChange: true); // TODO implement IOptions
                         config.AddJsonFile("prod_env.json", optional: true, reloadOnChange: true); // TODO implement IOptions
                     })
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .UseKestrel(options => { 
+                    options.Limits.MaxRequestBodySize = null; // 500 MB
+                });
     }
 }
