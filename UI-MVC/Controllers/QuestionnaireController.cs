@@ -51,10 +51,10 @@ namespace COI.UI.MVC.Controllers
 		}
 		
 		[HttpGet]
-		[Route("Create")]
-		public IActionResult Create()
+		[Route("Create/{phaseId}")]
+		public IActionResult Create(int phaseId)
 		{
-			return View();
+			return View(phaseId);
 		}
 	}
 }

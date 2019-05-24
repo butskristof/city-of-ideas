@@ -49,11 +49,11 @@ Page.onLoad(async () => {
 	}
 	
 	// Post an ideation
-	const createProjectFormEl = Page.query("#ideation_create");
-	if (createProjectFormEl != null) {
+	const createIdeationFormEl = Page.query("#ideation_create");
+	if (createIdeationFormEl != null) {
 
-		const createProjectEditor = Editor.init(createProjectFormEl);
-		createProjectEditor.onSubmit(async formData => {
+		const createIdeationEditor = Editor.init(createIdeationFormEl);
+		createIdeationEditor.onSubmit(async formData => {
 			formData.append("organisationId", Page.getOrganisation().OrganisationId);
 			// formData.append("");
 			let response = await IdeationRepository.createIdeation(formData);
@@ -65,10 +65,10 @@ Page.onLoad(async () => {
 			} else {
 				const body = await response.json();
 				if (body.errors) {
-					createProjectEditor.getForm().showErrors(body.errors);
+					createIdeationEditor.getForm().showErrors(body.errors);
 				} else {
 					Logger.error(body);
-					createProjectEditor.getForm().showError(body);
+					createIdeationEditor.getForm().showError(body);
 				}
 			}
 		});

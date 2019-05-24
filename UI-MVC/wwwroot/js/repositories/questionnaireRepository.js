@@ -6,5 +6,12 @@ export default {
 	},
 	createAnswers(answers) {
 		return Repository.post(`/answers`, answers);
+	},
+	createQuestionnaire(title, description, projectPhaseId) {
+		return Repository.post(`/questionnaires`, {
+			title,
+			description,
+			projectPhaseId
+		});
 	}
 }
