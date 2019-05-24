@@ -147,5 +147,15 @@ namespace COI.UI.MVC.Controllers.api
 				return NotFound(e.Message);
 			}
 		}
+
+		[AllowAnonymous]
+		[HttpGet("{id}/uservote")]
+		public IActionResult GetUserVoteValueForComment(int id, [FromQuery] string userId)
+		{
+			return Ok(new
+			{
+				value = _commentsHelper.GetUserVoteValueForComment(id, userId)
+			});
+		}
 	}
 }

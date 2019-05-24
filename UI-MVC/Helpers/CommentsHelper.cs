@@ -15,6 +15,7 @@ namespace COI.UI.MVC.Helpers
 	{
 		CommentDto GetComment(int id, string userId);
 		List<CommentDto> GetCommentsForIdea(int ideaId, string userId);
+		int GetUserVoteValueForComment(int commentId, string userId);
 	}
 
 	public class CommentsHelper : ICommentsHelper
@@ -71,6 +72,17 @@ namespace COI.UI.MVC.Helpers
 			}
 
 			return dtos;
+		}
+
+		public int GetUserVoteValueForComment(int commentId, string userId)
+		{
+			var vote = _userManager.GetVoteForComment(commentId, userId);
+			if (vote != null)
+			{
+				return vote.Value;
+			}
+
+			return 0;
 		}
 	}
 }
