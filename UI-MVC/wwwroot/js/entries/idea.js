@@ -57,20 +57,10 @@ Page.onLoad(async () => {
 			formData.append("organisationId", Page.getOrganisation().OrganisationId);
 			// formData.append("");
 			let response = await IdeationRepository.createIdeation(formData);
-			if (response.ok) {
-				// window.location.replace(`/${Page.getOrgId()}/project`);
+			createIdeationEditor.getForm().handleResponse(response, async () => {
 				const ideation = await response.json();
 				Page.routeTo(`/Ideation/Details/${ideation.ideationId}`);
-				console.log('success');
-			} else {
-				const body = await response.json();
-				if (body.errors) {
-					createIdeationEditor.getForm().showErrors(body.errors);
-				} else {
-					Logger.error(body);
-					createIdeationEditor.getForm().showError(body);
-				}
-			}
+			});
 		});
 	}
 	

@@ -70,9 +70,7 @@ export default {
 				if (response.ok) {
 					onSuccess()
 				} else {
-					console.log(response);
 					const responseObject = await response.json();
-					console.log(responseObject);
 					if (responseObject.errors) {
 						this.showErrors(responseObject.errors, scroll);
 					} else {
