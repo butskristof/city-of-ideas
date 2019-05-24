@@ -24,7 +24,32 @@
 	<form class="form" id="questionnaireForm">
 		@foreach (var question in @Model.Questions)
 		{
-            <p>Unsupported question type.</p>
+			<h3>@question.Inquiry</h3>
+			if (question.QuestionType == QuestionType.OpenQuestion)
+			{
+				<div class="openquestion-answers">
+					<table class="table">
+						<thead>
+                            <th>
+                                Antwoorden
+                            </th>
+						</thead>
+						<tbody>
+                            @foreach (var answer in question.Answers)
+                            {
+	                            <tr>
+		                            <td>@answer.Content</td>
+	                            </tr>
+                            }
+						</tbody>
+					</table>
+				</div>
+			} else if (question.QuestionType == QuestionType.MultipleChoice
+			           || question.QuestionType == QuestionType.SingleChoice
+			           || question.QuestionType == QuestionType.Dropdown)
+			{
+				<canvas class="result-graph"></canvas>
+			}
 		}
 	</form>
 	
@@ -32,6 +57,36 @@
 
 @section Scripts
 {
-	<script type="module" src="~/dist/questionnaires.entry.js" defer></script>
+	<script>
+	let questionData = [];
+		@foreach (var question in @Model.Questions.Where(
+			q => q.QuestionType == QuestionType.MultipleChoice ||
+				q.QuestionType == QuestionType.SingleChoice ||
+				q.QuestionType == QuestionType.Dropdown
+			))
+		{
+			<text>
+			{
+ 				let labels = []; 
+ 				let values = []; 
+ 				 
+ 				@foreach (var option in question.Options) 
+ 				 {
+					  <text>labels.push("@option.Content"); </text>
+					  <text>values.push(@option.Answers.Count); </text>
+ 				 } 
+ 
+ 				questionData.push( 
+ 				{ 
+ 					labels, 
+ 					values 
+ 				}); 
+            }
+			</text>
+		}
+		console.log(questionData);
+	</script>
+	<script type="module" src="~/dist/questionnaire.entry.js" defer></script>
+	<script type="module" src="~/dist/questionnaire_results.entry.js" defer></script>
 }
 

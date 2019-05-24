@@ -1,9 +1,17 @@
+@using COI.UI.MVC.Helpers
+@inject IOrganisationsHelper OrganisationsHelper;
+@{
+    var orgId = OrganisationsHelper.GetOrganisationIdentifier();
+}
 
 <main class="content content--more-top container">
     <h1>Dank u!</h1>
 
     <p>
         Bedankt om de tijd te nemen om deze vragenlijst in te vullen.
+    </p>
+    <p>
+        <a asp-action="Results" asp-route-id="@ViewBag.questionnaireId" asp-route-orgId="@orgId">Bekijk hier de resultaten van de vragenlijst.</a>
     </p>
     
     

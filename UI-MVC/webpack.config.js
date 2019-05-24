@@ -7,6 +7,7 @@ module.exports = {
 		idea: './wwwroot/js/entries/idea.js',
 		project: './wwwroot/js/entries/project.js',
 		questionnaire: './wwwroot/js/entries/questionnaire.js',
+		questionnaire_results: './wwwroot/js/entries/questionnaire_results.js',
 		admin: './wwwroot/js/entries/admin.js',
 	},
 	output: {

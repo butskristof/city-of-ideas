@@ -45,8 +45,9 @@ namespace COI.UI.MVC.Controllers
 		[HttpGet]
 		[Route("Thanks")]
 		[AllowAnonymous]
-		public IActionResult Thanks()
+		public IActionResult Thanks([FromQuery] string qId)
 		{
+			ViewBag.questionnaireId = qId;
 			return View();
 		}
 		
