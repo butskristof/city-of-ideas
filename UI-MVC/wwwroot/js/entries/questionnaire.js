@@ -39,4 +39,21 @@ Page.onLoad(() => {
 		});
 	}
 	
+	
+	const createQFormEl = Page.query("#questionnaire_create");
+	if (createQFormEl != null) {
+		const createQForm = Form.init(createQFormEl);
+		createQForm.onSubmit(async formData => {
+			let response = await QuestionnaireRepository.createQuestionnaire(
+				formData.get('title'),
+				formData.get('description'),
+				formData.get('projectPhaseId')
+			);
+			createQForm.handleResponse(response, async () => {
+				const q = await response.json();
+				Page.routeTo(`/Questionnaire/Details/${q.questionnaireId}`);
+			});
+		});
+	}
+	
 });

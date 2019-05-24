@@ -54,6 +54,7 @@ namespace COI.BL.Domain.User
 			this.Comments = new List<Comment>();
 			this.Ideas = new List<Idea>();
 			this.Organisations = new List<OrganisationUser>();
+			this.ProfilePictureLocation = "/img/user.png";
 		}
 	}
 }

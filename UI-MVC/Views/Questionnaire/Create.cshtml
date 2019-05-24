@@ -1,57 +1,32 @@
 
-<div class="container">
-    <form method="post" class="editor mt-10" id="project_create">
+<div class="container content">
+    <form method="post" class="editor mt-10" id="questionnaire_create">
         <h2 clas="mb-2">Maak een vragenlijst aan</h2>
         
         <ul class="form__errors"></ul>
         
         <div class="form-group">
-            <label for="ideation-title">Titel</label>
-            <input required class="form-control" type="text" name="title" id="ideation-title">
+            <label for="survey-title">Titel</label>
+            <input required class="form-control" type="text" name="title" id="survey-title">
         </div>
-
-        <div class="editor__text-container mt-4">
-            <div class="editor__options">
-                <div class="editor__option editor__option--image">
-                    <i class="material-icons">add_photo_alternate</i>
-                    Foto toevoegen
-                </div>
-                @* <div class="editor__option editor__option--image"> *@
-                @*     <i class="material-icons">add_location</i> *@
-                @*     Locatie toevoegen *@
-                @* </div> *@
-                <div class="editor__option editor__option--video">
-                    <i class="material-icons">video_call</i>
-                    Video toevoegen
-                </div>
-            </div>
-
+        
+        <div class="form-group">
+            <label for="survey-text">Beschrijving</label>
             <textarea
-                name="text"
-                class="editor__text textbox"
-                placeholder="Beschrijving vragenlijst"
+                id="survey-text"
+                name="description"
+                class="form-control textbox"
             ></textarea>
         </div>
 
-        <div class="editor__images"></div>
-        <div class="editor__videos"></div>
-
-        <input
-            type="file"
-            class="editor__file-upload editor__file-upload--image"
-            accept="image/x-png,image/gif,image/jpeg"
-        />
-        <input
-            type="file"
-            class="editor__file-upload editor__file-upload--video"
-        />
-        <button type="submit" class="btn editor__submit mt-2">
-            Project aanmaken
+        <button type="submit" class="btn mt-2">
+            Vragenlijst aanmaken
         </button>
+        <input type="hidden" name="projectPhaseId" value="@Model" >
     </form>
 </div>
 
 @section Scripts
 {
-    <script type="text/javascript" src="/dist/project.entry.js" defer></script>
+    <script type="text/javascript" src="/dist/questionnaire.entry.js" defer></script>
 }
