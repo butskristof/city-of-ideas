@@ -4,7 +4,7 @@ import logger from "../util/logger";
 
 const MAX_FILE_SIZE_IMAGES = 2000000;
 const MAX_FILE_SIZE_VIDEOS = 8000000;
-const MAX_UPLOAD_COUNT_IMAGES = 3;
+const MAX_UPLOAD_COUNT_IMAGES = 1;
 const MAX_UPLOAD_COUNT_VIDEOS = 1;
 
 export default {
