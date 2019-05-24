@@ -104,8 +104,8 @@ namespace COI.UI.MVC.Services
 	            }
 
 	            // build location for web
-	            var webpath = filepath.Replace(_hostingEnvironment.WebRootPath, "");
-	            return new Uri(webpath).LocalPath;
+	            var webpath = filepath.Replace(_hostingEnvironment.WebRootPath, "").Replace($"\\", "/");
+	            return webpath;
             }
             
             throw new ArgumentException("No file.");
