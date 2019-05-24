@@ -1,11 +1,5 @@
 import Page from "../util/page";
 import Form from "./form";
-import logger from "../util/logger";
-
-const MAX_FILE_SIZE_IMAGES = 2000000;
-const MAX_FILE_SIZE_VIDEOS = 8000000;
-const MAX_UPLOAD_COUNT_IMAGES = 1;
-const MAX_UPLOAD_COUNT_VIDEOS = 1;
 
 export default {
 	init(editor) {
@@ -47,14 +41,6 @@ export default {
 			Page.query(".editor__file-upload--image", editor).addEventListener("change", function () {
 				if (this.files && this.files[0]) {
 					const file = this.files[0];
-					if (file.size > MAX_FILE_SIZE_IMAGES) {
-						logger.error(`The maximum file size is ${MAX_FILE_SIZE_IMAGES / 1000000} megabyte`);
-						return;
-					}
-					if (Page.query(".editor__images", editor).childElementCount >= 3) {
-						logger.error(`You can only upload up to ${MAX_UPLOAD_COUNT_IMAGES} images`);
-						return;
-					}
 					const reader = new FileReader();
 					imagesArray.push(file);
 					reader.onload = function(e) {
@@ -81,14 +67,6 @@ export default {
 			Page.query(".editor__file-upload--video", editor).addEventListener("change", function () {
 				if (this.files && this.files[0]) {
 					const file = this.files[0];
-					if (file.size > MAX_FILE_SIZE_VIDEOS) {
-						logger.error(`The maximum file size is ${MAX_FILE_SIZE_VIDEOS / 1000000} megabyte`);
-						return;
-					}
-					if (Page.query(".editor__videos", editor).childElementCount >= 3) {
-						logger.error(`You can only upload up to ${MAX_UPLOAD_COUNT_VIDEOS} videos`);
-						return;
-					}
 					const reader = new FileReader();
 					videosArray.push(file);
 					reader.onload = function(e) {
@@ -113,7 +91,7 @@ export default {
 			onSubmit(callback) {
 				editorForm.onSubmit((formData) => {
 					this.getForm().clearErrors();
-					if (formData.get('text')) {
+					if (formData.get('text') != null) {
 						if (formData.get('text').length < 10) {
 							return;
 						}
