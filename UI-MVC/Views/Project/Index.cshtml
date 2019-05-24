@@ -10,6 +10,7 @@
 @{
     ViewBag.Title = "Overzicht";
     Layout = "_Layout";
+    var orgId = OrganisationsHelper.GetOrganisationIdentifier();
     var open = ViewBag.open;
     var showLimited = ViewBag.showLimited;
 }
@@ -27,7 +28,7 @@
         @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Superadmin")))
         {
             <div class="create-project__container">
-                <a asp-controller="Project" asp-action="Create" class="btn btn--org create-project">Create project</a>
+                <a asp-controller="Project" asp-action="Create" asp-route-orgId="@orgId" class="btn btn--org create-project">Project aanmaken</a>
             </div>
         }
     </div>
