@@ -23,10 +23,10 @@ Page.onLoad(() => {
 		
 		const createProjectEditor = Editor.init(createProjectFormEl);
 		createProjectEditor.onSubmit(async formData => {
-			formData.append("organisationId", Page.getOrganisationId());
+			formData.append("organisationId", Page.getOrganisation().OrganisationId);
 			let response = await ProjectRepository.createProject(formData);
 			if (response.ok) {
-				window.location.replace("/project");
+				window.location.replace(`/${Page.getOrgId()}/project`);
 			} else {
 				const body = await response.json();
 				if (body.errors) {
@@ -52,7 +52,7 @@ Page.onLoad(() => {
 				projectId
 			);
 			if (response.ok) {
-				window.location.replace(`/project/details/${projectId}`);
+				window.location.replace(`/${Page.getOrgId()}/project/details/${projectId}`);
 			} else {
 				const body = await response.json();
 				if (body.errors) {

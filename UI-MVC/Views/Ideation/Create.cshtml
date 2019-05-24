@@ -1,6 +1,6 @@
 
 <div class="container">
-    <form method="post" class="editor mt-10" id="project_create">
+    <form method="post" class="editor mt-10" id="ideation_create">
         <h2 clas="mb-2">Maak een ideation aan</h2>
         
         <ul class="form__errors"></ul>
@@ -9,14 +9,6 @@
             <label for="ideation-title">Titel</label>
             <input required class="form-control" type="text" name="title" id="ideation-title">
         </div>
-        <div class="form-group">
-            <label for="project-start-date">Start date</label>
-            <input required class="form-control" type="date" name="start-date" id="project-start-date">
-        </div>
-        <div class="form-group">
-            <label for="project-end-date">End date</label>
-            <input required class="form-control" type="date" name="end-date" id="project-end-date">
-        </div>
 
         <div class="editor__text-container mt-4">
             <div class="editor__options">
@@ -24,10 +16,6 @@
                     <i class="material-icons">add_photo_alternate</i>
                     Foto toevoegen
                 </div>
-                @* <div class="editor__option editor__option--image"> *@
-                @*     <i class="material-icons">add_location</i> *@
-                @*     Locatie toevoegen *@
-                @* </div> *@
                 <div class="editor__option editor__option--video">
                     <i class="material-icons">video_call</i>
                     Video toevoegen
@@ -37,7 +25,7 @@
             <textarea
                 name="text"
                 class="editor__text textbox"
-                placeholder="Project beschrijving"
+                placeholder="Ideation beschrijving"
             ></textarea>
         </div>
 
@@ -54,12 +42,14 @@
             class="editor__file-upload editor__file-upload--video"
         />
         <button type="submit" class="btn editor__submit mt-2">
-            Project aanmaken
+            Ideation aanmaken
         </button>
+        
+        <input type="hidden" name="projectPhaseId" value="@Model" >
     </form>
 </div>
 
 @section Scripts
 {
-    <script type="text/javascript" src="/dist/project.entry.js" defer></script>
+    <script type="text/javascript" src="/dist/idea.entry.js" defer></script>
 }

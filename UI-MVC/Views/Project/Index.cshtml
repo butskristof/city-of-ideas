@@ -27,7 +27,7 @@
         @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Superadmin")))
         {
             <div class="create-project__container">
-                <a asp-controller="Project" asp-action="Create" class="btn btn--org create-project">Create project</a>
+                <a asp-controller="Project" asp-action="Create" asp-route-orgId="@OrganisationsHelper.GetOrganisationIdentifier()" class="btn btn--org create-project">Create project</a>
             </div>
         }
     </div>

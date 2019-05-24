@@ -46,11 +46,10 @@ namespace COI.UI.MVC.Controllers
 			return View(model);
 		}
 		
-		[Authorize(Roles="Admin,Superadmin")]
-		[Route("/Create")]
-		public IActionResult Create()
+		[Route("Create/{phaseId}")]
+		public IActionResult Create(int phaseId)
 		{
-			return View();
+			return View(phaseId);
 		}
 	}
 }
