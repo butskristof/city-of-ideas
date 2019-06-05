@@ -1,4 +1,5 @@
-﻿@using AutoMapper
+﻿@using System.Security.Claims
+@using AutoMapper
 @using COI.BL.Domain.User
 @using COI.BL.Project
 @using COI.UI.MVC.Authorization
@@ -159,29 +160,28 @@
     
 }
 
-@*
 @* The following code is only used for Demo purposes *@
-@*
-@* <div class="demo-helper" style="position: fixed; bottom: 50px; right: 50px;"> *@
-@*     <div style="font-size: 50px; color: white; background-color: darkred; padding: 7px 45px 10px; font-weight: bold;"> *@
-@*         @{ *@
-@*             var userId = User.FindFirstValue(ClaimTypes.Name); *@
-@*             var user = userId != null ? await UserManager.FindByEmailAsync(userId) : null; *@
-@*             var role = user != null ? (await UserManager.GetRolesAsync(user))[0] : "Anonymous"; *@
-@*         } *@
-@*         @if (role != null) *@
-@*         { *@
-@*             @foreach (var single in role) *@
-@*             { *@
-@*                 @single *@
-@*             } *@
-@*         } *@
-@*         else *@
-@*         { *@
-@*             <p>Test</p> *@
-@*         } *@
-@*     </div> *@
-@* </div> *@
+
+ <div class="demo-helper" style="position: fixed; bottom: 50px; right: 50px;"> 
+     <div style="font-size: 50px; color: white; background-color: darkred; padding: 7px 45px 10px; font-weight: bold; border-radius: 10px;"> 
+         @{ 
+             var userId = User.FindFirstValue(ClaimTypes.Name); 
+             var user = userId != null ? await UserManager.FindByEmailAsync(userId) : null; 
+             var role = user != null ? (await UserManager.GetRolesAsync(user))[0] : "Anonymous"; 
+         } 
+         @if (role != null) 
+         { 
+             @foreach (var single in role) 
+             { 
+                 @single 
+             } 
+         } 
+         else 
+         { 
+             <p>Test</p> 
+         } 
+     </div> 
+ </div> 
 
 <script >
     @{
