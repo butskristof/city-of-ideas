@@ -36,6 +36,7 @@ namespace COI.UI.MVC.Controllers
 		
 		[HttpGet]
 		[Route("Results/{id}")]
+		[AllowAnonymous]
 		public IActionResult Results(int id)
 		{
 			Questionnaire questionnaire = _questionnaireManager.GetQuestionnaire(id);

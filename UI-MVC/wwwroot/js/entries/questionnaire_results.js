@@ -9,14 +9,27 @@ for (let i = 0; i < cvs.length; ++i) {
 		data: {
 			labels: questionData[i].labels,
 			datasets: [{
-				label: "Aantal stemmen",
 				data: questionData[i].values,
+				backgroundColor: [
+					'rgba(255,99,99,0.8)',
+					'rgba(88,80,141,0.8)',
+					'rgba(0,63,92,0.8)',
+					'rgba(188,80,144,0.8)',
+					'rgba(255,166,0,0.8)'
+				],
 				borderWidth: 1
 			}]
 		},
 		options: {
+			legend: {
+				display: false
+			},
 			scales: {
 				yAxes: [{
+					scaleLabel: {
+						display: true,
+						labelString: "Aantal stemmen"
+					},
 					ticks: {
 						beginAtZero: true
 					}
