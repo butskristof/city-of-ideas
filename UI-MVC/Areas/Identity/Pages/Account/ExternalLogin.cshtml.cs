@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using COI.BL.Domain.User;
+using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Models.DTO.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -117,6 +118,7 @@ namespace COI.UI.MVC.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, AuthConstants.User);
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {

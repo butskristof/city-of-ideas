@@ -24,7 +24,7 @@
 	<form class="form" id="questionnaireForm">
 		@foreach (var question in @Model.Questions)
 		{
-			<h3>@question.Inquiry</h3>
+			<h3 class="mt-3">@question.Inquiry</h3>
 			if (question.QuestionType == QuestionType.OpenQuestion)
 			{
 				<div class="openquestion-answers">
