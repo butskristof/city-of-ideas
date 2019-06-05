@@ -164,10 +164,20 @@
 
  <div class="demo-helper" style="position: fixed; bottom: 50px; right: 50px;"> 
      <div style="font-size: 50px; color: white; background-color: darkred; padding: 7px 45px 10px; font-weight: bold; border-radius: 10px;"> 
-         @{ 
-             var userId = User.FindFirstValue(ClaimTypes.Name); 
-             var user = userId != null ? await UserManager.FindByEmailAsync(userId) : null; 
-             var role = user != null ? (await UserManager.GetRolesAsync(user))[0] : "Anonymous"; 
+         @{
+             string role;
+             try
+             {
+                 var userId = User.FindFirstValue(ClaimTypes.Name);
+                 var user = userId != null ? await UserManager.FindByEmailAsync(userId) : null;
+                 var roles = (await UserManager.GetRolesAsync(user));
+                 role = user != null ? roles[0] : "Anonymous";
+             }
+             catch (Exception e)
+             {
+                 role = "Anonymous";
+             }
+                 
          } 
          @if (role != null) 
          { 
