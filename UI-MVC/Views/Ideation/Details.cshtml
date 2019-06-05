@@ -1,6 +1,7 @@
 @using COI.BL.Domain.Ideation
 @using COI.BL.Domain.User
 @using COI.UI.MVC.Helpers
+@using COI.UI.MVC.Models.DTO.Demo
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
@@ -10,11 +11,23 @@
 
 @{
     var orgId = OrganisationsHelper.GetOrganisationIdentifier();
+    var hero = @FieldHelper.GetFirstOfType(Model.ideation.Fields, FieldType.Picture).Content;
+    if (hero == "")
+    {
+        hero = "/img/antwerp.jpeg";
+    }
+    SAVotes saVotesDefault = new SAVotes
+    {
+        anVotes = 0,
+        usVotes = 0,
+        veVotes = 0
+    };
+    var ideaVotes = Model.ideaVotes;
 }
 
 <section
     class="hero hero__project"
-    style="background-image: url('/img/antwerp.jpeg')"
+    style="background-image: url('@hero');"
 >
     <div class="hero__container">
         <h1 class="hero__title">
@@ -54,6 +67,24 @@
                             <span class="options-bar__votes mr-2" id="ideaVoteCount">@idea.VoteCount</span>
                             <i class="voter material-icons outline mr-2" data-value="1">thumb_up</i>
                             <i class="voter material-icons outline" data-value="-1">thumb_down</i>
+                            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Superadmin"))
+                            {
+                                <span class="ml-3">
+                                    An: <strong>
+                                        @Model.ideaVotes.GetValueOrDefault(idea.IdeaId, saVotesDefault).anVotes
+                                    </strong>
+                                </span>
+                                <span class="ml-2">
+                                    Ve: <strong>
+                                        @Model.ideaVotes.GetValueOrDefault(idea.IdeaId, saVotesDefault).veVotes
+                                    </strong>
+                                </span>
+                                <span class="ml-2">
+                                    Us: <strong>
+                                        @Model.ideaVotes.GetValueOrDefault(idea.IdeaId, saVotesDefault).usVotes
+                                    </strong>
+                                </span>
+                            }
                         </div>
                     </div>
                 </div>

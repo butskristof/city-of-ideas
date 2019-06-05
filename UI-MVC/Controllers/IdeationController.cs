@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.Security.Claims;
 using COI.BL.Domain.Ideation;
 using COI.BL.Domain.User;
 using COI.BL.Ideation;
 using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Helpers;
+using COI.UI.MVC.Models.DTO.Demo;
 using COI.UI.MVC.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -38,10 +40,42 @@ namespace COI.UI.MVC.Controllers
 			}
 			Ideation ideation = _ideationManager.GetIdeation(id);
 			var ideas = _ideasHelper.GetIdeas(userId, ideation.IdeationId);
+			
+			Dictionary<int, SAVotes> ideaVotes = new Dictionary<int, SAVotes>();
+
+			foreach (var idea in ideas)
+			{
+				var anVotes = 0;
+				var veVotes = 0;
+				var usVotes = 0;
+				var realIdea = _ideationManager.GetIdea(idea.IdeaId);
+				foreach (var vote in realIdea.Votes)
+				{
+					if (vote.User != null)
+					{
+						usVotes += vote.Value;
+					} else if (vote.Email != null)
+					{
+						veVotes += vote.Value;
+					}
+					else
+					{
+						anVotes += vote.Value;
+					}
+				}
+				ideaVotes.Add(realIdea.IdeaId, new SAVotes()
+				{
+					anVotes = anVotes,
+					veVotes = veVotes,
+					usVotes = usVotes
+				});
+			}
+			
 			var model = new IdeationUserVote
 			{
 				ideas = ideas,
-				ideation = ideation
+				ideation = ideation,
+				ideaVotes = ideaVotes
 			};
 			return View(model);
 		}
