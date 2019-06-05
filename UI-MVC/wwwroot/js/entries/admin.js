@@ -69,7 +69,7 @@ Page.onLoad(async () => {
 				if (action === "update") {
 					orgEditor.getForm().showSuccess("De update is geslaagd")
 				} else {
-					Page.routeTo("/");
+					Page.routeTo("/", true);
 				}
 			});
 		});
