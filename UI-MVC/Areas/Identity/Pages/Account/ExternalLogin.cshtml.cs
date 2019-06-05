@@ -4,8 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
+using COI.BL.Domain.Relations;
 using Microsoft.AspNetCore.Authorization;
 using COI.BL.Domain.User;
+using COI.BL.Organisation;
 using COI.UI.MVC.Authorization;
 using COI.UI.MVC.Models.DTO.User;
 using Microsoft.AspNetCore.Identity;
@@ -20,15 +23,17 @@ namespace COI.UI.MVC.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly IOrganisationManager _organisationManager;
         private readonly ILogger<ExternalLoginModel> _logger;
 
-        public ExternalLoginModel(
-            SignInManager<User> signInManager,
-            UserManager<User> userManager,
+        public ExternalLoginModel(SignInManager<User> signInManager, 
+            UserManager<User> userManager, 
+            IOrganisationManager organisationManager, 
             ILogger<ExternalLoginModel> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _organisationManager = organisationManager;
             _logger = logger;
         }
 
@@ -110,11 +115,19 @@ namespace COI.UI.MVC.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var retUrlParts = this.ReturnUrl.Split("/");
+                var orgIdFromUrl = retUrlParts[1];
+                var orgId = orgIdFromUrl.IsNullOrEmpty() ? "districtantwerpen" : orgIdFromUrl;
+                var org = _organisationManager.GetOrganisation(orgId);
                 var user = new User
                 {
                     UserName = Input.Email, Email = Input.Email,
                     FirstName = Input.FirstName, LastName = Input.LastName
                 };
+                user.Organisations.Add(new OrganisationUser()
+                {
+                    User = user, Organisation = org
+                });
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
